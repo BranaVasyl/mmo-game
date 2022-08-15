@@ -37,6 +37,7 @@ namespace BV
             }
 
             higlighter.SetParent(targetGrid.GetComponent<RectTransform>());
+            higlighter.SetAsFirstSibling();
         }
 
         public void SetPosition(ItemGrid targetGrid, InventoryItem targetItem, int posX, int posY)
