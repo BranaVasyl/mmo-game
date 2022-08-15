@@ -1,0 +1,54 @@
+EntryPointNode #title{
+    
+}
+
+OutPointNode #title{
+    background-color: #c65d1a;
+}
+
+PhraseNode #title{
+    background-color: #15578a;
+}
+
+SelectedNode #title{
+    background-color: purple;
+}
+
+AnswerNode #title{
+    background-color: rgb(0,128,0);
+}
+
+.container{
+    margin-top: 5px
+}
+
+.itemContainer{
+    margin-top: 10px;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.nawButton{
+    flex-direction: row;
+}
+
+.speakerLabel{
+    min-width: 60px;
+}
+
+.showTimeLabel{
+    min-width: 20px;
+    -unity-text-align: middle-right;
+}
+
+.sentenceLabel{
+    min-width: 100px;
+}
+
+.positiveButton{
+    background-color: rgb(0,128,0);
+}
+
+.negativeButton{
+    background-color: #de2121;
+}

@@ -1,0 +1,147 @@
+{
+    "dialogName": "Brana",
+    "entryPointGUID": "19e50fe4-9f63-45ca-98ff-bc197313e9f6",
+    "startPhrase": "ddd42361-e1f1-4d60-946a-b6cd6260e2d5",
+    "allPhrase": [
+        {
+            "idPhrase": "f253960e-4a98-493d-8bf5-14ce78c75377",
+            "nodeText": "Bran",
+            "nodePosition": {
+                "x": 617.0,
+                "y": 109.0
+            },
+            "nextAnswer": "ff809115-b7b4-44dd-ba3c-df62aaa840c3",
+            "phraseItems": [
+                {
+                    "id": "cf27c6a9-dcbc-4edf-be55-49f374827102",
+                    "speaker": "Test",
+                    "showTime": 4.0,
+                    "sentence": "Sentence"
+                }
+            ]
+        },
+        {
+            "idPhrase": "eef2c1a5-3849-4104-850f-15b7ce5a09f1",
+            "nodeText": "Lox",
+            "nodePosition": {
+                "x": 1033.0,
+                "y": 116.0
+            },
+            "nextAnswer": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "phraseItems": [
+                {
+                    "id": "17ea7894-bab0-4193-827f-c284a8899e25",
+                    "speaker": "Brana",
+                    "showTime": 4.0,
+                    "sentence": "Sentence"
+                }
+            ]
+        },
+        {
+            "idPhrase": "0c5c7e14-c3b6-4b60-bd51-6ec8d6f87dfb",
+            "nodeText": "Work",
+            "nodePosition": {
+                "x": 872.0,
+                "y": 276.0
+            },
+            "nextAnswer": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "phraseItems": []
+        },
+        {
+            "idPhrase": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "nodeText": "New Phrase",
+            "nodePosition": {
+                "x": 1200.0,
+                "y": 237.0
+            },
+            "nextAnswer": "da5d71ae-5d0e-496c-a074-6f57f2326e1b",
+            "phraseItems": []
+        },
+        {
+            "idPhrase": "ddd42361-e1f1-4d60-946a-b6cd6260e2d5",
+            "nodeText": "Test",
+            "nodePosition": {
+                "x": 240.0,
+                "y": 39.0
+            },
+            "nextAnswer": "1ebb804a-1d89-466f-a28a-88eaa92bb3a5",
+            "phraseItems": [
+                {
+                    "id": "5af9033a-b5d6-4864-84f9-81450c54e296",
+                    "speaker": "Geralt",
+                    "showTime": 2.0,
+                    "sentence": "dawdfd knGFN gnnr gz"
+                },
+                {
+                    "id": "0bc9a3c0-623f-4346-970c-9cd6dc0db2f1",
+                    "speaker": "Test",
+                    "showTime": 3.0,
+                    "sentence": "Sentence"
+                },
+                {
+                    "id": "22b67eb3-111b-4678-a77a-a880b969a413",
+                    "speaker": "Geralt",
+                    "showTime": 1.0,
+                    "sentence": "ixdg k kgzmnkmnhixfnh"
+                },
+                {
+                    "id": "153daa08-004e-42bf-a8e3-cdc2613f35d2",
+                    "speaker": "Test",
+                    "showTime": 1.0,
+                    "sentence": "dwadwa"
+                },
+                {
+                    "id": "71385cff-0945-4846-93a1-6ddd51fd3867",
+                    "speaker": "Loshi",
+                    "showTime": 4.0,
+                    "sentence": "Sentence"
+                }
+            ]
+        }
+    ],
+    "allAnswer": [
+        {
+            "idAnswer": "1ebb804a-1d89-466f-a28a-88eaa92bb3a5",
+            "nodeText": "New Dialog",
+            "nodePosition": {
+                "x": 394.0,
+                "y": 145.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "f253960e-4a98-493d-8bf5-14ce78c75377",
+                    "sentence": "dwa"
+                },
+                {
+                    "nextPhrase": "0c5c7e14-c3b6-4b60-bd51-6ec8d6f87dfb",
+                    "sentence": "Brana"
+                }
+            ]
+        },
+        {
+            "idAnswer": "ff809115-b7b4-44dd-ba3c-df62aaa840c3",
+            "nodeText": "New Dialog(1)",
+            "nodePosition": {
+                "x": 778.0,
+                "y": 85.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "eef2c1a5-3849-4104-850f-15b7ce5a09f1",
+                    "sentence": "Choice 1"
+                }
+            ]
+        }
+    ],
+    "allOutputNode": [
+        {
+            "nodeId": "da5d71ae-5d0e-496c-a074-6f57f2326e1b",
+            "nodePosition": {
+                "x": 1438.0,
+                "y": 191.0
+            },
+            "parameter": ""
+        }
+    ],
+    "allSelectedNode": []
+}

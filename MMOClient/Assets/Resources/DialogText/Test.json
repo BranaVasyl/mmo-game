@@ -1,0 +1,317 @@
+{
+    "dialogName": "Test",
+    "entryPointGUID": "6c126df2-f365-4524-9daa-1f3eb3310aae",
+    "startPhrase": "cdf51817-877c-4b2c-927b-55613e83700f",
+    "allPhrase": [
+        {
+            "idPhrase": "cdf51817-877c-4b2c-927b-55613e83700f",
+            "nodeText": "Hello",
+            "nodePosition": {
+                "x": 226.0,
+                "y": 194.0
+            },
+            "nextAnswer": "d10dfd24-862a-4568-a68f-1cf6fa28a6d8",
+            "phraseItems": [
+                {
+                    "id": "df7f2740-cbc8-423f-b979-f9c75122f6fc",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Добрий вечір господарю"
+                },
+                {
+                    "id": "b90abed8-26b1-4481-904c-f32f66826ca4",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Добрий, що привело тебе сюди?"
+                }
+            ]
+        },
+        {
+            "idPhrase": "1ab63568-7306-40fc-bc4c-fdd315bd14de",
+            "nodeText": "ВостаннєБачили",
+            "nodePosition": {
+                "x": 1610.0,
+                "y": 101.0
+            },
+            "nextAnswer": "93b751ca-edba-40b4-a5e0-aa6e79e4076a",
+            "phraseItems": [
+                {
+                    "id": "a308f7f3-b3f0-4142-bb68-cc974dfec483",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Де його востаннє бачили?"
+                },
+                {
+                    "id": "9e457bba-f245-477d-919d-1427054164c1",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Біля Річки"
+                }
+            ]
+        },
+        {
+            "idPhrase": "af658e18-fb49-465f-b068-e26b619e49a4",
+            "nodeText": "Виконаю",
+            "nodePosition": {
+                "x": 2436.0,
+                "y": -20.0
+            },
+            "nextAnswer": "d75af890-61ee-4377-af24-ee052eb60efe",
+            "phraseItems": [
+                {
+                    "id": "0455c1dc-de37-4ceb-9830-c5f36e8cf501",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Я візьмуся за це завдання"
+                },
+                {
+                    "id": "bfeb3ad9-317b-4502-a237-06c96f90cf9b",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Чудово чекатиму вас на цьому місці"
+                }
+            ]
+        },
+        {
+            "idPhrase": "8ab0df2c-b368-4210-b247-e0648a47e3a8",
+            "nodeText": "Прощання",
+            "nodePosition": {
+                "x": 2549.0,
+                "y": 288.0
+            },
+            "nextAnswer": "1465a4fa-91ab-4873-91f7-1375c723ec2b",
+            "phraseItems": [
+                {
+                    "id": "6ffc4eec-8358-4649-83cd-13d2e4d69694",
+                    "speaker": "Geralt",
+                    "showTime": 8.0,
+                    "sentence": "Бувай здоровий"
+                }
+            ]
+        },
+        {
+            "idPhrase": "7622e280-5113-4a66-b964-d8eeb3bb7004",
+            "nodeText": "СлідОбговоритиЦіну",
+            "nodePosition": {
+                "x": 2296.0,
+                "y": 74.0
+            },
+            "nextAnswer": "af658e18-fb49-465f-b068-e26b619e49a4",
+            "phraseItems": [
+                {
+                    "id": "79ca15ba-6c97-4a57-abed-d27756dff588",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Це складне замовлення чи зможеш заплатити мені більше?"
+                },
+                {
+                    "id": "2c1bb737-b5fe-488b-9732-557b7a68e989",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Гадаю я зможу заплатити тобі на 100грн більше"
+                },
+                {
+                    "id": "5056e29b-9b2c-4f06-a838-61259ea1bb90",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Пасує?"
+                }
+            ]
+        },
+        {
+            "idPhrase": "2d286c2e-cd46-498a-b6fb-924fc03b28ba",
+            "nodeText": "МаюІщеДекількаЗапитань",
+            "nodePosition": {
+                "x": 1621.0,
+                "y": -209.0
+            },
+            "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
+            "phraseItems": [
+                {
+                    "id": "c8f921d0-145f-4523-b5d5-8c2d74684d67",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Хочу задати тобі ще кілька запитань"
+                },
+                {
+                    "id": "fe953e73-05ee-439a-8d62-327f7722590a",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Уважно слухаю пане"
+                }
+            ]
+        },
+        {
+            "idPhrase": "89465be3-db25-41d5-8a56-ec6a78400d6e",
+            "nodeText": "НеЦікавитьМене",
+            "nodePosition": {
+                "x": 2267.0,
+                "y": 196.0
+            },
+            "nextAnswer": "8ab0df2c-b368-4210-b247-e0648a47e3a8",
+            "phraseItems": [
+                {
+                    "id": "79f166ba-23c9-4ded-852d-eba94a06eaea",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Поки що це мене не цікавить"
+                },
+                {
+                    "id": "98b5b287-8733-45c4-878b-9ec5f280f55a",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Дуже жаль, ми потребуємо твоєї допомоги"
+                }
+            ]
+        },
+        {
+            "idPhrase": "fc2ba5f5-4d7d-40d0-9ad1-350839854e63",
+            "nodeText": "ОписМонстра",
+            "nodePosition": {
+                "x": 1440.0,
+                "y": 30.0
+            },
+            "nextAnswer": "1ab63568-7306-40fc-bc4c-fdd315bd14de",
+            "phraseItems": [
+                {
+                    "id": "1427984d-c8f3-4a0e-b3cd-191d1cc1d0be",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Опиши мені цього могстра"
+                },
+                {
+                    "id": "e8658a47-8ec6-4729-8e4d-e422f70bffe6",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Та що тут говрити, вбиває він людей"
+                }
+            ]
+        },
+        {
+            "idPhrase": "da1d3e15-bbca-40f5-b8ad-474fa2c7d358",
+            "nodeText": "ШукаюПідробіток",
+            "nodePosition": {
+                "x": 774.0,
+                "y": 311.0
+            },
+            "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
+            "phraseItems": [
+                {
+                    "id": "86af1abe-98a9-479c-95b7-ab301bad3606",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Я Відьмак, шукаю підробіток, можливо в околиця у вас є монстр який вам надокучає?"
+                },
+                {
+                    "id": "4df16844-38ee-4a60-a51a-e392865183e4",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Власне є один, за якого платять хорошу винагороду"
+                }
+            ]
+        },
+        {
+            "idPhrase": "6090f839-9835-4519-a074-9b92927e18ed",
+            "nodeText": "НаРахунокЗамовлення",
+            "nodePosition": {
+                "x": 744.0,
+                "y": 149.0
+            },
+            "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
+            "phraseItems": [
+                {
+                    "id": "968427ef-d5ff-44af-af98-0d5e314ace60",
+                    "speaker": "Gearalt",
+                    "showTime": 4.0,
+                    "sentence": "Я на рахунок замовлення на привида"
+                },
+                {
+                    "id": "e7dc0e6e-fdc5-44fa-a81e-b55ba3d32d31",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Ах так добре, що ви прийшли сюди"
+                }
+            ]
+        }
+    ],
+    "allAnswer": [
+        {
+            "idAnswer": "93b751ca-edba-40b4-a5e0-aa6e79e4076a",
+            "nodeText": "New Dialog(1)",
+            "nodePosition": {
+                "x": 1822.0,
+                "y": 18.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "af658e18-fb49-465f-b068-e26b619e49a4",
+                    "sentence": "Я візьмуся за замовлення"
+                },
+                {
+                    "nextPhrase": "7622e280-5113-4a66-b964-d8eeb3bb7004",
+                    "sentence": " Обговоримо ціну"
+                },
+                {
+                    "nextPhrase": "2d286c2e-cd46-498a-b6fb-924fc03b28ba",
+                    "sentence": "Маю іще декілька питань стосовно монстра"
+                },
+                {
+                    "nextPhrase": "89465be3-db25-41d5-8a56-ec6a78400d6e",
+                    "sentence": "Поки що мене це не цікавить"
+                }
+            ]
+        },
+        {
+            "idAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
+            "nodeText": "New Dialog",
+            "nodePosition": {
+                "x": 1097.0,
+                "y": 110.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "fc2ba5f5-4d7d-40d0-9ad1-350839854e63",
+                    "sentence": "Опиши мені цьго монстра"
+                },
+                {
+                    "nextPhrase": "1ab63568-7306-40fc-bc4c-fdd315bd14de",
+                    "sentence": "Де бачили монстра востаннє?"
+                },
+                {
+                    "nextPhrase": "8ab0df2c-b368-4210-b247-e0648a47e3a8",
+                    "sentence": "Всього допброго"
+                }
+            ]
+        }
+    ],
+    "allOutputNode": [
+        {
+            "nodeId": "1465a4fa-91ab-4873-91f7-1375c723ec2b",
+            "nodePosition": {
+                "x": 2726.0,
+                "y": 144.0
+            },
+            "parameter": ""
+        },
+        {
+            "nodeId": "d75af890-61ee-4377-af24-ee052eb60efe",
+            "nodePosition": {
+                "x": 2726.0,
+                "y": -34.0
+            },
+            "parameter": "q#a0d84638-9dd9-4091-b5fa-2448a962862a&1"
+        }
+    ],
+    "allSelectedNode": [
+        {
+            "nodeId": "d10dfd24-862a-4568-a68f-1cf6fa28a6d8",
+            "nodePosition": {
+                "x": 393.0,
+                "y": 172.0
+            },
+            "parameter": "q#a0d84638-9dd9-4091-b5fa-2448a962862a",
+            "nextElementPositive": "6090f839-9835-4519-a074-9b92927e18ed",
+            "nextElementNegative": "da1d3e15-bbca-40f5-b8ad-474fa2c7d358"
+        }
+    ]
+}

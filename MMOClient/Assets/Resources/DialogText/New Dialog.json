@@ -1,0 +1,119 @@
+{
+    "dialogName": "New Dialog",
+    "entryPointGUID": "19e50fe4-9f63-45ca-98ff-bc197313e9f6",
+    "startPhrase": "1ebb804a-1d89-466f-a28a-88eaa92bb3a5",
+    "allPhrase": [
+        {
+            "idPhrase": "f253960e-4a98-493d-8bf5-14ce78c75377",
+            "nodeText": "Bran",
+            "nodePosition": {
+                "x": 617.0,
+                "y": 109.0
+            },
+            "nextAnswer": "ff809115-b7b4-44dd-ba3c-df62aaa840c3",
+            "phraseItems": [
+                {
+                    "id": "d9c4e414-12ca-49cd-872f-3c53bd287965",
+                    "speaker": "Test",
+                    "showTime": 4.0,
+                    "sentence": "Sentence"
+                }
+            ]
+        },
+        {
+            "idPhrase": "eef2c1a5-3849-4104-850f-15b7ce5a09f1",
+            "nodeText": "Lox",
+            "nodePosition": {
+                "x": 1033.0,
+                "y": 116.0
+            },
+            "nextAnswer": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "phraseItems": [
+                {
+                    "id": "52a9f1ff-5038-4cdb-85cc-bd077280cc9a",
+                    "speaker": "Brana",
+                    "showTime": 4.0,
+                    "sentence": "Sentence"
+                }
+            ]
+        },
+        {
+            "idPhrase": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "nodeText": "New Phrase",
+            "nodePosition": {
+                "x": 1200.0,
+                "y": 237.0
+            },
+            "nextAnswer": "da5d71ae-5d0e-496c-a074-6f57f2326e1b",
+            "phraseItems": []
+        },
+        {
+            "idPhrase": "0c5c7e14-c3b6-4b60-bd51-6ec8d6f87dfb",
+            "nodeText": "Work",
+            "nodePosition": {
+                "x": 778.0,
+                "y": 304.0
+            },
+            "nextAnswer": "71f7ba9a-fd8e-4152-884a-032f8f93bb02",
+            "phraseItems": [
+                {
+                    "id": "c331d0e1-5c3f-44a1-bfa6-c6109eab18be",
+                    "speaker": "Speaker",
+                    "showTime": 4.0,
+                    "sentence": "test"
+                },
+                {
+                    "id": "26253cdf-b5ba-4122-902e-05dd9c179940",
+                    "speaker": "Speaker",
+                    "showTime": 4.0,
+                    "sentence": "111111111"
+                }
+            ]
+        }
+    ],
+    "allAnswer": [
+        {
+            "idAnswer": "1ebb804a-1d89-466f-a28a-88eaa92bb3a5",
+            "nodeText": "New Dialog",
+            "nodePosition": {
+                "x": 394.0,
+                "y": 145.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "f253960e-4a98-493d-8bf5-14ce78c75377",
+                    "sentence": "dwa"
+                },
+                {
+                    "nextPhrase": "0c5c7e14-c3b6-4b60-bd51-6ec8d6f87dfb",
+                    "sentence": "Brana"
+                }
+            ]
+        },
+        {
+            "idAnswer": "ff809115-b7b4-44dd-ba3c-df62aaa840c3",
+            "nodeText": "New Dialog(1)",
+            "nodePosition": {
+                "x": 778.0,
+                "y": 85.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "eef2c1a5-3849-4104-850f-15b7ce5a09f1",
+                    "sentence": "Choice 1"
+                }
+            ]
+        }
+    ],
+    "allOutputNode": [
+        {
+            "nodeId": "da5d71ae-5d0e-496c-a074-6f57f2326e1b",
+            "nodePosition": {
+                "x": 1438.0,
+                "y": 191.0
+            },
+            "parameter": ""
+        }
+    ],
+    "allSelectedNode": []
+}
