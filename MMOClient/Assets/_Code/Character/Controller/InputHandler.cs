@@ -26,6 +26,7 @@ namespace BV
         bool rt_input;
         bool lb_input;
         bool lt_input;
+        bool inventory_input;
 
         bool leftAxis_down;
         bool rightAxis_down;
@@ -36,6 +37,7 @@ namespace BV
 
         StateManager states;
         CameraManager camManager;
+        MenuManager menuManager;
 
         NewPlayerControls inputActions;
 
@@ -52,6 +54,9 @@ namespace BV
             {
                 camManager = CameraManager.singleton;
                 camManager.Init(states);
+
+                menuManager = MenuManager.singleton;
+                menuManager.Init();
 
                 if (inputActions == null)
                 {
@@ -111,6 +116,9 @@ namespace BV
             //YInput
             inputActions.PlayerActions.TwoHanded.performed += inputActions => y_input = true;
 
+            //YInput
+            inputActions.PlayerActions.Inventory.performed += inputActions => inventory_input = true;
+
             //LInput
             inputActions.PlayerActions.L.performed += inputActions => rightAxis_down = true;
 
@@ -151,6 +159,23 @@ namespace BV
 
         void UpdateStates()
         {
+            if (inventory_input)
+            {
+                inventory_input = false;
+                if (!menuManager.IsOpen())
+                {
+                    menuManager.ShowMenu();
+                }
+                else
+                {
+                    menuManager.HideMenu();
+                }
+            }
+            if(menuManager.IsOpen()) {
+                return;
+            }        
+
+
             states.horizontal = horizontal;
             states.vertical = vertical;
 

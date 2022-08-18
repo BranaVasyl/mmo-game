@@ -219,6 +219,15 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5650be3-619c-4c50-b66a-c6550a291d5f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -342,6 +351,17 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""X"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65d327e0-8b6d-49bc-bb62-bf5d58aaef2e"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -412,6 +432,7 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
         m_PlayerActions_TwoHanded = m_PlayerActions.FindAction("TwoHanded", throwIfNotFound: true);
         m_PlayerActions_L = m_PlayerActions.FindAction("L", throwIfNotFound: true);
+        m_PlayerActions_Inventory = m_PlayerActions.FindAction("Inventory", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
@@ -526,6 +547,7 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LT;
     private readonly InputAction m_PlayerActions_TwoHanded;
     private readonly InputAction m_PlayerActions_L;
+    private readonly InputAction m_PlayerActions_Inventory;
     public struct PlayerActionsActions
     {
         private @NewPlayerControls m_Wrapper;
@@ -540,6 +562,7 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
         public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
         public InputAction @TwoHanded => m_Wrapper.m_PlayerActions_TwoHanded;
         public InputAction @L => m_Wrapper.m_PlayerActions_L;
+        public InputAction @Inventory => m_Wrapper.m_PlayerActions_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -579,6 +602,9 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
                 @L.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnL;
                 @L.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnL;
                 @L.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnL;
+                @Inventory.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -613,6 +639,9 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
                 @L.started += instance.OnL;
                 @L.performed += instance.OnL;
                 @L.canceled += instance.OnL;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
             }
         }
     }
@@ -675,6 +704,7 @@ public partial class @NewPlayerControls : IInputActionCollection2, IDisposable
         void OnLT(InputAction.CallbackContext context);
         void OnTwoHanded(InputAction.CallbackContext context);
         void OnL(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {

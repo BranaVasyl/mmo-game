@@ -11,9 +11,9 @@ namespace BV
         InventoryController inventoryController;
         ItemGrid itemGrid;
 
-        private void Awake()
+        private void Start()
         {
-            inventoryController = FindObjectOfType(typeof(InventoryController)) as InventoryController;
+            inventoryController = InventoryController.singleton;
             itemGrid = GetComponent<ItemGrid>();
         }
 

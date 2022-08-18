@@ -35,12 +35,14 @@ namespace BV
         bool rt_input = false;
         bool x_input = false;
 
+        public static InventoryController singleton;
         private void Awake()
         {
+            singleton = this;
             inventoryHiglight = GetComponent<InventoryHiglight>();
         }
 
-        void Start()
+        public void Init()
         {
             if (inputActions == null)
             {
@@ -48,6 +50,12 @@ namespace BV
                 GetInput();
             }
 
+            inputActions.Enable();
+        }
+
+        public void Deinit()
+        {
+            DropInput();
             inputActions.Enable();
         }
 
@@ -111,7 +119,10 @@ namespace BV
 
             if (selectedItem == null)
             {
-                itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+                if (selectedItemGrid != null)
+                {
+                    itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+                }
 
                 if (itemToHighlight != null)
                 {
@@ -250,6 +261,14 @@ namespace BV
             inputActions.PlayerActions.RT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
             inputActions.PlayerActions.LT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
             inputActions.Mouse.LeftButtonDown.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
+        }
+
+        void DropInput()
+        {
+            inputActions.PlayerActions.X.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
+            inputActions.PlayerActions.RT.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
+            inputActions.PlayerActions.LT.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
+            inputActions.Mouse.LeftButtonDown.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
         }
 
         void ClickAction(float b, ref bool button)

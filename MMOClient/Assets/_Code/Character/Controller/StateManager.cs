@@ -37,6 +37,7 @@ namespace BV
         public bool canMove;
         public bool isTwoHanded;
         public bool usingItem;
+        public bool openInventory;
         public string currentAnimation;
 
         [Header("Other")]
