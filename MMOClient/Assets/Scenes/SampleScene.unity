@@ -618,7 +618,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 977391500}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &67179401
@@ -2619,7 +2621,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1104554078}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &323135754
@@ -2810,6 +2814,7 @@ GameObject:
   - component: {fileID: 333979110}
   - component: {fileID: 333979112}
   - component: {fileID: 333979111}
+  - component: {fileID: 333979113}
   m_Layer: 5
   m_Name: NextTab
   m_TagString: Untagged
@@ -2875,6 +2880,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333979109}
   m_CullTransparentMesh: 1
+--- !u!114 &333979113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333979109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 333979111}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 961882316}
+        m_TargetAssemblyTypeName: BV.MenuManager, Assembly-CSharp
+        m_MethodName: NextPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &352456615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3106,6 +3167,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6679339757132984336, guid: a19a1518dd8194641bf6c76a0aeb86f1, type: 3}
   serverSpawnables: {fileID: 11400000, guid: e96fe2df4cc7310409c569bccb56516a, type: 2}
   chatManager: {fileID: 959177956}
+  inventoryController: {fileID: 0}
 --- !u!4 &391939055
 Transform:
   m_ObjectHideFlags: 0
@@ -3336,7 +3398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 352456615}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &419742415
@@ -3877,7 +3941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1093306502}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &497679849
@@ -4466,7 +4532,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 2029426297}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &584865852
@@ -5728,7 +5796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1954874447}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &748798891
@@ -6192,7 +6262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1816143256}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &808718797
@@ -7286,7 +7358,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 100}
+  m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &957382949
 GameObject:
@@ -7449,7 +7521,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1622807562}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &958880161
@@ -7567,7 +7641,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMenu: {fileID: 1556342546}
+  menuPanels:
+  - {fileID: 8866688314570395280}
+  - {fileID: 1021465608}
   header: {fileID: 1664947554}
+  panelName: {fileID: 1222342664}
   inventory: {fileID: 8866688314570395278}
 --- !u!4 &961882317
 Transform:
@@ -7746,7 +7824,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 225116176}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &967204987
@@ -7798,6 +7878,7 @@ GameObject:
   - component: {fileID: 969863662}
   - component: {fileID: 969863664}
   - component: {fileID: 969863663}
+  - component: {fileID: 969863665}
   m_Layer: 5
   m_Name: Close
   m_TagString: Untagged
@@ -7863,6 +7944,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969863661}
   m_CullTransparentMesh: 1
+--- !u!114 &969863665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969863661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 969863663}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 961882316}
+        m_TargetAssemblyTypeName: BV.MenuManager, Assembly-CSharp
+        m_MethodName: CloseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &971375353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 438060, guid: eaf383cb55cf38f448529df28e28abba, type: 3}
@@ -8387,6 +8524,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018947099}
   m_CullTransparentMesh: 1
+--- !u!1 &1021465606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1021465607}
+  - component: {fileID: 1021465608}
+  m_Layer: 5
+  m_Name: Stats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1021465607
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021465606}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1556342547}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1021465608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021465606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9920f779b70531f48846813b64735101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: "\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
+  networkIdentity: {fileID: 0}
+  clickTimer: 0
+  rb_input: 0
+  lt_input: 0
+  rt_input: 0
+  x_input: 0
 --- !u!1 &1029063768
 GameObject:
   m_ObjectHideFlags: 0
@@ -8451,7 +8644,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 276168834}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &1029063772
@@ -9607,7 +9802,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1909581882}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &1192761645
@@ -9927,7 +10124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 830031206}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &1224523330
@@ -10032,7 +10231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1324223011}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &1236833136
@@ -10444,7 +10645,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 415492209}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &1300040274
@@ -11368,7 +11571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1413909939}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &1388971129
@@ -13723,6 +13928,7 @@ RectTransform:
   - {fileID: 6990078548885166502}
   - {fileID: 1664947555}
   - {fileID: 6795083604886749223}
+  - {fileID: 1021465607}
   m_Father: {fileID: 841747835}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14499,7 +14705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1851140638}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &1638778619
@@ -15130,7 +15338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 0}
   gridSizeWidth: 5
   gridSizeHeight: 7
 --- !u!114 &1712263305
@@ -16319,7 +16529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 0}
   gridSizeWidth: 4
   gridSizeHeight: 7
 --- !u!114 &1824762418
@@ -16925,7 +17137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1483046982}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &1875605073
@@ -17513,7 +17727,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1455615403}
   gridSizeWidth: 1
   gridSizeHeight: 2
 --- !u!114 &1934145274
@@ -17646,6 +17862,7 @@ GameObject:
   - component: {fileID: 1966555819}
   - component: {fileID: 1966555821}
   - component: {fileID: 1966555820}
+  - component: {fileID: 1966555822}
   m_Layer: 5
   m_Name: PrevTab
   m_TagString: Untagged
@@ -17711,6 +17928,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966555818}
   m_CullTransparentMesh: 1
+--- !u!114 &1966555822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966555818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1966555820}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 961882316}
+        m_TargetAssemblyTypeName: BV.MenuManager, Assembly-CSharp
+        m_MethodName: PrevPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1983413347
 GameObject:
   m_ObjectHideFlags: 0
@@ -18257,7 +18530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 1747127937}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &2022306308
@@ -18708,7 +18983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 887251040}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &2060763507
@@ -18966,7 +19243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridId: 
   canvas: {fileID: 841747834}
+  placeholder: {fileID: 0}
   gridSizeWidth: 1
   gridSizeHeight: 1
 --- !u!114 &2100295410
@@ -19501,6 +19780,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a9526afb32ad74786997f1d1a5180c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: "\u0420\u044E\u043A\u0437\u0430\u043A"
+  networkIdentity: {fileID: 0}
+  clickTimer: 0
+  rb_input: 0
+  lt_input: 0
+  rt_input: 0
+  x_input: 0
   selectedItemGrid: {fileID: 0}
   items:
   - {fileID: 11400000, guid: 82e5d375d40f60c4eb7f9039b1f96372, type: 2}

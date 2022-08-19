@@ -7,6 +7,9 @@ namespace BV
 {
     public class ItemGrid : MonoBehaviour
     {
+        private InventoryController inventoryController;
+        public string gridId;
+
         public Canvas canvas;
 
         public const float tileSizeWidth = 64;
@@ -15,6 +18,7 @@ namespace BV
         public static float boundTileSizeWidth = 35f;
         public static float boundTileSizeHeight = 35f;
 
+        public GameObject placeholder;
         InventoryItem[,] inventoryItemSlot;
 
         RectTransform rectTransform;
@@ -24,13 +28,40 @@ namespace BV
         [SerializeField]
         int gridSizeHeight = 7;
 
-        void Start()
+        void OnEnable()
         {
             rectTransform = GetComponent<RectTransform>();
             boundTileSizeWidth = tileSizeWidth * canvas.scaleFactor;
             boundTileSizeHeight = tileSizeHeight * canvas.scaleFactor;
 
             Init(gridSizeWidth, gridSizeHeight);
+            inventoryController.AddItemGrid(this);
+        }
+
+        void OnDisable()
+        {
+            inventoryItemSlot = new InventoryItem[0, 0];
+
+            var children = new List<GameObject>();
+            foreach (Transform child in transform) children.Add(child.gameObject);
+            children.ForEach(child =>
+            {
+                //@todo temp fix me
+                if(child.name == "correctHightLighter") {
+                    return;
+                }
+                Destroy(child);
+            });
+
+            if (placeholder != null)
+            {
+                placeholder.SetActive(true);
+            }
+        }
+
+        void Awake()
+        {
+            inventoryController = InventoryController.singleton;
         }
 
         public InventoryItem PickUpItem(int x, int y)
@@ -44,6 +75,10 @@ namespace BV
 
             CleanGridReference(toReturn);
 
+            if (placeholder != null)
+            {
+                placeholder.SetActive(true);
+            }
             return toReturn;
         }
 
@@ -143,6 +178,10 @@ namespace BV
             inventoryItem.onGridPositionY = posY;
             Vector2 position = CalculatePositionOnGrid(inventoryItem, posX, posY);
 
+            if (placeholder != null)
+            {
+                placeholder.SetActive(false);
+            }
             rectTransform.localPosition = position;
         }
 

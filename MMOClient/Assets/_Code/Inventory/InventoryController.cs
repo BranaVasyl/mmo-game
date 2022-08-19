@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Project.Networking;
 
 namespace BV
 {
-    public class InventoryController : MonoBehaviour
+    public class InventoryController : MenuPanel
     {
         [HideInInspector]
         public ItemGrid selectedItemGrid;
@@ -17,23 +18,18 @@ namespace BV
                 inventoryHiglight.SetParent(value);
             }
         }
+        private List<ItemGrid> allActiveGrids = new List<ItemGrid>();
 
         InventoryItem selectedItem;
         InventoryItem overlapItem;
         RectTransform rectTransform;
 
+        [Header("Inventory Stats")]
         [SerializeField] List<ItemData> items;
         [SerializeField] GameObject itemPrefab;
         [SerializeField] Transform canvasTransform;
 
         InventoryHiglight inventoryHiglight;
-
-        NewPlayerControls inputActions;
-        float clickTimer = 0;
-        bool rb_input = false;
-        bool lt_input = false;
-        bool rt_input = false;
-        bool x_input = false;
 
         public static InventoryController singleton;
         private void Awake()
@@ -42,21 +38,30 @@ namespace BV
             inventoryHiglight = GetComponent<InventoryHiglight>();
         }
 
-        public void Init()
+        public void AddItemGrid(ItemGrid itemGrid)
         {
-            if (inputActions == null)
-            {
-                inputActions = new NewPlayerControls();
-                GetInput();
-            }
-
-            inputActions.Enable();
+            allActiveGrids.Add(itemGrid);
         }
 
-        public void Deinit()
+        public void RemoveItemGrid(ItemGrid itemGrid)
         {
-            DropInput();
-            inputActions.Enable();
+            ItemGrid itemOnList = allActiveGrids.Find(i => i.gridId == itemGrid.gridId);
+
+            if (itemOnList != null)
+            {
+                allActiveGrids.Remove(itemOnList);
+            }
+        }
+
+        public override void Init(NetworkIdentity nI)
+        {
+            base.Init(nI);
+            LoadInventoryData();
+        }
+
+        public void LoadInventoryData()
+        {
+            networkIdentity.GetSocket().Emit("getInventoryData", new JSONObject(JsonUtility.ToJson("Hello")));
         }
 
         private void Update()
@@ -105,17 +110,18 @@ namespace BV
         }
 
         Vector2Int oldPosition;
+        ItemGrid oldItemGrid;
         InventoryItem itemToHighlight;
         private void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTileGridPosition();
-            if (oldPosition == positionOnGrid)
+            if (oldPosition == positionOnGrid && selectedItemGrid == oldItemGrid)
             {
                 return;
             }
 
-
             oldPosition = positionOnGrid;
+            oldItemGrid = selectedItemGrid;
 
             if (selectedItem == null)
             {
@@ -162,6 +168,7 @@ namespace BV
 
             if (posOnGrid == null)
             {
+                Destroy(itemToInsert.gameObject);
                 return;
             }
 
@@ -251,42 +258,15 @@ namespace BV
         {
             if (selectedItem != null)
             {
+                selectedItem.transform.SetParent(transform);
                 rectTransform.position = inputActions.Mouse.MousePosition.ReadValue<Vector2>();
             }
         }
 
-        void GetInput()
+        public void Clean()
         {
-            inputActions.PlayerActions.X.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
-            inputActions.PlayerActions.RT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
-            inputActions.PlayerActions.LT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
-            inputActions.Mouse.LeftButtonDown.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
-        }
-
-        void DropInput()
-        {
-            inputActions.PlayerActions.X.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
-            inputActions.PlayerActions.RT.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
-            inputActions.PlayerActions.LT.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
-            inputActions.Mouse.LeftButtonDown.performed -= inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
-        }
-
-        void ClickAction(float b, ref bool button)
-        {
-            if (clickTimer > 0)
-            {
-                return;
-            }
-
-            if (b > 0)
-            {
-                clickTimer = .1f;
-                button = true;
-            }
-            else
-            {
-                button = false;
-            }
+            oldPosition = new Vector2Int();
+            oldItemGrid = null;
         }
     }
 }

@@ -56,7 +56,7 @@ namespace BV
                 camManager.Init(states);
 
                 menuManager = MenuManager.singleton;
-                menuManager.Init();
+                menuManager.Init(networkIdentity);
 
                 if (inputActions == null)
                 {
@@ -164,11 +164,11 @@ namespace BV
                 inventory_input = false;
                 if (!menuManager.IsOpen())
                 {
-                    menuManager.ShowMenu();
+                    menuManager.OpenMenu();
                 }
                 else
                 {
-                    menuManager.HideMenu();
+                    menuManager.CloseMenu();
                 }
             }
             if(menuManager.IsOpen()) {

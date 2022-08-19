@@ -19,12 +19,13 @@ namespace BV
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-           inventoryController.SelectedItemGrid = itemGrid;
+            inventoryController.SelectedItemGrid = itemGrid;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-           inventoryController.SelectedItemGrid = null;
+            inventoryController.Clean();
+            inventoryController.SelectedItemGrid = null;
         }
     }
 }

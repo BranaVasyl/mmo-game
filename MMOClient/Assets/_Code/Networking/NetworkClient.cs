@@ -21,6 +21,8 @@ namespace Project.Networking
 
         [SerializeField]
         private GameObject chatManager;
+        [SerializeField]
+        private InventoryController inventoryController;
 
 
         public static string ClientID { get; private set; }
@@ -216,6 +218,11 @@ namespace Project.Networking
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
                 chatBehaviour.SendMessage(id, message);
+            });
+
+            On("setInventoryData", (E) =>
+            {
+                Debug.Log(E.data);
             });
         }
 
