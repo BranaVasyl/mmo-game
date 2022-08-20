@@ -618,8 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
-  canvas: {fileID: 841747834}
+  gridId: leftHandGrid
   placeholder: {fileID: 977391500}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -2622,7 +2621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1104554078}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -3400,7 +3398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 352456615}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -3943,7 +3940,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1093306502}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -4534,7 +4530,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 2029426297}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -5798,7 +5793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1954874447}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -6264,7 +6258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1816143256}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -7523,7 +7516,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1622807562}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -7826,7 +7818,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 225116176}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -8645,7 +8636,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 276168834}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -9803,7 +9793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1909581882}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -10125,7 +10114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 830031206}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -10232,7 +10220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1324223011}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -10646,7 +10633,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 415492209}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -11572,7 +11558,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1413909939}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -14706,7 +14691,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1851140638}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -15339,7 +15323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: armorGrid
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 0}
   gridSizeWidth: 5
   gridSizeHeight: 7
@@ -16530,7 +16513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: wepaonGrid
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 0}
   gridSizeWidth: 4
   gridSizeHeight: 7
@@ -17138,7 +17120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1483046982}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -17728,7 +17709,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1455615403}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -18531,7 +18511,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 1747127937}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -18984,7 +18963,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 887251040}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -19244,7 +19222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridId: 
-  canvas: {fileID: 841747834}
   placeholder: {fileID: 0}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -19787,12 +19764,13 @@ MonoBehaviour:
   rt_input: 0
   x_input: 0
   selectedItemGrid: {fileID: 0}
-  items:
+  allItems:
   - {fileID: 11400000, guid: 82e5d375d40f60c4eb7f9039b1f96372, type: 2}
   - {fileID: 11400000, guid: 96ce6e46751ceb4468a35d5cfd0b65f3, type: 2}
-  - {fileID: 11400000, guid: ec841fe791c98cc48b6d273d8a71d8fc, type: 2}
   - {fileID: 11400000, guid: 1734795b55f898b4eb8393acab4891c9, type: 2}
   - {fileID: 11400000, guid: 99065f0e9e9992f4c8dff454b412e38b, type: 2}
   - {fileID: 11400000, guid: 424bc45cf01de67429c6e59b7aaebcb7, type: 2}
+  - {fileID: 11400000, guid: ec841fe791c98cc48b6d273d8a71d8fc, type: 2}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
   canvasTransform: {fileID: 841747835}
+  inventoryHiglight: {fileID: 0}
