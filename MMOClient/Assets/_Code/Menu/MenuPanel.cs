@@ -10,7 +10,6 @@ namespace BV
         [Header("Panel Option")]
         public string name;
 
-        public NetworkIdentity networkIdentity;
         [HideInInspector]
         public NewPlayerControls inputActions;
         [HideInInspector]
@@ -24,10 +23,8 @@ namespace BV
         [HideInInspector]
         public bool x_input = false;
 
-        public virtual void Init(NetworkIdentity nI)
+        public virtual void Init(JSONObject pD)
         {
-            networkIdentity = nI;
-            
             if (inputActions == null)
             {
                 inputActions = new NewPlayerControls();

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace BV
 {
     public class ItemGrid : MonoBehaviour
@@ -10,7 +9,7 @@ namespace BV
         private InventoryController inventoryController;
         public string gridId;
 
-        public Canvas canvas;
+        private Canvas canvas;
 
         public const float tileSizeWidth = 64;
         public const float tileSizeHeight = 64;
@@ -28,14 +27,21 @@ namespace BV
         [SerializeField]
         int gridSizeHeight = 7;
 
+        void Awake()
+        {
+            inventoryController = InventoryController.singleton;
+            canvas = inventoryController.canvasTransform.GetComponent<Canvas>();
+
+            rectTransform = GetComponent<RectTransform>();
+        }
+
         void OnEnable()
         {
-            rectTransform = GetComponent<RectTransform>();
             boundTileSizeWidth = tileSizeWidth * canvas.scaleFactor;
             boundTileSizeHeight = tileSizeHeight * canvas.scaleFactor;
-
             Init(gridSizeWidth, gridSizeHeight);
-            inventoryController.AddItemGrid(this);
+
+            inventoryController.RegisterGrid(this);
         }
 
         void OnDisable()
@@ -46,8 +52,8 @@ namespace BV
             foreach (Transform child in transform) children.Add(child.gameObject);
             children.ForEach(child =>
             {
-                //@todo temp fix me
-                if(child.name == "correctHightLighter") {
+                if (child == inventoryController.inventoryHiglight.higlighter.gameObject)
+                {
                     return;
                 }
                 Destroy(child);
@@ -57,11 +63,15 @@ namespace BV
             {
                 placeholder.SetActive(true);
             }
+
+            inventoryController.RemoveItemGrid(this);
         }
 
-        void Awake()
+        private void Init(int width, int height)
         {
-            inventoryController = InventoryController.singleton;
+            inventoryItemSlot = new InventoryItem[width, height];
+            Vector2 size = new Vector2(width * tileSizeWidth, height * tileSizeHeight);
+            rectTransform.sizeDelta = size;
         }
 
         public InventoryItem PickUpItem(int x, int y)
@@ -91,13 +101,6 @@ namespace BV
                     inventoryItemSlot[item.onGridPositionX + ix, item.onGridPositionY + iy] = null;
                 }
             }
-        }
-
-        private void Init(int width, int height)
-        {
-            inventoryItemSlot = new InventoryItem[width, height];
-            Vector2 size = new Vector2(width * tileSizeWidth, height * tileSizeHeight);
-            rectTransform.sizeDelta = size;
         }
 
         internal InventoryItem GetItem(int x, int y)
@@ -236,7 +239,7 @@ namespace BV
             return true;
         }
 
-        private bool PositionChck(int posX, int posY)
+        private bool PositionCheck(int posX, int posY)
         {
             if (posX < 0 || posY < 0)
             {
@@ -253,7 +256,7 @@ namespace BV
 
         public bool BoundryCheck(int posX, int posY, int width, int height)
         {
-            if (PositionChck(posX, posY) == false)
+            if (PositionCheck(posX, posY) == false)
             {
                 return false;
             }
@@ -261,7 +264,7 @@ namespace BV
             posX += width - 1;
             posY += height - 1;
 
-            if (PositionChck(posX, posY) == false)
+            if (PositionCheck(posX, posY) == false)
             {
                 return false;
             }

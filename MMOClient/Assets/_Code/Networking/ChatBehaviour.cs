@@ -20,16 +20,20 @@ namespace Project.Networking
 
         private SocketIOComponent socket;
 
+        public static ChatBehaviour singleton;
+        private void Awake()
+        {
+            singleton = this;
+        }
 
-        // Start is called before the first frame update
         void Start()
         {
             chatUI.gameObject.SetActive(true);
         }
 
-        public void SetSocketReference(SocketIOComponent Socket)
+        public void Init(SocketIOComponent soc)
         {
-            socket = Socket;
+            socket = soc;
         }
 
         public void SendMessage(string id, string message)

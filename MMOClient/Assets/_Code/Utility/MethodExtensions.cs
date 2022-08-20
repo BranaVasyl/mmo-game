@@ -15,6 +15,10 @@ namespace Project.Utility
         {
             return System.Convert.ToSingle(Value.ToString().Replace(".", ",").RemoveQuotes());
         }
- 
+
+        public static int JSONObjectToInt(this JSONObject Value)
+        {
+            return System.Convert.ToInt16(Value.ToString().Replace(".", ",").RemoveQuotes());
+        }
     }
 }

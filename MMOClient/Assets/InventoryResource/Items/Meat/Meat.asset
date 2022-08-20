@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bc1bba57412ad42a8508edc3a75702, type: 3}
   m_Name: Meat
   m_EditorClassIdentifier: 
+  id: meat
   width: 1
   height: 1
   itemIcon: {fileID: 21300000, guid: 585d1b7a1fdbcb64aaa3321a2b65757b, type: 3}

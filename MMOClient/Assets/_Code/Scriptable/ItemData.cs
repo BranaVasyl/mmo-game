@@ -7,6 +7,7 @@ namespace BV
     [CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData", order = 3)]
     public class ItemData : ScriptableObject
     {
+        public string id;
         public int width = 1;
         public int height = 1;
 

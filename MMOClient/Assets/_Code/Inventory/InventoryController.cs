@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Project.Utility;
 using UnityEngine;
-using Project.Networking;
 
 namespace BV
 {
@@ -25,11 +25,14 @@ namespace BV
         RectTransform rectTransform;
 
         [Header("Inventory Stats")]
-        [SerializeField] List<ItemData> items;
+        [SerializeField] List<ItemData> allItems;
         [SerializeField] GameObject itemPrefab;
-        [SerializeField] Transform canvasTransform;
+        public Transform canvasTransform;
 
-        InventoryHiglight inventoryHiglight;
+        [HideInInspector]
+        public InventoryHiglight inventoryHiglight;
+
+        private JSONObject inventoryData;
 
         public static InventoryController singleton;
         private void Awake()
@@ -38,30 +41,71 @@ namespace BV
             inventoryHiglight = GetComponent<InventoryHiglight>();
         }
 
-        public void AddItemGrid(ItemGrid itemGrid)
+        public override void Init(JSONObject pD)
+        {
+            base.Init(pD);
+            inventoryData = pD["inventoryData"];
+        }
+
+        public void RegisterGrid(ItemGrid itemGrid)
         {
             allActiveGrids.Add(itemGrid);
+
+            if (inventoryData == null)
+            {
+                return;
+            }
+
+            JSONObject gridData = null;
+            for (int i = 0; i < inventoryData.Count; i++)
+            {
+                if (inventoryData[i]["gridId"].ToString().RemoveQuotes() == itemGrid.gridId)
+                {
+                    gridData = inventoryData[i];
+                    break;
+                }
+            }
+
+            if (gridData == null)
+            {
+                return;
+            }
+
+            SetGridData(itemGrid, gridData["items"]);
         }
 
         public void RemoveItemGrid(ItemGrid itemGrid)
         {
             ItemGrid itemOnList = allActiveGrids.Find(i => i.gridId == itemGrid.gridId);
+        }
 
-            if (itemOnList != null)
+        void SetGridData(ItemGrid itemGrid, JSONObject items)
+        {
+            if (items == null)
             {
-                allActiveGrids.Remove(itemOnList);
+                return;
             }
-        }
 
-        public override void Init(NetworkIdentity nI)
-        {
-            base.Init(nI);
-            LoadInventoryData();
-        }
+            for (int i = 0; i < items.Count; i++)
+            {
+                JSONObject item = items[i];
 
-        public void LoadInventoryData()
-        {
-            networkIdentity.GetSocket().Emit("getInventoryData", new JSONObject(JsonUtility.ToJson("Hello")));
+                string itemId = item["id"].ToString().RemoveQuotes();
+                ItemData itemData = allItems.Find(x => x.id == itemId);
+
+                if (itemData == null)
+                {
+                    continue;
+                }
+
+                InventoryItem inventoryItem = CreateInventoryItem();
+                inventoryItem.Set(itemData);
+
+                int x = item["position"]["x"].JSONObjectToInt();
+                int y = item["position"]["y"].JSONObjectToInt();
+
+                itemGrid.PlaceItem(inventoryItem, x, y);
+            }
         }
 
         private void Update()
@@ -175,17 +219,24 @@ namespace BV
             selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
         }
 
-        private void CreateRandomItem()
+        private InventoryItem CreateInventoryItem()
         {
             InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
-            selectedItem = inventoryItem;
 
             rectTransform = inventoryItem.GetComponent<RectTransform>();
             rectTransform.SetParent(canvasTransform);
             rectTransform.SetAsLastSibling();
 
-            int selectedItemID = UnityEngine.Random.Range(0, items.Count);
-            inventoryItem.Set(items[selectedItemID]);
+            return inventoryItem;
+        }
+
+        private void CreateRandomItem()
+        {
+            InventoryItem inventoryItem = CreateInventoryItem();
+            selectedItem = inventoryItem;
+
+            int selectedItemID = UnityEngine.Random.Range(0, allItems.Count);
+            inventoryItem.Set(allItems[selectedItemID]);
         }
 
         private void RotateItem()

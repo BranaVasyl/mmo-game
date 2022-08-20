@@ -7,7 +7,8 @@ namespace BV
     public class InventoryHiglight : MonoBehaviour
     {
         [SerializeField]
-        RectTransform higlighter;
+        public RectTransform higlighter;
+        
         public void Show(bool b)
         {
             higlighter.gameObject.SetActive(b);

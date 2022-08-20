@@ -56,7 +56,6 @@ namespace BV
                 camManager.Init(states);
 
                 menuManager = MenuManager.singleton;
-                menuManager.Init(networkIdentity);
 
                 if (inputActions == null)
                 {

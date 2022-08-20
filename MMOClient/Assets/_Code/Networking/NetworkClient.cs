@@ -20,10 +20,11 @@ namespace Project.Networking
         private ServerObjects serverSpawnables;
 
         [SerializeField]
-        private GameObject chatManager;
+        private ChatBehaviour chatBehaviour;
+        [SerializeField]
+        private MenuManager menuManager;
         [SerializeField]
         private InventoryController inventoryController;
-
 
         public static string ClientID { get; private set; }
 
@@ -46,6 +47,8 @@ namespace Project.Networking
         private void initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
+            chatBehaviour = ChatBehaviour.singleton;
+            menuManager = MenuManager.singleton;
         }
 
         private void setupEvents()
@@ -85,10 +88,10 @@ namespace Project.Networking
                 ni.SetSocketReference(this);
                 serverObjects.Add(id, ni);
 
-                if (chatManager)
+                if (ni.IsControlling())
                 {
-                    ChatBehaviour chatBehaviour = chatManager.GetComponent<ChatBehaviour>();
-                    chatBehaviour.SetSocketReference(this);
+                    chatBehaviour.Init(this);
+                    menuManager.Init(this, E.data);
                 }
             });
 
@@ -208,21 +211,9 @@ namespace Project.Networking
 
             On("sendMessage", (E) =>
             {
-                if (chatManager == null)
-                {
-                    return;
-                }
-
-                ChatBehaviour chatBehaviour = chatManager.GetComponent<ChatBehaviour>();
-
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
                 chatBehaviour.SendMessage(id, message);
-            });
-
-            On("setInventoryData", (E) =>
-            {
-                Debug.Log(E.data);
             });
         }
 

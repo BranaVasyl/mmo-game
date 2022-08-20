@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Project.Networking;
+using SocketIO;
 
 namespace BV
 {
     public class MenuManager : MonoBehaviour
     {
+        private SocketIOComponent socket;
+
         public GameObject gameMenu;
-        private bool isOpen;
-        NetworkIdentity networkIdentity;
         public List<MenuPanel> menuPanels;
+        private bool isOpen;
         private MenuPanel currentPanel;
         private int curPanelIndex = 0;
+        private JSONObject playerData;
 
         [Header("Header Section")]
         public GameObject header;
@@ -21,15 +24,18 @@ namespace BV
 
         [Header("Inventory Section")]
         public GameObject inventory;
-        InventoryController inventoryController;
 
-        void Start() {
+        void Start()
+        {
             CloseMenu();
         }
 
-        public void Init(NetworkIdentity nI)
+        public void Init(SocketIOComponent soc, JSONObject pD)
         {
-            networkIdentity = nI;
+            socket = soc;
+            playerData = pD;
+
+            menuPanels.ForEach(panel => panel.Init(playerData));
         }
 
         public bool IsOpen()
@@ -45,13 +51,10 @@ namespace BV
             currentPanel = menuPanels[curPanelIndex];
             panelName.GetComponent<TMP_Text>().text = currentPanel.name;
             currentPanel.gameObject.SetActive(true);
-            currentPanel.Init(networkIdentity);
         }
 
         public void CloseMenu()
         {
-            inventoryController = inventory.GetComponent<InventoryController>();
-
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < menuPanels.Count; i++)
             {

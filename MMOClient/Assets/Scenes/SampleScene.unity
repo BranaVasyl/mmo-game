@@ -3166,7 +3166,8 @@ MonoBehaviour:
   networkContainer: {fileID: 1267529208}
   playerPrefab: {fileID: 6679339757132984336, guid: a19a1518dd8194641bf6c76a0aeb86f1, type: 3}
   serverSpawnables: {fileID: 11400000, guid: e96fe2df4cc7310409c569bccb56516a, type: 2}
-  chatManager: {fileID: 959177956}
+  chatBehaviour: {fileID: 0}
+  menuManager: {fileID: 0}
   inventoryController: {fileID: 0}
 --- !u!4 &391939055
 Transform:
@@ -8574,7 +8575,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: "\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
-  networkIdentity: {fileID: 0}
   clickTimer: 0
   rb_input: 0
   lt_input: 0
@@ -15338,7 +15338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: armorGrid
   canvas: {fileID: 841747834}
   placeholder: {fileID: 0}
   gridSizeWidth: 5
@@ -16529,7 +16529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: wepaonGrid
   canvas: {fileID: 841747834}
   placeholder: {fileID: 0}
   gridSizeWidth: 4
@@ -19781,7 +19781,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: "\u0420\u044E\u043A\u0437\u0430\u043A"
-  networkIdentity: {fileID: 0}
   clickTimer: 0
   rb_input: 0
   lt_input: 0
