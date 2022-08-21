@@ -146,11 +146,11 @@ namespace BV
             UpdateStatesNetworkCleint();
         }
 
-        public void UpdateState(Vector3 position, Quaternion rotation, bool move, bool interacting, string curAnim, string tempId, bool dead)
+        public void UpdateState(EnemyData enemyData)
         {
-            if (!isDead && dead)
+            if (!isDead && enemyData.isDead)
             {
-                isDead = dead;
+                isDead = enemyData.isDead;
                 EnableRagdoll();
             }
 
@@ -159,31 +159,31 @@ namespace BV
             syncDelay = Time.time - lastSynchronizationTime;
             lastSynchronizationTime = Time.time;
 
-            if (isInteracting && base.networkIdentity.IsControlling())
+            if (enemyData.isInteracting && base.networkIdentity.IsControlling())
             {
                 enemyNetworkTransform.SendData();
             }
-            syncEndPosition = position + syncVelocity * syncDelay;
+            syncEndPosition = enemyData.position + syncVelocity * syncDelay;
             syncStartPosition = gameObject.transform.position;
 
-            syncEndRotation = rotation;
+            syncEndRotation = Quaternion.Euler(enemyData.rotation.x, enemyData.rotation.y, enemyData.rotation.z);
             syncStartRotation = gameObject.transform.rotation;
 
-            isMove = move;
-            isInteracting = interacting;
-            if (tempAnimationId != tempId)
+            isMove = enemyData.move;
+            isInteracting = enemyData.isInteracting;
+            if (tempAnimationId != enemyData.tempAnimationId)
             {
-                if (curAnim == "Turn Behind Right" || curAnim == "Turn Behind Left" || curAnim == "Turn Left" || curAnim == "Turn Right")
+                if (enemyData.currentAnimation == "Turn Behind Right" || enemyData.currentAnimation == "Turn Behind Left" || enemyData.currentAnimation == "Turn Left" || enemyData.currentAnimation == "Turn Right")
                 {
-                    PlayTargetAnimationWithRootRotation(curAnim, isInteracting);
+                    PlayTargetAnimationWithRootRotation(enemyData.currentAnimation, isInteracting);
                 }
                 else
                 {
-                    PlayTargetAnimation(curAnim, isInteracting);
+                    PlayTargetAnimation(enemyData.currentAnimation, isInteracting);
                 }
 
-                tempAnimationId = tempId;
-                currentAnimation = curAnim;
+                tempAnimationId = enemyData.tempAnimationId;
+                currentAnimation = enemyData.currentAnimation;
             }
         }
 

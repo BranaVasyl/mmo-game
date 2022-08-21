@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Project.Utility;
 using UnityEngine;
+using System;
+using SocketIO;
 
 namespace BV
 {
     public class InventoryController : MenuPanel
     {
+        private SocketIOComponent socket;
         [HideInInspector]
         public ItemGrid selectedItemGrid;
         public ItemGrid SelectedItemGrid
@@ -31,8 +34,7 @@ namespace BV
 
         [HideInInspector]
         public InventoryHiglight inventoryHiglight;
-
-        private JSONObject inventoryData;
+        private List<InventoryGridData> inventoryData;
 
         public static InventoryController singleton;
         private void Awake()
@@ -41,10 +43,17 @@ namespace BV
             inventoryHiglight = GetComponent<InventoryHiglight>();
         }
 
-        public override void Init(JSONObject pD)
+        void OnDisable()
         {
-            base.Init(pD);
-            inventoryData = pD["inventoryData"];
+            selectedItemGrid = null;
+            inventoryHiglight.SetParent(null);
+        }
+
+        public override void Init(SocketIOComponent soc, PlayerData playerData)
+        {
+            base.Init(soc, playerData);
+            socket = soc;
+            inventoryData = playerData.inventoryData;
         }
 
         public void RegisterGrid(ItemGrid itemGrid)
@@ -56,41 +65,68 @@ namespace BV
                 return;
             }
 
-            JSONObject gridData = null;
-            for (int i = 0; i < inventoryData.Count; i++)
-            {
-                if (inventoryData[i]["gridId"].ToString().RemoveQuotes() == itemGrid.gridId)
-                {
-                    gridData = inventoryData[i];
-                    break;
-                }
-            }
-
+            InventoryGridData gridData = inventoryData.Find(x => x.gridId == itemGrid.gridId);
             if (gridData == null)
             {
                 return;
             }
 
-            SetGridData(itemGrid, gridData["items"]);
+            SetGridData(itemGrid, gridData.items);
         }
 
         public void RemoveItemGrid(ItemGrid itemGrid)
         {
             ItemGrid itemOnList = allActiveGrids.Find(i => i.gridId == itemGrid.gridId);
+
+            if (itemOnList != null)
+            {
+                allActiveGrids.Remove(itemOnList);
+            }
         }
 
-        void SetGridData(ItemGrid itemGrid, JSONObject items)
+        private void UpdateInventoryData()
         {
-            if (items == null)
+            List<InventoryItem> checkedItem = new List<InventoryItem>();
+            List<InventoryGridData> newInventoryData = new List<InventoryGridData>();
+
+            for (int k = 0; k < allActiveGrids.Count; k++)
             {
-                return;
+                ItemGrid itemGrid = allActiveGrids[k];
+                InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
+
+                InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
+                for (int i = 0; i < inventoryItem.GetLength(0); i++)
+                {
+                    for (int j = 0; j < inventoryItem.GetLength(1); j++)
+                    {
+                        if (inventoryItem[i, j] != null)
+                        {
+                            InventoryItem curInventoryItem = inventoryItem[i, j];
+                            if (checkedItem.Find(x => x == curInventoryItem) != null)
+                            {
+                                continue;
+                            }
+
+                            inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY));
+                            checkedItem.Add(curInventoryItem);
+                        }
+                    }
+                }
+
+                newInventoryData.Add(inventoryGridData);
             }
 
+            inventoryData = newInventoryData;
+            socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(newInventoryData))));
+        }
+
+        void SetGridData(ItemGrid itemGrid, List<InventoryItemData> items)
+        {
             for (int i = 0; i < items.Count; i++)
             {
-                JSONObject item = items[i];
+                InventoryItemData item = items[i];
 
-                string itemId = item["id"].ToString().RemoveQuotes();
+                string itemId = item.id;
                 ItemData itemData = allItems.Find(x => x.id == itemId);
 
                 if (itemData == null)
@@ -101,10 +137,7 @@ namespace BV
                 InventoryItem inventoryItem = CreateInventoryItem();
                 inventoryItem.Set(itemData);
 
-                int x = item["position"]["x"].JSONObjectToInt();
-                int y = item["position"]["y"].JSONObjectToInt();
-
-                itemGrid.PlaceItem(inventoryItem, x, y);
+                itemGrid.PlaceItem(inventoryItem, item.position.x, item.position.y);
             }
         }
 
@@ -284,6 +317,7 @@ namespace BV
             {
                 rectTransform = null;
                 selectedItem = null;
+                UpdateInventoryData();
 
                 if (overlapItem != null)
                 {
@@ -318,6 +352,16 @@ namespace BV
         {
             oldPosition = new Vector2Int();
             oldItemGrid = null;
+        }
+    }
+
+    [Serializable]
+    public class SendInventoryData
+    {
+        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
+        public SendInventoryData(List<InventoryGridData> data)
+        {
+            inventoryData = data;
         }
     }
 }

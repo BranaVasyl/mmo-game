@@ -16,7 +16,7 @@ namespace BV
         private bool isOpen;
         private MenuPanel currentPanel;
         private int curPanelIndex = 0;
-        private JSONObject playerData;
+        private PlayerData playerData;
 
         [Header("Header Section")]
         public GameObject header;
@@ -30,12 +30,12 @@ namespace BV
             CloseMenu();
         }
 
-        public void Init(SocketIOComponent soc, JSONObject pD)
+        public void Init(SocketIOComponent soc, PlayerData pD)
         {
             socket = soc;
             playerData = pD;
 
-            menuPanels.ForEach(panel => panel.Init(playerData));
+            menuPanels.ForEach(panel => panel.Init(socket, playerData));
         }
 
         public bool IsOpen()

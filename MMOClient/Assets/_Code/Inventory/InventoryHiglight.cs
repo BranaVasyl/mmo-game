@@ -8,7 +8,13 @@ namespace BV
     {
         [SerializeField]
         public RectTransform higlighter;
-        
+        private RectTransform initReactParent;
+
+        void Start()
+        {
+            initReactParent = transform.parent.GetComponent<RectTransform>();
+        }
+
         public void Show(bool b)
         {
             higlighter.gameObject.SetActive(b);
@@ -34,6 +40,10 @@ namespace BV
         {
             if (targetGrid == null)
             {
+                if (initReactParent.gameObject.activeSelf)
+                {
+                    higlighter.SetParent(initReactParent);
+                }
                 return;
             }
 

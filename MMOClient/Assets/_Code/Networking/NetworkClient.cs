@@ -68,30 +68,23 @@ namespace Project.Networking
             {
                 //Handling all spawning all players
                 //Passed Data
-                string id = E.data["id"].ToString().RemoveQuotes();
-                float x = E.data["position"]["x"].JSONObjectToFloat();
-                float y = E.data["position"]["y"].JSONObjectToFloat();
-                float z = E.data["position"]["z"].JSONObjectToFloat();
-
-                float xr = E.data["rotation"]["x"].JSONObjectToFloat();
-                float yr = E.data["rotation"]["y"].JSONObjectToFloat();
-                float zr = E.data["rotation"]["z"].JSONObjectToFloat();
+                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
 
                 GameObject go = Instantiate(playerPrefab, networkContainer);
-                go.name = string.Format("Player ({0})", id);
-
-                go.transform.position = new Vector3(x, y, z);
-                go.transform.rotation = Quaternion.Euler(xr, yr, zr);
+                go.name = string.Format("Player ({0})", playerData.id);
+                go.transform.position = playerData.position;
+                go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
-                ni.SetControllerID(id);
+                ni.SetControllerID(playerData.id);
                 ni.SetSocketReference(this);
-                serverObjects.Add(id, ni);
+
+                serverObjects.Add(playerData.id, ni);
 
                 if (ni.IsControlling())
                 {
                     chatBehaviour.Init(this);
-                    menuManager.Init(this, E.data);
+                    menuManager.Init(this, playerData);
                 }
             });
 
@@ -106,70 +99,36 @@ namespace Project.Networking
 
             On("updatePlayers", (E) =>
             {
-                string id = E.data["id"].ToString().RemoveQuotes();
-                NetworkIdentity ni = serverObjects[id];
+                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
+                NetworkIdentity ni = serverObjects[playerData.id];
                 StateManager stateManager = ni.GetComponent<StateManager>();
 
-                bool isDead = E.data["isDead"].b;
                 if (ni.IsControlling())
                 {
-                    if (!stateManager.isDead && isDead)
+                    if (!stateManager.isDead && playerData.isDead)
                     {
-                        stateManager.isDead = isDead;
+                        stateManager.isDead = playerData.isDead;
                         stateManager.EnableRagdoll();
                     }
                     return;
                 }
 
-
-                Vector3 newPosition = new Vector3(E.data["position"]["x"].JSONObjectToFloat(), E.data["position"]["y"].JSONObjectToFloat(), E.data["position"]["z"].JSONObjectToFloat());
-                Quaternion newRotation = Quaternion.Euler(E.data["rotation"]["x"].JSONObjectToFloat(), E.data["rotation"]["y"].JSONObjectToFloat(), E.data["rotation"]["z"].JSONObjectToFloat());
-
-                float horizontal = E.data["horizontal"].JSONObjectToFloat();
-                float vertical = E.data["vertical"].JSONObjectToFloat();
-                bool run = E.data["run"].b;
-                bool walk = E.data["walk"].b;
-                bool twoHanded = E.data["isTwoHanded"].b;
-                string currentAnimation = E.data["currentAnimation"].ToString().RemoveQuotes();
-
-                if (stateManager.currentAnimation != currentAnimation)
-                {
-                    stateManager.PlayAnimation(currentAnimation);
-                }
-
-                stateManager.UpdateState(newPosition, newRotation, horizontal, vertical, run, walk, twoHanded, isDead);
+                stateManager.UpdateState(playerData);
             });
 
             On("updateAi", (E) =>
             {
-                string id = E.data["id"].ToString().RemoveQuotes();
-
-                float x = E.data["position"]["x"].JSONObjectToFloat();
-                float y = E.data["position"]["y"].JSONObjectToFloat();
-                float z = E.data["position"]["z"].JSONObjectToFloat();
-
-                float xr = E.data["rotation"]["x"].JSONObjectToFloat();
-                float yr = E.data["rotation"]["y"].JSONObjectToFloat();
-                float zr = E.data["rotation"]["z"].JSONObjectToFloat();
-                bool isDead = E.data["isDead"].b;
-                bool move = E.data["move"].b;
-                bool isInteracting = E.data["isInteracting"].b;
-                string currentAnimation = E.data["currentAnimation"].ToString().RemoveQuotes();
-                string tempAnimationId = E.data["tempAnimationId"].ToString().RemoveQuotes();
-
-                bool isControlling = false;
-
-                string playerSpawnedId = E.data["playerSpawnedId"].ToString().RemoveQuotes();
-                if (playerSpawnedId.Length > 0)
+                EnemyData enemyData = JsonUtility.FromJson<EnemyData>(E.data.ToString());
+                if (enemyData.playerSpawnedId.Length > 0)
                 {
-                    isControlling = ClientID == playerSpawnedId;
+                    enemyData.isControlling = ClientID == enemyData.playerSpawnedId;
                 }
 
-                NetworkIdentity ni = serverObjects[id];
-                ni.setIsControling(isControlling);
+                NetworkIdentity ni = serverObjects[enemyData.id];
+                ni.setIsControling(enemyData.isControlling);
 
                 EnemyManager enemyManager = ni.GetComponent<EnemyManager>();
-                enemyManager.UpdateState(new Vector3(x, y, z), Quaternion.Euler(xr, yr, zr), move, isInteracting, currentAnimation, tempAnimationId, isDead);
+                enemyManager.UpdateState(enemyData);
             });
 
             On("serverSpawn", (E) =>
@@ -226,36 +185,5 @@ namespace Project.Networking
         {
             Emit("joinGame");
         }
-    }
-
-    [Serializable]
-    public class Player
-    {
-        public string id;
-        public Position position;
-        public Rotation rotation;
-        public float vertical;
-        public float horizontal;
-        public bool isDead;
-        public bool run;
-        public bool walk;
-        public bool isTwoHanded;
-        public string currentAnimation;
-    }
-
-    [Serializable]
-    public class Position
-    {
-        public float x;
-        public float y;
-        public float z;
-    }
-
-    [Serializable]
-    public class Rotation
-    {
-        public float x;
-        public float y;
-        public float z;
     }
 }

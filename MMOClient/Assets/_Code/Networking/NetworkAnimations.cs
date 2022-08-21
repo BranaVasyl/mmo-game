@@ -33,7 +33,7 @@ namespace Project.Networking
         private string oldCurrentAnimation;
 
         private NetworkIdentity networkIdentity;
-        private Player player;
+        private PlayerData player;
 
         private StateManager stateManager;
 
@@ -48,7 +48,7 @@ namespace Project.Networking
             oldTwoHanded = false;
             oldCurrentAnimation = "";
 
-            player = new Player();
+            player = new PlayerData();
             player.vertical = oldVertical;
             player.horizontal = oldHorizontal;
 
@@ -105,7 +105,7 @@ namespace Project.Networking
         public bool isTwoHanded;
         public string currentAnimation;
 
-        public SendAnimationsnData(Player player)
+        public SendAnimationsnData(PlayerData player)
         {
             vertical = player.vertical.ToString();
             horizontal = player.horizontal.ToString();

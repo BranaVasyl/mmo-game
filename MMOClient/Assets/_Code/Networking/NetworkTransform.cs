@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
 using System;
+using BV;
 
 namespace Project.Networking
 {
@@ -15,7 +16,7 @@ namespace Project.Networking
         private Vector3 oldPosition;
 
         private NetworkIdentity networkIdentity;
-        private Player player;
+        private PlayerData player;
 
         private float stillCounter = 0;
 
@@ -23,11 +24,8 @@ namespace Project.Networking
         {
             networkIdentity = GetComponent<NetworkIdentity>();
             oldPosition = transform.position;
-            player = new Player();
-            player.position = new Position();
-            player.position.x = 0;
-            player.position.y = 0;
-            player.position.z = 0;
+            player = new PlayerData();
+            player.position = new Vector3(0, 0, 0);
 
             if (!networkIdentity.IsControlling())
             {
@@ -77,7 +75,7 @@ namespace Project.Networking
         public string y;
         public string z;
 
-        public SendPositionData(Player player)
+        public SendPositionData(PlayerData player)
         {
             x = player.position.x.ToString();
             y = player.position.y.ToString();

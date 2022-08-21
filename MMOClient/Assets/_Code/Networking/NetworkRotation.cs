@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
 using System;
+using BV;
 
 namespace Project.Networking
 {
@@ -15,7 +16,7 @@ namespace Project.Networking
         private Vector3 oldRotation;
 
         private NetworkIdentity networkIdentity;
-        private Player player;
+        private PlayerData player;
 
         private float stillCounter = 0;
 
@@ -24,11 +25,8 @@ namespace Project.Networking
             networkIdentity = GetComponent<NetworkIdentity>();
             oldRotation = transform.rotation.eulerAngles;
 
-            player = new Player();
-            player.rotation = new Rotation();
-            player.rotation.x = 0;
-            player.rotation.y = 0;
-            player.rotation.z = 0;
+            player = new PlayerData();
+            player.rotation = Quaternion.Euler(0, 0, 0);
 
             if (!networkIdentity.IsControlling())
             {
@@ -78,7 +76,7 @@ namespace Project.Networking
         public string y;
         public string z;
 
-        public SendRotationData(Player player)
+        public SendRotationData(PlayerData player)
         {
             x = player.rotation.x.ToString();
             y = player.rotation.y.ToString();

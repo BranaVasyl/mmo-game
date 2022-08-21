@@ -18,7 +18,7 @@ namespace BV
         public static float boundTileSizeHeight = 35f;
 
         public GameObject placeholder;
-        InventoryItem[,] inventoryItemSlot;
+        public InventoryItem[,] inventoryItemSlot;
 
         RectTransform rectTransform;
 
@@ -105,6 +105,16 @@ namespace BV
 
         internal InventoryItem GetItem(int x, int y)
         {
+            if (x < 0 || x > inventoryItemSlot.GetLength(0) - 1)
+            {
+                return null;
+            }
+
+            if (y < 0 || y > inventoryItemSlot.GetLength(1) - 1)
+            {
+                return null;
+            }
+
             return inventoryItemSlot[x, y];
         }
 

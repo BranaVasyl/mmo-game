@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Project.Networking;
+using SocketIO;
 
 namespace BV
 {
@@ -23,7 +24,7 @@ namespace BV
         [HideInInspector]
         public bool x_input = false;
 
-        public virtual void Init(JSONObject pD)
+        public virtual void Init(SocketIOComponent soc, PlayerData pD)
         {
             if (inputActions == null)
             {

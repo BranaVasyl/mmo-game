@@ -19,7 +19,7 @@ namespace Project.Networking
 
         public void SendData()
         {
-            Position position = new Position();
+            Vector3 position = new Vector3();
             position.x = Mathf.Round(transform.position.x * 1000.0f) / 1000.0f;
             position.y = Mathf.Round(transform.position.y * 1000.0f) / 1000.0f;
             position.z = Mathf.Round(transform.position.z * 1000.0f) / 1000.0f;
@@ -37,7 +37,7 @@ namespace Project.Networking
         public string y;
         public string z;
 
-        public SendEnemyPositionData(Position position, string enemyId)
+        public SendEnemyPositionData(Vector3 position, string enemyId)
         {
             id = enemyId;
             x = position.x.ToString();

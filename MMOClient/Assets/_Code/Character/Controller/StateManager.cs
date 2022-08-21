@@ -119,12 +119,17 @@ namespace BV
             }
         }
 
-        public void UpdateState(Vector3 position, Quaternion rotation, float h, float v, bool r, bool w, bool tH, bool dead)
+        public void UpdateState(PlayerData playerData)
         {
-            if (!isDead && dead)
+            if (!isDead && playerData.isDead)
             {
-                isDead = dead;
+                isDead = playerData.isDead;
                 EnableRagdoll();
+            }
+
+            if (currentAnimation != playerData.currentAnimation)
+            {
+                PlayAnimation(playerData.currentAnimation);
             }
 
             syncTime = 0f;
@@ -132,24 +137,24 @@ namespace BV
             syncDelay = Time.time - lastSynchronizationTime;
             lastSynchronizationTime = Time.time;
 
-            syncEndPosition = position + syncVelocity * syncDelay;
+            syncEndPosition = playerData.position + syncVelocity * syncDelay;
             syncStartPosition = gameObject.transform.position;
 
-            syncEndRotation = rotation;
+            syncEndRotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
             syncStartRotation = gameObject.transform.rotation;
 
-            horizontal = h;
-            vertical = v;
+            horizontal = playerData.horizontal;
+            vertical = playerData.vertical;
 
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             moveAmount = Mathf.Clamp01(m);
 
-            run = r;
-            walk = w;
+            run = playerData.run;
+            walk = playerData.walk;
 
-            if (isTwoHanded != tH)
+            if (isTwoHanded != playerData.isTwoHanded)
             {
-                isTwoHanded = tH;
+                isTwoHanded = playerData.isTwoHanded;
                 HandleTwoHanded();
             };
         }
