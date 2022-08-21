@@ -59,5 +59,9 @@ namespace BV
             RectTransform rectTransform = GetComponent<RectTransform>();
             rectTransform.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);
         }
+
+        public ItemType GetItemType() {
+            return itemData.itemType;
+        }
     }
 }

@@ -25,7 +25,6 @@ namespace BV
         public void OnPointerExit(PointerEventData eventData)
         {
             inventoryController.Clean();
-            inventoryController.SelectedItemGrid = null;
         }
     }
 }

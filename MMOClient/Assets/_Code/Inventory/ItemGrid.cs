@@ -26,6 +26,7 @@ namespace BV
         int gridSizeWidth = 5;
         [SerializeField]
         int gridSizeHeight = 7;
+        public List<ItemType> supportedItemType;
 
         void Awake()
         {
@@ -52,7 +53,7 @@ namespace BV
             foreach (Transform child in transform) children.Add(child.gameObject);
             children.ForEach(child =>
             {
-                if (child == inventoryController.inventoryHiglight.higlighter.gameObject)
+                if (child == inventoryController.correctInventoryHiglight.higlighter.gameObject || child == inventoryController.incorrectInventoryHiglight.higlighter.gameObject)
                 {
                     return;
                 }
@@ -149,6 +150,24 @@ namespace BV
             }
 
             return null;
+        }
+
+        public bool CanPlaceItem(InventoryItem inventoryItem, int posX, int posY)
+        {
+            InventoryItem overlapItem = null;
+            if (BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT) == false)
+            {
+                return false;
+            }
+
+            if (OverlapCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT, ref overlapItem) == false)
+            {
+                overlapItem = null;
+                return false;
+            }
+            overlapItem = null;
+
+            return true;
         }
 
         public bool PlaceItem(InventoryItem inventoryItem, int posX, int posY, ref InventoryItem overlapItem)

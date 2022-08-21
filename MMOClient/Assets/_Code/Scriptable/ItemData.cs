@@ -11,6 +11,13 @@ namespace BV
         public int width = 1;
         public int height = 1;
 
+        public ItemType itemType;
         public Sprite itemIcon;
+
+    }
+
+    public enum ItemType
+    {
+        sword, armor, food, elixir, craft, alchemy, butter, other, quest
     }
 }

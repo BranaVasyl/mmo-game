@@ -18,7 +18,8 @@ namespace BV
             set
             {
                 selectedItemGrid = value;
-                inventoryHiglight.SetParent(value);
+                correctInventoryHiglight.SetParent(value);
+                incorrectInventoryHiglight.SetParent(value);
             }
         }
         private List<ItemGrid> allActiveGrids = new List<ItemGrid>();
@@ -32,21 +33,21 @@ namespace BV
         [SerializeField] GameObject itemPrefab;
         public Transform canvasTransform;
 
-        [HideInInspector]
-        public InventoryHiglight inventoryHiglight;
+        public InventoryHiglight correctInventoryHiglight;
+        public InventoryHiglight incorrectInventoryHiglight;
         private List<InventoryGridData> inventoryData;
 
         public static InventoryController singleton;
         private void Awake()
         {
             singleton = this;
-            inventoryHiglight = GetComponent<InventoryHiglight>();
         }
 
         void OnDisable()
         {
             selectedItemGrid = null;
-            inventoryHiglight.SetParent(null);
+            correctInventoryHiglight.SetParent(null);
+            incorrectInventoryHiglight.SetParent(null);
         }
 
         public override void Init(SocketIOComponent soc, PlayerData playerData)
@@ -89,9 +90,15 @@ namespace BV
             List<InventoryItem> checkedItem = new List<InventoryItem>();
             List<InventoryGridData> newInventoryData = new List<InventoryGridData>();
 
-            for (int k = 0; k < allActiveGrids.Count; k++)
+            for (int k = 0; k < inventoryData.Count; k++)
             {
-                ItemGrid itemGrid = allActiveGrids[k];
+                ItemGrid itemGrid = allActiveGrids.Find(x => x.gridId == inventoryData[k].gridId);
+                if (itemGrid == null)
+                {
+                    newInventoryData.Add(inventoryData[k]);
+                    continue;
+                }
+
                 InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
 
                 InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
@@ -173,7 +180,9 @@ namespace BV
 
             if (selectedItemGrid == null)
             {
-                inventoryHiglight.Show(false);
+                rb_input = false;
+                correctInventoryHiglight.Show(false);
+                incorrectInventoryHiglight.Show(false);
                 return;
             }
 
@@ -209,21 +218,64 @@ namespace BV
 
                 if (itemToHighlight != null)
                 {
-                    inventoryHiglight.Show(true);
-                    inventoryHiglight.SetSize(itemToHighlight);
-                    inventoryHiglight.SetPosition(selectedItemGrid, itemToHighlight);
+                    correctInventoryHiglight.Show(true);
+                    correctInventoryHiglight.SetSize(itemToHighlight);
+                    correctInventoryHiglight.SetPosition(selectedItemGrid, itemToHighlight);
+
+                    incorrectInventoryHiglight.Show(false);
                 }
                 else
                 {
-                    inventoryHiglight.Show(false);
+                    correctInventoryHiglight.Show(false);
+                    incorrectInventoryHiglight.Show(false);
                 }
             }
             else
             {
-                inventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
-                inventoryHiglight.SetSize(selectedItem);
-                inventoryHiglight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
+                bool canPlace = CanSetInPlace();
+                if (canPlace)
+                {
+                    correctInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
+                    correctInventoryHiglight.SetSize(selectedItem);
+                    correctInventoryHiglight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
+
+                    incorrectInventoryHiglight.Show(false);
+                }
+                else
+                {
+                    incorrectInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
+                    incorrectInventoryHiglight.SetSize(selectedItem);
+                    incorrectInventoryHiglight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
+
+                    correctInventoryHiglight.Show(false);
+                }
             }
+        }
+
+        private bool CanSetInPlace()
+        {
+            bool result = false;
+            if (selectedItem == null || selectedItemGrid == null)
+            {
+                return result;
+            }
+
+            selectedItemGrid.supportedItemType.ForEach(i =>
+                {
+                    if (selectedItem.GetItemType() == i)
+                    {
+                        result = true;
+                    }
+                });
+
+            if (!result)
+            {
+                return result;
+            }
+
+            Vector2Int tileGridPosition = GetTileGridPosition();
+            result = selectedItemGrid.CanPlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
+            return result;
         }
 
         private void InsertRandomItem()
@@ -312,8 +364,14 @@ namespace BV
 
         private void PlaceItem(Vector2Int tileGridPosition)
         {
+            bool canPlace = CanSetInPlace();
+            if (!canPlace)
+            {
+                return;
+            }
+
             bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
-            if (complete)
+            if (complete && canPlace)
             {
                 rectTransform = null;
                 selectedItem = null;
@@ -350,6 +408,7 @@ namespace BV
 
         public void Clean()
         {
+            SelectedItemGrid = null;
             oldPosition = new Vector2Int();
             oldItemGrid = null;
         }

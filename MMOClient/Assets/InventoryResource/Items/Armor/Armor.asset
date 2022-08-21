@@ -15,4 +15,5 @@ MonoBehaviour:
   id: armor
   width: 2
   height: 2
+  itemType: 1
   itemIcon: {fileID: 21300000, guid: f678ab355e8883549b252e6add75876d, type: 3}

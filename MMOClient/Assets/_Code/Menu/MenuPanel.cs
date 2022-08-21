@@ -35,6 +35,14 @@ namespace BV
             inputActions.Enable();
         }
 
+        private void Update()
+        {
+            if (clickTimer > 0)
+            {
+                clickTimer -= Time.deltaTime;
+            }
+        }
+
         void GetInput()
         {
             inputActions.PlayerActions.X.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
