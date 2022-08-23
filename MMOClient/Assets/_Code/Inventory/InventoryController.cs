@@ -10,6 +10,7 @@ namespace BV
     public class InventoryController : MenuPanel
     {
         private SocketIOComponent socket;
+        private ItemGrid startItemGrid;
         [HideInInspector]
         public ItemGrid selectedItemGrid;
         public ItemGrid SelectedItemGrid
@@ -37,11 +38,8 @@ namespace BV
         public InventoryHiglight incorrectInventoryHiglight;
         private List<InventoryGridData> inventoryData;
 
-        public static InventoryController singleton;
-        private void Awake()
-        {
-            singleton = this;
-        }
+        private CharacterManager characterManager;
+        private InventoryManager inventoryManager;
 
         void OnDisable()
         {
@@ -50,11 +48,21 @@ namespace BV
             incorrectInventoryHiglight.SetParent(null);
         }
 
+        public static InventoryController singleton;
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
+            singleton = this;
             base.Init(soc, playerData);
             socket = soc;
             inventoryData = playerData.inventoryData;
+        }
+
+        public void RegisterCharacterListener(CharacterManager characterMan)
+        {
+            characterManager = characterMan;
+            inventoryManager = characterManager.gameObject.GetComponent<InventoryManager>();
+
+            UpdateInventoryEvent(true);
         }
 
         public void RegisterGrid(ItemGrid itemGrid)
@@ -82,6 +90,47 @@ namespace BV
             if (itemOnList != null)
             {
                 allActiveGrids.Remove(itemOnList);
+            }
+        }
+
+        private void UpdateInventoryEvent(bool updateAll = false)
+        {
+            string startGridId = startItemGrid != null ? startItemGrid.gridId : "";
+            string targetGridId = selectedItemGrid != null ? selectedItemGrid.gridId : "";
+
+            if (startGridId == "leftHandGrid" || targetGridId == "leftHandGrid" || updateAll)
+            {
+                if(inventoryData.Count == 0) {
+                    return;
+                }
+                List<InventoryItemData> items = inventoryData.Find(x => x.gridId == "leftHandGrid").items;
+                if (items.Count > 0)
+                {
+                    string itemId = items[0].id;
+                    inventoryManager.UpdateLeftHand(allItems.Find(x => x.id == itemId) as ItemWeaponData);
+                }
+                else
+                {
+                    inventoryManager.UpdateLeftHand(null);
+                }
+            }
+
+            if (startGridId == "rightHandGrid" || targetGridId == "rightHandGrid" || updateAll)
+            {
+                if(inventoryData.Count == 0) {
+                    return;
+                }
+
+                List<InventoryItemData> items = inventoryData.Find(x => x.gridId == "rightHandGrid").items;
+                if (items.Count > 0)
+                {
+                    string itemId = items[0].id;
+                    inventoryManager.UpdateRightHand(allItems.Find(x => x.id == itemId) as ItemWeaponData);
+                }
+                else
+                {
+                    inventoryManager.UpdateRightHand(null);
+                }
             }
         }
 
@@ -371,11 +420,13 @@ namespace BV
             }
 
             bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
-            if (complete && canPlace)
+            if (complete)
             {
                 rectTransform = null;
                 selectedItem = null;
                 UpdateInventoryData();
+                UpdateInventoryEvent(false);
+                startItemGrid = null;
 
                 if (overlapItem != null)
                 {
@@ -383,6 +434,7 @@ namespace BV
                     overlapItem = null;
                     rectTransform = selectedItem.GetComponent<RectTransform>();
                     rectTransform.SetAsLastSibling();
+                    startItemGrid = SelectedItemGrid;
                 }
             }
         }
@@ -390,6 +442,7 @@ namespace BV
         private void PickUpItem(Vector2Int tileGridPosition)
         {
             selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+            startItemGrid = selectedItemGrid;
 
             if (selectedItem != null)
             {

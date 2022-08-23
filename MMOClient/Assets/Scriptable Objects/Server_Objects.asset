@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Objects:
   - Name: AI_Zombie
-    Prefab: {fileID: 6383707647920252136, guid: 3ffae4df8ceefc044aeac1342e93385c, type: 3}
+    Prefab: {fileID: 3474922075524253662, guid: 6e45889a8e70a784290fe21f72609b00, type: 3}
   - Name: NPC_First
-    Prefab: {fileID: 6383707647920252136, guid: 3a4ec036e92570f479c1e3eeb850a671, type: 3}
+    Prefab: {fileID: 1845021260846373711, guid: d429d5f35c991e14fb8ac0fe872c5c40, type: 3}

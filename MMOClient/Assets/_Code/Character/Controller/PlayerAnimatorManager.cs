@@ -98,7 +98,7 @@ namespace BV
                 return;
             }
 
-            states.inventoryManager.curWeapon.w_hook.OpenDamageColliders();
+            states.inventoryManager.OpenDamageColliders();
         }
 
         public void CloseDamageColliders()
@@ -108,7 +108,7 @@ namespace BV
                 return;
             }
 
-            states.inventoryManager.curWeapon.w_hook.CloseDamageColliders();
+            states.inventoryManager.CloseDamageColliders();
         }
     }
 }

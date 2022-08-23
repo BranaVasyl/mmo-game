@@ -173,7 +173,7 @@ namespace BV
             base.SetNetworkIdentity(gameObject.GetComponent<NetworkIdentity>());
 
             inventoryManager = GetComponent<InventoryManager>();
-            inventoryManager.Init();
+            inventoryManager.Init(this);
 
             actionManager = GetComponent<ActionManager>();
             actionManager.Init(this);
@@ -187,6 +187,11 @@ namespace BV
             anim.SetBool("onGround", true);
 
             InitRagdoll();
+
+            if (base.networkIdentity.IsControlling())
+            {
+                InventoryController.singleton.RegisterCharacterListener(this);
+            }
         }
 
         void InitRagdoll()
@@ -259,7 +264,11 @@ namespace BV
 
             DetectItemAction();
             DetectedAction();
-            inventoryManager.curWeapon.weaponModel.SetActive(!usingItem);
+
+            if (inventoryManager.rightHandObject)
+            {
+                inventoryManager.rightHandObject.SetActive(!usingItem);
+            }
 
             if (inAction)
             {

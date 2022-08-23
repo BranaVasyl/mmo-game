@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: c3aa6c793f831c54788622ddde022a36, type: 2}
+--- !u!1 &7105472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7105473}
+  m_Layer: 0
+  m_Name: Zombie_AI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7105473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -326.71432, y: 0.589519, z: -4.478384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &11043424
 GameObject:
   m_ObjectHideFlags: 0
@@ -22721,13 +22752,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1734795b55f898b4eb8393acab4891c9, type: 2}
   - {fileID: 11400000, guid: 99065f0e9e9992f4c8dff454b412e38b, type: 2}
   - {fileID: 11400000, guid: 424bc45cf01de67429c6e59b7aaebcb7, type: 2}
-  - {fileID: 11400000, guid: ec841fe791c98cc48b6d273d8a71d8fc, type: 2}
+  - {fileID: 11400000, guid: 54b6975595a88aa409321e7a74853b60, type: 2}
   - {fileID: 11400000, guid: 7c92e1a24dfd78f4fa88d8eed0f71077, type: 2}
   - {fileID: 11400000, guid: 85597783db66cb647a427c18ec6714c1, type: 2}
   - {fileID: 11400000, guid: a5a56c7cb189ca24284b6252cca4579f, type: 2}
   - {fileID: 11400000, guid: c6b3b22d8f5d3aa4ebc52fc0556ae234, type: 2}
   - {fileID: 11400000, guid: 645cee2831746c34d861ba283e34ba01, type: 2}
   - {fileID: 11400000, guid: fcba2c045d55ae04e8be3d5be4ee2335, type: 2}
+  - {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
   canvasTransform: {fileID: 841747835}
   correctInventoryHiglight: {fileID: 8866688314570395279}

@@ -21,7 +21,11 @@ namespace BV
         public void UpdateActionsOneHanded()
         {
             EmptyAllSlots();
-            Weapon w = states.inventoryManager.curWeapon;
+            ItemWeaponData w = states.inventoryManager.rightHandData;
+            if (w == null)
+            {
+                return;
+            }
 
             for (int i = 0; i < w.actions.Count; i++)
             {
@@ -33,7 +37,11 @@ namespace BV
         public void UpdateActionsTwoHanded()
         {
             EmptyAllSlots();
-            Weapon w = states.inventoryManager.curWeapon;
+            ItemWeaponData w = states.inventoryManager.rightHandData;
+            if (w == null)
+            {
+                return;
+            }
 
             for (int i = 0; i < w.two_handedActions.Count; i++)
             {

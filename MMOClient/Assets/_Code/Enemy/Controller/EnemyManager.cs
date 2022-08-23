@@ -45,7 +45,7 @@ namespace BV
         float lastPelvisPositionY;
         FootIK footIk;
 
-        public InventoryManager inventoryManager;
+        public EnemyInventoryManager inventoryManager;
 
         void Start()
         {
@@ -66,7 +66,7 @@ namespace BV
             syncEndPosition = gameObject.transform.position;
             syncEndRotation = gameObject.transform.rotation;
 
-            inventoryManager = GetComponent<InventoryManager>();
+            inventoryManager = GetComponent<EnemyInventoryManager>();
             inventoryManager.Init();
 
             InitRagdoll();

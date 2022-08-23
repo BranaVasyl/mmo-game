@@ -46,7 +46,7 @@ namespace BV
                 return;
             }
 
-            enemyManager.inventoryManager.curWeapon.w_hook.OpenDamageColliders();
+            enemyManager.inventoryManager.w_hook.OpenDamageColliders();
         }
 
         public void CloseDamageColliders()
@@ -56,7 +56,7 @@ namespace BV
                 return;
             }
 
-            enemyManager.inventoryManager.curWeapon.w_hook.CloseDamageColliders();
+            enemyManager.inventoryManager.w_hook.CloseDamageColliders();
         }
     }
 }
