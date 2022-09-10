@@ -514,6 +514,7 @@ namespace BV
 
             canMove = false;
             inAction = true;
+            anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
             currentAnimation = targetAnim;
         }

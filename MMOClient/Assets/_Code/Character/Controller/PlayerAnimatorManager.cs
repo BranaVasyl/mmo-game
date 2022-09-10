@@ -98,7 +98,7 @@ namespace BV
                 return;
             }
 
-            states.inventoryManager.OpenDamageColliders();
+            states.inventoryManager.OpenAllDamageColliders();
         }
 
         public void CloseDamageColliders()
@@ -108,7 +108,7 @@ namespace BV
                 return;
             }
 
-            states.inventoryManager.CloseDamageColliders();
+            states.inventoryManager.CloseAllDamageColliders();
         }
     }
 }

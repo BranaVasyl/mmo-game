@@ -9,6 +9,7 @@ namespace BV
         [Header("Right Hand Weapon")]
         public GameObject rightHandPivot;
         public ItemWeaponData rightHandData;
+        [HideInInspector]
         public GameObject rightHandObject;
         [HideInInspector]
         public WeaponHook rightHandWeaponHook;
@@ -16,6 +17,7 @@ namespace BV
         [Header("Left Hand Weapon")]
         public GameObject leftHandPivot;
         public ItemWeaponData leftHandData;
+        [HideInInspector]
         public GameObject leftHandObject;
         [HideInInspector]
         public WeaponHook leftHandWeaponHook;
@@ -25,21 +27,34 @@ namespace BV
         public void Init(StateManager st)
         {
             states = st;
+            UpdateLeftHand(leftHandData);
             UpdateRightHand(rightHandData);
-            UpdateRightHand(leftHandData);
         }
 
         public void OpenDamageColliders()
         {
-            if (rightHandObject == null)
-            {
-                return;
-            }
-
-            rightHandObject.GetComponent<WeaponHook>().OpenDamageColliders();
+            
         }
 
-        public void CloseDamageColliders()
+        public void CloseDamageColliderss()
+        {
+
+        }
+
+        public void OpenAllDamageColliders()
+        {
+            if (leftHandObject != null)
+            {
+                leftHandWeaponHook.OpenDamageColliders();
+            }
+
+            if (rightHandObject != null)
+            {
+                rightHandWeaponHook.OpenDamageColliders();
+            }
+        }
+
+        public void CloseAllDamageColliders()
         {
             if (leftHandObject != null)
             {
@@ -48,59 +63,12 @@ namespace BV
 
             if (rightHandObject != null)
             {
-                leftHandWeaponHook.CloseDamageColliders();
+                rightHandWeaponHook.CloseDamageColliders();
             }
-
         }
 
-        public void UpdateLeftHand(ItemWeaponData? newItem)
+        private void UpdateActions()
         {
-            if (leftHandObject != null)
-            {
-                leftHandObject.SetActive(false);
-                Destroy(leftHandObject, 0.1f);
-                leftHandObject = null;
-            }
-
-            if (newItem == null || newItem.weaponModel == null)
-            {
-                return;
-            }
-
-            leftHandData = newItem;
-
-            leftHandObject = Instantiate(leftHandData.weaponModel, leftHandPivot.transform);
-            leftHandObject.transform.localPosition = new Vector3(0, 0, 0);
-            leftHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-            leftHandWeaponHook = leftHandObject.GetComponent<WeaponHook>();
-            CloseDamageColliders();
-            Debug.Log("UpdateLeftHand");
-        }
-
-        public void UpdateRightHand(ItemWeaponData? newItem)
-        {
-            if (rightHandObject != null)
-            {
-                rightHandObject.SetActive(false);
-                Destroy(rightHandObject, 0.1f);
-                rightHandObject = null;
-            }
-
-            if (newItem == null || newItem.weaponModel == null)
-            {
-                return;
-            }
-
-            rightHandData = newItem;
-
-            rightHandObject = Instantiate(rightHandData.weaponModel, rightHandPivot.transform);
-            rightHandObject.transform.localPosition = new Vector3(0, 0, 0);
-            rightHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-            rightHandWeaponHook = rightHandObject.GetComponent<WeaponHook>();
-            CloseDamageColliders();
-
             if (states.isTwoHanded)
             {
                 states.actionManager.UpdateActionsTwoHanded();
@@ -109,7 +77,77 @@ namespace BV
             {
                 states.actionManager.UpdateActionsOneHanded();
             }
+        }
+
+        private void EquipWeapon(ItemWeaponData w, bool isLeft = false)
+        {
+            string targetIdle = w != null ? w.oh_idle_name : "oh_empty";
+            targetIdle += isLeft ? "_l" : "_r";
+            states.anim.SetBool("mirror", isLeft);
+            states.anim.Play("changeWeapon");
+            states.anim.Play(targetIdle);
+        }
+
+        public void UpdateLeftHand(ItemWeaponData? newItem)
+        {
+            Debug.Log("UpdateLeftHand");
+
+            if (leftHandObject != null)
+            {
+                leftHandObject.SetActive(false);
+                Destroy(leftHandObject, 0.1f);
+                leftHandObject = null;
+                leftHandData = null;
+                EquipWeapon(rightHandData, true);
+                UpdateActions();
+            }
+
+            if (newItem == null || newItem.weaponModel == null)
+            {
+                return;
+            }
+
+            leftHandData = newItem;
+            UpdateActions();
+
+            leftHandObject = Instantiate(leftHandData.weaponModel, leftHandPivot.transform);
+            leftHandObject.transform.localPosition = new Vector3(0, 0, 0);
+            leftHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            leftHandWeaponHook = leftHandObject.GetComponent<WeaponHook>();
+            EquipWeapon(leftHandData, true);
+            CloseAllDamageColliders();
+        }
+
+        public void UpdateRightHand(ItemWeaponData? newItem)
+        {
             Debug.Log("UpdateRightHand");
+
+            if (rightHandObject != null)
+            {
+                rightHandObject.SetActive(false);
+                Destroy(rightHandObject, 0.1f);
+                rightHandObject = null;
+                rightHandData = null;
+                EquipWeapon(rightHandData, false);
+                UpdateActions();
+            }
+
+            if (newItem == null || newItem.weaponModel == null)
+            {
+                return;
+            }
+
+            rightHandData = newItem;
+            UpdateActions();
+
+            rightHandObject = Instantiate(rightHandData.weaponModel, rightHandPivot.transform);
+            rightHandObject.transform.localPosition = new Vector3(0, 0, 0);
+            rightHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            rightHandWeaponHook = rightHandObject.GetComponent<WeaponHook>();
+            EquipWeapon(rightHandData, false);
+            CloseAllDamageColliders();
         }
     }
 }

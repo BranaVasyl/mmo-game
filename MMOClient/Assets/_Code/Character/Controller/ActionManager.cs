@@ -21,9 +21,22 @@ namespace BV
         public void UpdateActionsOneHanded()
         {
             EmptyAllSlots();
+
+            if (states.inventoryManager.leftHandData != null && states.inventoryManager.rightHandData != null)
+            {
+                UpdateActionsWithLeftHand();
+                return;
+            }
+
+            bool mirror = false;
             ItemWeaponData w = states.inventoryManager.rightHandData;
             if (w == null)
             {
+                w = states.inventoryManager.leftHandData;
+                mirror = true;
+            }
+
+            if(w == null) {
                 return;
             }
 
@@ -31,6 +44,35 @@ namespace BV
             {
                 Action a = GetAction(w.actions[i].input);
                 a.targetAnim = w.actions[i].targetAnim;
+                a.mirror = mirror;
+            }
+        }
+
+        public void UpdateActionsWithLeftHand()
+        {
+            ItemWeaponData r_w = states.inventoryManager.rightHandData;
+            ItemWeaponData l_w = states.inventoryManager.leftHandData;
+
+            if (r_w != null)
+            {
+                Action rb = GetAction(ActionInput.rb);
+                Action rt = GetAction(ActionInput.rt);
+                rb.targetAnim = r_w.GetAction(r_w.actions, ActionInput.rb).targetAnim;
+                rt.targetAnim = r_w.GetAction(r_w.actions, ActionInput.rt).targetAnim;
+            }
+
+            if (l_w != null)
+            {
+                Action lb = GetAction(ActionInput.lb);
+                Action lt = GetAction(ActionInput.lt);
+                lb.targetAnim = l_w.GetAction(l_w.actions, ActionInput.rb).targetAnim;
+                lt.targetAnim = l_w.GetAction(l_w.actions, ActionInput.rt).targetAnim;
+
+                if (l_w.LeftHandMirror)
+                {
+                    lb.mirror = true;
+                    lt.mirror = true;
+                }
             }
         }
 
@@ -56,6 +98,7 @@ namespace BV
             {
                 Action a = GetAction((ActionInput)i);
                 a.targetAnim = null;
+                a.mirror = false;
             }
         }
 
@@ -122,6 +165,7 @@ namespace BV
     {
         public ActionInput input;
         public string targetAnim;
+        public bool mirror = false;
     }
 
     [System.Serializable]

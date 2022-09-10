@@ -17,11 +17,21 @@ MonoBehaviour:
   height: 2
   itemType: 0
   itemIcon: {fileID: 21300000, guid: badd22fadd82b5e4496d98043535ae81, type: 3}
+  oh_idle_name: oh_idle
+  th_idle_name: th_idle
   actions:
   - input: 0
     targetAnim: oh_attack_1
+    mirror: 0
   - input: 1
-    targetAnim: oh_attack_2
+    targetAnim: oh_attack_3
+    mirror: 0
+  - input: 2
+    targetAnim: oh_attack_3
+    mirror: 0
+  - input: 3
+    targetAnim: oh_attack_1
+    mirror: 0
+  LeftHandMirror: 1
   two_handedActions: []
   weaponModel: {fileID: 8311999017942472586, guid: 2c8dfac23502ab24eafd661f00a21e95, type: 3}
-  w_hook: {fileID: 0}

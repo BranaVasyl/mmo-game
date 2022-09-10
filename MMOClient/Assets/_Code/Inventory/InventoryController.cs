@@ -62,7 +62,7 @@ namespace BV
             characterManager = characterMan;
             inventoryManager = characterManager.gameObject.GetComponent<InventoryManager>();
 
-            UpdateInventoryEvent(true);
+            UpdateEquip(true);
         }
 
         public void RegisterGrid(ItemGrid itemGrid)
@@ -93,44 +93,63 @@ namespace BV
             }
         }
 
-        private void UpdateInventoryEvent(bool updateAll = false)
+        #region Update Equip
+        private void UpdateLeftHand()
         {
+            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "leftHandGrid");
+            if(inventoryGrid == null) {
+                return;
+            }
+
+            List<InventoryItemData> items = inventoryGrid.items;
+            ItemWeaponData item = null;
+            if (items.Count > 0)
+            {
+                string itemId = items[0].id;
+                item = allItems.Find(x => x.id == itemId) as ItemWeaponData;
+            }
+
+            inventoryManager.UpdateLeftHand(item);
+
+        }
+
+        private void UpdateRightHand()
+        {
+            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "rightHandGrid");
+            if(inventoryGrid == null) {
+                return;
+            }
+
+            List<InventoryItemData> items = inventoryGrid.items;
+            ItemWeaponData item = null;
+            if (items.Count > 0)
+            {
+                string itemId = items[0].id;
+                item = allItems.Find(x => x.id == itemId) as ItemWeaponData;
+            }
+
+            inventoryManager.UpdateRightHand(item);
+        }
+        #endregion
+
+        private void UpdateEquip(bool updateAll = false)
+        {
+            if (inventoryData.Count == 0)
+            {
+                return;
+            }
+
             string startGridId = startItemGrid != null ? startItemGrid.gridId : "";
             string targetGridId = selectedItemGrid != null ? selectedItemGrid.gridId : "";
 
             if (startGridId == "leftHandGrid" || targetGridId == "leftHandGrid" || updateAll)
             {
-                if(inventoryData.Count == 0) {
-                    return;
-                }
-                List<InventoryItemData> items = inventoryData.Find(x => x.gridId == "leftHandGrid").items;
-                if (items.Count > 0)
-                {
-                    string itemId = items[0].id;
-                    inventoryManager.UpdateLeftHand(allItems.Find(x => x.id == itemId) as ItemWeaponData);
-                }
-                else
-                {
-                    inventoryManager.UpdateLeftHand(null);
-                }
+                UpdateLeftHand();
             }
 
             if (startGridId == "rightHandGrid" || targetGridId == "rightHandGrid" || updateAll)
             {
-                if(inventoryData.Count == 0) {
-                    return;
-                }
-
-                List<InventoryItemData> items = inventoryData.Find(x => x.gridId == "rightHandGrid").items;
-                if (items.Count > 0)
-                {
-                    string itemId = items[0].id;
-                    inventoryManager.UpdateRightHand(allItems.Find(x => x.id == itemId) as ItemWeaponData);
-                }
-                else
-                {
-                    inventoryManager.UpdateRightHand(null);
-                }
+                UpdateRightHand();
             }
         }
 
@@ -425,7 +444,7 @@ namespace BV
                 rectTransform = null;
                 selectedItem = null;
                 UpdateInventoryData();
-                UpdateInventoryEvent(false);
+                UpdateEquip(false);
                 startItemGrid = null;
 
                 if (overlapItem != null)
