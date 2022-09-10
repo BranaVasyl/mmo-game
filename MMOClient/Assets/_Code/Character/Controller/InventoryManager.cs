@@ -33,7 +33,7 @@ namespace BV
 
         public void OpenDamageColliders()
         {
-            
+
         }
 
         public void CloseDamageColliderss()
@@ -43,12 +43,12 @@ namespace BV
 
         public void OpenAllDamageColliders()
         {
-            if (leftHandObject != null)
+            if (leftHandWeaponHook != null)
             {
                 leftHandWeaponHook.OpenDamageColliders();
             }
 
-            if (rightHandObject != null)
+            if (rightHandWeaponHook != null)
             {
                 rightHandWeaponHook.OpenDamageColliders();
             }
@@ -56,12 +56,12 @@ namespace BV
 
         public void CloseAllDamageColliders()
         {
-            if (leftHandObject != null)
+            if (leftHandWeaponHook != null)
             {
                 leftHandWeaponHook.CloseDamageColliders();
             }
 
-            if (rightHandObject != null)
+            if (rightHandWeaponHook != null)
             {
                 rightHandWeaponHook.CloseDamageColliders();
             }
@@ -83,6 +83,7 @@ namespace BV
         {
             string targetIdle = w != null ? w.oh_idle_name : "oh_empty";
             targetIdle += isLeft ? "_l" : "_r";
+
             states.anim.SetBool("mirror", isLeft);
             states.anim.Play("changeWeapon");
             states.anim.Play(targetIdle);
@@ -98,12 +99,13 @@ namespace BV
                 Destroy(leftHandObject, 0.1f);
                 leftHandObject = null;
                 leftHandData = null;
-                EquipWeapon(rightHandData, true);
                 UpdateActions();
+
             }
 
             if (newItem == null || newItem.weaponModel == null)
             {
+                EquipWeapon(leftHandData, true);
                 return;
             }
 
@@ -129,12 +131,12 @@ namespace BV
                 Destroy(rightHandObject, 0.1f);
                 rightHandObject = null;
                 rightHandData = null;
-                EquipWeapon(rightHandData, false);
                 UpdateActions();
             }
 
             if (newItem == null || newItem.weaponModel == null)
             {
+                EquipWeapon(rightHandData, false);
                 return;
             }
 

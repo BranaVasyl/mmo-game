@@ -18,6 +18,6 @@ namespace BV
 
     public enum ItemType
     {
-        sword, armor, food, elixir, craft, alchemy, butter, other, quest
+        sword, shield, armor, food, elixir, craft, alchemy, butter, other, quest
     }
 }

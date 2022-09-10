@@ -37,7 +37,8 @@ namespace BV
         public bool canMove;
         public bool isTwoHanded;
         public bool usingItem;
-        public bool openInventory;
+        public bool isBlocking;
+        public bool isLeftHand;
         public string currentAnimation;
 
         [Header("Other")]
@@ -260,15 +261,19 @@ namespace BV
         {
             delta = d;
 
+            isBlocking = false;
             usingItem = anim.GetBool("interacting");
 
-            DetectItemAction();
             DetectedAction();
+            DetectItemAction();
 
             if (inventoryManager.rightHandObject)
             {
                 inventoryManager.rightHandObject.SetActive(!usingItem);
             }
+
+            anim.SetBool("blocking", isBlocking);
+            anim.SetBool("isLeft", isLeftHand);
 
             if (inAction)
             {
@@ -488,7 +493,7 @@ namespace BV
 
         public void DetectedAction()
         {
-            if (canMove == false || usingItem)
+            if (canMove == false || usingItem || isBlocking)
             {
                 return;
             }
@@ -498,13 +503,58 @@ namespace BV
                 return;
             }
 
-            string targetAnim = null;
-
             Action slot = actionManager.GetActionSlot(this);
             if (slot == null)
             {
                 return;
             }
+
+            switch (slot.type)
+            {
+                case ActionType.attack:
+                    AttackAction(slot);
+                    break;
+                case ActionType.block:
+                    BlockAction(slot);
+                    break;
+                case ActionType.spells:
+                    break;
+                case ActionType.parry:
+                    ParryAction(slot);
+                    break;
+                case ActionType.interact:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void AttackAction(Action slot)
+        {
+            string targetAnim = null;
+            targetAnim = slot.targetAnim;
+
+            if (string.IsNullOrEmpty(targetAnim))
+            {
+                return;
+            }
+
+            canMove = false;
+            inAction = true;
+            anim.SetBool("mirror", slot.mirror);
+            anim.CrossFade(targetAnim, 0.2f);
+            currentAnimation = targetAnim;
+        }
+
+        void BlockAction(Action slot)
+        {
+            isBlocking = true;
+            isLeftHand = slot.mirror;
+        }
+
+        void ParryAction(Action slot)
+        {
+            string targetAnim = null;
             targetAnim = slot.targetAnim;
 
             if (string.IsNullOrEmpty(targetAnim))

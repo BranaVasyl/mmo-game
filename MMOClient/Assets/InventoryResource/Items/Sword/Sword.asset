@@ -34,4 +34,4 @@ MonoBehaviour:
     mirror: 0
   LeftHandMirror: 1
   two_handedActions: []
-  weaponModel: {fileID: 8311999017942472586, guid: b7d5bc2417d27d144974cae3883eaa1b, type: 3}
+  weaponModel: {fileID: 1993076575720630405, guid: b5fae0cb3bfa29d488fc8e51b2543ccb, type: 3}

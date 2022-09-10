@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 747d3375a21ff21479287ede74061985, type: 3}
-  m_Name: Sword1
+  m_Name: Shield
   m_EditorClassIdentifier: 
-  id: sword1
+  id: shield
   width: 1
   height: 2
-  itemType: 0
-  itemIcon: {fileID: 21300000, guid: badd22fadd82b5e4496d98043535ae81, type: 3}
+  itemType: 1
+  itemIcon: {fileID: 21300000, guid: f75de8becc5d5cb41afe7ca5d631a491, type: 3}
   oh_idle_name: oh_idle
   th_idle_name: th_idle
   actions:
@@ -34,4 +34,4 @@ MonoBehaviour:
     mirror: 0
   LeftHandMirror: 1
   two_handedActions: []
-  weaponModel: {fileID: 1993076575720630405, guid: 7ef6fda2d4fa43b4a8513300197cdef9, type: 3}
+  weaponModel: {fileID: 7991978198752098625, guid: c11e2ba0b49d6104bbe80fca18011454, type: 3}
