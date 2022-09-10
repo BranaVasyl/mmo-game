@@ -21,16 +21,12 @@ MonoBehaviour:
   th_idle_name: th_idle
   actions:
   - input: 0
+    type: 1
     targetAnim: oh_attack_1
-    mirror: 0
-  - input: 1
-    targetAnim: oh_attack_3
     mirror: 0
   - input: 2
-    targetAnim: oh_attack_3
-    mirror: 0
-  - input: 3
-    targetAnim: oh_attack_1
+    type: 3
+    targetAnim: parry
     mirror: 0
   LeftHandMirror: 1
   two_handedActions: []
