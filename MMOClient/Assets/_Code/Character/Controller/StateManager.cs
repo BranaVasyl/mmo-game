@@ -35,10 +35,12 @@ namespace BV
         public bool lockOn;
         public bool inAction;
         public bool canMove;
+        public bool canAttack;
         public bool isTwoHanded;
         public bool usingItem;
         public bool isBlocking;
         public bool isLeftHand;
+        public bool onEmpty;
         public string currentAnimation;
 
         [Header("Other")]
@@ -62,6 +64,10 @@ namespace BV
         [HideInInspector]
         public LayerMask ignoreLayers;
         float _actionDelay;
+        [HideInInspector]
+        public float airTimer;
+        public ActionInput storePrevAction;
+        public ActionInput storeActionInput;
 
         [Header("TestEquip")]
         public int curEquip;
@@ -264,16 +270,11 @@ namespace BV
             isBlocking = false;
             usingItem = anim.GetBool("interacting");
 
-            DetectedAction();
-            DetectItemAction();
-
             if (inventoryManager.rightHandObject)
             {
                 inventoryManager.rightHandObject.SetActive(!usingItem);
             }
 
-            anim.SetBool("blocking", isBlocking);
-            anim.SetBool("isLeft", isLeftHand);
 
             if (inAction)
             {
@@ -291,12 +292,48 @@ namespace BV
                 }
             }
 
-            canMove = anim.GetBool("canMove");
+            onEmpty = anim.GetBool("onEmpty");
+            // canMove = anim.GetBool("canMove");
 
-            if (!canMove)
+            if (onEmpty)
+            {
+                canAttack = true;
+                canMove = true;
+            }
+
+            if (!onEmpty && !canMove && !canAttack)
             {
                 return;
             }
+
+            if (canMove && !onEmpty)
+            {
+                if (moveAmount > 0.3f)
+                {
+                    anim.CrossFade("Empty Override", 0.1f);
+                    onEmpty = true;
+                }
+            }
+
+            if (canAttack)
+            {
+                if (IsInput())
+                {
+                    //anim.CrossFade("Empty Override", 0.1f);
+                }
+            }
+
+            if (canAttack)
+            {
+                DetectedAction();
+            }
+
+            if (!canMove)
+            {
+                DetectItemAction();
+            }
+            anim.SetBool("blocking", isBlocking);
+            anim.SetBool("isLeft", isLeftHand);
 
             if (currentAnimation.Length > 0 && !usingItem)
             {
@@ -333,7 +370,7 @@ namespace BV
                 lockOn = false;
             }
 
-            if (onGround)
+            if (onGround && canMove)
                 rigid.velocity = moveDir * (targetSpeed * moveAmount);
             else
                 lastPelvisPositionY = transform.position.y;
@@ -363,12 +400,30 @@ namespace BV
             }
         }
 
+        public bool IsInput()
+        {
+            if (rt || rb || lt || lb || rollInput)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void Tick(float d)
         {
             delta = d;
             onGround = OnGround();
-
             anim.SetBool("onGround", onGround);
+
+            if (!onGround)
+            {
+                airTimer += delta;
+            }
+            else
+            {
+                airTimer = 0;
+            }
         }
 
         public void ChangeEquip(int but)
@@ -469,7 +524,7 @@ namespace BV
 
         public void DetectItemAction()
         {
-            if (canMove == false || usingItem)
+            if (onEmpty == false || usingItem)
             {
                 return;
             }
@@ -493,7 +548,7 @@ namespace BV
 
         public void DetectedAction()
         {
-            if (canMove == false || usingItem || isBlocking)
+            if (canAttack == false && (onEmpty == false || usingItem || isBlocking))
             {
                 return;
             }
@@ -503,7 +558,18 @@ namespace BV
                 return;
             }
 
-            Action slot = actionManager.GetActionSlot(this);
+            ActionInput targetInput = actionManager.GetActionInput(this);
+
+            storeActionInput = targetInput;
+            if (onEmpty == false)
+            {
+                animatorManager.killDelta = true;
+                targetInput = storePrevAction;
+            }
+
+            storePrevAction = targetInput;
+            Action slot = actionManager.GetActionFromInput(targetInput);
+
             if (slot == null)
             {
                 return;
@@ -532,13 +598,15 @@ namespace BV
         void AttackAction(Action slot)
         {
             string targetAnim = null;
-            targetAnim = slot.targetAnim;
+            targetAnim = slot.GetActionStep(ref actionManager.actionIndex).GetBranch(storeActionInput).targetAnim;
 
             if (string.IsNullOrEmpty(targetAnim))
             {
                 return;
             }
 
+            canAttack = false;
+            onEmpty = false;
             canMove = false;
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
@@ -555,13 +623,15 @@ namespace BV
         void ParryAction(Action slot)
         {
             string targetAnim = null;
-            targetAnim = slot.targetAnim;
+            targetAnim = slot.GetActionStep(ref actionManager.actionIndex).GetBranch(storeActionInput).targetAnim;
 
             if (string.IsNullOrEmpty(targetAnim))
             {
                 return;
             }
 
+            canAttack = false;
+            onEmpty = false;
             canMove = false;
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
@@ -623,6 +693,8 @@ namespace BV
             anim.SetFloat("vertical", v);
             anim.SetFloat("horizontal", h);
 
+            canAttack = false;
+            onEmpty = false;
             canMove = false;
             inAction = true;
             anim.CrossFade("Rolls", 0.2f);

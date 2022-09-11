@@ -12,6 +12,8 @@ namespace BV
         bool rolling;
         float roll_t;
 
+        public bool killDelta;
+
         public void Init(StateManager st)
         {
             states = st;
@@ -43,7 +45,7 @@ namespace BV
                 return;
             }
 
-            if (states.canMove)
+            if (states.onEmpty)
             {
                 return;
             }
@@ -63,7 +65,12 @@ namespace BV
             if (rolling == false)
             {
                 Vector3 delta = anim.deltaPosition;
-                delta.y = 0;
+                if (killDelta)
+                {
+                    killDelta = false;
+                    delta = Vector3.zero;
+                }
+
                 Vector3 v = (delta * rm_multi) / states.delta;
                 states.rigid.velocity = v;
             }
@@ -83,32 +90,37 @@ namespace BV
             }
         }
 
-        public void EnableCombo()
+        public void OpenAttack()
         {
+            if (states)
+            {
+                states.canAttack = true;
+            }
         }
 
-        public void DisableCombo()
+        public void OpenCanMove()
         {
+            if (states)
+            {
+                states.canMove = true;
+            }
         }
 
         public void OpenDamageColliders()
         {
-            if (states == null)
+            if (states)
             {
-                return;
+                states.inventoryManager.OpenAllDamageColliders();
             }
 
-            states.inventoryManager.OpenAllDamageColliders();
         }
 
         public void CloseDamageColliders()
         {
-            if (states == null)
+            if (states)
             {
-                return;
+                states.inventoryManager.CloseAllDamageColliders();
             }
-
-            states.inventoryManager.CloseAllDamageColliders();
         }
     }
 }

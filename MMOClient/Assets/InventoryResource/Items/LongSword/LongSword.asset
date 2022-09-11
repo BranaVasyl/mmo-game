@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d3375a21ff21479287ede74061985, type: 3}
+  m_Name: LongSword
+  m_EditorClassIdentifier: 
+  id: longSword
+  width: 1
+  height: 2
+  itemType: 0
+  itemIcon: {fileID: 21300000, guid: b75578d2f3a9fc1459995f8caccf9182, type: 3}
+  oh_idle_name: gs_oh_idle
+  th_idle_name: th_idle
+  actions:
+  - input: 0
+    type: 0
+    targetAnim: gs_th_to_pose
+    steps:
+    - branches:
+      - input: 0
+        targetAnim: gs_th_to_pose
+    - branches:
+      - input: 0
+        targetAnim: gs_attack_from_pose
+    mirror: 0
+  - input: 1
+    type: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+  - input: 2
+    type: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+  - input: 3
+    type: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+  LeftHandMirror: 1
+  two_handedActions:
+  - input: 0
+    type: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+  - input: 1
+    type: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+  weaponModel: {fileID: 8798072833482503258, guid: 8b606c96d36072a4fa34087052f16fe4, type: 3}

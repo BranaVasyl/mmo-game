@@ -11,7 +11,6 @@ namespace BV
         public ItemWeaponData rightHandData;
         [HideInInspector]
         public GameObject rightHandObject;
-        [HideInInspector]
         public WeaponHook rightHandWeaponHook;
 
         [Header("Left Hand Weapon")]
@@ -19,7 +18,6 @@ namespace BV
         public ItemWeaponData leftHandData;
         [HideInInspector]
         public GameObject leftHandObject;
-        [HideInInspector]
         public WeaponHook leftHandWeaponHook;
 
         private StateManager states;
@@ -91,8 +89,6 @@ namespace BV
 
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
-            Debug.Log("UpdateLeftHand");
-
             if (leftHandObject != null)
             {
                 leftHandObject.SetActive(false);
@@ -123,8 +119,6 @@ namespace BV
 
         public void UpdateRightHand(ItemWeaponData? newItem)
         {
-            Debug.Log("UpdateRightHand");
-
             if (rightHandObject != null)
             {
                 rightHandObject.SetActive(false);

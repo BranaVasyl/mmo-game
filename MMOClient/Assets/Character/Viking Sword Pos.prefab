@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890735825240375195}
+  - component: {fileID: 4980946624864101484}
   m_Layer: 9
   m_Name: Viking Sword Pos
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4980946624864101484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993076575720630405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd61ac717b43dae42947227c57ead627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageCollider:
+  - {fileID: 4674469473161642045}
 --- !u!1001 &7881563391080946127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,10 +110,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Viking Sword
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1899766446851712288, guid: 2c8dfac23502ab24eafd661f00a21e95, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c8dfac23502ab24eafd661f00a21e95, type: 3}
 --- !u!4 &2909763982050458710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4972394867667608985, guid: 2c8dfac23502ab24eafd661f00a21e95, type: 3}
+  m_PrefabInstance: {fileID: 7881563391080946127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4674469473161642045 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3296631755220408818, guid: 2c8dfac23502ab24eafd661f00a21e95, type: 3}
   m_PrefabInstance: {fileID: 7881563391080946127}
   m_PrefabAsset: {fileID: 0}

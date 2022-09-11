@@ -22,11 +22,13 @@ MonoBehaviour:
   actions:
   - input: 0
     type: 1
-    targetAnim: oh_attack_1
+    targetAnim: 
+    steps: []
     mirror: 0
   - input: 2
     type: 3
     targetAnim: parry
+    steps: []
     mirror: 0
   LeftHandMirror: 1
   two_handedActions: []
