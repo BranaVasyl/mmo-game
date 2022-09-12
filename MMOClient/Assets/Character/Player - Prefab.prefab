@@ -100,7 +100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286815223710554883}
   m_LocalRotation: {x: 0, y: 0, z: 0.13917309, w: 0.9902681}
-  m_LocalPosition: {x: -0.09799975, y: -0.03099996, z: -0.0030004168}
+  m_LocalPosition: {x: -0.09799975, y: -0.03099996, z: -0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -365,7 +365,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4998958903140868919}
   m_LocalRotation: {x: 0, y: 0, z: -0.13917309, w: 0.9902681}
-  m_LocalPosition: {x: 0.098, y: -0.031, z: -0.003}
+  m_LocalPosition: {x: 0.098, y: -0.031, z: -0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -677,21 +677,29 @@ MonoBehaviour:
     targetAnim: 
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   - input: 1
     type: 0
     targetAnim: 
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   - input: 2
     type: 0
     targetAnim: 
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   - input: 3
     type: 0
     targetAnim: 
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   consumableItem:
     targetAnim: use_item
     item_id: 
