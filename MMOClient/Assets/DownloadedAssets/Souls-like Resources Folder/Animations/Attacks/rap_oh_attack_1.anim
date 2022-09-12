@@ -43050,14 +43050,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1
-    functionName: OpenCanMove
+    functionName: OpenAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0333333
-    functionName: OpenAttack
+  - time: 1.0666667
+    functionName: OpenCanMove
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

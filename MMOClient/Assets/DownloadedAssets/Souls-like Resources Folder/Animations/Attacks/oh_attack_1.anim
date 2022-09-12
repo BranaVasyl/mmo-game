@@ -56387,14 +56387,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2333333
+  - time: 1.2666667
     functionName: OpenAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.4
+  - time: 1.3666667
     functionName: OpenCanMove
     data: 
     objectReferenceParameter: {fileID: 0}

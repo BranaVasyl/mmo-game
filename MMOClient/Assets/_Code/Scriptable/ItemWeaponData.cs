@@ -15,18 +15,5 @@ namespace BV
         public bool LeftHandMirror = true;
         public List<Action> two_handedActions;
         public GameObject weaponModel;
-
-        public Action GetAction(List<Action> l, ActionInput inp)
-        {
-            for (int i = 0; i < l.Count; i++)
-            {
-                if (l[i].input == inp)
-                {
-                    return l[i];
-                }
-            }
-
-            return null;
-        }
     }
 }

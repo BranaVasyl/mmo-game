@@ -705,13 +705,57 @@ namespace BV
         {
             anim.SetBool("twoHanded", isTwoHanded);
 
+            bool isRight = true;
+            ItemWeaponData currentWeapon = inventoryManager.rightHandData;
+            if (currentWeapon == null)
+            {
+                currentWeapon = inventoryManager.leftHandData;
+            }
+
+            if (currentWeapon == null)
+            {
+                return;
+            }
+
             if (isTwoHanded)
             {
+                anim.CrossFade(currentWeapon.th_idle_name, 0.2f);
                 actionManager.UpdateActionsTwoHanded();
+
+                if (isRight)
+                {
+                    if (inventoryManager.leftHandData != null)
+                    {
+                        inventoryManager.leftHandObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    if (inventoryManager.rightHandData != null)
+                    {
+                        inventoryManager.rightHandObject.SetActive(false);
+                    }
+                }
             }
             else
             {
+                anim.Play("equipWeapon_oh");
                 actionManager.UpdateActionsOneHanded();
+
+                if (isRight)
+                {
+                    if (inventoryManager.leftHandData != null)
+                    {
+                        inventoryManager.leftHandObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (inventoryManager.rightHandData != null)
+                    {
+                        inventoryManager.rightHandObject.SetActive(true);
+                    }
+                }
             }
         }
 

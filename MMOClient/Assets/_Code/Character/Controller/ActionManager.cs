@@ -23,119 +23,120 @@ namespace BV
         {
             EmptyAllSlots();
 
-            if (states.inventoryManager.leftHandData != null && states.inventoryManager.rightHandData != null)
+            ItemWeaponData rightHandItem = states.inventoryManager.rightHandData;
+            if (rightHandItem != null)
             {
-                UpdateActionsWithLeftHand();
-                return;
+                DeepCopyAction(rightHandItem.actions, ActionInput.rb, ActionInput.rb);
+                DeepCopyAction(rightHandItem.actions, ActionInput.rt, ActionInput.rt);
             }
 
-            bool mirror = false;
-            ItemWeaponData w = states.inventoryManager.rightHandData;
-            if (w == null)
+            ItemWeaponData leftHandItem = states.inventoryManager.leftHandData;
+            if (leftHandItem != null)
             {
-                w = states.inventoryManager.leftHandData;
-                mirror = true;
-            }
-
-            if (w == null)
-            {
-                return;
-            }
-
-            for (int i = 0; i < w.actions.Count; i++)
-            {
-                Action a = GetAction(w.actions[i].input);
-                a.mirror = mirror;
-                a.type = w.actions[i].type;
-
-                DeepCopyStepsList(w.actions[i], a);
-            }
-        }
-
-        public void UpdateActionsWithLeftHand()
-        {
-            ItemWeaponData r_w = states.inventoryManager.rightHandData;
-            ItemWeaponData l_w = states.inventoryManager.leftHandData;
-
-            if (r_w != null)
-            {
-                Action rb = GetAction(ActionInput.rb);
-                Action rt = GetAction(ActionInput.rt);
-
-                Action w_rb = r_w.GetAction(r_w.actions, ActionInput.rb);
-                rb.type = w_rb.type;
-                rb.targetAnim = w_rb.targetAnim;
-                DeepCopyStepsList(w_rb, rb);
-
-                Action w_rt = r_w.GetAction(r_w.actions, ActionInput.rt);
-                rt.type = w_rt.type;
-                rt.targetAnim = w_rt.targetAnim;
-                DeepCopyStepsList(w_rt, rt);
-            }
-
-            if (l_w != null)
-            {
-                Action lb = GetAction(ActionInput.lb);
-                Action lt = GetAction(ActionInput.lt);
-
-                Action w_lb = l_w.GetAction(l_w.actions, ActionInput.rb);
-                lb.type = w_lb.type;
-                lb.targetAnim = w_lb.targetAnim;
-                DeepCopyStepsList(w_lb, lb);
-
-                Action w_lt = l_w.GetAction(l_w.actions, ActionInput.rt);
-                lt.type = w_lt.type;
-                lt.targetAnim = w_lt.targetAnim;
-                DeepCopyStepsList(w_lt, lt);
-
-                if (l_w.LeftHandMirror)
-                {
-                    lb.mirror = true;
-                    lt.mirror = true;
-                }
-            }
-        }
-
-        public static void DeepCopyStepsList(Action from, Action to)
-        {
-            to.steps = new List<ActionSteps>();
-
-            for (int i = 0; i < from.steps.Count; i++)
-            {
-                ActionSteps step = new ActionSteps();
-                DeepCopyStep(from.steps[i], step);
-                to.steps.Add(step);
-            }
-        }
-
-        public static void DeepCopyStep(ActionSteps from, ActionSteps to)
-        {
-            to.branches = new List<ActionAnim>();
-
-            for (int i = 0; i < from.branches.Count; i++)
-            {
-                ActionAnim a = new ActionAnim();
-                a.input = from.branches[i].input;
-                a.targetAnim = from.branches[i].targetAnim;
-                to.branches.Add(a);
+                DeepCopyAction(leftHandItem.actions, ActionInput.rb, ActionInput.lb, true);
+                DeepCopyAction(leftHandItem.actions, ActionInput.rt, ActionInput.lt, true);
             }
         }
 
         public void UpdateActionsTwoHanded()
         {
             EmptyAllSlots();
-            ItemWeaponData w = states.inventoryManager.rightHandData;
-            if (w == null)
+
+            ItemWeaponData currentWeapon = states.inventoryManager.rightHandData ?? states.inventoryManager.leftHandData;
+            if (currentWeapon == null)
             {
                 return;
             }
 
-            for (int i = 0; i < w.two_handedActions.Count; i++)
+            List<Action> actions = currentWeapon.two_handedActions;
+            for (int i = 0; i < actions.Count; i++)
             {
-                Action a = GetAction(w.two_handedActions[i].input);
-                a.steps = w.two_handedActions[i].steps;
-                a.type = w.two_handedActions[i].type;
-                a.targetAnim = w.two_handedActions[i].targetAnim;
+                DeepCopyAction(actions, actions[i].input, actions[i].input);
+            }
+        }
+
+        public Action GetActionFromList(List<Action> l, ActionInput inp)
+        {
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (l[i].input == inp)
+                {
+                    return l[i];
+                }
+            }
+
+            return null;
+        }
+
+        public void DeepCopyAction(List<Action> actions, ActionInput inp, ActionInput assign, bool isLeftHand = false)
+        {
+            Action a = GetAction(assign);
+            Action w_a = GetActionFromList(actions, inp);
+            if (w_a == null)
+            {
+                return;
+            }
+
+            a.targetAnim = w_a.targetAnim;
+            a.type = w_a.type;
+            DeepCopyStepsList(w_a, a, isLeftHand);
+
+            if (isLeftHand)
+            {
+                a.mirror = true;
+            }
+        }
+
+        public static void DeepCopyStepsList(Action from, Action to, bool isLeft)
+        {
+            to.steps = new List<ActionSteps>();
+
+            if (from.steps == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < from.steps.Count; i++)
+            {
+                ActionSteps step = new ActionSteps();
+                DeepCopyStep(from.steps[i], step, isLeft);
+                to.steps.Add(step);
+            }
+        }
+
+        public static void DeepCopyStep(ActionSteps from, ActionSteps to, bool isLeft)
+        {
+            to.branches = new List<ActionAnim>();
+
+            for (int i = 0; i < from.branches.Count; i++)
+            {
+                ActionAnim a = new ActionAnim();
+
+                if (!isLeft)
+                {
+                    a.input = from.branches[i].input;
+                }
+                else
+                {
+                    switch (from.branches[i].input)
+                    {
+                        case ActionInput.rb:
+                            a.input = ActionInput.lb;
+                            break;
+                        case ActionInput.rt:
+                            a.input = ActionInput.lt;
+                            break;
+                        case ActionInput.lb:
+                            a.input = ActionInput.rb;
+                            break;
+                        case ActionInput.lt:
+                            a.input = ActionInput.rt;
+                            break;
+                    }
+                }
+
+                a.targetAnim = from.branches[i].targetAnim;
+                to.branches.Add(a);
             }
         }
 
@@ -148,6 +149,7 @@ namespace BV
                 a.mirror = false;
                 a.targetAnim = "";
                 a.type = ActionType.attack;
+                a.defaultStep = null;
             }
         }
 
@@ -229,7 +231,7 @@ namespace BV
 
         public bool mirror = false;
 
-        ActionSteps defaultStep;
+        public ActionSteps defaultStep;
 
         public ActionSteps GetActionStep(ref int indx)
         {
@@ -238,6 +240,10 @@ namespace BV
                 if (defaultStep == null)
                 {
                     defaultStep = new ActionSteps();
+                }
+
+                if (defaultStep.branches == null || defaultStep.branches.Count == 0)
+                {
                     defaultStep.branches = new List<ActionAnim>();
                     ActionAnim aa = new ActionAnim();
                     aa.input = input;

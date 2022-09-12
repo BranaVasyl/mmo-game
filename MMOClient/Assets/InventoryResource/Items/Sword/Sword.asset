@@ -21,16 +21,30 @@ MonoBehaviour:
   th_idle_name: th_idle
   actions:
   - input: 0
+    type: 0
     targetAnim: oh_attack_1
+    steps:
+    - branches:
+      - input: 0
+        targetAnim: oh_attack_1
+    - branches:
+      - input: 0
+        targetAnim: oh_attack_2
     mirror: 0
   - input: 1
+    type: 0
     targetAnim: oh_attack_3
+    steps: []
     mirror: 0
   - input: 2
+    type: 0
     targetAnim: oh_attack_2
+    steps: []
     mirror: 0
   - input: 3
+    type: 0
     targetAnim: oh_attack_1
+    steps: []
     mirror: 0
   LeftHandMirror: 1
   two_handedActions: []

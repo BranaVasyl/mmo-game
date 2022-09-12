@@ -100,7 +100,7 @@ namespace BV
 
         public void OpenCanMove()
         {
-            if (states)
+            if (states && states.canAttack)
             {
                 states.canMove = true;
             }

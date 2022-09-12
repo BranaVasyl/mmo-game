@@ -79,7 +79,7 @@ namespace BV
 
         private void EquipWeapon(ItemWeaponData w, bool isLeft = false)
         {
-            string targetIdle = w != null ? w.oh_idle_name : "oh_empty";
+            string targetIdle = w.oh_idle_name;
             targetIdle += isLeft ? "_l" : "_r";
 
             states.anim.SetBool("mirror", isLeft);
@@ -101,7 +101,7 @@ namespace BV
 
             if (newItem == null || newItem.weaponModel == null)
             {
-                EquipWeapon(leftHandData, true);
+                states.anim.Play("Empty Left");
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace BV
 
             if (newItem == null || newItem.weaponModel == null)
             {
-                EquipWeapon(rightHandData, false);
+                states.anim.Play("Empty Right");
                 return;
             }
 
