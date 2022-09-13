@@ -552,7 +552,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.09877168
-      value: 1
+      value: 0.7
       inSlope: 1.4191233
       outSlope: 0.0005784956
       tangentMode: 1
@@ -560,22 +560,22 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.2339111
     - serializedVersion: 3
-      time: 0.77083266
-      value: 1
+      time: 0.8708327
+      value: 0.7
       inSlope: -0.010627432
-      outSlope: -0.76834685
+      outSlope: -0.2470113
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.34098986
-      outWeight: 0.98181826
+      outWeight: 0.49091056
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -14.014644
-      outSlope: -14.014644
+      value: 0.2
+      inSlope: -5.5532074
+      outSlope: -5.5532074
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.07272699
+      inWeight: 0.090908736
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -674,6 +674,7 @@ MonoBehaviour:
   actionSlots:
   - input: 0
     type: 0
+    spellClass: 0
     targetAnim: 
     steps: []
     mirror: 0
@@ -681,6 +682,7 @@ MonoBehaviour:
       branches: []
   - input: 1
     type: 0
+    spellClass: 0
     targetAnim: 
     steps: []
     mirror: 0
@@ -688,6 +690,7 @@ MonoBehaviour:
       branches: []
   - input: 2
     type: 0
+    spellClass: 0
     targetAnim: 
     steps: []
     mirror: 0
@@ -695,6 +698,7 @@ MonoBehaviour:
       branches: []
   - input: 3
     type: 0
+    spellClass: 0
     targetAnim: 
     steps: []
     mirror: 0

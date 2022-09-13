@@ -9,15 +9,19 @@ namespace BV
     {
         [Header("General Stats")]
         public string id;
+        public string itemName;
+        public string itemDescription;
+
         public int width = 1;
         public int height = 1;
 
         public ItemType itemType;
         public Sprite itemIcon;
+        public GameObject weaponModel;
     }
 
     public enum ItemType
     {
-        sword, shield, armor, food, elixir, craft, alchemy, butter, other, quest
+        sword, shield, magicWeapon, armor, food, elixir, craft, alchemy, butter, other, quest
     }
 }

@@ -55,19 +55,6 @@ namespace BV
             }
         }
 
-        public Action GetActionFromList(List<Action> l, ActionInput inp)
-        {
-            for (int i = 0; i < l.Count; i++)
-            {
-                if (l[i].input == inp)
-                {
-                    return l[i];
-                }
-            }
-
-            return null;
-        }
-
         public void DeepCopyAction(List<Action> actions, ActionInput inp, ActionInput assign, bool isLeftHand = false)
         {
             Action a = GetAction(assign);
@@ -79,6 +66,7 @@ namespace BV
 
             a.targetAnim = w_a.targetAnim;
             a.type = w_a.type;
+            a.spellClass = w_a.spellClass;
             DeepCopyStepsList(w_a, a, isLeftHand);
 
             if (isLeftHand)
@@ -153,14 +141,17 @@ namespace BV
             }
         }
 
-        ActionManager()
+        public Action GetActionFromList(List<Action> l, ActionInput inp)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < l.Count; i++)
             {
-                Action a = new Action();
-                a.input = (ActionInput)i;
-                actionSlots.Add(a);
+                if (l[i].input == inp)
+                {
+                    return l[i];
+                }
             }
+
+            return null;
         }
 
         public Action GetActionSlot(StateManager st)
@@ -208,12 +199,31 @@ namespace BV
 
             return ActionInput.rb;
         }
-    }
 
+        ActionManager()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Action a = new Action();
+                a.input = (ActionInput)i;
+                actionSlots.Add(a);
+            }
+        }
+    }
 
     public enum ActionInput
     {
         rb, lb, rt, lt
+    }
+
+    public enum SpellClass
+    {
+        pyromancy, miracles, sorcery
+    }
+
+    public enum SpellType
+    {
+        projectile, buff, looping
     }
 
     public enum ActionType
@@ -226,6 +236,7 @@ namespace BV
     {
         public ActionInput input;
         public ActionType type;
+        public SpellClass spellClass;
         public string targetAnim;
         public List<ActionSteps> steps;
 
