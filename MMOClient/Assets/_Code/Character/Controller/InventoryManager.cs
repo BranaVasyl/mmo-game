@@ -69,12 +69,11 @@ namespace BV
         {
             if (states.isTwoHanded)
             {
-                states.actionManager.UpdateActionsTwoHanded();
+                states.isTwoHanded = false;
+                states.HandleTwoHanded();
             }
-            else
-            {
-                states.actionManager.UpdateActionsOneHanded();
-            }
+
+            states.actionManager.UpdateActionsOneHanded();
         }
 
         private void EquipWeapon(ItemWeaponData w, bool isLeft = false)
@@ -96,7 +95,6 @@ namespace BV
                 leftHandObject = null;
                 leftHandData = null;
                 UpdateActions();
-
             }
 
             if (newItem == null || newItem.weaponModel == null)

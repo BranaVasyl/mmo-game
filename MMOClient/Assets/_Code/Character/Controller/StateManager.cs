@@ -275,7 +275,6 @@ namespace BV
                 inventoryManager.rightHandObject.SetActive(!usingItem);
             }
 
-
             if (inAction)
             {
                 anim.applyRootMotion = true;
@@ -328,7 +327,7 @@ namespace BV
                 DetectedAction();
             }
 
-            if (!canMove)
+            if (canMove)
             {
                 DetectItemAction();
             }

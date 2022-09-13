@@ -453,7 +453,6 @@ namespace BV
                     overlapItem = null;
                     rectTransform = selectedItem.GetComponent<RectTransform>();
                     rectTransform.SetAsLastSibling();
-                    startItemGrid = SelectedItemGrid;
                 }
             }
         }
