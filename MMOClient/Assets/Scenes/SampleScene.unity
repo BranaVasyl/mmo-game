@@ -729,7 +729,7 @@ MonoBehaviour:
   placeholder: {fileID: 977391500}
   gridSizeWidth: 1
   gridSizeHeight: 2
-  supportedItemType: 0000000001000000
+  supportedItemType: 000000000100000002000000
 --- !u!114 &67179401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8946,7 +8946,7 @@ MonoBehaviour:
   placeholder: {fileID: 1622807562}
   gridSizeWidth: 1
   gridSizeHeight: 2
-  supportedItemType: 0000000001000000
+  supportedItemType: 000000000100000002000000
 --- !u!114 &958880161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19146,7 +19146,7 @@ MonoBehaviour:
   placeholder: {fileID: 0}
   gridSizeWidth: 4
   gridSizeHeight: 7
-  supportedItemType: 0000000001000000
+  supportedItemType: 000000000100000002000000
 --- !u!114 &1824762418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22838,7 +22838,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
   - {fileID: 11400000, guid: 14a37a5d5d7847d4db6d4ce785820935, type: 2}
   - {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
-  - {fileID: 11400000, guid: f7999117d2bb1dc4daf1b3a7a4f134b6, type: 2}
+  - {fileID: 11400000, guid: 6dd025ec16310134494e405b3b270026, type: 2}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
   canvasTransform: {fileID: 841747835}
   correctInventoryHiglight: {fileID: 8866688314570395279}

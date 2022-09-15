@@ -269,10 +269,35 @@ namespace BV
 
             isBlocking = false;
             usingItem = anim.GetBool("interacting");
+            bool mirror = anim.GetBool("mirror");
 
-            if (inventoryManager.rightHandObject)
+            if (inventoryManager.rightHandObject && inventoryManager.rightHandObject.activeSelf == usingItem)
             {
-                inventoryManager.rightHandObject.SetActive(!usingItem);
+                if (!mirror)
+                {
+                    inventoryManager.rightHandObject.SetActive(!usingItem);
+                }
+            }
+
+            if (inventoryManager.leftHandObject && inventoryManager.leftHandObject.activeSelf == usingItem)
+            {
+                if (mirror && !isTwoHanded)
+                {
+                    inventoryManager.leftHandObject.SetActive(!usingItem);
+                }
+            }
+
+            if (!usingItem)
+            {
+                if (inventoryManager.rightHandObject)
+                {
+                    inventoryManager.rightHandObject.SetActive(true);
+                }
+
+                if (inventoryManager.leftHandObject && !isTwoHanded)
+                {
+                    inventoryManager.leftHandObject.SetActive(true);
+                }
             }
 
             if (inAction)
@@ -708,6 +733,7 @@ namespace BV
             ItemWeaponData currentWeapon = inventoryManager.rightHandData;
             if (currentWeapon == null)
             {
+                isRight = false;
                 currentWeapon = inventoryManager.leftHandData;
             }
 
@@ -741,19 +767,14 @@ namespace BV
                 anim.Play("equipWeapon_oh");
                 actionManager.UpdateActionsOneHanded();
 
-                if (isRight)
+                if (inventoryManager.leftHandData != null)
                 {
-                    if (inventoryManager.leftHandData != null)
-                    {
-                        inventoryManager.leftHandObject.SetActive(true);
-                    }
+                    inventoryManager.leftHandObject.SetActive(true);
                 }
-                else
+
+                if (inventoryManager.rightHandData != null)
                 {
-                    if (inventoryManager.rightHandData != null)
-                    {
-                        inventoryManager.rightHandObject.SetActive(true);
-                    }
+                    inventoryManager.rightHandObject.SetActive(true);
                 }
             }
         }
