@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360627934526823539}
   - component: {fileID: 3645654008090579161}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1698311669712632633}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PyromancyFlame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,9 +178,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1129534550101967428, guid: 1e12916296012474e9d0d58ba1dfbc32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1129607369945446872, guid: 1e12916296012474e9d0d58ba1dfbc32, type: 3}
       propertyPath: m_Name
       value: Fireball_Hand_extraSmall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129607369945446872, guid: 1e12916296012474e9d0d58ba1dfbc32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129823726078783960, guid: 1e12916296012474e9d0d58ba1dfbc32, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e12916296012474e9d0d58ba1dfbc32, type: 3}

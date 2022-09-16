@@ -9,6 +9,8 @@ namespace BV
     public class EnemyData
     {
         public string id;
+        public float health;
+        public bool isInvicible;
         public Vector3 position;
         public Quaternion rotation;
         public float vertical;

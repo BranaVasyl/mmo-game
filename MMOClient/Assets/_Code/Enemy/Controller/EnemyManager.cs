@@ -34,6 +34,7 @@ namespace BV
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
 
+        public bool isInvicible;
         bool isMove = false;
         bool onGround;
         float delta;
@@ -54,8 +55,7 @@ namespace BV
             footIk = anim.gameObject.GetComponent<FootIK>();
             enemyNetworkTransform = gameObject.GetComponent<EnemyNetworkTransform>();
 
-            base.SetAnimator(anim);
-            base.SetNetworkIdentity(gameObject.GetComponent<NetworkIdentity>());
+            base.Init(gameObject.GetComponent<NetworkIdentity>());
 
             enemyTarget = gameObject.GetComponent<EnemyTarget>();
             enemyTarget.Init(anim);
@@ -119,11 +119,6 @@ namespace BV
             onGround = OnGround();
             anim.SetBool("onGround", onGround);
             isRotatingWithRootMotion = anim.GetBool("isRotatingWithRootMotion");
-
-            if (base.isInvicible)
-            {
-                base.isInvicible = !anim.GetBool("canMove");
-            }
         }
 
         void FixedUpdate()
@@ -148,6 +143,7 @@ namespace BV
 
         public void UpdateState(EnemyData enemyData)
         {
+            this.health = enemyData.health;
             if (!isDead && enemyData.isDead)
             {
                 isDead = enemyData.isDead;
@@ -169,6 +165,7 @@ namespace BV
             syncEndRotation = Quaternion.Euler(enemyData.rotation.x, enemyData.rotation.y, enemyData.rotation.z);
             syncStartRotation = gameObject.transform.rotation;
 
+            isInvicible = enemyData.isInvicible;
             isMove = enemyData.move;
             isInteracting = enemyData.isInteracting;
             if (tempAnimationId != enemyData.tempAnimationId)
@@ -252,6 +249,19 @@ namespace BV
             anim.SetBool("isRotatingWithRootMotion", true);
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.2f);
+        }
+
+        public override bool canDoDamage()
+        {
+            return !isInvicible;
+        }
+
+        public override void DoDamage()
+        {
+            if (anim != null)
+            {
+                anim.Play("damage_1");
+            }
         }
     }
 }

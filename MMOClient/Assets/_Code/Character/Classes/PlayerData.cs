@@ -9,6 +9,7 @@ namespace BV
     public class PlayerData
     {
         public string id;
+        public float health;
         public Vector3 position;
         public Quaternion rotation;
         public float vertical;

@@ -20,6 +20,7 @@ namespace BV
         {
             for (int i = 0; i < damageCollider.Length; i++)
             {
+                damageCollider[i].GetComponent<DamageCollider>().Deinit();
                 damageCollider[i].SetActive(false);
             }
         }

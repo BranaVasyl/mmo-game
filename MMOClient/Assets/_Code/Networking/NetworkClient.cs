@@ -25,6 +25,7 @@ namespace Project.Networking
         private MenuManager menuManager;
         [SerializeField]
         private InventoryController inventoryController;
+        private DamageManager damageManager;
 
         public static string ClientID { get; private set; }
 
@@ -49,6 +50,7 @@ namespace Project.Networking
             serverObjects = new Dictionary<string, NetworkIdentity>();
             chatBehaviour = ChatBehaviour.singleton;
             menuManager = MenuManager.singleton;
+            damageManager = DamageManager.singleton;
         }
 
         private void setupEvents()
@@ -85,6 +87,7 @@ namespace Project.Networking
                 {
                     chatBehaviour.Init(this);
                     menuManager.Init(this, playerData);
+                    damageManager.Init(this);
                 }
             });
 
@@ -105,6 +108,7 @@ namespace Project.Networking
 
                 if (ni.IsControlling())
                 {
+                    stateManager.health = playerData.health;
                     if (!stateManager.isDead && playerData.isDead)
                     {
                         stateManager.isDead = playerData.isDead;

@@ -39,6 +39,7 @@ namespace BV
         public bool isTwoHanded;
         public bool usingItem;
         public bool isBlocking;
+        public bool isInvicible;
         public bool isLeftHand;
         public bool onEmpty;
         public string currentAnimation;
@@ -109,15 +110,15 @@ namespace BV
                 PlayRandomStayAnim();
             }
 
-            if (base.isInvicible)
+            if (isInvicible)
             {
-                base.isInvicible = !anim.GetBool("canMove");
+                isInvicible = !anim.GetBool("onEmpty");
             }
         }
 
         void FixedUpdate()
         {
-            if (!base.networkIdentity.IsControlling())
+            if (!networkIdentity.IsControlling())
             {
                 syncTime += delta;
 
@@ -128,6 +129,7 @@ namespace BV
 
         public void UpdateState(PlayerData playerData)
         {
+            health = playerData.health;
             if (!isDead && playerData.isDead)
             {
                 isDead = playerData.isDead;
@@ -176,8 +178,7 @@ namespace BV
             rigid.drag = 4;
             rigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
-            base.SetAnimator(anim);
-            base.SetNetworkIdentity(gameObject.GetComponent<NetworkIdentity>());
+            base.Init(gameObject.GetComponent<NetworkIdentity>());
 
             inventoryManager = GetComponent<InventoryManager>();
             inventoryManager.Init(this);
@@ -782,6 +783,22 @@ namespace BV
         public void PlayAnimation(string targetAnim)
         {
             anim.Play(targetAnim);
+        }
+
+        public override bool canDoDamage()
+        {
+            return !isInvicible && !isBlocking;
+        }
+
+        public override void DoDamage()
+        {
+            isInvicible = true;
+            if (anim != null)
+            {
+                anim.Play("damage_1");
+                anim.applyRootMotion = true;
+                anim.SetBool("onEmpty", false);
+            }
         }
     }
 }
