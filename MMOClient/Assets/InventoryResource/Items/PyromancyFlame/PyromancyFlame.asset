@@ -19,9 +19,17 @@ MonoBehaviour:
   height: 2
   itemType: 0
   itemIcon: {fileID: 21300000, guid: ee5eb743078ae734391721cc4fd4578d, type: 3}
-  weaponModel: {fileID: 2127616069075492220, guid: eff16a39af514654db38eac96bc27214, type: 3}
   oh_idle_name: 
   th_idle_name: 
-  actions: []
+  actions:
+  - input: 0
+    type: 2
+    spellClass: 0
+    targetAnim: 
+    steps: []
+    mirror: 0
+    defaultStep:
+      branches: []
   LeftHandMirror: 1
   two_handedActions: []
+  weaponModel: {fileID: 2127616069075492220, guid: eff16a39af514654db38eac96bc27214, type: 3}

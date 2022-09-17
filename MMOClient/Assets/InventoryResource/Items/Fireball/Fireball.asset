@@ -20,5 +20,11 @@ MonoBehaviour:
   itemType: 1
   itemIcon: {fileID: 21300000, guid: 939ecb6a63745c54290b5788f923da01, type: 3}
   spellType: 0
+  spellClass: 0
+  actions:
+  - input: 0
+    targetAnim: fireball_start
+    throwAnim: throw
+    castTime: 1
   projectile: {fileID: 5095869125006465909, guid: 2264412a8e1b3904e9d3ee1ace77706a, type: 3}
   particlePrefab: {fileID: 7348021968108262811, guid: 99ce87f760a78af409cc5701412a6ea1, type: 3}

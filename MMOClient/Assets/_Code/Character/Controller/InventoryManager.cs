@@ -23,7 +23,7 @@ namespace BV
         public WeaponHook leftHandWeaponHook;
 
         [Header("Selected Spell")]
-        public ItemWeaponData currentSpellData;
+        public Spell currentSpellData;
         [HideInInspector]
         public GameObject currentSpellParticle;
 
@@ -34,16 +34,7 @@ namespace BV
             states = st;
             UpdateLeftHand(leftHandData);
             UpdateRightHand(rightHandData);
-        }
-
-        public void OpenDamageColliders()
-        {
-
-        }
-
-        public void CloseDamageColliderss()
-        {
-
+            UpdateCurrentSpell(currentSpellData);
         }
 
         public void OpenAllDamageColliders()
@@ -128,8 +119,8 @@ namespace BV
 
             leftHandData = newItem;
             leftHandObject = Instantiate(leftHandData.weaponModel, leftHandPivot.transform);
-            leftHandObject.transform.localPosition = new Vector3(0, 0, 0);
-            leftHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            leftHandObject.transform.localPosition = Vector3.zero;
+            leftHandObject.transform.localRotation = Quaternion.identity;
 
             leftHandWeaponHook = leftHandObject.GetComponent<WeaponHook>();
 
@@ -157,13 +148,47 @@ namespace BV
 
             rightHandData = newItem;
             rightHandObject = Instantiate(rightHandData.weaponModel, rightHandPivot.transform);
-            rightHandObject.transform.localPosition = new Vector3(0, 0, 0);
-            rightHandObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            rightHandObject.transform.localPosition = Vector3.zero;
+            rightHandObject.transform.localRotation = Quaternion.identity;
             rightHandWeaponHook = rightHandObject.GetComponent<WeaponHook>();
 
             UpdateActions();
             EquipWeapon(rightHandData, false);
             CloseAllDamageColliders();
+        }
+
+        public void UpdateCurrentSpell(Spell? newItem)
+        {
+            if (currentSpellParticle != null)
+            {
+                currentSpellParticle.SetActive(false);
+                Destroy(currentSpellParticle);
+                currentSpellParticle = null;
+                currentSpellData = null;
+            }
+
+            if (newItem == null)
+            {
+                return;
+            }
+
+            currentSpellData = newItem;
+            currentSpellParticle = Instantiate(currentSpellData.particlePrefab) as GameObject;
+            currentSpellParticle.SetActive(false);
+        }
+
+        public void CreateSpellParticle(bool isLeft = false)
+        {
+            if (currentSpellData == null || currentSpellParticle == null)
+            {
+                return;
+            }
+
+            Transform p = isLeft ? leftHandPivot.transform : rightHandPivot.transform;
+            currentSpellParticle.transform.parent = p;
+            currentSpellParticle.transform.localPosition = Vector3.zero;
+            currentSpellParticle.transform.localRotation = Quaternion.identity;
+            currentSpellParticle.SetActive(true);
         }
     }
 }

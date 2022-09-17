@@ -122,5 +122,24 @@ namespace BV
                 states.inventoryManager.CloseAllDamageColliders();
             }
         }
+
+        public void CloseParticle()
+        {
+            if (states)
+            {
+                if (states.inventoryManager.currentSpellParticle != null)
+                {
+                    states.inventoryManager.currentSpellParticle.SetActive(false);
+                }
+            }
+        }
+
+        public void InitiateThrowForProjectile()
+        {
+            if (states)
+            {
+                states.ThrowProjectile();
+            }
+        }
     }
 }

@@ -110,7 +110,6 @@ namespace BV
             }
 
             inventoryManager.UpdateLeftHand(item);
-
         }
 
         private void UpdateRightHand()

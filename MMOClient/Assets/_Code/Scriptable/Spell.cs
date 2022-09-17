@@ -9,6 +9,8 @@ namespace BV
     {
         [Header("Spell Stats")]
         public SpellType spellType;
+        public SpellClass spellClass;
+        public List<SpellAction> actions = new List<SpellAction>(); 
         public GameObject projectile;
         public GameObject particlePrefab;
     }

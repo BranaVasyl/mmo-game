@@ -621,7 +621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkIdentity: {fileID: 0}
-  isInvicible: 0
   health: 100
   isDead: 0
   activeModel: {fileID: 0}
@@ -646,10 +645,12 @@ MonoBehaviour:
   lockOn: 0
   inAction: 0
   canMove: 0
+  isSpellcasting: 0
   canAttack: 0
   isTwoHanded: 0
   usingItem: 0
   isBlocking: 0
+  isInvicible: 0
   isLeftHand: 0
   onEmpty: 0
   currentAnimation: 
@@ -844,6 +845,8 @@ MonoBehaviour:
   leftHandData: {fileID: 0}
   leftHandObject: {fileID: 0}
   leftHandWeaponHook: {fileID: 0}
+  currentSpellData: {fileID: 11400000, guid: d7c7ab0e92455c4498e9cb9b8d5b74e1, type: 2}
+  currentSpellParticle: {fileID: 0}
 --- !u!54 &3868577345732564901
 Rigidbody:
   m_ObjectHideFlags: 0

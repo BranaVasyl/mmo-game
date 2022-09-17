@@ -154,6 +154,19 @@ namespace BV
             return null;
         }
 
+        public SpellAction GetSpellActionFromList(List<SpellAction> l, ActionInput inp)
+        {
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (l[i].input == inp)
+                {
+                    return l[i];
+                }
+            }
+
+            return null;
+        }
+
         public Action GetActionSlot(StateManager st)
         {
             ActionInput a_input = GetActionInput(st);
@@ -284,6 +297,15 @@ namespace BV
 
             return retVal;
         }
+    }
+
+    [System.Serializable]
+    public class SpellAction
+    {
+        public ActionInput input;
+        public string targetAnim;
+        public string throwAnim;
+        public float castTime;
     }
 
     [System.Serializable]
