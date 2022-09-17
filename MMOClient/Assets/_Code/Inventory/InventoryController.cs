@@ -46,7 +46,7 @@ namespace BV
             selectedItemGrid = null;
             correctInventoryHiglight.SetParent(null);
             incorrectInventoryHiglight.SetParent(null);
-        }
+        } 
 
         public static InventoryController singleton;
         public override void Init(SocketIOComponent soc, PlayerData playerData)

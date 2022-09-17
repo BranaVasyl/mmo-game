@@ -20,7 +20,7 @@ MonoBehaviour:
   itemType: 0
   itemIcon: {fileID: 21300000, guid: ee5eb743078ae734391721cc4fd4578d, type: 3}
   oh_idle_name: 
-  th_idle_name: 
+  th_idle_name: th_idle
   actions:
   - input: 0
     type: 2

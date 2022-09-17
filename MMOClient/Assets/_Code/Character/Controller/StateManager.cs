@@ -754,7 +754,7 @@ namespace BV
             Transform p = spellIsMirrored ? inventoryManager.leftHandPivot.transform : inventoryManager.rightHandPivot.transform;
             go.transform.position = p.position;
 
-            if (lockOnTransform)
+            if (lockOnTransform && lockOn)
             {
                 go.transform.LookAt(lockOnTransform.position);
             }
@@ -764,7 +764,7 @@ namespace BV
             }
 
             Projectile proj = go.GetComponent<Projectile>();
-            proj.Init();
+            proj.Init(this as CharacterManager);
         }
 
         void ParryAction(Action slot)
