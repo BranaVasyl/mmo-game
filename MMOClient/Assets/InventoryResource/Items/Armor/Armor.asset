@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Armor
   m_EditorClassIdentifier: 
   id: armor
+  itemName: 
+  itemDescription: 
   width: 2
   height: 2
-  itemType: 1
+  itemType: 2
   itemIcon: {fileID: 21300000, guid: f678ab355e8883549b252e6add75876d, type: 3}
+  weaponModel: {fileID: 0}

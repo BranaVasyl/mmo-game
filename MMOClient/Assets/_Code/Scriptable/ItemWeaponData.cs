@@ -14,5 +14,6 @@ namespace BV
         public List<Action> actions;
         public bool LeftHandMirror = true;
         public List<Action> two_handedActions;
+        public GameObject weaponModel;
     }
 }

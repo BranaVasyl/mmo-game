@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Craft
   m_EditorClassIdentifier: 
   id: craft
+  itemName: 
+  itemDescription: 
   width: 1
   height: 1
-  itemType: 4
+  itemType: 5
   itemIcon: {fileID: 21300000, guid: 567b3c7af4dbdb247a29ed0127111ff9, type: 3}
+  weaponModel: {fileID: 0}

@@ -22,6 +22,11 @@ namespace BV
         [HideInInspector]
         public WeaponHook leftHandWeaponHook;
 
+        [Header("Selected Spell")]
+        public ItemWeaponData currentSpellData;
+        [HideInInspector]
+        public GameObject currentSpellParticle;
+
         private StateManager states;
 
         public void Init(StateManager st)

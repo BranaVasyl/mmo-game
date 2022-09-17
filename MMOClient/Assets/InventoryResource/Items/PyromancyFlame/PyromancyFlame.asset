@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4598fed9f35499046af5bc4347c2daaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 747d3375a21ff21479287ede74061985, type: 3}
   m_Name: PyromancyFlame
   m_EditorClassIdentifier: 
   id: pyromancyFlame
@@ -17,10 +17,11 @@ MonoBehaviour:
   itemDescription: 
   width: 1
   height: 2
-  itemType: 2
+  itemType: 0
   itemIcon: {fileID: 21300000, guid: ee5eb743078ae734391721cc4fd4578d, type: 3}
+  weaponModel: {fileID: 2127616069075492220, guid: eff16a39af514654db38eac96bc27214, type: 3}
   oh_idle_name: 
   th_idle_name: 
-  spellType: 0
-  projectile: {fileID: 0}
-  weaponModel: {fileID: 2127616069075492220, guid: eff16a39af514654db38eac96bc27214, type: 3}
+  actions: []
+  LeftHandMirror: 1
+  two_handedActions: []

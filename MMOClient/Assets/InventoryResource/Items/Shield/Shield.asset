@@ -13,23 +13,31 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   id: shield
+  itemName: 
+  itemDescription: 
   width: 1
   height: 2
-  itemType: 1
+  itemType: 0
   itemIcon: {fileID: 21300000, guid: f75de8becc5d5cb41afe7ca5d631a491, type: 3}
+  weaponModel: {fileID: 7991978198752098625, guid: c11e2ba0b49d6104bbe80fca18011454, type: 3}
   oh_idle_name: oh_idle
   th_idle_name: th_idle
   actions:
   - input: 0
     type: 1
+    spellClass: 0
     targetAnim: 
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   - input: 2
     type: 3
+    spellClass: 0
     targetAnim: parry
     steps: []
     mirror: 0
+    defaultStep:
+      branches: []
   LeftHandMirror: 1
   two_handedActions: []
-  weaponModel: {fileID: 7991978198752098625, guid: c11e2ba0b49d6104bbe80fca18011454, type: 3}

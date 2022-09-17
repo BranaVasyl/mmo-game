@@ -17,11 +17,10 @@ namespace BV
 
         public ItemType itemType;
         public Sprite itemIcon;
-        public GameObject weaponModel;
     }
 
     public enum ItemType
     {
-        sword, shield, magicWeapon, armor, food, elixir, craft, alchemy, butter, other, quest
+        weapon, spell, armor, food, elixir, craft, alchemy, butter, other, quest
     }
 }

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Meat
   m_EditorClassIdentifier: 
   id: meat
+  itemName: 
+  itemDescription: 
   width: 1
   height: 1
+  itemType: 3
   itemIcon: {fileID: 21300000, guid: 585d1b7a1fdbcb64aaa3321a2b65757b, type: 3}
+  weaponModel: {fileID: 0}

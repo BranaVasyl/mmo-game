@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Butter
   m_EditorClassIdentifier: 
   id: butter
+  itemName: 
+  itemDescription: 
   width: 1
   height: 1
-  itemType: 6
+  itemType: 7
   itemIcon: {fileID: 21300000, guid: ceb1bfdf39d6a104785b9a88e4c9aaf5, type: 3}
+  weaponModel: {fileID: 0}
