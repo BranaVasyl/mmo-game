@@ -78,6 +78,11 @@ namespace BV
             }
 
             FollowTarget(d);
+
+            if (states.openMenu)
+            {
+                return;
+            }
             HandleRotation(d, v, h, targetSpeed);
         }
 

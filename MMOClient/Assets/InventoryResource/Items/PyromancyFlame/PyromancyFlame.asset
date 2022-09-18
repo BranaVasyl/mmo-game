@@ -30,6 +30,14 @@ MonoBehaviour:
     mirror: 0
     defaultStep:
       branches: []
+  - input: 2
+    type: 0
+    spellClass: 0
+    targetAnim: oh_attack_1
+    steps: []
+    mirror: 0
+    defaultStep:
+      branches: []
   LeftHandMirror: 1
   two_handedActions: []
   weaponModel: {fileID: 2127616069075492220, guid: eff16a39af514654db38eac96bc27214, type: 3}

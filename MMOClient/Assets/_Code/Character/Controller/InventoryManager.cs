@@ -22,7 +22,11 @@ namespace BV
         [HideInInspector]
         public WeaponHook leftHandWeaponHook;
 
-        [Header("Selected Spell")]
+        [Header("Quick Spell Data")]
+        public Spell[] quickSpells = new Spell[4];
+
+        [Header("Current Spell")]
+        public int currentSpelId = 0;
         public Spell currentSpellData;
         [HideInInspector]
         public GameObject currentSpellParticle;
@@ -34,7 +38,6 @@ namespace BV
             states = st;
             UpdateLeftHand(leftHandData);
             UpdateRightHand(rightHandData);
-            UpdateCurrentSpell(currentSpellData);
         }
 
         public void OpenAllDamageColliders()
@@ -157,7 +160,17 @@ namespace BV
             CloseAllDamageColliders();
         }
 
-        public void UpdateCurrentSpell(Spell? newItem)
+        public void UpdateQuickSpell(int id, Spell? newItem)
+        {
+            quickSpells[id] = newItem;
+
+            if (id == currentSpelId)
+            {
+                UpdateCurrentSpell(currentSpelId);
+            }
+        }
+
+        public void UpdateCurrentSpell(int spellId)
         {
             if (currentSpellParticle != null)
             {
@@ -167,11 +180,13 @@ namespace BV
                 currentSpellData = null;
             }
 
+            Spell newItem = quickSpells[spellId];
             if (newItem == null)
             {
                 return;
             }
 
+            currentSpelId = spellId;
             currentSpellData = newItem;
             currentSpellParticle = Instantiate(currentSpellData.particlePrefab) as GameObject;
             currentSpellParticle.SetActive(false);

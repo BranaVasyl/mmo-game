@@ -632,6 +632,7 @@ MonoBehaviour:
   rb: 0
   lt: 0
   lb: 0
+  b_input: 0
   rollInput: 0
   itemInput: 0
   moveSpeed: 3.7
@@ -653,6 +654,7 @@ MonoBehaviour:
   isInvicible: 0
   isLeftHand: 0
   onEmpty: 0
+  openMenu: 0
   currentAnimation: 
   lockOnTarget: {fileID: 0}
   lockOnTransform: {fileID: 0}
@@ -845,7 +847,12 @@ MonoBehaviour:
   leftHandData: {fileID: 0}
   leftHandObject: {fileID: 0}
   leftHandWeaponHook: {fileID: 0}
-  currentSpellData: {fileID: 11400000, guid: d7c7ab0e92455c4498e9cb9b8d5b74e1, type: 2}
+  quickSpells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currentSpellData: {fileID: 0}
   currentSpellParticle: {fileID: 0}
 --- !u!54 &3868577345732564901
 Rigidbody:

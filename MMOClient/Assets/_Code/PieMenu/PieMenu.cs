@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace BV
 {
@@ -10,23 +11,23 @@ namespace BV
         public int itemCount = 8;
         private Vector2 normalisedMousePosition;
         private float currentAngle;
-        private int selection = 0;
+        [HideInInspector]
+        public int selection = 0;
         private int previousSelection = 0;
-        
-        public TMP_Text titleContainer;
-        public TMP_Text descriptionContainer; 
 
-        public GameObject[] menuItems;
+        public TMP_Text titleContainer;
+        public TMP_Text descriptionContainer;
+
+        public PieMenuItem[] menuItems;
+        public Sprite emptySpellIcon;
+        public Sprite emptyItemIcon;
+
+        private Spell[] spellsData;
 
         private PieMenuItem menuItemSc;
         private PieMenuItem previousMenuItemSc;
 
         private NewPlayerControls inputActions;
-        private float clickTimer = 0;
-        private bool rb_input = false;
-        private bool lt_input = false;
-        private bool rt_input = false;
-        private bool x_input = false;
 
         void Awake()
         {
@@ -36,6 +37,39 @@ namespace BV
             }
 
             inputActions.Enable();
+        }
+
+        public void SetSpellData(Spell[] sD)
+        {
+            spellsData = sD;
+            for (int i = 0; i < spellsData.Length; i++)
+            {
+                if (spellsData[i] != null)
+                {
+                    menuItems[i].icon.GetComponent<Image>().sprite = spellsData[i].itemIcon;
+                }
+            }
+        }
+
+        public void Clean()
+        {
+            titleContainer.text = "";
+            descriptionContainer.text = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                menuItems[i].icon.GetComponent<Image>().sprite = emptySpellIcon;
+                menuItems[i].Deselect();
+            }
+
+            for (int i = 4; i < 8; i++)
+            {
+                menuItems[i].icon.GetComponent<Image>().sprite = emptyItemIcon;
+                menuItems[i].Deselect();
+            }
+
+            previousSelection = -1;
+            selection = 0;
         }
 
         void Update()
@@ -50,42 +84,27 @@ namespace BV
 
             if (selection != previousSelection)
             {
-                previousMenuItemSc = menuItems[previousSelection].GetComponent<PieMenuItem>();
-                titleContainer.text = "";
-                descriptionContainer.text = "";
-                previousMenuItemSc.Deselect();
+                if (previousSelection >= 0 && previousSelection <= menuItems.Length)
+                {
+                    previousMenuItemSc = menuItems[previousSelection];
+                    previousMenuItemSc.Deselect();
+                }
 
                 previousSelection = selection;
-                menuItemSc = menuItems[previousSelection].GetComponent<PieMenuItem>();
-                titleContainer.text = menuItemSc.title;
-                descriptionContainer.text = menuItemSc.description;
+                menuItemSc = menuItems[previousSelection];
+                titleContainer.text = "";
+                descriptionContainer.text = "";
+
+                if (selection < spellsData.Length)
+                {
+                    Spell selectionItem = spellsData[selection];
+                    if (selectionItem != null)
+                    {
+                        titleContainer.text = selectionItem.itemName;
+                        descriptionContainer.text = selectionItem.itemDescription;
+                    }
+                }
                 menuItemSc.Select();
-            }
-        }
-
-        void GetInput()
-        {
-            inputActions.PlayerActions.X.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
-            inputActions.PlayerActions.RT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
-            inputActions.PlayerActions.LT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
-            inputActions.Mouse.LeftButtonDown.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
-        }
-
-        void ClickAction(float b, ref bool button)
-        {
-            if (clickTimer > 0)
-            {
-                return;
-            }
-
-            if (b > 0)
-            {
-                clickTimer = .1f;
-                button = true;
-            }
-            else
-            {
-                button = false;
             }
         }
     }

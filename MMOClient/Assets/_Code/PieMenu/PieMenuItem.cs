@@ -9,9 +9,8 @@ namespace BV
     {
         public Color hoverColor;
         public Color baseColor;
+        public Image icon;
         public Image background;
-        public string title;
-        public string description;
 
         void Start()
         {

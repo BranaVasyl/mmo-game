@@ -22,9 +22,6 @@ namespace BV
         public GameObject header;
         public GameObject panelName;
 
-        [Header("Inventory Section")]
-        public GameObject inventory;
-
         void Start()
         {
             CloseMenu();

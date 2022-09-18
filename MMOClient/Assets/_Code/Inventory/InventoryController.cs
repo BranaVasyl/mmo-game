@@ -46,7 +46,7 @@ namespace BV
             selectedItemGrid = null;
             correctInventoryHiglight.SetParent(null);
             incorrectInventoryHiglight.SetParent(null);
-        } 
+        }
 
         public static InventoryController singleton;
         public override void Init(SocketIOComponent soc, PlayerData playerData)
@@ -97,7 +97,8 @@ namespace BV
         private void UpdateLeftHand()
         {
             InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "leftHandGrid");
-            if(inventoryGrid == null) {
+            if (inventoryGrid == null)
+            {
                 return;
             }
 
@@ -115,7 +116,8 @@ namespace BV
         private void UpdateRightHand()
         {
             InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "rightHandGrid");
-            if(inventoryGrid == null) {
+            if (inventoryGrid == null)
+            {
                 return;
             }
 
@@ -129,6 +131,26 @@ namespace BV
 
             inventoryManager.UpdateRightHand(item);
         }
+
+        private void UpdateQuickSpell(int id)
+        {
+            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "quickSpellGrid" + (id + 1));
+            if (inventoryGrid == null)
+            {
+                return;
+            }
+
+            List<InventoryItemData> items = inventoryGrid.items;
+            Spell item = null;
+            if (items.Count > 0)
+            {
+                string itemId = items[0].id;
+                item = allItems.Find(x => x.id == itemId) as Spell;
+            }
+
+            inventoryManager.UpdateQuickSpell(id, item);
+        }
+
         #endregion
 
         private void UpdateEquip(bool updateAll = false)
@@ -141,14 +163,59 @@ namespace BV
             string startGridId = startItemGrid != null ? startItemGrid.gridId : "";
             string targetGridId = selectedItemGrid != null ? selectedItemGrid.gridId : "";
 
-            if (startGridId == "leftHandGrid" || targetGridId == "leftHandGrid" || updateAll)
+            if (updateAll)
             {
                 UpdateLeftHand();
+                UpdateRightHand();
+                UpdateQuickSpell(0);
+                UpdateQuickSpell(1);
+                UpdateQuickSpell(2);
+                UpdateQuickSpell(3);
+                return;
             }
 
-            if (startGridId == "rightHandGrid" || targetGridId == "rightHandGrid" || updateAll)
+            switch (startGridId)
             {
-                UpdateRightHand();
+                case "leftHandGrid":
+                    UpdateLeftHand();
+                    break;
+                case "rightHandGrid":
+                    UpdateRightHand();
+                    break;
+                case "quickSpellGrid1":
+                    UpdateQuickSpell(0);
+                    break;
+                case "quickSpellGrid2":
+                    UpdateQuickSpell(1);
+                    break;
+                case "quickSpellGrid3":
+                    UpdateQuickSpell(2);
+                    break;
+                case "quickSpellGrid4":
+                    UpdateQuickSpell(3);
+                    break;
+            }
+
+            switch (targetGridId)
+            {
+                case "leftHandGrid":
+                    UpdateLeftHand();
+                    break;
+                case "rightHandGrid":
+                    UpdateRightHand();
+                    break;
+                case "quickSpellGrid1":
+                    UpdateQuickSpell(0);
+                    break;
+                case "quickSpellGrid2":
+                    UpdateQuickSpell(1);
+                    break;
+                case "quickSpellGrid3":
+                    UpdateQuickSpell(2);
+                    break;
+                case "quickSpellGrid4":
+                    UpdateQuickSpell(3);
+                    break;
             }
         }
 

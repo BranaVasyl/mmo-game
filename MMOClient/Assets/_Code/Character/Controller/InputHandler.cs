@@ -38,6 +38,7 @@ namespace BV
         StateManager states;
         CameraManager camManager;
         MenuManager menuManager;
+        PieMenuManager pieMenuManager;
 
         NewPlayerControls inputActions;
 
@@ -56,6 +57,7 @@ namespace BV
                 camManager.Init(states);
 
                 menuManager = MenuManager.singleton;
+                pieMenuManager = PieMenuManager.singleton;
 
                 if (inputActions == null)
                 {
@@ -120,6 +122,7 @@ namespace BV
 
             //LInput
             inputActions.PlayerActions.L.performed += inputActions => rightAxis_down = true;
+            inputActions.PlayerActions.L.canceled += inputActions => rightAxis_down = false;
 
             //XInput
             inputActions.PlayerActions.X.performed += inputActions => x_input = true;
@@ -158,22 +161,45 @@ namespace BV
 
         void UpdateStates()
         {
-            if (inventory_input)
+            if (inventory_input && !pieMenuManager.IsOpen())
             {
                 inventory_input = false;
                 if (!menuManager.IsOpen())
                 {
+                    states.openMenu = true;
                     menuManager.OpenMenu();
                 }
                 else
                 {
+                    states.openMenu = false;
                     menuManager.CloseMenu();
                 }
             }
-            if(menuManager.IsOpen()) {
-                return;
-            }        
 
+            if (rightAxis_down && !menuManager.IsOpen())
+            {
+                if (!pieMenuManager.IsOpen())
+                {
+                    states.openMenu = true;
+                    pieMenuManager.OpenMenu();
+                }
+            }
+
+            if (!rightAxis_down && pieMenuManager.IsOpen())
+            {
+                states.openMenu = false;
+                pieMenuManager.CloseMenu();
+            }
+
+            if (menuManager.IsOpen() || pieMenuManager.IsOpen())
+            {
+                return;
+            }
+
+            if (states.openMenu)
+            {
+                states.openMenu = false;
+            }
 
             states.horizontal = horizontal;
             states.vertical = vertical;
@@ -207,6 +233,7 @@ namespace BV
             states.lt = lt_input;
             states.rb = rb_input;
             states.lb = lb_input;
+            states.b_input = b_input;
 
             if (y_input)
             {
@@ -215,9 +242,9 @@ namespace BV
                 states.HandleTwoHanded();
             }
 
-            if (rightAxis_down)
+            if (lt_input)
             {
-                rightAxis_down = false;
+                lt_input = false;
                 states.lockOn = !states.lockOn;
                 if (states.lockOnTarget == null)
                 {

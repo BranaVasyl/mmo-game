@@ -850,6 +850,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67179397}
   m_CullTransparentMesh: 1
+--- !u!114 &68325365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 786300203}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &86153976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,10 +1879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 394546639}
   background: {fileID: 1773987061}
-  title: 3
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &146602787
 GameObject:
   m_ObjectHideFlags: 0
@@ -2246,7 +2255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 175462704}
   m_Layer: 5
-  m_Name: Elixir (1)
+  m_Name: Spell (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3317,10 +3326,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 472737377}
   background: {fileID: 1533013348}
-  title: 6
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &276168834
 GameObject:
   m_ObjectHideFlags: 0
@@ -3379,7 +3386,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58ab6206afa4f53479ed628de65eeaae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4051,7 +4058,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58ab6206afa4f53479ed628de65eeaae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4241,6 +4248,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &394546639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 1603081126}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &403550857
 GameObject:
   m_ObjectHideFlags: 0
@@ -4456,7 +4474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickElixirGrid1
+  gridId: quickSpellGrid1
   placeholder: {fileID: 352456615}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -4760,10 +4778,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 68325365}
   background: {fileID: 1120167337}
-  title: 7
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!4 &444173045 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8361080323469260482, guid: 0fc954ca669f21c4f904360148967fb8, type: 3}
@@ -4890,10 +4906,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 480294695}
   background: {fileID: 1159967357}
-  title: 8
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &449905310
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,6 +5140,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453995845}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &472737377 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 6008642029614764263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &480294695 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 39756558}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &483055152
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,7 +5289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 446d4aa913510454a8627b357e05048e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa5a4da47eb3b2e48bd40e6b74a87bb9, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6246,6 +6282,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606473177}
   m_CullTransparentMesh: 1
+--- !u!114 &608861677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 1559607948}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &611619515
 GameObject:
   m_ObjectHideFlags: 0
@@ -8526,7 +8573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58ab6206afa4f53479ed628de65eeaae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9031,7 +9078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa5a4da47eb3b2e48bd40e6b74a87bb9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9403,7 +9450,7 @@ GameObject:
   - component: {fileID: 904282487}
   - component: {fileID: 904282486}
   m_Layer: 5
-  m_Name: ElixirContainer
+  m_Name: SpellContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9913,6 +9960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 961882317}
   - component: {fileID: 961882316}
+  - component: {fileID: 961882318}
   m_Layer: 0
   m_Name: '[MenuManager]'
   m_TagString: Untagged
@@ -9938,7 +9986,6 @@ MonoBehaviour:
   - {fileID: 1021465608}
   header: {fileID: 1664947554}
   panelName: {fileID: 1222342664}
-  inventory: {fileID: 8866688314570395278}
 --- !u!4 &961882317
 Transform:
   m_ObjectHideFlags: 0
@@ -9954,6 +10001,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961882318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961882315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa455346e817c374fa2613c437d864a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieMenu: {fileID: 1258219317}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -11255,7 +11315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickElixirGrid3
+  gridId: quickSpellGrid3
   placeholder: {fileID: 276168834}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -11751,7 +11811,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa5a4da47eb3b2e48bd40e6b74a87bb9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11924,7 +11984,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa5a4da47eb3b2e48bd40e6b74a87bb9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13093,7 +13153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickElixirGrid4
+  gridId: quickSpellGrid4
   placeholder: {fileID: 830031206}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -13272,10 +13332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 1897495461}
   background: {fileID: 1158817021}
-  title: 5
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &1257174526
 GameObject:
   m_ObjectHideFlags: 0
@@ -13427,7 +13485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1258219316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13453,10 +13511,10 @@ RectTransform:
   m_Father: {fileID: 841747835}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 712.561, y: 712.561}
+  m_SizeDelta: {x: -1015.439, y: -367.43903}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258219317
 MonoBehaviour:
@@ -13471,17 +13529,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemCount: 8
+  selection: 0
   titleContainer: {fileID: 887939150}
   descriptionContainer: {fileID: 1016475227}
   menuItems:
-  - {fileID: 2139044581}
-  - {fileID: 1477800048}
-  - {fileID: 146033982}
-  - {fileID: 1548634407}
-  - {fileID: 1247935638}
-  - {fileID: 255733518}
-  - {fileID: 439134190}
-  - {fileID: 447891996}
+  - {fileID: 2139044583}
+  - {fileID: 1477800050}
+  - {fileID: 146033984}
+  - {fileID: 1548634409}
+  - {fileID: 1247935640}
+  - {fileID: 255733520}
+  - {fileID: 439134192}
+  - {fileID: 447891998}
+  emptySpellIcon: {fileID: 21300000, guid: fa36975a881f92d4aba6f29694f679ff, type: 3}
+  emptyItemIcon: {fileID: 21300000, guid: c83e29fa09b38984baba6a6df479ca45, type: 3}
 --- !u!1 &1265590636
 GameObject:
   m_ObjectHideFlags: 0
@@ -14111,7 +14172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1317291335}
   m_Layer: 5
-  m_Name: Elixir (2)
+  m_Name: Spell (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15166,7 +15227,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa5a4da47eb3b2e48bd40e6b74a87bb9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16308,10 +16369,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 608861677}
   background: {fileID: 169347591}
-  title: 2
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &1480450311
 GameObject:
   m_ObjectHideFlags: 0
@@ -17478,10 +17537,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 1815361548}
   background: {fileID: 1390126325}
-  title: 4
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &1549834974
 GameObject:
   m_ObjectHideFlags: 0
@@ -18808,7 +18865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickElixirGrid2
+  gridId: quickSpellGrid2
   placeholder: {fileID: 1851140638}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -20313,7 +20370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1801397664}
   m_Layer: 5
-  m_Name: Elixir (3)
+  m_Name: Spell (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20351,7 +20408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1804353174}
   m_Layer: 5
-  m_Name: Elixir (4)
+  m_Name: Spell (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20441,6 +20498,28 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
+--- !u!114 &1810421011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 1913964251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1815361548 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 192623762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1816143256
 GameObject:
   m_ObjectHideFlags: 0
@@ -21235,7 +21314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ec66c42576f814391f3b2b91d87c9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58ab6206afa4f53479ed628de65eeaae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21474,6 +21553,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875605069}
   m_CullTransparentMesh: 1
+--- !u!114 &1897495461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+  m_PrefabInstance: {fileID: 2093654048}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1908507942
 GameObject:
   m_ObjectHideFlags: 0
@@ -24520,10 +24610,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   baseColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
+  icon: {fileID: 1810421011}
   background: {fileID: 905795199}
-  title: 1
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer scelerisque
-    orci nec sapien pellentesque, et placerat orci sodales
 --- !u!1 &2140204798
 GameObject:
   m_ObjectHideFlags: 0
@@ -24877,6 +24965,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
   - {fileID: 11400000, guid: fb5d2a62d224b6847b01cbdb9c43a1d3, type: 2}
   - {fileID: 11400000, guid: d7c7ab0e92455c4498e9cb9b8d5b74e1, type: 2}
+  - {fileID: 11400000, guid: 4e83c3b6473d4cb4590e803aec972fa3, type: 2}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
   canvasTransform: {fileID: 841747835}
   correctInventoryHiglight: {fileID: 8866688314570395279}

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4598fed9f35499046af5bc4347c2daaf, type: 3}
-  m_Name: Fireball
+  m_Name: Iceball
   m_EditorClassIdentifier: 
-  id: fireball
-  itemName: "\u0412\u043E\u0433\u043D\u044F\u043D\u0430 \u043A\u0443\u043B\u044F"
-  itemDescription: "\u0417\u0433\u0443\u0441\u0442\u043E\u043A \u0432\u043E\u0433\u043D\u044E"
+  id: iceball
+  itemName: "\u041B\u044C\u043E\u0434\u044F\u043D\u0430 \u043A\u0443\u043B\u044F"
+  itemDescription: "\u0417\u0433\u0443\u0441\u0442\u043E\u043A \u043B\u044C\u043E\u0434\u0443"
   width: 1
   height: 1
   itemType: 1
-  itemIcon: {fileID: 21300000, guid: 939ecb6a63745c54290b5788f923da01, type: 3}
+  itemIcon: {fileID: 21300000, guid: 74f991b187f9a4041886ebf4b225e8f2, type: 3}
   spellType: 0
   spellClass: 0
   actions:
@@ -26,5 +26,5 @@ MonoBehaviour:
     targetAnim: fireball_start
     throwAnim: throw
     castTime: 1
-  projectile: {fileID: 5095869125006465909, guid: 2264412a8e1b3904e9d3ee1ace77706a, type: 3}
-  particlePrefab: {fileID: 7348021968108262811, guid: 99ce87f760a78af409cc5701412a6ea1, type: 3}
+  projectile: {fileID: 5095869125006465909, guid: a31d1db3326492a438ae8e14278bb379, type: 3}
+  particlePrefab: {fileID: 7348021968108262811, guid: 701c64099ca664d4182626e12b388bcb, type: 3}

@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9fb5e6407675c2d4d87cf27176fcd736, type: 2}
+  - {fileID: 2100000, guid: b7013281e3f2db146a41ec50831aa5d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 3857315459788194982}
   - component: {fileID: 7346554602540381356}
   m_Layer: 0
-  m_Name: FireballProjectile
+  m_Name: IceballProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,6 +319,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 199949705473586696, guid: 1434e13de96979073a9a68579bb3103e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b7013281e3f2db146a41ec50831aa5d4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1434e13de96979073a9a68579bb3103e, type: 3}
 --- !u!4 &2465916931908704682 stripped

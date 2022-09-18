@@ -17,7 +17,7 @@ namespace BV
         public float horizontal;
         public float moveAmount;
         public Vector3 moveDir;
-        public bool rt, rb, lt, lb;
+        public bool rt, rb, lt, lb, b_input;
         public bool rollInput;
         public bool itemInput;
 
@@ -43,6 +43,7 @@ namespace BV
         public bool isInvicible;
         public bool isLeftHand;
         public bool onEmpty;
+        public bool openMenu;
         public string currentAnimation;
 
         [Header("Other")]
@@ -68,8 +69,8 @@ namespace BV
         float _actionDelay;
         [HideInInspector]
         public float airTimer;
-        public ActionInput storePrevAction;
-        public ActionInput storeActionInput;
+        private ActionInput storePrevAction;
+        private ActionInput storeActionInput;
 
         [Header("TestEquip")]
         public int curEquip;
@@ -585,12 +586,12 @@ namespace BV
 
         public void DetectedAction()
         {
-            if (!canAttack && (onEmpty == false || usingItem || isSpellcasting))
+            if ((!canAttack && (onEmpty == false || usingItem)) || isSpellcasting)
             {
                 return;
             }
 
-            if (rb == false && rt == false && lt == false && lb == false)
+            if (rb == false && lb == false)
             {
                 return;
             }
@@ -665,7 +666,7 @@ namespace BV
                 return;
             }
 
-            if (slot.spellClass != inventoryManager.currentSpellData.spellClass)
+            if (inventoryManager.currentSpellData == null || slot.spellClass != inventoryManager.currentSpellData.spellClass)
             {
                 //targetAnim = cant cast spell
                 Debug.Log("spell class doesn`t match");

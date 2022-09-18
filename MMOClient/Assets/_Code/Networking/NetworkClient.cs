@@ -25,6 +25,7 @@ namespace Project.Networking
         private MenuManager menuManager;
         [SerializeField]
         private InventoryController inventoryController;
+        private PieMenuManager pieMenuManager;
         private DamageManager damageManager;
 
         public static string ClientID { get; private set; }
@@ -50,6 +51,7 @@ namespace Project.Networking
             serverObjects = new Dictionary<string, NetworkIdentity>();
             chatBehaviour = ChatBehaviour.singleton;
             menuManager = MenuManager.singleton;
+            pieMenuManager = PieMenuManager.singleton;
             damageManager = DamageManager.singleton;
         }
 
@@ -87,6 +89,7 @@ namespace Project.Networking
                 {
                     chatBehaviour.Init(this);
                     menuManager.Init(this, playerData);
+                    pieMenuManager.Init(go.GetComponent<InventoryManager>());
                     damageManager.Init(this);
                 }
             });

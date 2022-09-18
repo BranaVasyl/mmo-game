@@ -193,21 +193,22 @@ namespace BV
 
         public ActionInput GetActionInput(StateManager st)
         {
+            
+            if (st.rb && st.b_input)
+            {
+                return ActionInput.rt;
+            }
+            if (st.lb && st.b_input)
+            {
+                return ActionInput.lt;
+            }
             if (st.rb)
             {
                 return ActionInput.rb;
             }
-            if (st.rt)
-            {
-                return ActionInput.rt;
-            }
             if (st.lb)
             {
                 return ActionInput.lb;
-            }
-            if (st.lt)
-            {
-                return ActionInput.lt;
             }
 
             return ActionInput.rb;

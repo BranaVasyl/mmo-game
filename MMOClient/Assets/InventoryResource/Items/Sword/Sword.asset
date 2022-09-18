@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   id: sword
+  itemName: 
+  itemDescription: 
   width: 1
   height: 2
   itemType: 0
@@ -22,6 +24,7 @@ MonoBehaviour:
   actions:
   - input: 0
     type: 0
+    spellClass: 0
     targetAnim: oh_attack_1
     steps:
     - branches:
@@ -31,21 +34,16 @@ MonoBehaviour:
       - input: 0
         targetAnim: oh_attack_2
     mirror: 0
-  - input: 1
+    defaultStep:
+      branches: []
+  - input: 2
     type: 0
+    spellClass: 0
     targetAnim: oh_attack_3
     steps: []
     mirror: 0
-  - input: 2
-    type: 0
-    targetAnim: oh_attack_2
-    steps: []
-    mirror: 0
-  - input: 3
-    type: 0
-    targetAnim: oh_attack_1
-    steps: []
-    mirror: 0
+    defaultStep:
+      branches: []
   LeftHandMirror: 1
   two_handedActions: []
   weaponModel: {fileID: 1993076575720630405, guid: b5fae0cb3bfa29d488fc8e51b2543ccb, type: 3}
