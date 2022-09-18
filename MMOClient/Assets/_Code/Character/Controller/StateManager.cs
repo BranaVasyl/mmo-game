@@ -40,6 +40,7 @@ namespace BV
         public bool isTwoHanded;
         public bool usingItem;
         public bool isBlocking;
+        public bool inDialog;
         public bool isInvicible;
         public bool isLeftHand;
         public bool onEmpty;
@@ -586,7 +587,7 @@ namespace BV
 
         public void DetectedAction()
         {
-            if ((!canAttack && (onEmpty == false || usingItem)) || isSpellcasting)
+            if ((!canAttack && (onEmpty == false || usingItem)) || isSpellcasting || inDialog)
             {
                 return;
             }

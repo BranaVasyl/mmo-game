@@ -237,9 +237,20 @@ namespace BV
                         {
                             overlapItem = inventoryItemSlot[posX + x, posY + y];
                         }
-                        else
+
+                        if (overlapItem != null)
                         {
                             if (overlapItem != inventoryItemSlot[posX + x, posY + y])
+                            {
+                                return false;
+                            }
+
+                            if (overlapItem.WIDTH != width || overlapItem.HEIGHT != height)
+                            {
+                                return false;
+                            }
+
+                            if (overlapItem.onGridPositionX != posX || overlapItem.onGridPositionY != posY)
                             {
                                 return false;
                             }

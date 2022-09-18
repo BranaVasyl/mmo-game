@@ -25,12 +25,15 @@ namespace BV
         private string nextElementId;
         private string currentAnsweId;
 
-        public void InitDialog(string path)
+        private StateManager states;
+
+        public void InitDialog(string path, StateManager st)
         {
             TextAsset targetFile = Resources.Load<TextAsset>(path);
             Dialog dialog = JsonUtility.FromJson<Dialog>(targetFile.text);
 
             ClearElement();
+            states = st;
 
             NPCName = dialog.dialogName;
             allDialogPhrases = dialog.allPhrase;
@@ -38,9 +41,15 @@ namespace BV
             allOutputNode = dialog.allOutputNode.ToArray();
 
             initDialogSelected(dialog.allSelectedNode);
-
-            Debug.Log("Stard dialog with " + NPCName);
             shearchNextElement(dialog.startPhrase);
+
+            StartDialog();
+        }
+
+        public void StartDialog()
+        {
+            states.inDialog = true;
+            Debug.Log("Stard dialog with " + NPCName);
         }
 
         void initDialogSelected(List<DialogSelected> dialogsSelected)
@@ -134,7 +143,7 @@ namespace BV
         private void ShowAnswer(DialogAnswer answer)
         {
             currentAnsweId = answer.idAnswer;
-            GameObject answerContainer =  answersUIField.transform.GetChild(1).gameObject;
+            GameObject answerContainer = answersUIField.transform.GetChild(1).gameObject;
             for (int i = 0; i <= answer.answerItems.Count - 1; i++)
             {
                 answerContainer.transform.GetChild(i).gameObject.SetActive(true);
@@ -171,7 +180,7 @@ namespace BV
             }
         }
 
-        void EndDialog(DialogOutput dialogOutput = null)
+        public void EndDialog(DialogOutput dialogOutput = null)
         {
             if (dialogOutput != null)
             {
@@ -191,7 +200,14 @@ namespace BV
                 }
             }
 
+            StopAllCoroutines();
             ClearElement();
+
+            if (states != null)
+            {
+                states.inDialog = false;
+                states = null;
+            }
             Debug.Log("End dialog with" + NPCName);
         }
 
@@ -212,11 +228,17 @@ namespace BV
             phraseUi.transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = "";
             answersUIField.SetActive(false);
 
-            GameObject answerContainer =  answersUIField.transform.GetChild(1).gameObject;
+            GameObject answerContainer = answersUIField.transform.GetChild(1).gameObject;
             for (int i = 0; i < answerContainer.transform.childCount; i++)
             {
                 answerContainer.transform.GetChild(i).gameObject.SetActive(false);
             }
+        }
+
+        public static DialogManager singleton;
+        void Awake()
+        {
+            singleton = this;
         }
     }
 }

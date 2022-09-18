@@ -8,6 +8,11 @@ namespace BV
     public class NPCDialog : MonoBehaviour
     {
         public string dialogName;
+        private DialogManager dialogManager;
+
+        void Awake() {
+            dialogManager = DialogManager.singleton;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -16,8 +21,19 @@ namespace BV
                 NetworkIdentity ni = other.gameObject.GetComponent<NetworkIdentity>();
                 if (ni.IsControlling())
                 {
-                    GameObject dialogManager = GameObject.FindGameObjectWithTag("Dialog_Manager");
-                    dialogManager.GetComponent<DialogManager>().InitDialog("DialogText/" + dialogName);
+                    dialogManager.InitDialog("DialogText/" + dialogName, other.gameObject.GetComponent<StateManager>());
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                NetworkIdentity ni = other.gameObject.GetComponent<NetworkIdentity>();
+                if (ni.IsControlling())
+                {
+                    dialogManager.EndDialog();
                 }
             }
         }

@@ -11,6 +11,7 @@ namespace BV
     {
         private SocketIOComponent socket;
         private ItemGrid startItemGrid;
+        private Vector2Int startGridPosition;
         [HideInInspector]
         public ItemGrid selectedItemGrid;
         public ItemGrid SelectedItemGrid
@@ -284,21 +285,9 @@ namespace BV
 
         private void Update()
         {
-            if (clickTimer > 0)
-            {
-                clickTimer -= Time.deltaTime;
-            }
+            base.Update();
 
             ItemIconDrag();
-
-            if (lt_input)
-            {
-                lt_input = false;
-                if (selectedItem == null)
-                {
-                    CreateRandomItem();
-                }
-            }
 
             if (rt_input)
             {
@@ -312,21 +301,33 @@ namespace BV
                 RotateItem();
             }
 
+            if (dragEnd)
+            {
+                if (selectedItemGrid != null)
+                {
+                    Vector2Int tileGridPosition = GetTileGridPosition();
+                    PlaceItem(tileGridPosition);
+                }
+                else
+                {
+                    RevertItemPosition();
+                }
+            }
+
             if (selectedItemGrid == null)
             {
-                rb_input = false;
                 correctInventoryHiglight.Show(false);
                 incorrectInventoryHiglight.Show(false);
                 return;
             }
 
-            HandleHighlight();
-
-            if (rb_input)
+            if (dragStart)
             {
-                rb_input = false;
-                LeftMouseButtonPress();
+                Vector2Int tileGridPosition = GetTileGridPosition();
+                PickUpItem(tileGridPosition);
             }
+
+            HandleHighlight();
         }
 
         Vector2Int oldPosition;
@@ -484,7 +485,6 @@ namespace BV
 
         private Vector2Int GetTileGridPosition()
         {
-
             Vector2 position = inputActions.Mouse.MousePosition.ReadValue<Vector2>();
 
             if (selectedItem != null)
@@ -496,37 +496,57 @@ namespace BV
             return selectedItemGrid.GetTileGridPosition(position);
         }
 
+        private void RevertItemPosition()
+        {
+            if (startItemGrid == null || selectedItem == null)
+            {
+                return;
+            }
+
+            startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
+            rectTransform = null;
+            selectedItem = null;
+            UpdateInventoryData();
+            startItemGrid = null;
+        }
+
         private void PlaceItem(Vector2Int tileGridPosition)
         {
             bool canPlace = CanSetInPlace();
             if (!canPlace)
             {
+                RevertItemPosition();
                 return;
             }
 
             bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
             if (complete)
             {
-                rectTransform = null;
-                selectedItem = null;
-                UpdateInventoryData();
-                UpdateEquip(false);
-                startItemGrid = null;
-
                 if (overlapItem != null)
                 {
                     selectedItem = overlapItem;
                     overlapItem = null;
-                    rectTransform = selectedItem.GetComponent<RectTransform>();
-                    rectTransform.SetAsLastSibling();
+                    startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
                 }
+
+                rectTransform = null;
+                UpdateInventoryData();
+                UpdateEquip(false);
+                startItemGrid = null;
+                selectedItem = null;
             }
         }
 
         private void PickUpItem(Vector2Int tileGridPosition)
         {
             selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+            if (selectedItem == null)
+            {
+                return;
+            }
+
             startItemGrid = selectedItemGrid;
+            startGridPosition = new Vector2Int(selectedItem.onGridPositionX, selectedItem.onGridPositionY);
 
             if (selectedItem != null)
             {
@@ -548,6 +568,11 @@ namespace BV
             SelectedItemGrid = null;
             oldPosition = new Vector2Int();
             oldItemGrid = null;
+        }
+
+        public override void Deinit()
+        {
+            RevertItemPosition();
         }
     }
 

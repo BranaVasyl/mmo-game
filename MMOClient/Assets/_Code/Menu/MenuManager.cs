@@ -55,6 +55,7 @@ namespace BV
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < menuPanels.Count; i++)
             {
+                menuPanels[i].Deinit();
                 menuPanels[i].gameObject.SetActive(false);
             }
 

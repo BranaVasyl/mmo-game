@@ -15,7 +15,6 @@ namespace BV
         public NewPlayerControls inputActions;
         [HideInInspector]
         public float clickTimer = 0;
-        [HideInInspector]
         public bool rb_input = false;
         [HideInInspector]
         public bool lt_input = false;
@@ -23,6 +22,10 @@ namespace BV
         public bool rt_input = false;
         [HideInInspector]
         public bool x_input = false;
+
+        public bool dragStart = false;
+        public bool dragged = false;
+        public bool dragEnd = false;
 
         public virtual void Init(SocketIOComponent soc, PlayerData pD)
         {
@@ -35,11 +38,33 @@ namespace BV
             inputActions.Enable();
         }
 
-        private void Update()
+        public void Update()
         {
             if (clickTimer > 0)
             {
                 clickTimer -= Time.deltaTime;
+            }
+
+            if (dragEnd)
+            {
+                dragEnd = false;
+            }
+
+            if (dragged && !rb_input)
+            {
+                dragEnd = true;
+                dragged = false;
+            }
+
+            if (dragStart)
+            {
+                dragStart = false;
+                dragged = true;
+            }
+
+            if (rb_input && !dragged)
+            {
+                dragStart = true;
             }
         }
 
@@ -48,7 +73,10 @@ namespace BV
             inputActions.PlayerActions.X.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref x_input);
             inputActions.PlayerActions.RT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rt_input);
             inputActions.PlayerActions.LT.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref lt_input);
-            inputActions.Mouse.LeftButtonDown.performed += inputActions => ClickAction(inputActions.ReadValue<float>(), ref rb_input);
+
+            //RBInput
+            inputActions.PlayerActions.RB.performed += inputActions => rb_input = true;
+            inputActions.PlayerActions.RB.canceled += inputActions => rb_input = false;
         }
 
         void ClickAction(float b, ref bool button)
@@ -67,6 +95,10 @@ namespace BV
             {
                 button = false;
             }
+        }
+
+        public virtual void Deinit()
+        {
         }
     }
 }
