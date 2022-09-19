@@ -249,7 +249,7 @@ namespace BV
                                 continue;
                             }
 
-                            inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY));
+                            inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
                             checkedItem.Add(curInventoryItem);
                         }
                     }
@@ -278,6 +278,9 @@ namespace BV
 
                 InventoryItem inventoryItem = CreateInventoryItem();
                 inventoryItem.Set(itemData);
+                if(item.rotated) {
+                    inventoryItem.Rotate();
+                }
 
                 itemGrid.PlaceItem(inventoryItem, item.position.x, item.position.y);
             }

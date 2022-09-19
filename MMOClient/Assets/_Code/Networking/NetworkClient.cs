@@ -19,14 +19,7 @@ namespace Project.Networking
         [SerializeField]
         private ServerObjects serverSpawnables;
 
-        [SerializeField]
-        private ChatBehaviour chatBehaviour;
-        [SerializeField]
-        private MenuManager menuManager;
-        [SerializeField]
-        private InventoryController inventoryController;
-        private PieMenuManager pieMenuManager;
-        private DamageManager damageManager;
+        private ManagersController managersController;
 
         public static string ClientID { get; private set; }
 
@@ -49,10 +42,7 @@ namespace Project.Networking
         private void initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
-            chatBehaviour = ChatBehaviour.singleton;
-            menuManager = MenuManager.singleton;
-            pieMenuManager = PieMenuManager.singleton;
-            damageManager = DamageManager.singleton;
+            managersController = ManagersController.singleton;
         }
 
         private void setupEvents()
@@ -85,12 +75,10 @@ namespace Project.Networking
 
                 serverObjects.Add(playerData.id, ni);
 
-                if (ni.IsControlling())
+                if (ni.IsControlling() && managersController != null)
                 {
-                    chatBehaviour.Init(this);
-                    menuManager.Init(this, playerData);
-                    pieMenuManager.Init(go.GetComponent<InventoryManager>());
-                    damageManager.Init(this);
+                    StateManager states = go.GetComponent<StateManager>();
+                    managersController.Init(this, states, playerData);
                 }
             });
 
@@ -179,7 +167,7 @@ namespace Project.Networking
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
-                chatBehaviour.SendMessage(id, message);
+                managersController.chatBehaviour.SendMessage(id, message);
             });
         }
 

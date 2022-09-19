@@ -39,11 +39,13 @@ namespace BV
     {
         public string id;
         public Vector2Int position;
+        public bool rotated = false;
 
-        public InventoryItemData(string i, int x, int y)
+        public InventoryItemData(string i, int x, int y, bool r)
         {
             id = i;
             position = new Vector2Int(x, y);
+            rotated = r;
         }
     }
 }

@@ -191,14 +191,9 @@ namespace BV
                 pieMenuManager.CloseMenu();
             }
 
-            if (menuManager.IsOpen() || pieMenuManager.IsOpen())
+            if (menuManager.IsOpen())
             {
                 return;
-            }
-
-            if (states.openMenu)
-            {
-                states.openMenu = false;
             }
 
             states.horizontal = horizontal;
@@ -210,6 +205,16 @@ namespace BV
 
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
+
+            if (pieMenuManager.IsOpen())
+            {
+                return;
+            }
+
+            if (states.openMenu)
+            {
+                states.openMenu = false;
+            }
 
             if (x_input)
             {
