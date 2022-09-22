@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c60725ead999ec4d82bcb84e8d1561c, type: 3}
+  m_Name: questShrieker
+  m_EditorClassIdentifier: 
+  id: "\u0417\u0430\u043A\u0430\u0437 \u041A\u043B\u0435\u043A\u043E\u0442\u0443\u043D"
+  name: a0d84638-9dd9-4091-b5fa-2448a962862a
+  description: 
+  level: 12
+  locality: "\u041D\u043E\u0432\u0456\u0433\u0440\u0430\u0434"
+  type: 1
+  active: 0
+  questParts:
+  - id: 
+    description: 
+    completed: 0
+    startActions: []
+    completedActions: []
+  - id: 
+    description: 
+    completed: 0
+    startActions: []
+    completedActions: []
+  completed: 0

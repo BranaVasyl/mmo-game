@@ -7,12 +7,12 @@ namespace BV{
     
     public class QuestManager : MonoBehaviour
     {
-        public List<Quest> quest;
+        public List<QuestOld> quest;
         public List<InvestiagtionArea> InvestiagtionAreas; 
 
-        public Quest getQuest(string id)
+        public QuestOld getQuest(string id)
         {
-            Quest resultQuest = quest.Find(i => i.questId == id);
+            QuestOld resultQuest = quest.Find(i => i.questId == id);
             
             if(resultQuest != null) {
                 return resultQuest;
@@ -24,7 +24,7 @@ namespace BV{
         public void setQuestOrPartComplated(string options){
             string[] command = options.Split(new char[]{'&'});
 
-            Quest quest = getQuest(command[0]);
+            QuestOld quest = getQuest(command[0]);
             if(quest != null){
                 if(command.Length > 1){
                     quest.setPartCompleted(command[1]);
@@ -38,7 +38,7 @@ namespace BV{
         public bool getQuestOrPartComplated(string options){
             string[] command = options.Split(new char[]{'&'});
 
-            Quest quest = getQuest(command[0]);
+            QuestOld quest = getQuest(command[0]);
             if(quest != null){
                 if(command.Length > 1)
                     return quest.isPartCompleted(command[1]);

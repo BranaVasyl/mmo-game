@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    [CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData", order = 3)]
+    [CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/Game Item/Item", order = 2)]
     public class ItemData : ScriptableObject
     {
         [Header("General Stats")]

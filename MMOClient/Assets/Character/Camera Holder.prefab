@@ -50,6 +50,7 @@ MonoBehaviour:
   mouseSpeed: 3
   target: {fileID: 0}
   lockonTarget: {fileID: 0}
+  lockonTransform: {fileID: 0}
   pivot: {fileID: 0}
   camTrans: {fileID: 0}
   minAngle: -35
@@ -146,7 +147,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:

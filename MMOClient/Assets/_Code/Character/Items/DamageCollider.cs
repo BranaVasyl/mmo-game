@@ -24,6 +24,10 @@ namespace BV
                 return;
             }
 
+            if(targetCManager.networkIdentity == null) {
+                return;
+            }
+
             string targetId = targetCManager.networkIdentity.GetID();
             if(damagedCharactersId.Find(x => x == targetId) != null) {
                 return;

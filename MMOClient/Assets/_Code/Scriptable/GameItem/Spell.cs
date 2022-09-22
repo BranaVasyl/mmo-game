@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    [CreateAssetMenu(fileName = "Spell", menuName = "Scriptable Objects/Spell", order = 3)]
+    [CreateAssetMenu(fileName = "Spell", menuName = "Scriptable Objects/Game Item/Spell", order = 3)]
     public class Spell : ItemData
     {
         [Header("Spell Stats")]

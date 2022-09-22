@@ -51,7 +51,7 @@ namespace BV
 
         public void CloseDamageColliders()
         {
-            if (enemyManager == null)
+            if (enemyManager == null || enemyManager.inventoryManager.w_hook == null)
             {
                 return;
             }

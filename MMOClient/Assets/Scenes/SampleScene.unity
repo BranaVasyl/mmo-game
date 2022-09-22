@@ -3413,6 +3413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 309419831}
+  - component: {fileID: 309419832}
   m_Layer: 0
   m_Name: '[Managers]'
   m_TagString: Untagged
@@ -3435,11 +3436,28 @@ Transform:
   - {fileID: 959177958}
   - {fileID: 712818033}
   - {fileID: 961882317}
+  - {fileID: 1408024078}
   - {fileID: 1301949964}
   - {fileID: 689462561}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &309419832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309419830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd289bbbb881e44aaf17e9ba5b06ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatBehaviour: {fileID: 0}
+  menuManager: {fileID: 0}
+  pieMenuManager: {fileID: 0}
+  damageManager: {fileID: 0}
 --- !u!1 &319001843
 GameObject:
   m_ObjectHideFlags: 0
@@ -4266,9 +4284,6 @@ MonoBehaviour:
   networkContainer: {fileID: 1267529208}
   playerPrefab: {fileID: 6679339757132984336, guid: a19a1518dd8194641bf6c76a0aeb86f1, type: 3}
   serverSpawnables: {fileID: 11400000, guid: e96fe2df4cc7310409c569bccb56516a, type: 2}
-  chatBehaviour: {fileID: 0}
-  menuManager: {fileID: 0}
-  inventoryController: {fileID: 0}
 --- !u!4 &391939055
 Transform:
   m_ObjectHideFlags: 0
@@ -4510,7 +4525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid1
+  gridId: quickSpellGrid4
   placeholder: {fileID: 352456615}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -7178,7 +7193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 309419831}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -9996,7 +10011,6 @@ GameObject:
   m_Component:
   - component: {fileID: 961882317}
   - component: {fileID: 961882316}
-  - component: {fileID: 961882318}
   m_Layer: 0
   m_Name: '[MenuManager]'
   m_TagString: Untagged
@@ -10037,19 +10051,6 @@ Transform:
   m_Father: {fileID: 309419831}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &961882318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961882315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa455346e817c374fa2613c437d864a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieMenu: {fileID: 1258219317}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -11282,7 +11283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: "\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
-  clickTimer: 0
   rb_input: 0
   lt_input: 0
   rt_input: 0
@@ -11354,7 +11354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid3
+  gridId: quickSpellGrid2
   placeholder: {fileID: 276168834}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -13192,7 +13192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid4
+  gridId: quickSpellGrid1
   placeholder: {fileID: 830031206}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -13999,7 +13999,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 309419831}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1306339294
 GameObject:
@@ -15170,6 +15170,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1396199534}
   m_CullTransparentMesh: 1
+--- !u!1 &1408024077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1408024078}
+  - component: {fileID: 1408024079}
+  m_Layer: 0
+  m_Name: '[PieMenuManager]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1408024078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408024077}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 856.34595, y: 376.31525, z: 21.914246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 309419831}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1408024079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408024077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa455346e817c374fa2613c437d864a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieMenu: {fileID: 1258219317}
 --- !u!1 &1412298330
 GameObject:
   m_ObjectHideFlags: 0
@@ -18904,7 +18949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid2
+  gridId: quickSpellGrid3
   placeholder: {fileID: 1851140638}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -24980,7 +25025,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: "\u0420\u044E\u043A\u0437\u0430\u043A"
-  clickTimer: 0
   rb_input: 0
   lt_input: 0
   rt_input: 0
