@@ -27,6 +27,10 @@ namespace BV
         void Update()
         {
             lifeTime += Time.deltaTime;
+            if (lifeTime > 10)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         public void Init(CharacterManager cm)

@@ -32,6 +32,11 @@ namespace BV
                 return;
             }
 
+            if (quest.IsCompleted())
+            {
+                return;
+            }
+
             QuestStageBase questStage = GetQuestStage(quest, stageId);
             if (!quest.IsActive())
             {
@@ -52,6 +57,11 @@ namespace BV
 
             Quest quest = GetQuest(questId);
             if (quest == null)
+            {
+                return;
+            }
+
+            if (quest.IsCompleted())
             {
                 return;
             }

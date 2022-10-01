@@ -49,6 +49,11 @@ namespace BV
 
         public void OnComplete()
         {
+            if (IsCompleted())
+            {
+                return;
+            }
+
             for (int i = 0; i < completedActions.Count; i++)
             {
                 completedActions[i].TriggerEvent();
