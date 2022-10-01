@@ -9,7 +9,7 @@ namespace BV
     {
         [Header("Quest Base")]
         public string id;
-        public string name;
+        public string questName;
         public string description;
         public int level;
         public string locality;

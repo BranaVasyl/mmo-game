@@ -286,7 +286,7 @@ namespace BV
             }
         }
 
-        private void Update()
+        new private void Update()
         {
             base.Update();
 

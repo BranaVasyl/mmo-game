@@ -46,7 +46,7 @@ namespace BV
             isOpen = true;
 
             currentPanel = menuPanels[curPanelIndex];
-            panelName.GetComponent<TMP_Text>().text = currentPanel.name;
+            panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
             currentPanel.gameObject.SetActive(true);
         }
 

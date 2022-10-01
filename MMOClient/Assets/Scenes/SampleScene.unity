@@ -11282,7 +11282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9920f779b70531f48846813b64735101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
+  panelName: "\u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
   rb_input: 0
   lt_input: 0
   rt_input: 0
@@ -25024,7 +25024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a9526afb32ad74786997f1d1a5180c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "\u0420\u044E\u043A\u0437\u0430\u043A"
+  panelName: "\u0420\u044E\u043A\u0437\u0430\u043A"
   rb_input: 0
   lt_input: 0
   rt_input: 0

@@ -103,6 +103,7 @@ namespace BV
             states.anim.Play(targetIdle);
         }
 
+#nullable enable
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
             if (leftHandObject != null)
@@ -131,7 +132,9 @@ namespace BV
             EquipWeapon(leftHandData, true);
             CloseAllDamageColliders();
         }
+#nullable disable
 
+#nullable enable
         public void UpdateRightHand(ItemWeaponData? newItem)
         {
             if (rightHandObject != null)
@@ -159,7 +162,9 @@ namespace BV
             EquipWeapon(rightHandData, false);
             CloseAllDamageColliders();
         }
+#nullable disable
 
+#nullable enable
         public void UpdateQuickSpell(int id, Spell? newItem)
         {
             quickSpells[id] = newItem;
@@ -169,6 +174,7 @@ namespace BV
                 UpdateCurrentSpell(currentSpelId);
             }
         }
+#nullable disable
 
         public void UpdateCurrentSpell(int spellId)
         {

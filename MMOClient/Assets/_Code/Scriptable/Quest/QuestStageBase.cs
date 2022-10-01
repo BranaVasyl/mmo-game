@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace BV
@@ -60,6 +59,7 @@ namespace BV
         }
     }
 
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(QuestEvent))]
     public class QuestEventDrawer : PropertyDrawer
     {
@@ -124,6 +124,7 @@ namespace BV
             EditorGUI.EndProperty();
         }
     }
+#endif
 
     public enum QuestEventType
     {
