@@ -26,10 +26,29 @@ namespace BV
         private string currentAnsweId;
 
         private StateManager states;
+        public List<NPCDialogList> NPCDialogs;
 
-        public void InitDialog(string path, StateManager st)
+        public void UpdateDialogList(string NPC_Id, string dialogId)
         {
-            TextAsset targetFile = Resources.Load<TextAsset>(path);
+            NPCDialogList NPCDialog = NPCDialogs.Find(i => i.NPCId == NPC_Id);
+            if (NPCDialog == null)
+            {
+                return;
+            }
+
+            NPCDialog.dialogList.Add(dialogId);
+        }
+
+        public void InitDialog(string NPCId, StateManager st)
+        {
+            string currentDialog = GetCurrentNpcDialog(NPCId);
+            if (currentDialog.Length == 0)
+            {
+                Debug.Log("Not have any active dialog");
+                return;
+            }
+
+            TextAsset targetFile = Resources.Load<TextAsset>("DialogText/" + currentDialog);
             Dialog dialog = JsonUtility.FromJson<Dialog>(targetFile.text);
 
             ClearElement();
@@ -46,6 +65,23 @@ namespace BV
             StartDialog();
         }
 
+        public string GetCurrentNpcDialog(string id)
+        {
+            NPCDialogList NPCDialog = NPCDialogs.Find(i => i.NPCId == id);
+            if (NPCDialog == null)
+            {
+                return "";
+            }
+
+            if (NPCDialog.dialogList.Count == 0)
+            {
+                return "";
+            }
+
+            string currentDialog = NPCDialog.dialogList[NPCDialog.dialogList.Count - 1];
+            return currentDialog;
+        }
+
         public void StartDialog()
         {
             states.inDialog = true;
@@ -59,18 +95,22 @@ namespace BV
             foreach (var item in dialogsSelected)
             {
                 bool parameterIsTrue = false;
+                Debug.Log(item.parameter);
                 string[] command = item.parameter.Split(new char[] { '#' });
 
                 if (command.Length > 1)
                 {
                     switch (command[0])
                     {
-                        case "q":
-                            parameterIsTrue = questManager.getQuestOrPartComplated(command[1]);
+                        case "qc":
+                            parameterIsTrue = questManager.QuestIsCompleted(command[1]);
+                            break;
+                        case "qa":
+                            parameterIsTrue = questManager.QuestIsActive(command[1]);
                             break;
                         default:
                             parameterIsTrue = false;
-                            Debug.Log("Unknow command" + command[0]);
+                            Debug.Log("Unknow command " + command[0]);
                             break;
                     }
                 }
@@ -146,9 +186,45 @@ namespace BV
             GameObject answerContainer = answersUIField.transform.GetChild(1).gameObject;
             for (int i = 0; i <= answer.answerItems.Count - 1; i++)
             {
-                answerContainer.transform.GetChild(i).gameObject.SetActive(true);
-                TMP_Text buttonText = answerContainer.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-                buttonText.text = i + 1 + ". " + answer.answerItems[i].sentence;
+                string curentAnswer = answer.answerItems[i].sentence;
+
+                bool parameterIsTrue = false;
+                string[] command = curentAnswer.Split(new char[] { '#' });
+
+                if (command.Length == 3)
+                {
+                    switch (command[0])
+                    {
+                        case "qc":
+                            parameterIsTrue = questManager.QuestIsCompleted(command[1]);
+                            break;
+                        case "qa":
+                            parameterIsTrue = questManager.QuestIsActive(command[1]);
+                            break;
+                        default:
+                            parameterIsTrue = false;
+                            Debug.Log("Unknow command " + command[0]);
+                            break;
+                    }
+
+                    curentAnswer = command[2];
+                }
+                else if (command.Length == 2)
+                {
+                    Debug.Log("Incorect answer format");
+                    parameterIsTrue = false;
+                }
+                else
+                {
+                    parameterIsTrue = true;
+                }
+
+                if (parameterIsTrue)
+                {
+                    answerContainer.transform.GetChild(i).gameObject.SetActive(true);
+                    TMP_Text buttonText = answerContainer.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+                    buttonText.text = i + 1 + ". " + curentAnswer;
+                }
             }
 
             answersUIField.SetActive(true);
@@ -190,11 +266,14 @@ namespace BV
                 {
                     switch (command[0])
                     {
-                        case "q":
-                            questManager.setQuestOrPartComplated(command[1]);
+                        case "qc":
+                            questManager.QuestOnCompleted(command[1]);
+                            break;
+                        case "qa":
+                            questManager.QuestOnActive(command[1]);
                             break;
                         default:
-                            Debug.Log("Unknow command" + command[0]);
+                            Debug.Log("Unknow command " + command[0]);
                             break;
                     }
                 }
@@ -241,4 +320,12 @@ namespace BV
             singleton = this;
         }
     }
+
+    [System.Serializable]
+    public class NPCDialogList
+    {
+        public string NPCId;
+        public List<string> dialogList;
+    }
+
 }

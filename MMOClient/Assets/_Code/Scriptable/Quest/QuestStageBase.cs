@@ -13,17 +13,35 @@ namespace BV
         [Header("Stage Base")]
         public string id;
         public string description;
+        public bool active;
         public bool completed;
 
         public List<QuestEvent> startActions;
         public List<QuestEvent> completedActions;
 
+        public bool IsActive()
+        {
+            return active;
+        }
+
+        public bool IsCompleted()
+        {
+            return completed;
+        }
+
         public void OnStart()
         {
-            for (int i = 0; i < completedActions.Count; i++)
+            if (IsCompleted())
+            {
+                return;
+            }
+            
+            for (int i = 0; i < startActions.Count; i++)
             {
                 startActions[i].TriggerEvent();
             }
+
+            active = true;
         }
 
         public void OnComplete()
@@ -32,6 +50,9 @@ namespace BV
             {
                 completedActions[i].TriggerEvent();
             }
+
+            active = false;
+            completed = true;
         }
     }
 
@@ -41,19 +62,35 @@ namespace BV
         public QuestEventType eventType;
         public string NPC_Id;
         public string dialogId;
-        public string questId;
+        public string questId = "";
+        public string stageId = "";
 
         public void TriggerEvent()
         {
             if (eventType == QuestEventType.updateDialog)
             {
-                Debug.Log("Update dialog : " + dialogId + " NPC id : " + NPC_Id);
+                DialogManager dialogManager = DialogManager.singleton;
+                dialogManager.UpdateDialogList(NPC_Id, dialogId);
+                return;
+            }
+
+            if (eventType == QuestEventType.removeDialog)
+            {
+                Debug.Log("removeDialog dialog : " + dialogId + " NPC id : " + NPC_Id);
                 return;
             }
 
             if (eventType == QuestEventType.updateQuest)
             {
-                Debug.Log("Update question : " + questId);
+                QuestManager questManager = QuestManager.singleton;
+                questManager.SetActiveState(questId, stageId);
+                return;
+            }
+
+            if (eventType == QuestEventType.completedQuest)
+            {
+                QuestManager questManager = QuestManager.singleton;
+                questManager.SetCompleteState(questId, stageId);
                 return;
             }
         }
@@ -75,13 +112,16 @@ namespace BV
             }
             else
             {
-                if (eventTypeValue == QuestEventType.updateDialog.ToString())
+                if (eventTypeValue == QuestEventType.updateDialog.ToString() || eventTypeValue == QuestEventType.removeDialog.ToString())
                 {
                     return EditorGUIUtility.singleLineHeight * 4 + 6;
                 }
-                else
+                else if(eventTypeValue == QuestEventType.updateQuest.ToString() || eventTypeValue == QuestEventType.completedQuest.ToString() || 
+                        eventTypeValue == QuestEventType.failedQuest.ToString())
                 {
-                    return EditorGUIUtility.singleLineHeight * 3 + 6;
+                    return EditorGUIUtility.singleLineHeight * 4 + 6;
+                } else {
+                    return EditorGUIUtility.singleLineHeight * 2 + 6;
                 }
             }
         }
@@ -104,7 +144,7 @@ namespace BV
                 EditorGUI.PropertyField(eventTypeRect, eventType);
 
 
-                if (eventTypeValue == QuestEventType.updateDialog.ToString())
+                if (eventTypeValue == QuestEventType.updateDialog.ToString() || eventTypeValue == QuestEventType.removeDialog.ToString())
                 {
                     var nameRect = new Rect(position.x, position.y + 38, position.width, 16);
                     EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("NPC_Id"));
@@ -112,10 +152,14 @@ namespace BV
                     var ageRect = new Rect(position.x, position.y + 56, position.width, 16);
                     EditorGUI.PropertyField(ageRect, property.FindPropertyRelative("dialogId"));
                 }
-                else
+                else if(eventTypeValue == QuestEventType.updateQuest.ToString() || eventTypeValue == QuestEventType.completedQuest.ToString() || 
+                        eventTypeValue == QuestEventType.failedQuest.ToString())
                 {
                     var nameRect = new Rect(position.x, position.y + 38, position.width, 16);
                     EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("questId"));
+
+                    var ageRect = new Rect(position.x, position.y + 56, position.width, 16);
+                    EditorGUI.PropertyField(ageRect, property.FindPropertyRelative("stageId"));
                 }
 
                 EditorGUI.indentLevel--;
@@ -128,6 +172,6 @@ namespace BV
 
     public enum QuestEventType
     {
-        updateDialog, updateQuest
+        updateDialog, removeDialog, updateQuest, completedQuest, failedQuest
     }
 }

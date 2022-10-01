@@ -7,7 +7,7 @@ namespace BV
 {
     public class NPCDialog : MonoBehaviour
     {
-        public string dialogName;
+        public string NPCId;
         private DialogManager dialogManager;
 
         void Awake() {
@@ -21,7 +21,7 @@ namespace BV
                 NetworkIdentity ni = other.gameObject.GetComponent<NetworkIdentity>();
                 if (ni.IsControlling())
                 {
-                    dialogManager.InitDialog("DialogText/" + dialogName, other.gameObject.GetComponent<StateManager>());
+                    dialogManager.InitDialog(NPCId, other.gameObject.GetComponent<StateManager>());
                 }
             }
         }

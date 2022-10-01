@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;   
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace BV{
-
-public class PhraseNode : Node
+namespace BV
 {
-    public string GUID;
-    public string PhraseName;
-}
+    public class PhraseNode : Node
+    {
+        public string GUID;
+        public string PhraseName;
+    }
 }

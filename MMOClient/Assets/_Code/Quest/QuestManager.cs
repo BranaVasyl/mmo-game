@@ -2,73 +2,156 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace BV
+{
 
-namespace BV{
-    
     public class QuestManager : MonoBehaviour
     {
-        public List<QuestOld> quest;
-        public List<InvestiagtionArea> InvestiagtionAreas; 
+        public List<Quest> quest;
+        public List<InvestiagtionArea> InvestiagtionAreas;
 
-        public QuestOld getQuest(string id)
+        public static QuestManager singleton;
+        void Awake()
         {
-            QuestOld resultQuest = quest.Find(i => i.questId == id);
-            
-            if(resultQuest != null) {
-                return resultQuest;
-            }
-
-            return null;
+            singleton = this;
         }
 
-        public void setQuestOrPartComplated(string options){
-            string[] command = options.Split(new char[]{'&'});
-
-            QuestOld quest = getQuest(command[0]);
-            if(quest != null){
-                if(command.Length > 1){
-                    quest.setPartCompleted(command[1]);
-                }
-                else {
-                    quest.setActive();
-                }
-            }
-        }
-
-        public bool getQuestOrPartComplated(string options){
-            string[] command = options.Split(new char[]{'&'});
-
-            QuestOld quest = getQuest(command[0]);
-            if(quest != null){
-                if(command.Length > 1)
-                    return quest.isPartCompleted(command[1]);
-                else
-                    return quest.isQuestActive();
-            }
-
-            return false;
-        }
-
-        public void UpdateAreaEvidence(string areaId, int evidenceId, int needInvestigated, string options){
-            if(getQuestOrPartComplated(options)){
+        public void SetActiveState(string questId, string stageId)
+        {
+            if (questId.Length == 0)
+            {
                 return;
             }
-            
-            InvestiagtionArea area = InvestiagtionAreas.Find(e => e.areaId == areaId);
-            if(area == null){
-                if(needInvestigated == 1){
-                    setQuestOrPartComplated(options);
-                    return;
-                }
-                InvestiagtionAreas.Add(new InvestiagtionArea{areaId = areaId, needInvestigated = needInvestigated, hintsFound = new List<int>(){evidenceId}});
-            }else
+
+            Quest quest = GetQuest(questId);
+            if (quest == null)
             {
-                if(area.areaStatus(evidenceId)){
-                    setQuestOrPartComplated(options);
-                    InvestiagtionAreas.Remove(area);
-                }
+                return;
             }
-            
+
+            QuestStageBase questStage = GetQuestStage(quest, stageId);
+            if (!quest.IsActive())
+            {
+                quest.OnStart();
+            }
+            if (questStage != null && !questStage.IsActive())
+            {
+                questStage.OnStart();
+            }
+        }
+
+        public void SetCompleteState(string questId, string stageId)
+        {
+            if (questId.Length == 0)
+            {
+                return;
+            }
+
+            Quest quest = GetQuest(questId);
+            if (quest == null)
+            {
+                return;
+            }
+
+            QuestStageBase questStage = GetQuestStage(quest, stageId);
+            if (questStage == null)
+            {
+                quest.OnComplete();
+            }
+            else
+            {
+                if (!quest.IsActive())
+                {
+                    quest.OnStart();
+                }
+                questStage.OnComplete();
+            }
+        }
+
+        private Quest GetQuest(string id)
+        {
+            Quest resultQuest = quest.Find(i => i.id == id);
+            return resultQuest;
+        }
+
+        private QuestStageBase GetQuestStage(Quest quest, string id)
+        {
+            QuestStageBase questStage = quest.questStages.Find(i => i.id == id);
+            return questStage;
+        }
+
+        public void QuestOnActive(string separateString)
+        {
+            string[] command = separateString.Split(new char[] { '&' });
+
+            if (command.Length == 0)
+            {
+                return;
+            }
+
+            string questId = command[0];
+            string stageId = command.Length == 2 ? command[1] : "";
+
+            SetActiveState(questId, stageId);
+        }
+
+        public void QuestOnCompleted(string separateString)
+        {
+            string[] command = separateString.Split(new char[] { '&' });
+
+            if (command.Length == 0)
+            {
+                return;
+            }
+
+            string questId = command[0];
+            string stageId = command.Length == 2 ? command[1] : "";
+
+            SetCompleteState(questId, stageId);
+        }
+
+        public bool QuestIsActive(string separateString)
+        {
+            string[] command = separateString.Split(new char[] { '&' });
+
+            Quest quest = command.Length >= 1 ? GetQuest(command[0]) : null;
+            if (quest == null)
+            {
+                return false;
+            }
+
+            QuestStageBase questStage = command.Length == 2 ? GetQuestStage(quest, command[1]) : null;
+
+            if (questStage != null)
+            {
+                return questStage.IsActive();
+            }
+            else
+            {
+                return quest.IsActive();
+            }
+        }
+
+        public bool QuestIsCompleted(string separateString)
+        {
+            string[] command = separateString.Split(new char[] { '&' });
+
+            Quest quest = command.Length >= 1 ? GetQuest(command[0]) : null;
+            if (quest == null)
+            {
+                return false;
+            }
+
+            QuestStageBase questStage = command.Length == 2 ? GetQuestStage(quest, command[1]) : null;
+
+            if (questStage != null)
+            {
+                return questStage.IsCompleted();
+            }
+            else
+            {
+                return quest.IsCompleted();
+            }
         }
     }
 }

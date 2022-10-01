@@ -1,17 +1,24 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Project.Networking;
 
 namespace BV
 {
-    public class Evidence : MonoBehaviour{
-            public int id;
-
-            private void OnTriggerEnter(Collider other){
-                Debug.Log("Evidence");    
-                gameObject.transform.parent.gameObject.GetComponent<ReshearchArea>().EvidenceInvestigated(id);
-                gameObject.GetComponent<Evidence>().enabled = false;
+    public class Evidence : MonoBehaviour
+    {
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                NetworkIdentity ni = other.gameObject.GetComponent<NetworkIdentity>();
+                if (ni.IsControlling())
+                {
+                    Debug.Log("Evidence");
+                    gameObject.transform.parent.gameObject.GetComponent<ReshearchArea>().UpdateAreaEvidence(gameObject);
+                    Destroy(GetComponent<Evidence>());
+                }
             }
         }
-    
+    }
 }

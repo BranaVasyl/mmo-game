@@ -12,34 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c60725ead999ec4d82bcb84e8d1561c, type: 3}
   m_Name: questShrieker
   m_EditorClassIdentifier: 
-  id: a0d84638-9dd9-4091-b5fa-2448a962862a
+  id: 1
   questName: "\u0417\u0430\u043A\u0430\u0437 \u041A\u043B\u0435\u043A\u043E\u0442\u0443\u043D"
   description: 
   level: 12
   locality: "\u041D\u043E\u0432\u0456\u0433\u0440\u0430\u0434"
   type: 1
-  active: 0
-  questParts:
+  active: 1
+  completed: 0
+  questStages:
   - id: 1
     description: "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u0438 \u0456\u0437
       \u0437\u0430\u043C\u043E\u0432\u043D\u0438\u043A\u043E\u043C"
-    completed: 0
+    active: 0
+    completed: 1
     startActions: []
-    completedActions: []
+    completedActions:
+    - eventType: 2
+      NPC_Id: 
+      dialogId: 
+      questId: 1
+      stageId: 2
+    - eventType: 0
+      NPC_Id: NPC_First
+      dialogId: TestWait
+      questId: 1
+      stageId: 2
   - id: 2
     description: "\u0417\u043D\u0430\u0439\u0442\u0438 \u043B\u0456\u0433\u0432\u043E
       \u043C\u043E\u043D\u0441\u0442\u0440\u0430"
-    completed: 0
+    active: 0
+    completed: 1
     startActions: []
-    completedActions: []
+    completedActions:
+    - eventType: 2
+      NPC_Id: 
+      dialogId: 
+      questId: 1
+      stageId: 3
   - id: 3
-    description: "\u0412\u0431\u0438\u0442\u0438 \u043C\u043E\u043D\u0441\u0442\u0440\u0430"
+    description: "\u0412\u0431\u0438\u0442\u0438 \u041C\u043E\u043D\u0441\u0442\u0440\u0430"
+    active: 1
     completed: 0
     startActions: []
     completedActions: []
   - id: 4
-    description: "\u0417\u0430\u0431\u0430\u0440\u0442\u0438 \u0432\u0438\u043D\u0430\u0433\u043E\u0440\u043E\u0434\u0443"
+    description: "\u0417\u0430\u0431\u0440\u0430\u0442\u0438 \u0432\u0438\u043D\u0430\u0433\u043E\u0440\u043E\u0434\u0443"
+    active: 0
     completed: 0
     startActions: []
     completedActions: []
-  completed: 0
+  startActions: []
+  completedActions: []

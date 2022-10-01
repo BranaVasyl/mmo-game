@@ -1,0 +1,134 @@
+{
+    "dialogName": "TestWait",
+    "entryPointGUID": "19e50fe4-9f63-45ca-98ff-bc197313e9f6",
+    "startPhrase": "4b0dc782-00ff-46b4-9628-30e3d0b60597",
+    "allPhrase": [
+        {
+            "idPhrase": "4b0dc782-00ff-46b4-9628-30e3d0b60597",
+            "nodeText": "New Phrase33",
+            "nodePosition": {
+                "x": 244.0,
+                "y": 201.0
+            },
+            "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
+            "phraseItems": [
+                {
+                    "id": "5fa01d49-08d9-46c7-a3b1-8ca091e8cbc2",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Відьмак, радий тебе бачити"
+                },
+                {
+                    "id": "2b6959f9-36e0-4426-b241-09026183a4ae",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Як проходить задання, ти уже зміг гвбити монстра?"
+                },
+                {
+                    "id": "7a9e89b0-88bc-4c17-8bb1-d0c9d4421d0e",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Якщо ні, то краще тобі пквапитися, бо можуть постраждати нівчому не винні люди"
+                }
+            ]
+        },
+        {
+            "idPhrase": "2aa69ff0-8f58-4261-84bc-6c93dd0ad673",
+            "nodeText": "New Phrase(1)",
+            "nodePosition": {
+                "x": 519.0,
+                "y": 7.0
+            },
+            "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
+            "phraseItems": [
+                {
+                    "id": "dfc235b4-fc8b-4db1-8e97-cb636037e7e3",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Нажаль я не можу збільшити винагороду, це все що в мене є "
+                },
+                {
+                    "id": "ae5544b1-5634-4c6b-a2bd-218166d75c0e",
+                    "speaker": "Господар",
+                    "showTime": 1.0,
+                    "sentence": "Щось іще?"
+                }
+            ]
+        },
+        {
+            "idPhrase": "ec30b46c-6d64-4fa6-88f6-c225d86c18ab",
+            "nodeText": "New Phrase(1)(1)",
+            "nodePosition": {
+                "x": 565.0,
+                "y": 340.0
+            },
+            "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
+            "phraseItems": [
+                {
+                    "id": "9883f19a-178e-4785-bd66-c2dc328d902a",
+                    "speaker": "Геральт",
+                    "showTime": 4.0,
+                    "sentence": "Я знайшов лігво монстра"
+                },
+                {
+                    "id": "a732e74a-803e-403d-8362-822827e11fe2",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Супер залишилося тільки його вбити"
+                }
+            ]
+        },
+        {
+            "idPhrase": "20f7a360-ef0d-458b-904b-da964bd0adcb",
+            "nodeText": "654",
+            "nodePosition": {
+                "x": 860.0,
+                "y": 178.0
+            },
+            "nextAnswer": "a87142a0-3b2c-4012-aba9-95d257e88dbc",
+            "phraseItems": [
+                {
+                    "id": "616db607-de67-4e53-ba8b-451ba7c30263",
+                    "speaker": "Відьмак",
+                    "showTime": 1.0,
+                    "sentence": "Я саме працюю над цим"
+                }
+            ]
+        }
+    ],
+    "allAnswer": [
+        {
+            "idAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
+            "nodeText": "New Dialog",
+            "nodePosition": {
+                "x": 467.0,
+                "y": 156.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "2aa69ff0-8f58-4261-84bc-6c93dd0ad673",
+                    "sentence": "Я б хотів обговрити ціну"
+                },
+                {
+                    "nextPhrase": "20f7a360-ef0d-458b-904b-da964bd0adcb",
+                    "sentence": "Я працюю над цим"
+                },
+                {
+                    "nextPhrase": "ec30b46c-6d64-4fa6-88f6-c225d86c18ab",
+                    "sentence": "qc#1&2#Я знайшов лігво монстра"
+                }
+            ]
+        }
+    ],
+    "allOutputNode": [
+        {
+            "nodeId": "a87142a0-3b2c-4012-aba9-95d257e88dbc",
+            "nodePosition": {
+                "x": 1051.0,
+                "y": 178.0
+            },
+            "parameter": ""
+        }
+    ],
+    "allSelectedNode": []
+}

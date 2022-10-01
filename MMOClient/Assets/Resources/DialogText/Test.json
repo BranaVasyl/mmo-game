@@ -10,16 +10,16 @@
                 "x": 226.0,
                 "y": 194.0
             },
-            "nextAnswer": "d10dfd24-862a-4568-a68f-1cf6fa28a6d8",
+            "nextAnswer": "8506cb3a-442d-47a5-9103-1487410e2fd5",
             "phraseItems": [
                 {
-                    "id": "df7f2740-cbc8-423f-b979-f9c75122f6fc",
+                    "id": "14594209-1b3e-4973-a74a-60c0189e69d4",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Добрий вечір господарю"
                 },
                 {
-                    "id": "b90abed8-26b1-4481-904c-f32f66826ca4",
+                    "id": "a47c7f20-8fe2-4715-8532-b8795e4ebaf5",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Добрий, що привело тебе сюди?"
@@ -36,13 +36,13 @@
             "nextAnswer": "93b751ca-edba-40b4-a5e0-aa6e79e4076a",
             "phraseItems": [
                 {
-                    "id": "a308f7f3-b3f0-4142-bb68-cc974dfec483",
+                    "id": "38427461-0207-4f3e-9cd2-b6659241fa04",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Де його востаннє бачили?"
                 },
                 {
-                    "id": "9e457bba-f245-477d-919d-1427054164c1",
+                    "id": "694cdf81-78ca-4491-a03a-098da54c72e5",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Біля Річки"
@@ -59,13 +59,13 @@
             "nextAnswer": "d75af890-61ee-4377-af24-ee052eb60efe",
             "phraseItems": [
                 {
-                    "id": "0455c1dc-de37-4ceb-9830-c5f36e8cf501",
+                    "id": "f6ed25d8-00ad-47f0-be9e-47fe673f3cab",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Я візьмуся за це завдання"
                 },
                 {
-                    "id": "bfeb3ad9-317b-4502-a237-06c96f90cf9b",
+                    "id": "db02b260-c273-4d24-896b-a7de12d48d5c",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Чудово чекатиму вас на цьому місці"
@@ -82,7 +82,7 @@
             "nextAnswer": "1465a4fa-91ab-4873-91f7-1375c723ec2b",
             "phraseItems": [
                 {
-                    "id": "6ffc4eec-8358-4649-83cd-13d2e4d69694",
+                    "id": "07c0d464-68b6-4a4a-841c-6cf7cd79762e",
                     "speaker": "Geralt",
                     "showTime": 8.0,
                     "sentence": "Бувай здоровий"
@@ -99,19 +99,19 @@
             "nextAnswer": "af658e18-fb49-465f-b068-e26b619e49a4",
             "phraseItems": [
                 {
-                    "id": "79ca15ba-6c97-4a57-abed-d27756dff588",
+                    "id": "d92e2d9b-db73-48d0-8369-a000f58a3591",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Це складне замовлення чи зможеш заплатити мені більше?"
                 },
                 {
-                    "id": "2c1bb737-b5fe-488b-9732-557b7a68e989",
+                    "id": "7d96784f-ff32-4152-b025-17298ad1f5f4",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Гадаю я зможу заплатити тобі на 100грн більше"
                 },
                 {
-                    "id": "5056e29b-9b2c-4f06-a838-61259ea1bb90",
+                    "id": "00366c92-bbe6-4d6d-9b1a-c6babe7cdb07",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Пасує?"
@@ -128,13 +128,13 @@
             "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
             "phraseItems": [
                 {
-                    "id": "c8f921d0-145f-4523-b5d5-8c2d74684d67",
+                    "id": "c344a0fa-46bb-41bc-b775-2011ec6774da",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Хочу задати тобі ще кілька запитань"
                 },
                 {
-                    "id": "fe953e73-05ee-439a-8d62-327f7722590a",
+                    "id": "ec813d23-e22b-481b-b205-619e42e1ace9",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Уважно слухаю пане"
@@ -151,13 +151,13 @@
             "nextAnswer": "8ab0df2c-b368-4210-b247-e0648a47e3a8",
             "phraseItems": [
                 {
-                    "id": "79f166ba-23c9-4ded-852d-eba94a06eaea",
+                    "id": "f448d5db-2090-4a4d-b311-e57e8ff336fe",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Поки що це мене не цікавить"
                 },
                 {
-                    "id": "98b5b287-8733-45c4-878b-9ec5f280f55a",
+                    "id": "39ba12d6-8de0-4d7e-97d4-b5a4476ea899",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Дуже жаль, ми потребуємо твоєї допомоги"
@@ -174,13 +174,13 @@
             "nextAnswer": "1ab63568-7306-40fc-bc4c-fdd315bd14de",
             "phraseItems": [
                 {
-                    "id": "1427984d-c8f3-4a0e-b3cd-191d1cc1d0be",
+                    "id": "f482a05b-2e6d-463b-84d5-ce6855e41f53",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Опиши мені цього могстра"
                 },
                 {
-                    "id": "e8658a47-8ec6-4729-8e4d-e422f70bffe6",
+                    "id": "0b6922f4-932f-4e9b-ab6a-008f0d1d135a",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Та що тут говрити, вбиває він людей"
@@ -197,13 +197,13 @@
             "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
             "phraseItems": [
                 {
-                    "id": "86af1abe-98a9-479c-95b7-ab301bad3606",
+                    "id": "a1839d5b-81a9-4bb8-941e-e4eb05da40d3",
                     "speaker": "Geralt",
                     "showTime": 4.0,
                     "sentence": "Я Відьмак, шукаю підробіток, можливо в околиця у вас є монстр який вам надокучає?"
                 },
                 {
-                    "id": "4df16844-38ee-4a60-a51a-e392865183e4",
+                    "id": "b0e19e31-94fb-4298-ad5c-f85596a92c8a",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Власне є один, за якого платять хорошу винагороду"
@@ -220,16 +220,51 @@
             "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
             "phraseItems": [
                 {
-                    "id": "968427ef-d5ff-44af-af98-0d5e314ace60",
+                    "id": "958dc0ac-1fa8-4eea-a89a-eb970cc75b5d",
                     "speaker": "Gearalt",
                     "showTime": 4.0,
                     "sentence": "Я на рахунок замовлення на привида"
                 },
                 {
-                    "id": "e7dc0e6e-fdc5-44fa-a81e-b55ba3d32d31",
+                    "id": "e776a2e5-543f-45a5-ab80-b2b3f0a88360",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Ах так добре, що ви прийшли сюди"
+                }
+            ]
+        },
+        {
+            "idPhrase": "37e1330f-cd3f-40a0-a761-c5b7fccb409e",
+            "nodeText": "ЗнайшовЛігвоМонстра",
+            "nodePosition": {
+                "x": 608.0,
+                "y": 27.0
+            },
+            "nextAnswer": "a0d84638-9dd9-4091-b5fa-2448a962861d",
+            "phraseItems": [
+                {
+                    "id": "62feb60c-6da3-4c5f-8dc5-28390196418f",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Біля річки я знайшов лігво монстра"
+                },
+                {
+                    "id": "b45cd7c3-ec5c-4eea-a761-72eddda91fc1",
+                    "speaker": "Geralt",
+                    "showTime": 4.0,
+                    "sentence": "Можливо є хтось хто готовий заплатити мені за його вбивстов"
+                },
+                {
+                    "id": "9818e071-dad9-43f0-98b8-75e33d682a32",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "Ви повністю праві минулого тиждня пропав один із рибаків"
+                },
+                {
+                    "id": "a69b6fb2-e32f-40c1-9991-3b2b815c1a69",
+                    "speaker": "Господар",
+                    "showTime": 4.0,
+                    "sentence": "А баби розказували про велику червону посать яка йшла в сторону річки"
                 }
             ]
         }
@@ -280,6 +315,10 @@
                 {
                     "nextPhrase": "8ab0df2c-b368-4210-b247-e0648a47e3a8",
                     "sentence": "Всього допброго"
+                },
+                {
+                    "nextPhrase": "d75af890-61ee-4377-af24-ee052eb60efe",
+                    "sentence": "я візьмусь _DEBUG_"
                 }
             ]
         }
@@ -296,22 +335,32 @@
         {
             "nodeId": "d75af890-61ee-4377-af24-ee052eb60efe",
             "nodePosition": {
-                "x": 2726.0,
-                "y": -34.0
+                "x": 2654.0,
+                "y": -307.0
             },
-            "parameter": "q#a0d84638-9dd9-4091-b5fa-2448a962862a&1"
+            "parameter": "qc#1&1"
         }
     ],
     "allSelectedNode": [
         {
             "nodeId": "d10dfd24-862a-4568-a68f-1cf6fa28a6d8",
             "nodePosition": {
-                "x": 393.0,
-                "y": 172.0
+                "x": 565.0,
+                "y": 236.0
             },
-            "parameter": "q#a0d84638-9dd9-4091-b5fa-2448a962862a",
+            "parameter": "qa#1&1",
             "nextElementPositive": "6090f839-9835-4519-a074-9b92927e18ed",
             "nextElementNegative": "da1d3e15-bbca-40f5-b8ad-474fa2c7d358"
+        },
+        {
+            "nodeId": "8506cb3a-442d-47a5-9103-1487410e2fd5",
+            "nodePosition": {
+                "x": 403.0,
+                "y": 104.0
+            },
+            "parameter": "qa#1&3",
+            "nextElementPositive": "37e1330f-cd3f-40a0-a761-c5b7fccb409e",
+            "nextElementNegative": "d10dfd24-862a-4568-a68f-1cf6fa28a6d8"
         }
     ]
 }

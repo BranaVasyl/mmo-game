@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96dda13e1e77177abe34ae026e277c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogName: Test
+  NPCId: NPC_First
 --- !u!114 &743299280860545606
 MonoBehaviour:
   m_ObjectHideFlags: 0

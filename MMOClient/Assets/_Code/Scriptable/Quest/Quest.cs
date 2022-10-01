@@ -15,42 +15,47 @@ namespace BV
         public string locality;
         public int type;
         public bool active;
-
-        public List<QuestStageBase> questParts;
-        
         public bool completed;
 
-        public bool isQuestActive()
+        public List<QuestStageBase> questStages;
+
+        public List<QuestEvent> startActions;
+        public List<QuestEvent> completedActions;
+
+        public bool IsActive()
         {
-            return false;
-            // return questActive;
+            return active;
         }
 
-        public void setActive()
+        public bool IsCompleted()
         {
-            // questActive = true;
+            return completed;
         }
 
-        public void setPartCompleted(string id)
+        public void OnStart()
         {
-            // QuestPart part = Array.Find(questPart, i => i.partId == id);
-            // if (part != null)
-            // {
-            //     part.setCompleted();
-            //     if (!questActive)
-            //         setActive();
-            // }
+            if (IsCompleted())
+            {
+                return;
+            }
+
+            for (int i = 0; i < startActions.Count; i++)
+            {
+                startActions[i].TriggerEvent();
+            }
+
+            active = true;
         }
 
-        public bool isPartCompleted(string id)
+        public void OnComplete()
         {
-            // QuestPart part = Array.Find(questPart, i => i.partId == id);
-            // if (part != null)
-            //     return part.isCompleted();
-            // else
-            //     return false;
+            for (int i = 0; i < completedActions.Count; i++)
+            {
+                completedActions[i].TriggerEvent();
+            }
 
-            return false;
+            active = false;
+            completed = true;
         }
     }
 }

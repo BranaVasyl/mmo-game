@@ -329,7 +329,6 @@ namespace BV
 
                         if (connectedPorts[i].input.node is AnswerNode)
                         {
-                            Debug.Log(11111);
                             var inputNode = connectedPorts[i].input.node as AnswerNode;
                             _dialog.startPhrase = inputNode.GUID;
                             break;
