@@ -9,7 +9,7 @@ namespace BV
     public class fromTest : MonoBehaviour
     {
         public List<QuestEvent> questEvents;
-        public bool removeAferUse = true;
+        public bool removeAfterUse = true;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -23,7 +23,7 @@ namespace BV
                         questEvents[i].TriggerEvent();
                     }
 
-                    if (removeAferUse)
+                    if (removeAfterUse)
                     {
                         Destroy(this.gameObject);
                     }

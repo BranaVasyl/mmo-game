@@ -6,10 +6,9 @@ namespace BV
 {
     public class ReshearchArea : MonoBehaviour
     {
-        public string areaId;
         public List<GameObject> needInvestigated;
         public List<QuestEvent> completedActions;
-        public bool removeAferUse = true;
+        public bool removeAfterUse = true;
 
         public void UpdateAreaEvidence(GameObject go)
         {
@@ -33,7 +32,7 @@ namespace BV
                 completedActions[i].TriggerEvent();
             }
 
-            if (removeAferUse)
+            if (removeAfterUse)
             {
                 Destroy(this.gameObject);
             }

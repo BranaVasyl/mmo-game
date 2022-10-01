@@ -95,7 +95,6 @@ namespace BV
             foreach (var item in dialogsSelected)
             {
                 bool parameterIsTrue = false;
-                Debug.Log(item.parameter);
                 string[] command = item.parameter.Split(new char[] { '#' });
 
                 if (command.Length > 1)

@@ -253,7 +253,7 @@ namespace BV
 
         public override bool canDoDamage()
         {
-            return !isInvicible;
+            return !isInvicible && health > 0;
         }
 
         public override void DoDamage()

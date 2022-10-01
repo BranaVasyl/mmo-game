@@ -7,6 +7,7 @@ namespace BV
     public class Projectile : MonoBehaviour
     {
         private DamageManager damageManager;
+        private List<string> damagedCharactersId = new List<string>();
 
         Rigidbody rigid;
 
@@ -45,12 +46,23 @@ namespace BV
                 return;
             }
 
-            EnemyManager em = other.GetComponentInParent<EnemyManager>();
-            if (em != null)
+            CharacterManager targetCManager = other.transform.GetComponentInParent<CharacterManager>();
+            if (targetCManager != null)
             {
-                CharacterManager targetCManager = other.transform.GetComponentInParent<CharacterManager>();
+                string targetId = targetCManager.networkIdentity.GetID();
+                if (damagedCharactersId.Find(x => x == targetId) != null)
+                {
+                    return;
+                }
+
+                if (targetCManager.networkIdentity == null)
+                {
+                    return;
+                }
+
                 float damage = 50;
                 damageManager.CreatateDamageEvent(agentCManager, targetCManager, damage);
+                damagedCharactersId.Add(targetId);
             }
 
             GameObject go = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;

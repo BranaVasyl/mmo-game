@@ -9,6 +9,7 @@ namespace BV
     public class DamageManager : MonoBehaviour
     {
         private SocketIOComponent socket;
+        public List<KillListener> killListeners;
 
         public static DamageManager singleton;
         void Awake()
@@ -23,12 +24,23 @@ namespace BV
 
         public void CreatateDamageEvent(CharacterManager agent, CharacterManager target, float damage)
         {
-            if (target.networkIdentity.IsControlling() && target.canDoDamage())
+            if (agent.networkIdentity.IsControlling() && target.canDoDamage())
             {
                 target.DoDamage();
                 SendDamageData sendData = new SendDamageData(agent.networkIdentity.GetID(), target.networkIdentity.GetID(), damage);
                 socket.Emit("doDamage", new JSONObject(JsonUtility.ToJson(sendData)));
             }
+        }
+
+        public void OnKillEvent(string id)
+        {
+            KillListener killListener = killListeners.Find(item => item.enemyId == id);
+            if (killListener == null)
+            {
+                return;
+            }
+
+            killListener.OnComlete();
         }
     }
 
@@ -44,6 +56,24 @@ namespace BV
             agentId = aId;
             targetId = tId;
             damage = dam.ToString();
+        }
+    }
+
+    [System.Serializable]
+    public class KillListener
+    {
+        public string enemyId;
+        public bool completed;
+        public List<QuestEvent> eventList;
+
+        public void OnComlete()
+        {
+            for (int i = 0; i < eventList.Count; i++)
+            {
+                eventList[i].TriggerEvent();
+            }
+
+            completed = true;
         }
     }
 }

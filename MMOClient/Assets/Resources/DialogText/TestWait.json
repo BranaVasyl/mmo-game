@@ -4,35 +4,6 @@
     "startPhrase": "4b0dc782-00ff-46b4-9628-30e3d0b60597",
     "allPhrase": [
         {
-            "idPhrase": "4b0dc782-00ff-46b4-9628-30e3d0b60597",
-            "nodeText": "New Phrase33",
-            "nodePosition": {
-                "x": 244.0,
-                "y": 201.0
-            },
-            "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
-            "phraseItems": [
-                {
-                    "id": "5fa01d49-08d9-46c7-a3b1-8ca091e8cbc2",
-                    "speaker": "Господар",
-                    "showTime": 2.0,
-                    "sentence": "Відьмак, радий тебе бачити"
-                },
-                {
-                    "id": "2b6959f9-36e0-4426-b241-09026183a4ae",
-                    "speaker": "Господар",
-                    "showTime": 2.0,
-                    "sentence": "Як проходить задання, ти уже зміг гвбити монстра?"
-                },
-                {
-                    "id": "7a9e89b0-88bc-4c17-8bb1-d0c9d4421d0e",
-                    "speaker": "Господар",
-                    "showTime": 2.0,
-                    "sentence": "Якщо ні, то краще тобі пквапитися, бо можуть постраждати нівчому не винні люди"
-                }
-            ]
-        },
-        {
             "idPhrase": "2aa69ff0-8f58-4261-84bc-6c93dd0ad673",
             "nodeText": "New Phrase(1)",
             "nodePosition": {
@@ -42,13 +13,13 @@
             "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
             "phraseItems": [
                 {
-                    "id": "dfc235b4-fc8b-4db1-8e97-cb636037e7e3",
+                    "id": "f6727081-1c8b-4a79-96c6-524fa2694936",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Нажаль я не можу збільшити винагороду, це все що в мене є "
                 },
                 {
-                    "id": "ae5544b1-5634-4c6b-a2bd-218166d75c0e",
+                    "id": "8a42bcf5-b92c-4a67-b550-a0821545678e",
                     "speaker": "Господар",
                     "showTime": 1.0,
                     "sentence": "Щось іще?"
@@ -65,13 +36,13 @@
             "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
             "phraseItems": [
                 {
-                    "id": "9883f19a-178e-4785-bd66-c2dc328d902a",
+                    "id": "00161d19-1591-4ec4-b0fc-63426803d34a",
                     "speaker": "Геральт",
                     "showTime": 4.0,
                     "sentence": "Я знайшов лігво монстра"
                 },
                 {
-                    "id": "a732e74a-803e-403d-8362-822827e11fe2",
+                    "id": "7500da3e-1c86-4945-b7c8-bd6a54636d62",
                     "speaker": "Господар",
                     "showTime": 4.0,
                     "sentence": "Супер залишилося тільки його вбити"
@@ -88,10 +59,39 @@
             "nextAnswer": "a87142a0-3b2c-4012-aba9-95d257e88dbc",
             "phraseItems": [
                 {
-                    "id": "616db607-de67-4e53-ba8b-451ba7c30263",
+                    "id": "6e08d8ca-e3ae-4572-91e2-03b1b7654de0",
                     "speaker": "Відьмак",
                     "showTime": 1.0,
                     "sentence": "Я саме працюю над цим"
+                }
+            ]
+        },
+        {
+            "idPhrase": "4b0dc782-00ff-46b4-9628-30e3d0b60597",
+            "nodeText": "New Phrase33",
+            "nodePosition": {
+                "x": 244.0,
+                "y": 202.0
+            },
+            "nextAnswer": "3a235a29-8c2c-4f88-8059-dc316318297c",
+            "phraseItems": [
+                {
+                    "id": "c4140194-015d-4a4a-8946-2f373b72b043",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Відьмак, радий тебе бачити"
+                },
+                {
+                    "id": "e8cb0d58-e35e-4afc-a4ba-d05fe0ef032a",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Як проходить задання, ти уже зміг гвбити монстра?"
+                },
+                {
+                    "id": "b1200876-4530-428c-9526-2a14a39d91b0",
+                    "speaker": "Господар",
+                    "showTime": 2.0,
+                    "sentence": "Якщо ні, то краще тобі поквапитися, бо можуть постраждати нівчому не винні люди"
                 }
             ]
         }

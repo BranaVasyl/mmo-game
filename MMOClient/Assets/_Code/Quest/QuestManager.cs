@@ -4,16 +4,19 @@ using UnityEngine;
 
 namespace BV
 {
-
     public class QuestManager : MonoBehaviour
     {
-        public List<Quest> quest;
-        public List<InvestiagtionArea> InvestiagtionAreas;
+        public List<Quest> quests;
 
         public static QuestManager singleton;
         void Awake()
         {
             singleton = this;
+        }
+
+        private void Start()
+        {
+            ResetQustsStates();
         }
 
         public void SetActiveState(string questId, string stageId)
@@ -70,7 +73,7 @@ namespace BV
 
         private Quest GetQuest(string id)
         {
-            Quest resultQuest = quest.Find(i => i.id == id);
+            Quest resultQuest = quests.Find(i => i.id == id);
             return resultQuest;
         }
 
@@ -151,6 +154,23 @@ namespace BV
             else
             {
                 return quest.IsCompleted();
+            }
+        }
+
+        private void ResetQustsStates()
+        {
+            for (int i = 0; i < quests.Count; i++)
+            {
+                Quest quest = quests[i];
+                quest.active = false;
+                quest.completed = false;
+
+                for (int j = 0; j < quest.questStages.Count; j++)
+                {
+                    QuestStageBase questStage = quest.questStages[j];
+                    questStage.active = false;
+                    questStage.completed = false;
+                }
             }
         }
     }

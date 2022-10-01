@@ -169,6 +169,14 @@ namespace Project.Networking
                 string message = E.data["message"].ToString().RemoveQuotes();
                 managersController.chatBehaviour.SendMessage(id, message);
             });
+
+            On("triggerKillEvent", (E) =>
+            {
+                string id = E.data["id"].ToString().RemoveQuotes();
+                managersController.damageManager.OnKillEvent(id);
+
+                managersController.chatBehaviour.SendMessage("You", "kill enemy " + id);
+            });
         }
 
         public GameObject getPlayer()

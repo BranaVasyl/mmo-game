@@ -6799,7 +6799,7 @@ MonoBehaviour:
     dialogId: 
     questId: 1
     stageId: 1
-  removeAferUse: 1
+  removeAfterUse: 1
 --- !u!65 &666553154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7346,6 +7346,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcd5c4298468ab4687096db321f0c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killListeners:
+  - enemyId: AI_Zombie
+    completed: 0
+    eventList:
+    - eventType: 3
+      NPC_Id: 
+      dialogId: 
+      questId: 1
+      stageId: 3
 --- !u!4 &712818033
 Transform:
   m_ObjectHideFlags: 0
@@ -7722,7 +7731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f675e80be529eea46823c5f5290b3995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaId: qwerty
   needInvestigated:
   - {fileID: 1833513184}
   - {fileID: 1629002602}
@@ -7733,7 +7741,7 @@ MonoBehaviour:
     dialogId: 
     questId: 1
     stageId: 2
-  removeAferUse: 1
+  removeAfterUse: 1
 --- !u!1 &748798887
 GameObject:
   m_ObjectHideFlags: 0
@@ -14012,9 +14020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3127972742eff3944922318bfeedc0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest:
+  quests:
   - {fileID: 11400000, guid: 1289f47469d1044409d31c5d10968fb3, type: 2}
-  InvestiagtionAreas: []
 --- !u!4 &1301949964
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace BV
     public class DamageCollider : MonoBehaviour
     {
         private DamageManager damageManager;
-        private List<string> damagedCharactersId;
+        private List<string> damagedCharactersId = new List<string>();
 
         void Start()
         {
