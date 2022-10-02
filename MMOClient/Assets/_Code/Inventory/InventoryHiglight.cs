@@ -40,7 +40,7 @@ namespace BV
         {
             if (targetGrid == null)
             {
-                if (initReactParent.gameObject.activeSelf)
+                if (initReactParent != null && initReactParent.gameObject.activeSelf)
                 {
                     higlighter.SetParent(initReactParent);
                 }

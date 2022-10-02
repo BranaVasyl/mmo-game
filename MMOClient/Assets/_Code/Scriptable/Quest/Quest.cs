@@ -9,6 +9,7 @@ namespace BV
     {
         [Header("Quest Base")]
         public string id;
+        public Sprite questIcon;
         public string questName;
         public string description;
         public int level;

@@ -42,13 +42,6 @@ namespace BV
         private CharacterManager characterManager;
         private InventoryManager inventoryManager;
 
-        void OnDisable()
-        {
-            selectedItemGrid = null;
-            correctInventoryHiglight.SetParent(null);
-            incorrectInventoryHiglight.SetParent(null);
-        }
-
         public static InventoryController singleton;
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
@@ -278,7 +271,8 @@ namespace BV
 
                 InventoryItem inventoryItem = CreateInventoryItem();
                 inventoryItem.Set(itemData);
-                if(item.rotated) {
+                if (item.rotated)
+                {
                     inventoryItem.Rotate();
                 }
 
@@ -576,6 +570,10 @@ namespace BV
         public override void Deinit()
         {
             RevertItemPosition();
+
+            selectedItemGrid = null;
+            correctInventoryHiglight.SetParent(null);
+            incorrectInventoryHiglight.SetParent(null);
         }
     }
 

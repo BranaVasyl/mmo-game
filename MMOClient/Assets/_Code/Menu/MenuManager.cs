@@ -48,6 +48,8 @@ namespace BV
             currentPanel = menuPanels[curPanelIndex];
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
             currentPanel.gameObject.SetActive(true);
+
+            currentPanel.Open();
         }
 
         public void CloseMenu()

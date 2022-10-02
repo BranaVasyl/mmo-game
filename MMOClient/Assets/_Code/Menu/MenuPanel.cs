@@ -89,6 +89,10 @@ namespace BV
             inputActions.PlayerActions.RB.canceled += inputActions => rb_input = false;
         }
 
+        public virtual void Open()
+        {
+        }
+
         public virtual void Deinit()
         {
         }

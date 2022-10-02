@@ -14,7 +14,7 @@ namespace BV
             singleton = this;
         }
 
-        private void Start()
+        public void Init()
         {
             ResetQustsStates();
         }
