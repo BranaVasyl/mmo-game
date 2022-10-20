@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Project.Utility;
+using System.Linq;
 
 namespace BV
 {
@@ -24,7 +25,11 @@ namespace BV
 
         private List<GameObject> questObjectItems = new List<GameObject>();
         private List<GameObject> questObjectStages = new List<GameObject>();
+
         private List<Quest> questItems = new List<Quest>();
+        private List<Quest> activeQusets = new List<Quest>();
+        private List<Quest> comletedQusets = new List<Quest>();
+
         private List<QuestStageBase> questStages = new List<QuestStageBase>();
 
         QuestManager questManager;
@@ -36,26 +41,37 @@ namespace BV
 
         public override void Open()
         {
+            activeQusets = questManager.quests.FindAll(i => i.active);
+            questItems = questItems.Concat(activeQusets).ToList();
+            InitQuestList(activeQusets);
+
+            comletedQusets = questManager.quests.FindAll(i => i.completed);
+            questItems = questItems.Concat(comletedQusets).ToList();
+            InitQuestList(comletedQusets);
+
+            UpdateStageList();
+        }
+
+        void InitQuestList(List<Quest> questList)
+        {
             GameObject itemTemplate = questListContainer.transform.GetChild(0).gameObject;
             GameObject g;
 
-            questItems = questManager.quests.FindAll(i => i.active);
-            for (int i = 0; i < questItems.Count; i++)
+            for (int i = 0; i < questList.Count; i++)
             {
-                Quest curQuest = questItems[i];
+                Quest curQuest = questList[i];
 
                 g = Instantiate(itemTemplate, questListContainer.transform);
                 g.transform.GetChild(0).GetComponent<Image>().sprite = curQuest.questIcon;
                 g.transform.GetChild(1).GetComponent<TMP_Text>().text = curQuest.questName;
                 g.transform.GetChild(2).GetComponent<TMP_Text>().text = curQuest.locality;
+                g.transform.GetChild(3).gameObject.SetActive(curQuest.completed);
 
                 g.GetComponent<Button>().AddEventListener(i, ItemClicked);
 
                 questObjectItems.Add(g);
                 g.SetActive(true);
             }
-
-            UpdateStageList();
         }
 
         void ItemClicked(int itemIndex)
