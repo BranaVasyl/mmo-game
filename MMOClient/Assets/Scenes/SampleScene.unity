@@ -2362,7 +2362,6 @@ MonoBehaviour:
   correctMark: {fileID: 21300000, guid: b421a49bbe01c0548bcc2beecfef5f68, type: 3}
   incorrectMark: {fileID: 21300000, guid: 51c178bb6b6588e4dbbfdcb03d56e2b1, type: 3}
   targetMark: {fileID: 21300000, guid: 3fed8df045a5899439d87321ef13d938, type: 3}
-  selectedItem: 0
 --- !u!1001 &187742856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14497,7 +14496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quests:
-  - {fileID: 11400000, guid: 1289f47469d1044409d31c5d10968fb3, type: 2}
+  - {fileID: 11400000, guid: 149340d0b44bf7243ac94d71e99437a5, type: 2}
   - {fileID: 11400000, guid: d15cba48982b98d4c9829f7cfd861437, type: 2}
 --- !u!4 &1301949964
 Transform:
