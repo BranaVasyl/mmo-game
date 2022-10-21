@@ -14,13 +14,14 @@ namespace BV
         private GameObject questListContainer;
         [SerializeField]
         private GameObject questStageList;
+
+        [Header("Quest icons")]
         public Sprite emptyMark;
         public Sprite correctMark;
         public Sprite incorrectMark;
         public Sprite targetMark;
-        private GameObject lastActiveStage;
 
-        [SerializeField]
+        private GameObject lastActiveStage;
         private int selectedItem = 0;
 
         private List<GameObject> questObjectItems = new List<GameObject>();
@@ -49,6 +50,11 @@ namespace BV
             questItems = questItems.Concat(comletedQusets).ToList();
             InitQuestList(comletedQusets);
 
+            for (int i = 0; i < questObjectItems.Count; i++)
+            {
+                questObjectItems[i].GetComponent<Button>().AddEventListener(i, ItemClicked);
+            }
+
             UpdateStageList();
         }
 
@@ -66,8 +72,6 @@ namespace BV
                 g.transform.GetChild(1).GetComponent<TMP_Text>().text = curQuest.questName;
                 g.transform.GetChild(2).GetComponent<TMP_Text>().text = curQuest.locality;
                 g.transform.GetChild(3).gameObject.SetActive(curQuest.completed);
-
-                g.GetComponent<Button>().AddEventListener(i, ItemClicked);
 
                 questObjectItems.Add(g);
                 g.SetActive(true);
@@ -106,7 +110,7 @@ namespace BV
                 {
                     itemImage.sprite = correctMark;
                 }
-                if (curStage.active)
+                if (curStage.active && !curQuest.completed)
                 {
                     if (lastActiveStage != null)
                     {

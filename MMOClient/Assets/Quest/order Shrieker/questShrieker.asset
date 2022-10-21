@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   questIcon: {fileID: 21300000, guid: 1833ecf6981beec4ca5d249427d15c98, type: 3}
-  questName: "\u0417\u0430\u043C\u043E\u0432\u043B\u0435\u043D\u043D\u044F \u041F\u0440\u0438\u0432\u0438\u0434"
+  questName: "\u0417\u0430\u043C\u043E\u0432\u043B\u0435\u043D\u043D\u044F \u041A\u043B\u0435\u043A\u043E\u0442\u0443\u043D"
   description: 
   level: 12
   locality: "\u0412\u0435\u043B\u0435\u043D"
