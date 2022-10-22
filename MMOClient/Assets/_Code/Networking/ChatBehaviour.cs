@@ -26,14 +26,21 @@ namespace Project.Networking
             singleton = this;
         }
 
-        void Start()
+        public void Show()
         {
-            chatUI.gameObject.SetActive(true);
+            chatUI.SetActive(true);
         }
+
+        public void Hide()
+        {
+            chatUI.SetActive(false);
+        }
+
 
         public void Init(SocketIOComponent soc)
         {
             socket = soc;
+            Show();
         }
 
         public void SendMessage(string id, string message)

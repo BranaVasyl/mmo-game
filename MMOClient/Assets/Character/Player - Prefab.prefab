@@ -636,6 +636,7 @@ MonoBehaviour:
   b_input: 0
   rollInput: 0
   itemInput: 0
+  interactInput: 0
   moveSpeed: 3.7
   runSpeed: 5
   rotateSpeed: 7
@@ -868,9 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  interactioDistance: 2
-  interactionUi: {fileID: 0}
-  interactionText: {fileID: 0}
+  interactioDistance: 1.2
 --- !u!54 &3868577345732564901
 Rigidbody:
   m_ObjectHideFlags: 0

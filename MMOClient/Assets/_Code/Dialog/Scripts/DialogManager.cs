@@ -6,11 +6,14 @@ using System.IO;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using TMPro;
+using Project.Networking;
 
 namespace BV
 {
     public class DialogManager : MonoBehaviour
     {
+        public GameObject dialogUI;
+
         public QuestManager questManager;
         public GameObject phraseUi;
         public GameObject answersUIField;
@@ -27,6 +30,17 @@ namespace BV
 
         private StateManager states;
         public List<NPCDialogList> NPCDialogs;
+
+        private ChatBehaviour chatBehaviour;
+        public GameUIManager gameUIManager;
+        public DialogManager dialogManager;
+
+        private void Start()
+        {
+            chatBehaviour = ChatBehaviour.singleton;
+            gameUIManager = GameUIManager.singleton;
+            dialogManager = DialogManager.singleton;
+        }
 
         public void UpdateDialogList(string NPC_Id, string dialogId)
         {
@@ -86,6 +100,10 @@ namespace BV
         {
             states.inDialog = true;
             Debug.Log("Stard dialog with " + NPCName);
+
+            dialogUI.SetActive(true);
+            chatBehaviour.Hide();
+            gameUIManager.Hide();
         }
 
         void initDialogSelected(List<DialogSelected> dialogsSelected)
@@ -287,6 +305,10 @@ namespace BV
                 states = null;
             }
             Debug.Log("End dialog with" + NPCName);
+
+            dialogUI.SetActive(false);
+            chatBehaviour.Show();
+            gameUIManager.Show();
         }
 
         void ClearElement()

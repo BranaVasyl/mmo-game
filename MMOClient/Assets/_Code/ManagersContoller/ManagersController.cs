@@ -13,6 +13,8 @@ namespace BV
         public PieMenuManager pieMenuManager;
         public DamageManager damageManager;
         public QuestManager questManager;
+        public GameUIManager gameUIManager;
+        public DialogManager dialogManager;
 
         private SocketIOComponent socket;
         private StateManager states;
@@ -25,6 +27,8 @@ namespace BV
             pieMenuManager = PieMenuManager.singleton;
             damageManager = DamageManager.singleton;
             questManager = QuestManager.singleton;
+            gameUIManager = GameUIManager.singleton;
+            dialogManager = DialogManager.singleton;
         }
 
         public void Init(SocketIOComponent soc, StateManager sm, PlayerData pd)
@@ -39,6 +43,7 @@ namespace BV
         private void InitManagers()
         {
             chatBehaviour.Init(socket);
+            gameUIManager.Init();
             menuManager.Init(socket, playerData);
             pieMenuManager.Init(states.GetComponent<InventoryManager>());
             damageManager.Init(socket);

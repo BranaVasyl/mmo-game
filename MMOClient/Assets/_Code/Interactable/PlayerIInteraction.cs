@@ -2,53 +2,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Project.Networking;
 
 namespace BV
 {
     public class PlayerIInteraction : MonoBehaviour
     {
         public Camera mainCamera;
-        public float interactioDistance = 2f;
+        public float interactioDistance = 1.2f;
 
-        private GameUIController gameUIController;
+        private GameUIManager gameUIManager;
         private StateManager states;
+
+        private bool canInteract = false;
 
         void Start()
         {
-            gameUIController = GameUIController.singleton;
+            gameUIManager = GameUIManager.singleton;
             states = GetComponent<StateManager>();
+            canInteract = gameObject.GetComponent<NetworkIdentity>().IsControlling();
         }
 
         private void Update()
         {
-            InteractionRay();
+            if (canInteract)
+            {
+                InteractionRay();
+            }
         }
 
         void InteractionRay()
         {
-            Ray ray = Camera.main.ViewportPointToRay(Vector3.one / 2f);
-            RaycastHit hit;
-
-            bool hitSomething = false;
-
-            if (Physics.Raycast(ray, out hit, interactioDistance))
+            List<IInteractable> interactableList = new List<IInteractable>();
+            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactioDistance);
+            foreach (Collider collider in colliderArray)
             {
-                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-                if (interactable != null)
+                if (collider.TryGetComponent(out IInteractable interactable))
                 {
-                    hitSomething = true;
-                    gameUIController.interactionText.text = interactable.GetDescription();
-
-                    if (states.interactInput)
-                    {
-                        interactable.Interact();
-                        states.interactInput = false;
-                    }
+                    interactableList.Add(interactable);
                 }
             }
 
-            gameUIController.interactionUi.SetActive(hitSomething);
+            IInteractable closestInteractable = null;
+            foreach (IInteractable interactable in interactableList)
+            {
+                if (closestInteractable == null)
+                {
+                    closestInteractable = interactable;
+                }
+            }
+
+
+            bool hitSomething = false;
+            if (closestInteractable != null)
+            {
+                hitSomething = true;
+                gameUIManager.interactionText.text = closestInteractable.GetDescription();
+
+                if (states.interactInput)
+                {
+                    closestInteractable.Interact(gameObject);
+                    states.interactInput = false;
+                }
+            }
+
+            gameUIManager.interactionUi.SetActive(hitSomething);
         }
     }
 }

@@ -488,6 +488,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}
+--- !u!1 &45202972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 45202973}
+  - component: {fileID: 45202974}
+  m_Layer: 0
+  m_Name: '[GameUIManager]'
+  m_TagString: Chat_Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &45202973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45202972}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 170.75331, y: 137.58403, z: 236.61397}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 309419831}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &45202974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45202972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1955d0f7ecf18bf4f805d8477dc7e6a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameUi: {fileID: 1034141141}
+  interactionUi: {fileID: 1617334374}
+  interactionText: {fileID: 1506838792}
 --- !u!1001 &50755581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2752,7 +2799,7 @@ GameObject:
   - component: {fileID: 217492555}
   - component: {fileID: 217492554}
   - component: {fileID: 217492553}
-  - component: {fileID: 217492552}
+  - component: {fileID: 217492556}
   m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -2775,30 +2822,6 @@ Transform:
   m_Father: {fileID: 2049641862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &217492552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217492550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7769406069b63649af6280e5496b948, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questEvents:
-  - eventType: 2
-    NPC_Id: 
-    dialogId: 
-    questId: 2
-    stageId: 1
-  - eventType: 5
-    NPC_Id: 
-    dialogId: 
-    questId: 1
-    stageId: 1
-  removeAfterUse: 1
 --- !u!65 &217492553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2862,6 +2885,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 217492550}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &217492556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217492550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3232b50f163b81459dc47a4302a4ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questName: "\u041A\u043E\u043D\u0442\u0440\u0430\u043A\u0442 \u043D\u0430 \u041A\u043B\u0435\u043A\u043E\u0442\u0443\u043D\u0430"
+  questEvents:
+  - eventType: 2
+    NPC_Id: 
+    dialogId: 
+    questId: 2
+    stageId: 1
 --- !u!1 &219398367
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,6 +3682,7 @@ Transform:
   - {fileID: 1408024078}
   - {fileID: 1301949964}
   - {fileID: 689462561}
+  - {fileID: 45202973}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3660,6 +3703,8 @@ MonoBehaviour:
   pieMenuManager: {fileID: 0}
   damageManager: {fileID: 0}
   questManager: {fileID: 0}
+  gameUIManager: {fileID: 0}
+  dialogManager: {fileID: 0}
 --- !u!1 &319001843
 GameObject:
   m_ObjectHideFlags: 0
@@ -7128,7 +7173,7 @@ GameObject:
   - component: {fileID: 666553156}
   - component: {fileID: 666553155}
   - component: {fileID: 666553154}
-  - component: {fileID: 666553153}
+  - component: {fileID: 666553157}
   m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -7151,30 +7196,6 @@ Transform:
   m_Father: {fileID: 1549834978}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &666553153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666553151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7769406069b63649af6280e5496b948, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questEvents:
-  - eventType: 2
-    NPC_Id: 
-    dialogId: 
-    questId: 1
-    stageId: 1
-  - eventType: 5
-    NPC_Id: 
-    dialogId: 
-    questId: 1
-    stageId: 1
-  removeAfterUse: 1
 --- !u!65 &666553154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7238,6 +7259,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666553151}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &666553157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666553151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3232b50f163b81459dc47a4302a4ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questName: "\u041A\u043E\u043D\u0442\u0440\u0430\u043A\u0442 \u043D\u0430 \u041F\u0440\u0438\u0432\u0438\u0434\u0430"
+  questEvents:
+  - eventType: 2
+    NPC_Id: 
+    dialogId: 
+    questId: 1
+    stageId: 1
 --- !u!1 &671091807
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,6 +7615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad23f56f2cb495d2b9a353995f7d180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogUI: {fileID: 1914276327}
   questManager: {fileID: 1301949963}
   phraseUi: {fileID: 509620855}
   answersUIField: {fileID: 356484321}
@@ -7583,6 +7624,8 @@ MonoBehaviour:
   - NPCId: NPC_First
     dialogList:
     - Test
+  gameUIManager: {fileID: 0}
+  dialogManager: {fileID: 0}
 --- !u!4 &689462561
 Transform:
   m_ObjectHideFlags: 0
@@ -12042,14 +12085,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1034141142}
-  - component: {fileID: 1034141143}
   m_Layer: 5
   m_Name: GameUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1034141142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12071,20 +12113,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1034141143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034141141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1955d0f7ecf18bf4f805d8477dc7e6a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionUi: {fileID: 1617334374}
-  interactionText: {fileID: 1506838792}
 --- !u!1 &1040913767
 GameObject:
   m_ObjectHideFlags: 0
@@ -23828,7 +23856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1914276328
 RectTransform:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ namespace BV
             return "Зміни на рандомний колір";
         }
 
-        public void Interact()
+        public void Interact(GameObject player)
         {
             mat.color = new Color(Random.value, Random.value, Random.value);
         }
