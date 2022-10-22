@@ -536,6 +536,7 @@ GameObject:
   - component: {fileID: 4531723990451893917}
   - component: {fileID: -8938538211337291074}
   - component: {fileID: -3272036808620344320}
+  - component: {fileID: -2549159315518526182}
   m_Layer: 9
   m_Name: Player - Prefab
   m_TagString: Player
@@ -651,6 +652,7 @@ MonoBehaviour:
   isTwoHanded: 0
   usingItem: 0
   isBlocking: 0
+  inDialog: 0
   isInvicible: 0
   isLeftHand: 0
   onEmpty: 0
@@ -710,8 +712,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   airTimer: 0
-  storePrevAction: 0
-  storeActionInput: 0
   curEquip: 0
   equipHand: {fileID: 0}
   equipSpine: {fileID: 3427280036207124744}
@@ -852,8 +852,25 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  currentSpelId: 0
   currentSpellData: {fileID: 0}
   currentSpellParticle: {fileID: 0}
+--- !u!114 &-2549159315518526182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6679339757132984336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 592eaa56d791fb14f833570e6f118dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  interactioDistance: 2
+  interactionUi: {fileID: 0}
+  interactionText: {fileID: 0}
 --- !u!54 &3868577345732564901
 Rigidbody:
   m_ObjectHideFlags: 0

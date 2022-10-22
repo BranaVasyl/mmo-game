@@ -21,6 +21,7 @@ namespace BV
         bool a_input;
         bool x_input;
         bool y_input;
+        bool interact_Input;
 
         bool rb_input;
         bool rt_input;
@@ -127,6 +128,10 @@ namespace BV
             //XInput
             inputActions.PlayerActions.X.performed += inputActions => x_input = true;
             inputActions.PlayerActions.X.canceled += inputActions => x_input = false;
+
+            //InteractInput
+            inputActions.PlayerActions.Interact.performed += inputActions => interact_Input = true;
+            inputActions.PlayerActions.Interact.canceled += inputActions => interact_Input = false;
 
             //RBInput
             inputActions.PlayerActions.RB.performed += inputActions => rb_input = true;
@@ -239,6 +244,7 @@ namespace BV
             states.rb = rb_input;
             states.lb = lb_input;
             states.b_input = b_input;
+            states.interactInput = interact_Input;
 
             if (y_input)
             {
@@ -259,6 +265,11 @@ namespace BV
                 camManager.lockonTarget = states.lockOnTarget;
                 states.lockOnTransform = camManager.lockonTransform;
                 camManager.lockon = states.lockOn;
+            }
+
+            if (interact_Input)
+            {
+                interact_Input = false;
             }
         }
 

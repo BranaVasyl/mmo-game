@@ -20,6 +20,7 @@ namespace BV
         public bool rt, rb, lt, lb, b_input;
         public bool rollInput;
         public bool itemInput;
+        public bool interactInput;
 
         [Header("Stats")]
         public float moveSpeed = 2;
