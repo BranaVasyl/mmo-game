@@ -8,7 +8,6 @@ namespace BV
 {
     public class PlayerIInteraction : MonoBehaviour
     {
-        public Camera mainCamera;
         public float interactioDistance = 1.2f;
 
         private GameUIManager gameUIManager;
@@ -33,36 +32,46 @@ namespace BV
 
         void InteractionRay()
         {
-            List<IInteractable> interactableList = new List<IInteractable>();
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactioDistance);
+            List<GameObject> interactableGameObject = new List<GameObject>();
+            Collider[] colliderArray = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), interactioDistance);
             foreach (Collider collider in colliderArray)
             {
                 if (collider.TryGetComponent(out IInteractable interactable))
                 {
-                    interactableList.Add(interactable);
+                    interactableGameObject.Add(collider.gameObject);
                 }
             }
 
-            IInteractable closestInteractable = null;
-            foreach (IInteractable interactable in interactableList)
+            GameObject closestGameObject = null;
+            foreach (GameObject interactable in interactableGameObject)
             {
-                if (closestInteractable == null)
+                if (closestGameObject == null)
                 {
-                    closestInteractable = interactable;
+                    closestGameObject = interactable;
+                }
+                else
+                {
+                    if (Vector3.Distance(transform.position, interactable.transform.position) < Vector3.Distance(transform.position, closestGameObject.transform.position))
+                    {
+                        closestGameObject = interactable;
+                    }
                 }
             }
-
 
             bool hitSomething = false;
-            if (closestInteractable != null)
+            if (closestGameObject != null)
             {
-                hitSomething = true;
-                gameUIManager.interactionText.text = closestInteractable.GetDescription();
-
-                if (states.interactInput)
+                IInteractable currentInteractable = closestGameObject.GetComponent<IInteractable>();
+                if (currentInteractable != null)
                 {
-                    closestInteractable.Interact(gameObject);
-                    states.interactInput = false;
+                    hitSomething = true;
+                    gameUIManager.interactionText.text = currentInteractable.GetDescription();
+
+                    if (states.interactInput)
+                    {
+                        currentInteractable.Interact(gameObject);
+                        states.interactInput = false;
+                    }
                 }
             }
 

@@ -9,6 +9,7 @@ namespace BV
     {
         public string NPCId;
         public string NPCName;
+        private GameObject player;
 
         private DialogManager dialogManager;
 
@@ -22,20 +23,19 @@ namespace BV
             return "Поговорити з : " + NPCName;
         }
 
-        public void Interact(GameObject player)
+        public void Interact(GameObject character)
         {
-            dialogManager.InitDialog(NPCId, player.GetComponent<StateManager>());
+            player = character;
+            dialogManager.InitDialog(NPCId, character.GetComponent<StateManager>());
         }
 
-        private void OnTriggerExit(Collider other)
+        private void Update()
         {
-
-            if (other.gameObject.tag == "Player")
+            if (player != null)
             {
-                NetworkIdentity ni = other.gameObject.GetComponent<NetworkIdentity>();
-                StateManager states = other.gameObject.GetComponent<StateManager>();
+                StateManager states = player.GetComponent<StateManager>();
 
-                if (ni.IsControlling() && states.inDialog)
+                if (states.inDialog && Vector3.Distance(transform.position, player.transform.position) > 2f)
                 {
                     dialogManager.EndDialog();
                 }
