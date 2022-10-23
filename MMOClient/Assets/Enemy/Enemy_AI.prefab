@@ -1932,7 +1932,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkIdentity: {fileID: 0}
-  isInvicible: 0
   health: 100
   isDead: 0
   enemyRigidbody: {fileID: 0}
@@ -1943,6 +1942,7 @@ MonoBehaviour:
   isInteracting: 0
   currentAnimation: 
   isRotatingWithRootMotion: 0
+  isInvicible: 0
   inventoryManager: {fileID: 0}
 --- !u!114 &5895987166054608085
 MonoBehaviour:

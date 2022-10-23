@@ -11,6 +11,9 @@ public class GameUIManager : MonoBehaviour
     public GameObject interactionUi;
     public TextMeshProUGUI interactionText;
 
+    [Header("Enemy Ui")]
+    public GameObject enemyUIPrefab;
+
     public void Init()
     {
         Show();

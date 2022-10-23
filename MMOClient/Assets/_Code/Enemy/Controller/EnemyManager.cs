@@ -48,6 +48,8 @@ namespace BV
 
         public EnemyInventoryManager inventoryManager;
 
+        public EnemyUI enemyUI;
+
         void Start()
         {
             SetupAnimator();
@@ -144,8 +146,15 @@ namespace BV
         public void UpdateState(EnemyData enemyData)
         {
             this.health = enemyData.health;
+
+            if (enemyUI != null)
+            {
+                enemyUI.healthSlider.value = this.health;
+            }
+
             if (!isDead && enemyData.isDead)
             {
+                Destroy(enemyUI.gameObject);
                 isDead = enemyData.isDead;
                 EnableRagdoll();
             }
@@ -258,6 +267,20 @@ namespace BV
 
         public override void DoDamage()
         {
+            if (enemyUI == null)
+            {
+                GameObject go = Instantiate(GameUIManager.singleton.enemyUIPrefab);
+                enemyUI = go.GetComponent<EnemyUI>();
+                enemyUI.enemyTransform = this.transform;
+                go.transform.SetParent(enemyUI.enemyTransform);
+
+                go.SetActive(true);
+            }
+            else
+            {
+                enemyUI.gameObject.SetActive(true);
+            }
+
             if (anim != null)
             {
                 anim.Play("damage_1");
