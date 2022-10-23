@@ -196,12 +196,6 @@ namespace BV
                 pieMenuManager.CloseMenu();
             }
 
-            if (states.lockOn)
-            {
-                EnemyUI.sinleton.enemyTransform = states.lockOnTransform;
-                EnemyUI.sinleton.gameObject.SetActive(true);
-            }
-
             if (menuManager.IsOpen())
             {
                 return;

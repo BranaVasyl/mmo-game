@@ -72,6 +72,20 @@ namespace BV
             inventoryManager.Init();
 
             InitRagdoll();
+
+            if (enemyUI == null)
+            {
+                GameObject go = Instantiate(GameUIManager.singleton.enemyUIPrefab);
+                
+                enemyUI = go.GetComponent<EnemyUI>();
+                enemyUI.enemyTransform = this.transform;
+                enemyUI.nameText.text = "Temp " + this.health;
+
+                go.transform.SetParent(enemyUI.enemyTransform);
+
+                enemyUI.healthSlider.gameObject.SetActive(false);
+                go.SetActive(true);
+            }
         }
 
         void InitRagdoll()
@@ -267,18 +281,9 @@ namespace BV
 
         public override void DoDamage()
         {
-            if (enemyUI == null)
+            if (enemyUI != null)
             {
-                GameObject go = Instantiate(GameUIManager.singleton.enemyUIPrefab);
-                enemyUI = go.GetComponent<EnemyUI>();
-                enemyUI.enemyTransform = this.transform;
-                go.transform.SetParent(enemyUI.enemyTransform);
-
-                go.SetActive(true);
-            }
-            else
-            {
-                enemyUI.gameObject.SetActive(true);
+                enemyUI.healthSlider.gameObject.SetActive(true);
             }
 
             if (anim != null)

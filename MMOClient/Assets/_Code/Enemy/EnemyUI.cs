@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace BV
 {
     public class EnemyUI : MonoBehaviour
     {
         public Slider healthSlider;
+        public TextMeshProUGUI nameText;
+
         public Transform enemyTransform;
 
         float closeTimer;
@@ -33,14 +36,17 @@ namespace BV
             transform.LookAt(Camera.main.transform.position - v);
             transform.Rotate(0, 180, 0);
 
-            if (closeTimer < 4)
+            if (healthSlider.gameObject.activeSelf)
             {
-                closeTimer += Time.deltaTime;
-            }
-            else
-            {
-                closeTimer = 0;
-                gameObject.SetActive(false);
+                if (closeTimer < 4)
+                {
+                    closeTimer += Time.deltaTime;
+                }
+                else
+                {
+                    closeTimer = 0;
+                    healthSlider.gameObject.SetActive(false);
+                }
             }
         }
     }
