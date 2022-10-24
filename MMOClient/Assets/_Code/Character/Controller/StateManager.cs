@@ -464,6 +464,24 @@ namespace BV
             }
         }
 
+        public EnemyTarget FindLockableTarget()
+        {
+            EnemyTarget result = null;
+            float distanse = float.MaxValue;
+
+            for (int i = 0; i < lockablesList.Count; i++)
+            {
+                float tempDistance = Vector3.Distance(transform.position, lockablesList[i].transform.position);
+                if (tempDistance < distanse)
+                {
+                    distanse = tempDistance;
+                    result = lockablesList[i];
+                }
+            }
+
+            return result;
+        }
+
         void HandleRotation()
         {
             Vector3 targetDir = (lockOn == false) ? moveDir
