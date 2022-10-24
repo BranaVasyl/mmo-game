@@ -63,7 +63,7 @@ namespace BV
             enemyTarget.Init(anim);
 
             gameObject.layer = 8;
-            ignoreLayers = ~(1 << 9);
+            ignoreLayers = ~(1 << 12);
 
             syncEndPosition = gameObject.transform.position;
             syncEndRotation = gameObject.transform.rotation;
@@ -76,10 +76,10 @@ namespace BV
             if (enemyUI == null)
             {
                 GameObject go = Instantiate(GameUIManager.singleton.enemyUIPrefab);
-                
+
                 enemyUI = go.GetComponent<EnemyUI>();
                 enemyUI.enemyTransform = this.transform;
-                enemyUI.nameText.text = "Temp " + this.health;
+                enemyUI.nameText.text = this.displayedName;
 
                 go.transform.SetParent(enemyUI.enemyTransform);
 

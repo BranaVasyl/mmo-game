@@ -10,6 +10,7 @@ namespace BV
         [Header("Character Stats")]
         public NetworkIdentity networkIdentity;
         public float health = 100;
+        public string displayedName;
         public bool isDead = false;
 
         public void Init(NetworkIdentity nI)

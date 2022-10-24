@@ -246,6 +246,8 @@ namespace BV
             states.b_input = b_input;
             states.interactInput = interact_Input;
 
+            states.UpdateLockableTagets();
+
             if (y_input)
             {
                 y_input = false;
@@ -271,6 +273,13 @@ namespace BV
             {
                 interact_Input = false;
             }
+        }
+
+        void DisableLockOn()
+        {
+            states.lockOn = false;
+            states.lockOnTarget = null;
+            states.lockOnTransform = null;
         }
 
         void ResetInputNStates()

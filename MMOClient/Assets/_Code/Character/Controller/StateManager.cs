@@ -49,6 +49,7 @@ namespace BV
         public string currentAnimation;
 
         [Header("Other")]
+        public List<EnemyTarget> lockablesList;
         public EnemyTarget lockOnTarget;
         public Transform lockOnTransform;
         public AnimationCurve roll_curve;
@@ -423,6 +424,44 @@ namespace BV
 
             animatorManager.CloseRoll();
             HandleRolls();
+        }
+
+        float lockSampleRate = 0;
+
+        public void UpdateLockableTagets()
+        {
+            if (lockSampleRate < 0)
+            {
+                LayerMask mask = (1 << 12);
+                Collider[] cols = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), 20, mask);
+
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    EnemyTarget lockable = cols[i].gameObject.GetComponentInParent<EnemyTarget>();
+                    if (lockable != null)
+                    {
+                        if (!lockablesList.Contains(lockable))
+                        {
+                            lockablesList.Add(lockable);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < lockablesList.Count; i++)
+                {
+                    float distanse = Vector3.Distance(transform.position, lockablesList[i].transform.position);
+                    if (distanse > 20)
+                    {
+                        lockablesList.Remove(lockablesList[i]);
+                    }
+                }
+
+                lockSampleRate = 1;
+            }
+            else
+            {
+                lockSampleRate -= Time.deltaTime;
+            }
         }
 
         void HandleRotation()
