@@ -28,10 +28,6 @@ namespace Project.Networking
         private bool oldStateWalk;
 
         //@todo remove this field rom this class
-        [SerializeField]
-        [GreyOut]
-        private string oldCurrentAnimation;
-
         private NetworkIdentity networkIdentity;
         private PlayerData player;
 
@@ -46,7 +42,6 @@ namespace Project.Networking
             oldStateRun = false;
             oldStateWalk = false;
             oldTwoHanded = false;
-            oldCurrentAnimation = "";
 
             player = new PlayerData();
             player.vertical = oldVertical;
@@ -63,7 +58,7 @@ namespace Project.Networking
             if (networkIdentity.IsControlling())
             {
                 if (oldVertical != stateManager.vertical || oldHorizontal != stateManager.horizontal
-                || oldStateRun != stateManager.run || oldStateWalk != stateManager.walk || oldCurrentAnimation != stateManager.currentAnimation || oldTwoHanded != stateManager.isTwoHanded)
+                || oldStateRun != stateManager.run || oldStateWalk != stateManager.walk || oldTwoHanded != stateManager.isTwoHanded)
                 {
                     oldVertical = stateManager.vertical;
                     oldHorizontal = stateManager.horizontal;
@@ -72,8 +67,6 @@ namespace Project.Networking
                     oldStateWalk = stateManager.walk;
 
                     oldTwoHanded = stateManager.isTwoHanded;
-
-                    oldCurrentAnimation = stateManager.currentAnimation;
 
                     sendData();
                 }
@@ -88,7 +81,6 @@ namespace Project.Networking
             player.run = stateManager.run;
             player.walk = stateManager.walk;
             player.isTwoHanded = stateManager.isTwoHanded;
-            player.currentAnimation = stateManager.currentAnimation;
 
             SendAnimationsnData sendData = new SendAnimationsnData(player);
             networkIdentity.GetSocket().Emit("updateAnimations", new JSONObject(JsonUtility.ToJson(sendData)));
@@ -103,7 +95,6 @@ namespace Project.Networking
         public bool run;
         public bool walk;
         public bool isTwoHanded;
-        public string currentAnimation;
 
         public SendAnimationsnData(PlayerData player)
         {
@@ -112,7 +103,6 @@ namespace Project.Networking
             run = player.run;
             walk = player.walk;
             isTwoHanded = player.isTwoHanded;
-            currentAnimation = player.currentAnimation;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace BV
         public bool run;
         public bool walk;
         public bool isTwoHanded;
-        public string currentAnimation;
         public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
     }
 

@@ -260,19 +260,14 @@ namespace BV
                 lt_input = false;
                 if (states.lockOn)
                 {
-                    DisableLockOn();
+                    states.DisableLockOn();
                 }
                 else
                 {
                     EnemyTarget target = states.FindLockableTarget();
                     if (target != null)
                     {
-                        states.lockOn = true;
-
-                        states.lockOnTarget = target;
-                        camManager.lockonTarget = target;
-                        states.lockOnTransform = camManager.lockonTransform;
-                        camManager.lockon = states.lockOn;
+                        states.EnableLockon(target);
                     }
                 }
             }
@@ -281,16 +276,6 @@ namespace BV
             {
                 interact_Input = false;
             }
-        }
-
-        void DisableLockOn()
-        {
-            states.lockOn = false;
-            states.lockOnTarget = null;
-            states.lockOnTransform = null;
-
-            camManager.lockon = false;
-            camManager.lockonTarget = null;
         }
 
         void ResetInputNStates()

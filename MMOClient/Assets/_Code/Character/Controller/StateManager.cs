@@ -46,12 +46,13 @@ namespace BV
         public bool isLeftHand;
         public bool onEmpty;
         public bool openMenu;
-        public string currentAnimation;
 
-        [Header("Other")]
+        [Header("LockOn")]
         public List<EnemyTarget> lockablesList;
         public EnemyTarget lockOnTarget;
         public Transform lockOnTransform;
+
+        [Header("Other")]
         public AnimationCurve roll_curve;
 
         [HideInInspector]
@@ -75,16 +76,6 @@ namespace BV
         private ActionInput storePrevAction;
         private ActionInput storeActionInput;
 
-        [Header("TestEquip")]
-        public int curEquip;
-        public GameObject equipHand;
-        public GameObject equipSpine;
-
-        [Header("StayAnim")]
-        public string[] stayAnim;
-        public int playAnimIn;
-        private float timerStay;
-
         [Header("Network Sync")]
         private float lastSynchronizationTime;
         private float syncDelay = 0f;
@@ -99,22 +90,7 @@ namespace BV
 
         public void Update()
         {
-            if (moveAmount == 0)
-            {
-                anim.SetFloat("moveAmount", 0);
-                timerStay += Time.deltaTime;
-            }
-            else
-            {
-                anim.SetFloat("moveAmount", moveAmount);
-                timerStay = 0;
-            }
-
-            if (timerStay >= playAnimIn)
-            {
-                PlayRandomStayAnim();
-            }
-
+            anim.SetFloat("moveAmount", moveAmount);
             if (isInvicible)
             {
                 isInvicible = !anim.GetBool("onEmpty");
@@ -139,11 +115,6 @@ namespace BV
             {
                 isDead = playerData.isDead;
                 EnableRagdoll();
-            }
-
-            if (currentAnimation != playerData.currentAnimation)
-            {
-                PlayAnimation(playerData.currentAnimation);
             }
 
             syncTime = 0f;
@@ -274,6 +245,8 @@ namespace BV
             delta = d;
 
             isBlocking = false;
+            isLeftHand = false;
+
             usingItem = anim.GetBool("interacting");
             anim.SetBool("spellcasting", isSpellcasting);
 
@@ -348,14 +321,6 @@ namespace BV
 
             if (canAttack)
             {
-                if (IsInput())
-                {
-                    //anim.CrossFade("Empty Override", 0.1f);
-                }
-            }
-
-            if (canAttack)
-            {
                 DetectedAction();
             }
 
@@ -365,11 +330,6 @@ namespace BV
             }
             anim.SetBool("blocking", isBlocking);
             anim.SetBool("isLeft", isLeftHand);
-
-            if (currentAnimation.Length > 0 && !usingItem)
-            {
-                currentAnimation = "";
-            }
 
             anim.applyRootMotion = false;
             rigid.drag = (moveAmount > 0 || !onGround) ? 0 : 4;
@@ -440,7 +400,8 @@ namespace BV
                     EnemyTarget lockable = cols[i].gameObject.GetComponentInParent<EnemyTarget>();
                     if (lockable != null)
                     {
-                        if (!lockablesList.Contains(lockable))
+                        CharacterManager characterManager = lockable.gameObject.GetComponent<CharacterManager>();
+                        if (!lockablesList.Contains(lockable) && !characterManager.isDead)
                         {
                             lockablesList.Add(lockable);
                         }
@@ -450,10 +411,17 @@ namespace BV
                 for (int i = 0; i < lockablesList.Count; i++)
                 {
                     float distanse = Vector3.Distance(transform.position, lockablesList[i].transform.position);
-                    if (distanse > 20)
+                    CharacterManager characterManager = lockablesList[i].gameObject.GetComponent<CharacterManager>();
+
+                    if (distanse > 20 || characterManager.isDead)
                     {
                         lockablesList.Remove(lockablesList[i]);
                     }
+                }
+
+                if (!lockablesList.Contains(lockOnTarget))
+                {
+                    DisableLockOn();
                 }
 
                 lockSampleRate = 1;
@@ -480,6 +448,26 @@ namespace BV
             }
 
             return result;
+        }
+
+        public void EnableLockon(EnemyTarget target)
+        {
+            lockOn = true;
+            lockOnTarget = target;
+            CameraManager.singleton.lockonTarget = target;
+
+            lockOnTransform = CameraManager.singleton.lockonTransform;
+            CameraManager.singleton.lockon = lockOn;
+        }
+
+        public void DisableLockOn()
+        {
+            lockOn = false;
+            lockOnTarget = null;
+            lockOnTransform = null;
+
+            CameraManager.singleton.lockon = false;
+            CameraManager.singleton.lockonTarget = null;
         }
 
         void HandleRotation()
@@ -521,48 +509,6 @@ namespace BV
             {
                 airTimer = 0;
             }
-        }
-
-        public void ChangeEquip(int but)
-        {
-            anim.CrossFade("Empty Override", 0.2f);
-
-            if (but == 0)
-                curEquip = 0;
-            else if (curEquip != but)
-                curEquip = but;
-            else
-                curEquip = 0;
-
-            if (curEquip == 0)
-            {
-                equipHand.SetActive(false);
-                equipSpine.SetActive(true);
-            }
-            else
-            {
-                equipHand.SetActive(true);
-                equipSpine.SetActive(false);
-            }
-
-            anim.SetInteger("equip", curEquip);
-        }
-
-        public void PlayRandomStayAnim()
-        {
-            if (curEquip != 0)
-            {
-                ChangeEquip(0);
-                timerStay = 0;
-                return;
-            }
-
-            string targetAnim;
-            int r = Random.Range(0, stayAnim.Length);
-            targetAnim = stayAnim[r];
-
-            //anim.CrossFade(targetAnim, 0.2f);
-            timerStay = 0;
         }
 
         void HandleMovementAnimation()
@@ -640,7 +586,6 @@ namespace BV
 
             usingItem = true;
             anim.Play(targetAnim);
-            currentAnimation = targetAnim;
         }
 
         public void DetectedAction()
@@ -709,7 +654,6 @@ namespace BV
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
-            currentAnimation = targetAnim;
         }
 
         void BlockAction(Action slot)
@@ -776,7 +720,6 @@ namespace BV
             anim.SetBool("spellcasting", true);
             anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
-            currentAnimation = targetAnim;
         }
 
         float spellcastTime;
@@ -799,7 +742,6 @@ namespace BV
                 string targetAnim = spellTargetAnim;
                 anim.SetBool("mirror", spellIsMirrored);
                 anim.CrossFade(targetAnim, 0.2f);
-                currentAnimation = targetAnim;
             }
         }
 
@@ -843,7 +785,6 @@ namespace BV
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
-            currentAnimation = targetAnim;
         }
 
         void HandleRolls()
@@ -905,7 +846,6 @@ namespace BV
             canMove = false;
             inAction = true;
             anim.CrossFade("Rolls", 0.2f);
-            currentAnimation = "Rolls";
         }
 
         public void HandleTwoHanded()
