@@ -5,6 +5,8 @@ using TMPro;
 
 public class GameUIManager : MonoBehaviour
 {
+    public GameObject loginPanel;
+
     public GameObject gameUi;
 
     [Header("Ineraction")]
@@ -13,6 +15,11 @@ public class GameUIManager : MonoBehaviour
 
     [Header("Enemy Ui")]
     public GameObject enemyUIPrefab;
+
+    public void Start()
+    {
+        loginPanel.SetActive(true);
+    }
 
     public void Init()
     {
@@ -28,7 +35,7 @@ public class GameUIManager : MonoBehaviour
     {
         gameUi.SetActive(false);
     }
-    
+
     public static GameUIManager singleton;
     void Awake()
     {
