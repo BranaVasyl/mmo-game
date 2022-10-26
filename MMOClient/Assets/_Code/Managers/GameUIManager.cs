@@ -9,6 +9,10 @@ public class GameUIManager : MonoBehaviour
 
     public GameObject gameUi;
 
+    [Header("Weather Ui")]
+    public GameObject weatherUI;
+    public TextMeshProUGUI currentTimeText;
+
     [Header("Ineraction")]
     public GameObject interactionUi;
     public TextMeshProUGUI interactionText;
