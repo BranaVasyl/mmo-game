@@ -11,6 +11,7 @@ namespace BV
     {
         [Range(0, 24)]
         public float timeOfDay = 0f;
+        [Range(0f, 0.3f)]
         public float orbitSpeed = 1.0f;
 
         [Header("Pretty Time")]
@@ -55,7 +56,10 @@ namespace BV
             }
 
             UpdateSunPosition();
-            UpdateDisplayedTime();
+            if (TimeSpan.FromHours(timeOfDay).Minutes != minute)
+            {
+                UpdateDisplayedTime();
+            }
         }
 
         private void UpdateSunPosition()

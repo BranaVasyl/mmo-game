@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 4529.492, g: 3476.414, b: 3783.3438, a: 1}
+  m_IndirectSpecularColor: {r: 4624.5264, g: 3537.832, b: 3831.164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12706,7 +12706,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1063646156}
-  m_LocalRotation: {x: -0.2074612, y: -0.5775301, z: -0.7742556, w: 0.15474874}
+  m_LocalRotation: {x: -0.19897924, y: -0.6177031, z: -0.74260056, w: 0.16551305}
   m_LocalPosition: {x: -332.25592, y: -4.742165, z: -13.819267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15781,10 +15781,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3869be30f61f4b4797f3e0cfb6eaf0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfDay: 10.895982
-  orbitSpeed: 0.5
-  hour: 10
-  minute: 53
+  timeOfDay: 11.300539
+  orbitSpeed: 0.01
+  hour: 11
+  minute: 18
   sun: {fileID: 1471150327}
   moon: {fileID: 1063646158}
   skyVolume: {fileID: 1321489591}
@@ -18567,7 +18567,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471150325}
-  m_LocalRotation: {x: 0.15474872, y: -0.77425563, z: 0.57753, w: 0.20746121}
+  m_LocalRotation: {x: 0.16551305, y: -0.74260056, z: 0.6177031, w: 0.19897924}
   m_LocalPosition: {x: -332.25592, y: -4.742165, z: -13.819267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
