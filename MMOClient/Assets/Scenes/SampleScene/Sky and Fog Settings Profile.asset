@@ -376,10 +376,10 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0
   skyIntensityMode:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   exposure:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   multiplier:
     m_OverrideState: 1
@@ -394,19 +394,19 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 20000
   updateMode:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   updatePeriod:
     m_OverrideState: 1
     m_Value: 0
   includeSunInBaking:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   type:
     m_OverrideState: 1
     m_Value: 1
   sphericalMode:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   seaLevel:
     m_OverrideState: 1
@@ -415,7 +415,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 6378100
   planetCenterPosition:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0, y: -6378100, z: 0}
   airDensityR:
     m_OverrideState: 1
@@ -433,61 +433,61 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 55261.973
   aerosolDensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   aerosolTint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 0.9, g: 0.9, b: 0.9, a: 1}
   aerosolMaximumAltitude:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 8289.296
   aerosolAnisotropy:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   numberOfBounces:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 8
   groundTint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 0.4, g: 0.25, b: 0.15, a: 1}
   groundColorTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
   groundEmissionTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
   groundEmissionMultiplier:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   planetRotation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0, y: 0, z: 0}
   spaceEmissionTexture:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 8900000, guid: a65edb57a7c8db2439669bff2fee776f, type: 3}
   spaceEmissionMultiplier:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 27179
   spaceRotation:
     m_OverrideState: 1
     m_Value: {x: 0, y: 0, z: 0}
   colorSaturation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   alphaSaturation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   alphaMultiplier:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   horizonTint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   zenithTint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   horizonZenithShift:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   m_SkyVersion: 1
   m_ObsoleteEarthPreset:
@@ -605,7 +605,7 @@ MonoBehaviour:
     m_Value: 63.92
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 1000
+    m_Value: 2000
   enableVolumetricFog:
     m_OverrideState: 0
     m_Value: 0
