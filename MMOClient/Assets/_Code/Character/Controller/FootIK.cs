@@ -38,7 +38,6 @@ namespace BV
         public bool useProIkFeature = false;
         public bool showSolverDebug = true;
 
-
         void Start()
         {
             anim = gameObject.GetComponent<Animator>();
@@ -91,8 +90,7 @@ namespace BV
             MoveFeetToIkPoint(AvatarIKGoal.LeftFoot, leftFootIkPosition, leftFootIkRotation, ref lastLeftFootPositionY);
         }
 
-        void MoveFeetToIkPoint(AvatarIKGoal foot, Vector3 positionIkHolder,
-        Quaternion rotationIkHolder, ref float lastFootPositionY)
+        void MoveFeetToIkPoint(AvatarIKGoal foot, Vector3 positionIkHolder, Quaternion rotationIkHolder, ref float lastFootPositionY)
         {
             Vector3 targetIkPosition = anim.GetIKPosition(foot);
 
@@ -116,7 +114,6 @@ namespace BV
 
         public float MovePelvisHeight()
         {
-
             float lOffsetPosition = leftFootIkPosition.y;
             float rOffsetPosition = rightFootIkPosition.y;
             float totalOffset;
@@ -129,8 +126,7 @@ namespace BV
             return totalOffset;
         }
 
-        private void FeetPositionSolver(Vector3 fromSkyPosition, ref Vector3 feetIkPositions,
-        ref Quaternion feetIkRotations)
+        private void FeetPositionSolver(Vector3 fromSkyPosition, ref Vector3 feetIkPositions, ref Quaternion feetIkRotations)
         {
             //raycast handling section
             RaycastHit feetOutHit;
@@ -148,7 +144,6 @@ namespace BV
                 return;
             }
             feetIkPositions = Vector3.zero;//it did`n work
-
         }
 
         private void AdjustFeetTarget(ref Vector3 feetPositions, HumanBodyBones foot)

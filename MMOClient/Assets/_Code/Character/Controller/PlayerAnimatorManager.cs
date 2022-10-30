@@ -14,10 +14,15 @@ namespace BV
 
         public bool killDelta;
 
+        [SerializeField]
+        private AudioClip[] clips;
+        private AudioSource audioSource;
+
         public void Init(StateManager st)
         {
             states = st;
             anim = st.anim;
+            audioSource = GetComponent<AudioSource>();
         }
 
         public void InitForRoll()
@@ -140,6 +145,49 @@ namespace BV
             {
                 states.ThrowProjectile();
             }
+        }
+
+        public void Step(string animationType)
+        {
+            switch (animationType)
+            {
+                case "run":
+                    if (!states.run)
+                    {
+                        return;
+                    }
+                    break;
+                case "jog":
+                    if (states.run || states.walk)
+                    {
+                        return;
+                    }
+                    break;
+                case "walk":
+                    if (!states.walk)
+                    {
+                        return;
+                    }
+                    break;
+                default:
+                    return;
+            }
+
+            if (animationType == "run" || animationType == "jog" || animationType == "walk")
+            {
+                if (states.moveAmount == 0 || !states.canMove)
+                {
+                    return;
+                }
+            }
+
+            AudioClip clip = GetRandomClip();
+            audioSource.PlayOneShot(clip);
+        }
+
+        private AudioClip GetRandomClip()
+        {
+            return clips[UnityEngine.Random.Range(0, clips.Length)];
         }
     }
 }

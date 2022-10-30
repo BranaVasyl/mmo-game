@@ -58,5 +58,9 @@ namespace BV
 
             enemyManager.inventoryManager.w_hook.CloseDamageColliders();
         }
+
+        public void Step(string animationType)
+        {
+        }
     }
 }

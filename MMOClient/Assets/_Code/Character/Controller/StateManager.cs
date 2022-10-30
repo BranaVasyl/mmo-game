@@ -162,7 +162,7 @@ namespace BV
             actionManager = GetComponent<ActionManager>();
             actionManager.Init(this);
 
-            animatorManager = activeModel.AddComponent<PlayerAnimatorManager>();
+            animatorManager = activeModel.GetComponent<PlayerAnimatorManager>();
             animatorManager.Init(this);
 
             gameObject.layer = 8;
