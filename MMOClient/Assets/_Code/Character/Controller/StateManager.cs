@@ -55,6 +55,9 @@ namespace BV
         [Header("Other")]
         public AnimationCurve roll_curve;
 
+        [Header("Sound")]
+        public PlayerSoundManager soundManager;
+
         [HideInInspector]
         public Animator anim;
         [HideInInspector]
@@ -176,6 +179,10 @@ namespace BV
             {
                 InventoryController.singleton.RegisterCharacterListener(this);
             }
+
+            //sound
+            soundManager = GetComponent<PlayerSoundManager>();
+            soundManager.Init(this);
         }
 
         void InitRagdoll()

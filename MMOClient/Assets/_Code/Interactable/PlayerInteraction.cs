@@ -6,7 +6,7 @@ using Project.Networking;
 
 namespace BV
 {
-    public class PlayerIInteraction : MonoBehaviour
+    public class PlayerInteraction : MonoBehaviour
     {
         public float interactioDistance = 1.2f;
 
