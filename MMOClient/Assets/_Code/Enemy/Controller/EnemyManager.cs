@@ -221,6 +221,10 @@ namespace BV
                 result = true;
                 Vector3 targetPosition = hit.point;
 
+                if(lastPelvisPositionY == 0) {
+                    lastPelvisPositionY = targetPosition.y;
+                }
+
                 if (moveAmount == 0 && footIk.enableFeetIk)
                     targetPosition.y = Mathf.Lerp(lastPelvisPositionY, footIk.MovePelvisHeight(), 0.05f);
                 else
