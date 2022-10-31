@@ -11,8 +11,11 @@ namespace BV
     {
         [Range(0, 24)]
         public float timeOfDay = 0f;
-        [Range(0f, 0.3f)]
+
+        [HideInInspector]
         public float orbitSpeed = 1.0f;
+        [HideInInspector]
+        public float timeMultiplier = 1;
 
         [Header("Pretty Time")]
         public int hour = 0;
@@ -37,9 +40,7 @@ namespace BV
         private void OnValidate()
         {
             skyVolume.profile.TryGet(out sky);
-
-            UpdateTime();
-            UpdateDisplayedTime();
+            UpdateSunPosition();
         }
 
         public void Update()
@@ -47,9 +48,24 @@ namespace BV
             UpdateTime();
         }
 
-        private void UpdateTime()
+        public void UpdateWeatherData(float tOD, float oS, float tM)
         {
-            timeOfDay += Time.deltaTime * orbitSpeed;
+            UpdateTime(tOD);
+            orbitSpeed = oS;
+            timeMultiplier = tM;
+        }
+
+        private void UpdateTime(float time = -1f)
+        {
+            if (time == -1)
+            {
+                timeOfDay += Time.deltaTime * orbitSpeed * timeMultiplier;
+            }
+            else
+            {
+                timeOfDay = time;
+            }
+
             if (timeOfDay > 24)
             {
                 timeOfDay = 0;

@@ -61,58 +61,9 @@ namespace Project.Networking
 
         public void OnSendMessage(string message)
         {
-            Match matches = Regex.Match(message, @"(.*)\((.*)\)");
-            if (matches.Groups.Count == 3)
-            {
-                switch (matches.Groups[1].Value)
-                {
-                    case "setTime":
-                        inputField.text = "";
-                        SetWorldTime(matches.Groups[2].Value);
-                        return;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
             inputField.text = "";
             SendMessageData sendData = new SendMessageData(message);
             socket.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
-        }
-
-        private void SetWorldTime(string options)
-        {
-            int hour = 0;
-            int minute = 0;
-
-            string[] param = options.Split(",");
-            for (int i = 0; i < param.Length; i++)
-            {
-                if (i == 0)
-                {
-                    int temp = int.Parse(param[i]);
-                    if (temp > 24 || temp < 0)
-                    {
-                        temp = 0;
-                    }
-
-                    hour = temp;
-                }
-
-                if (i == 1)
-                {
-                    int temp = int.Parse(param[i]);
-                    if (temp > 60 || temp < 0)
-                    {
-                        temp = 0;
-                    }
-
-                    minute = temp * 100 / 60;
-                }
-            }
-
-            WeatherManager.singleton.timeOfDay = System.Convert.ToSingle(hour + "," + minute);
         }
     }
 

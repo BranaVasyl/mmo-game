@@ -126,6 +126,15 @@ namespace Project.Networking
                 enemyManager.UpdateState(enemyData);
             });
 
+            On("updateWeather", (E) =>
+            {
+                float timeOfDay = E.data["timeOfDay"].JSONObjectToFloat();
+                float orbitSpeed = E.data["orbitSpeed"].JSONObjectToFloat();
+                float TimeMultiplier = E.data["timeMultiplier"].JSONObjectToFloat();
+
+                managersController.weatherManager.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
+            });
+
             On("serverSpawn", (E) =>
             {
                 string name = E.data["name"].str;

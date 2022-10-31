@@ -1119,6 +1119,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9812b6ec87f56324683df6e6ce93de9a, type: 3}
   - {fileID: 8300000, guid: 924d2823361f88f46835ee71a78b11f4, type: 3}
   rollClip: {fileID: 8300000, guid: 2db8a826cc20c2a4ea7742f7f0259561, type: 3}
+  stepBackClip: {fileID: 8300000, guid: 09b90e2a41a0dcf43b76f4f148972720, type: 3}
 --- !u!54 &3868577345732564901
 Rigidbody:
   m_ObjectHideFlags: 0

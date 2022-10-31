@@ -12,6 +12,9 @@ namespace BV
         [SerializeField]
         private AudioClip rollClip;
 
+        [SerializeField]
+        private AudioClip stepBackClip;
+
         private AudioSource audioSource;
 
         private StateManager states;
@@ -25,6 +28,11 @@ namespace BV
         public void Roll()
         {
             audioSource.PlayOneShot(rollClip);
+        }
+
+        public void StepBack()
+        {
+            audioSource.PlayOneShot(stepBackClip);
         }
 
         public void Step(string animationType)

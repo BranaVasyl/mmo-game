@@ -150,6 +150,14 @@ namespace BV
             }
         }
 
+        public void StepBack()
+        {
+            if (states && states.soundManager)
+            {
+                states.soundManager.StepBack();
+            }
+        }
+
         public void Step(string animationType)
         {
             if (states && states.soundManager)
