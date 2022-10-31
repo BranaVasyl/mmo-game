@@ -179,6 +179,13 @@ namespace BV
             {
                 InventoryController.singleton.RegisterCharacterListener(this);
             }
+            else
+            {
+                if (inventoryManager.inventoryCameraHodler != null)
+                {
+                    Destroy(inventoryManager.inventoryCameraHodler);
+                }
+            }
 
             //sound
             soundManager = GetComponent<PlayerSoundManager>();

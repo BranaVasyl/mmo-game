@@ -1088,6 +1088,7 @@ MonoBehaviour:
   currentSpelId: 0
   currentSpellData: {fileID: 0}
   currentSpellParticle: {fileID: 0}
+  inventoryCameraHodler: {fileID: 6112352138215728312}
 --- !u!114 &-2549159315518526182
 MonoBehaviour:
   m_ObjectHideFlags: 0

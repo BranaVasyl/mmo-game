@@ -31,6 +31,9 @@ namespace BV
         [HideInInspector]
         public GameObject currentSpellParticle;
 
+        [Header("Inventory Camera")]
+        public GameObject inventoryCameraHodler;
+
         private StateManager states;
 
         public void Init(StateManager st)
