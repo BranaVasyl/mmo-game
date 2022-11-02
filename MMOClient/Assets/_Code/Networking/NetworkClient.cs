@@ -169,7 +169,16 @@ namespace Project.Networking
                 string id = E.data["id"].ToString().RemoveQuotes();
                 NetworkIdentity ni = serverObjects[id];
                 serverObjects.Remove(id);
-                DestroyImmediate(ni.gameObject);
+
+                EnemyManager enemyManager = ni.gameObject.GetComponent<EnemyManager>();
+                if (enemyManager != null)
+                {
+                    enemyManager.Deinit();
+                }
+                else
+                {
+                    DestroyImmediate(ni.gameObject);
+                }
             });
 
             On("sendMessage", (E) =>
