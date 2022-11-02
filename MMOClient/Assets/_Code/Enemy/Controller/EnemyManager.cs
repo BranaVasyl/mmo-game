@@ -88,11 +88,6 @@ namespace BV
             }
         }
 
-        public void Deinit()
-        {
-            Destroy(gameObject);
-        }
-
         void InitRagdoll()
         {
             Rigidbody[] rigs = GetComponentsInChildren<Rigidbody>();
@@ -226,8 +221,7 @@ namespace BV
                 result = true;
                 Vector3 targetPosition = hit.point;
 
-                if (lastPelvisPositionY == 0)
-                {
+                if(lastPelvisPositionY == 0) {
                     lastPelvisPositionY = targetPosition.y;
                 }
 
