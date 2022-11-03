@@ -9,6 +9,7 @@ namespace BV
     public class MenuPanel : MonoBehaviour
     {
         [Header("Panel Option")]
+        public string panelId;
         public string panelName;
 
         [HideInInspector]

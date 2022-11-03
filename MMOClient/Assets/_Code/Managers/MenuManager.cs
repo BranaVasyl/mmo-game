@@ -13,6 +13,8 @@ namespace BV
 
         public GameObject gameMenu;
         public List<MenuPanel> menuPanels;
+        private List<MenuPanel> activePanels;
+
         private bool isOpen;
         private MenuPanel currentPanel;
         private int curPanelIndex = 0;
@@ -40,19 +42,51 @@ namespace BV
             return isOpen;
         }
 
-        public void OpenMenu()
+        //@todo filter menuPanels by array id
+        public void OpenMenu(List<string> panelsId = null)
         {
             gameMenu.SetActive(true);
             isOpen = true;
 
-            currentPanel = menuPanels[curPanelIndex];
+            if (panelsId == null)
+            {
+                activePanels = menuPanels;
+            }
+            else
+            {
+                activePanels.Add(menuPanels[1]);
+            }
+
+            OpenPanel();
+        }
+
+        public void CloseMenu()
+        {
+            ClosePanels();
+
+            activePanels = new List<MenuPanel>();
+            gameMenu.SetActive(false);
+            isOpen = false;
+        }
+
+        private void OpenPanel()
+        {
+            currentPanel = activePanels[curPanelIndex];
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
             currentPanel.gameObject.SetActive(true);
 
             currentPanel.Open();
         }
 
-        public void CloseMenu()
+        private void CloseActivePanel()
+        {
+            currentPanel = activePanels[curPanelIndex];
+            panelName.GetComponent<TMP_Text>().text = "";
+            currentPanel.Deinit();
+            currentPanel.gameObject.SetActive(false);
+        }
+
+        private void ClosePanels()
         {
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < menuPanels.Count; i++)
@@ -60,16 +94,18 @@ namespace BV
                 menuPanels[i].Deinit();
                 menuPanels[i].gameObject.SetActive(false);
             }
-
-            gameMenu.SetActive(false);
-            isOpen = false;
         }
 
         public void NextPanel()
         {
-            CloseMenu();
+            if (activePanels.Count <= 1)
+            {
+                return;
+            }
 
-            if (curPanelIndex == menuPanels.Count - 1)
+            CloseActivePanel();
+
+            if (curPanelIndex == activePanels.Count - 1)
             {
                 curPanelIndex = 0;
             }
@@ -78,23 +114,28 @@ namespace BV
                 curPanelIndex++;
             }
 
-            OpenMenu();
+            OpenPanel();
         }
 
         public void PrevPanel()
         {
-            CloseMenu();
+            if (activePanels.Count <= 1)
+            {
+                return;
+            }
+
+            CloseActivePanel();
 
             if (curPanelIndex == 0)
             {
-                curPanelIndex = menuPanels.Count - 1;
+                curPanelIndex = activePanels.Count - 1;
             }
             else
             {
                 curPanelIndex--;
             }
 
-            OpenMenu();
+            OpenPanel();
         }
 
         public static MenuManager singleton;
