@@ -16,6 +16,7 @@ namespace BV
         public GameUIManager gameUIManager;
         public DialogManager dialogManager;
         public WeatherManager weatherManager;
+        public ItemsManager itemsManager;
 
         private SocketIOComponent socket;
         private StateManager states;
@@ -31,6 +32,7 @@ namespace BV
             gameUIManager = GameUIManager.singleton;
             dialogManager = DialogManager.singleton;
             weatherManager = WeatherManager.singleton;
+            itemsManager = ItemsManager.singleton;
         }
 
         public void Init(SocketIOComponent soc, StateManager sm, PlayerData pd)
@@ -51,6 +53,7 @@ namespace BV
             damageManager.Init(socket);
             questManager.Init();
             weatherManager.Init();
+            itemsManager.Init();
         }
 
         public static ManagersController singleton;

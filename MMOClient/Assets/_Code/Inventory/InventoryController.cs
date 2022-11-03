@@ -30,9 +30,7 @@ namespace BV
         InventoryItem overlapItem;
         RectTransform rectTransform;
 
-        [Header("Inventory Stats")]
-        [SerializeField] List<ItemData> allItems;
-        [SerializeField] GameObject itemPrefab;
+        private ItemsManager itemsManager;
         public Transform canvasTransform;
 
         public InventoryHiglight correctInventoryHiglight;
@@ -49,6 +47,8 @@ namespace BV
             base.Init(soc, playerData);
             socket = soc;
             inventoryData = playerData.inventoryData;
+
+            itemsManager = ItemsManager.singleton;
         }
 
         public void RegisterCharacterListener(CharacterManager characterMan)
@@ -101,7 +101,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = allItems.Find(x => x.id == itemId) as ItemWeaponData;
+                item = itemsManager.allItems.Find(x => x.id == itemId) as ItemWeaponData;
             }
 
             inventoryManager.UpdateLeftHand(item);
@@ -120,7 +120,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = allItems.Find(x => x.id == itemId) as ItemWeaponData;
+                item = itemsManager.allItems.Find(x => x.id == itemId) as ItemWeaponData;
             }
 
             inventoryManager.UpdateRightHand(item);
@@ -139,7 +139,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = allItems.Find(x => x.id == itemId) as Spell;
+                item = itemsManager.allItems.Find(x => x.id == itemId) as Spell;
             }
 
             inventoryManager.UpdateQuickSpell(id, item);
@@ -262,7 +262,7 @@ namespace BV
                 InventoryItemData item = items[i];
 
                 string itemId = item.id;
-                ItemData itemData = allItems.Find(x => x.id == itemId);
+                ItemData itemData = itemsManager.allItems.Find(x => x.id == itemId);
 
                 if (itemData == null)
                 {
@@ -438,7 +438,7 @@ namespace BV
 
         private InventoryItem CreateInventoryItem()
         {
-            InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
+            InventoryItem inventoryItem = Instantiate(itemsManager.itemPrefab).GetComponent<InventoryItem>();
 
             rectTransform = inventoryItem.GetComponent<RectTransform>();
             rectTransform.SetParent(canvasTransform);
@@ -452,8 +452,8 @@ namespace BV
             InventoryItem inventoryItem = CreateInventoryItem();
             selectedItem = inventoryItem;
 
-            int selectedItemID = UnityEngine.Random.Range(0, allItems.Count);
-            inventoryItem.Set(allItems[selectedItemID]);
+            int selectedItemID = UnityEngine.Random.Range(0, itemsManager.allItems.Count);
+            inventoryItem.Set(itemsManager.allItems[selectedItemID]);
         }
 
         private void RotateItem()

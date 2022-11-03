@@ -54,7 +54,21 @@ namespace BV
             }
             else
             {
-                activePanels.Add(menuPanels[1]);
+                for (int i = 0; i < panelsId.Count; i++)
+                {
+                    MenuPanel panel = menuPanels.Find(x => x.panelId == panelsId[i]);
+                    if (panel != null)
+                    {
+                        activePanels.Add(panel);
+                    }
+                }
+
+                curPanelIndex = 0;
+            }
+
+            if (activePanels.Count == 0)
+            {
+                return;
             }
 
             OpenPanel();

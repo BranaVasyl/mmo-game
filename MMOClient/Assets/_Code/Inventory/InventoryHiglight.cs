@@ -12,7 +12,7 @@ namespace BV
 
         void Start()
         {
-            initReactParent = transform.parent.GetComponent<RectTransform>();
+            initReactParent = transform.GetComponent<RectTransform>();
         }
 
         public void Show(bool b)

@@ -424,6 +424,12 @@ namespace BV
 
                 for (int i = 0; i < lockablesList.Count; i++)
                 {
+                    if (lockablesList[i] == null)
+                    {
+                        lockablesList.Remove(lockablesList[i]);
+                        continue;
+                    }
+
                     float distanse = Vector3.Distance(transform.position, lockablesList[i].transform.position);
                     CharacterManager characterManager = lockablesList[i].gameObject.GetComponent<CharacterManager>();
 
