@@ -12,7 +12,7 @@ namespace BV
 
         void Start()
         {
-            initReactParent = transform.GetComponent<RectTransform>();
+            initReactParent = higlighter.transform.parent.transform.GetComponent<RectTransform>();
         }
 
         public void Show(bool b)

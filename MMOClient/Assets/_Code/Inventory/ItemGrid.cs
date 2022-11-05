@@ -6,7 +6,7 @@ namespace BV
 {
     public class ItemGrid : MonoBehaviour
     {
-        private InventoryController inventoryController;
+        private GridManager gridManager;
         public string gridId;
 
         private Canvas canvas;
@@ -30,8 +30,8 @@ namespace BV
 
         void Awake()
         {
-            inventoryController = InventoryController.singleton;
-            canvas = inventoryController.canvasTransform.GetComponent<Canvas>();
+            gridManager = GridManager.singleton;
+            canvas = gridManager.canvasTransform.GetComponent<Canvas>();
 
             rectTransform = GetComponent<RectTransform>();
         }
@@ -42,7 +42,7 @@ namespace BV
             boundTileSizeHeight = tileSizeHeight * canvas.scaleFactor;
             Init(gridSizeWidth, gridSizeHeight);
 
-            inventoryController.RegisterGrid(this);
+            gridManager.RegisterGrid(this);
         }
 
         void OnDisable()
@@ -53,7 +53,7 @@ namespace BV
             foreach (Transform child in transform) children.Add(child.gameObject);
             children.ForEach(child =>
             {
-                if (child == inventoryController.correctInventoryHiglight.higlighter.gameObject || child == inventoryController.incorrectInventoryHiglight.higlighter.gameObject)
+                if (child == gridManager.correctInventoryHiglight.higlighter.gameObject || child == gridManager.incorrectInventoryHiglight.higlighter.gameObject)
                 {
                     return;
                 }
@@ -65,7 +65,7 @@ namespace BV
                 placeholder.SetActive(true);
             }
 
-            inventoryController.RemoveItemGrid(this);
+            gridManager.RemoveItemGrid(this);
         }
 
         private void Init(int width, int height)

@@ -14,7 +14,6 @@ namespace BV
     {
         public GameObject dialogUI;
 
-        public QuestManager questManager;
         public GameObject phraseUi;
         public GameObject answersUIField;
         public bool showSpeakerName;
@@ -31,15 +30,15 @@ namespace BV
         private StateManager states;
         public List<NPCDialogList> NPCDialogs;
 
+        private QuestManager questManager;
         private ChatBehaviour chatBehaviour;
-        public GameUIManager gameUIManager;
-        public DialogManager dialogManager;
+        private GameUIManager gameUIManager;
 
         private void Start()
         {
+            questManager = QuestManager.singleton;
             chatBehaviour = ChatBehaviour.singleton;
             gameUIManager = GameUIManager.singleton;
-            dialogManager = DialogManager.singleton;
         }
 
         public void UpdateDialogList(string NPC_Id, string dialogId)

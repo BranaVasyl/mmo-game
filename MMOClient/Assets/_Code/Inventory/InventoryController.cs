@@ -1,90 +1,69 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.Events;
 using Project.Utility;
 using UnityEngine;
-using System;
 using SocketIO;
+using System;
 
 namespace BV
 {
     public class InventoryController : MenuPanel
     {
         private SocketIOComponent socket;
-        private ItemGrid startItemGrid;
-        private Vector2Int startGridPosition;
-        [HideInInspector]
-        public ItemGrid selectedItemGrid;
-        public ItemGrid SelectedItemGrid
-        {
-            get => selectedItemGrid;
-            set
-            {
-                selectedItemGrid = value;
-                correctInventoryHiglight.SetParent(value);
-                incorrectInventoryHiglight.SetParent(value);
-            }
-        }
-        private List<ItemGrid> allActiveGrids = new List<ItemGrid>();
-
-        InventoryItem selectedItem;
-        InventoryItem overlapItem;
-        RectTransform rectTransform;
-
         private ItemsManager itemsManager;
-        public Transform canvasTransform;
+        private GridManager gridManager;
 
-        public InventoryHiglight correctInventoryHiglight;
-        public InventoryHiglight incorrectInventoryHiglight;
         private List<InventoryGridData> inventoryData;
-
-        private CharacterManager characterManager;
         private InventoryManager inventoryManager;
 
         public static InventoryController singleton;
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
             singleton = this;
-            base.Init(soc, playerData);
+
             socket = soc;
             inventoryData = playerData.inventoryData;
 
             itemsManager = ItemsManager.singleton;
+            gridManager = GridManager.singleton;
         }
 
         public void RegisterCharacterListener(CharacterManager characterMan)
         {
-            characterManager = characterMan;
-            inventoryManager = characterManager.gameObject.GetComponent<InventoryManager>();
+            inventoryManager = characterMan.gameObject.GetComponent<InventoryManager>();
 
-            UpdateEquip(true);
-        }
-
-        public void RegisterGrid(ItemGrid itemGrid)
-        {
-            allActiveGrids.Add(itemGrid);
-
-            if (inventoryData == null)
+            if (inventoryData.Count == 0)
             {
                 return;
             }
 
-            InventoryGridData gridData = inventoryData.Find(x => x.gridId == itemGrid.gridId);
-            if (gridData == null)
+            UpdateLeftHand();
+            UpdateRightHand();
+            UpdateQuickSpell(0);
+            UpdateQuickSpell(1);
+            UpdateQuickSpell(2);
+            UpdateQuickSpell(3);
+        }
+
+        public override void Open()
+        {
+            gridManager.SetData(inventoryData);
+            gridManager.onUpdateData.AddListener(UpdateData);
+        }
+
+        void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        {
+            UpdateInventoryData(startGrid);
+            UpdateEquip(startGrid);
+
+            if (startGrid.gridId == targetGrid.gridId)
             {
                 return;
             }
 
-            SetGridData(itemGrid, gridData.items);
-        }
-
-        public void RemoveItemGrid(ItemGrid itemGrid)
-        {
-            ItemGrid itemOnList = allActiveGrids.Find(i => i.gridId == itemGrid.gridId);
-
-            if (itemOnList != null)
-            {
-                allActiveGrids.Remove(itemOnList);
-            }
+            UpdateInventoryData(targetGrid);
+            UpdateEquip(targetGrid);
         }
 
         #region Update Equip
@@ -144,53 +123,16 @@ namespace BV
 
             inventoryManager.UpdateQuickSpell(id, item);
         }
-
         #endregion
 
-        private void UpdateEquip(bool updateAll = false)
+        private void UpdateEquip(ItemGrid itemGrid)
         {
             if (inventoryData.Count == 0)
             {
                 return;
             }
 
-            string startGridId = startItemGrid != null ? startItemGrid.gridId : "";
-            string targetGridId = selectedItemGrid != null ? selectedItemGrid.gridId : "";
-
-            if (updateAll)
-            {
-                UpdateLeftHand();
-                UpdateRightHand();
-                UpdateQuickSpell(0);
-                UpdateQuickSpell(1);
-                UpdateQuickSpell(2);
-                UpdateQuickSpell(3);
-                return;
-            }
-
-            switch (startGridId)
-            {
-                case "leftHandGrid":
-                    UpdateLeftHand();
-                    break;
-                case "rightHandGrid":
-                    UpdateRightHand();
-                    break;
-                case "quickSpellGrid1":
-                    UpdateQuickSpell(0);
-                    break;
-                case "quickSpellGrid2":
-                    UpdateQuickSpell(1);
-                    break;
-                case "quickSpellGrid3":
-                    UpdateQuickSpell(2);
-                    break;
-                case "quickSpellGrid4":
-                    UpdateQuickSpell(3);
-                    break;
-            }
-
-            switch (targetGridId)
+            switch (itemGrid.gridId)
             {
                 case "leftHandGrid":
                     UpdateLeftHand();
@@ -213,367 +155,48 @@ namespace BV
             }
         }
 
-        private void UpdateInventoryData()
+        private void UpdateInventoryData(ItemGrid itemGrid)
         {
             List<InventoryItem> checkedItem = new List<InventoryItem>();
             List<InventoryGridData> newInventoryData = new List<InventoryGridData>();
 
-            for (int k = 0; k < inventoryData.Count; k++)
+            int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
+            if (index == -1)
             {
-                ItemGrid itemGrid = allActiveGrids.Find(x => x.gridId == inventoryData[k].gridId);
-                if (itemGrid == null)
-                {
-                    newInventoryData.Add(inventoryData[k]);
-                    continue;
-                }
+                return;
+            }
 
-                InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
-
-                InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
-                for (int i = 0; i < inventoryItem.GetLength(0); i++)
+            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
+            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
+            for (int i = 0; i < inventoryItem.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryItem.GetLength(1); j++)
                 {
-                    for (int j = 0; j < inventoryItem.GetLength(1); j++)
+                    if (inventoryItem[i, j] != null)
                     {
-                        if (inventoryItem[i, j] != null)
+                        InventoryItem curInventoryItem = inventoryItem[i, j];
+                        if (checkedItem.Find(x => x == curInventoryItem) != null)
                         {
-                            InventoryItem curInventoryItem = inventoryItem[i, j];
-                            if (checkedItem.Find(x => x == curInventoryItem) != null)
-                            {
-                                continue;
-                            }
-
-                            inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
-                            checkedItem.Add(curInventoryItem);
+                            continue;
                         }
+
+                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
+                        checkedItem.Add(curInventoryItem);
                     }
                 }
-
-                newInventoryData.Add(inventoryGridData);
             }
 
-            inventoryData = newInventoryData;
-            socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(newInventoryData))));
-        }
-
-        void SetGridData(ItemGrid itemGrid, List<InventoryItemData> items)
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-                InventoryItemData item = items[i];
-
-                string itemId = item.id;
-                ItemData itemData = itemsManager.allItems.Find(x => x.id == itemId);
-
-                if (itemData == null)
-                {
-                    continue;
-                }
-
-                InventoryItem inventoryItem = CreateInventoryItem();
-                inventoryItem.Set(itemData);
-                if (item.rotated)
-                {
-                    inventoryItem.Rotate();
-                }
-
-                itemGrid.PlaceItem(inventoryItem, item.position.x, item.position.y);
-            }
-        }
-
-        new private void Update()
-        {
-            base.Update();
-
-            ItemIconDrag();
-
-            if (rt_input)
-            {
-                rt_input = false;
-                InsertRandomItem();
-            }
-
-            if (x_input)
-            {
-                x_input = false;
-                RotateItem();
-            }
-
-            if (dragEnd)
-            {
-                if (selectedItemGrid != null)
-                {
-                    Vector2Int tileGridPosition = GetTileGridPosition();
-                    PlaceItem(tileGridPosition);
-                }
-                else
-                {
-                    RevertItemPosition();
-                }
-            }
-
-            if (selectedItemGrid == null)
-            {
-                correctInventoryHiglight.Show(false);
-                incorrectInventoryHiglight.Show(false);
-                return;
-            }
-
-            if (dragStart)
-            {
-                Vector2Int tileGridPosition = GetTileGridPosition();
-                PickUpItem(tileGridPosition);
-            }
-
-            HandleHighlight();
-        }
-
-        Vector2Int oldPosition;
-        ItemGrid oldItemGrid;
-        InventoryItem itemToHighlight;
-        private void HandleHighlight()
-        {
-            Vector2Int positionOnGrid = GetTileGridPosition();
-            if (oldPosition == positionOnGrid && selectedItemGrid == oldItemGrid)
-            {
-                return;
-            }
-
-            oldPosition = positionOnGrid;
-            oldItemGrid = selectedItemGrid;
-
-            if (selectedItem == null)
-            {
-                if (selectedItemGrid != null)
-                {
-                    itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
-                }
-
-                if (itemToHighlight != null)
-                {
-                    correctInventoryHiglight.Show(true);
-                    correctInventoryHiglight.SetSize(itemToHighlight);
-                    correctInventoryHiglight.SetPosition(selectedItemGrid, itemToHighlight);
-
-                    incorrectInventoryHiglight.Show(false);
-                }
-                else
-                {
-                    correctInventoryHiglight.Show(false);
-                    incorrectInventoryHiglight.Show(false);
-                }
-            }
-            else
-            {
-                bool canPlace = CanSetInPlace();
-                if (canPlace)
-                {
-                    correctInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
-                    correctInventoryHiglight.SetSize(selectedItem);
-                    correctInventoryHiglight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
-
-                    incorrectInventoryHiglight.Show(false);
-                }
-                else
-                {
-                    incorrectInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
-                    incorrectInventoryHiglight.SetSize(selectedItem);
-                    incorrectInventoryHiglight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
-
-                    correctInventoryHiglight.Show(false);
-                }
-            }
-        }
-
-        private bool CanSetInPlace()
-        {
-            bool result = false;
-            if (selectedItem == null || selectedItemGrid == null)
-            {
-                return result;
-            }
-
-            selectedItemGrid.supportedItemType.ForEach(i =>
-                {
-                    if (selectedItem.GetItemType() == i)
-                    {
-                        result = true;
-                    }
-                });
-
-            if (!result)
-            {
-                return result;
-            }
-
-            Vector2Int tileGridPosition = GetTileGridPosition();
-            result = selectedItemGrid.CanPlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
-            return result;
-        }
-
-        private void InsertRandomItem()
-        {
-            if (!selectedItemGrid)
-            {
-                return;
-            }
-
-            CreateRandomItem();
-            InventoryItem itemToInsert = selectedItem;
-            selectedItem = null;
-            InsertItem(itemToInsert);
-        }
-
-        private void InsertItem(InventoryItem itemToInsert)
-        {
-            Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
-
-            if (posOnGrid == null)
-            {
-                Destroy(itemToInsert.gameObject);
-                return;
-            }
-
-            selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
-        }
-
-        private InventoryItem CreateInventoryItem()
-        {
-            InventoryItem inventoryItem = Instantiate(itemsManager.itemPrefab).GetComponent<InventoryItem>();
-
-            rectTransform = inventoryItem.GetComponent<RectTransform>();
-            rectTransform.SetParent(canvasTransform);
-            rectTransform.SetAsLastSibling();
-
-            return inventoryItem;
-        }
-
-        private void CreateRandomItem()
-        {
-            InventoryItem inventoryItem = CreateInventoryItem();
-            selectedItem = inventoryItem;
-
-            int selectedItemID = UnityEngine.Random.Range(0, itemsManager.allItems.Count);
-            inventoryItem.Set(itemsManager.allItems[selectedItemID]);
-        }
-
-        private void RotateItem()
-        {
-            if (selectedItem == null)
-            {
-                return;
-            }
-
-            selectedItem.Rotate();
-        }
-
-        private void LeftMouseButtonPress()
-        {
-            Vector2Int tileGridPosition = GetTileGridPosition();
-
-            if (selectedItem == null)
-            {
-                PickUpItem(tileGridPosition);
-            }
-            else
-            {
-                PlaceItem(tileGridPosition);
-            }
-        }
-
-        private Vector2Int GetTileGridPosition()
-        {
-            Vector2 position = inputActions.Mouse.MousePosition.ReadValue<Vector2>();
-
-            if (selectedItem != null)
-            {
-                position.x -= (selectedItem.WIDTH - 1) * ItemGrid.boundTileSizeWidth / 2;
-                position.y += (selectedItem.HEIGHT - 1) * ItemGrid.boundTileSizeHeight / 2;
-            }
-
-            return selectedItemGrid.GetTileGridPosition(position);
-        }
-
-        private void RevertItemPosition()
-        {
-            if (startItemGrid == null || selectedItem == null)
-            {
-                return;
-            }
-
-            startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
-            rectTransform = null;
-            selectedItem = null;
-            UpdateInventoryData();
-            startItemGrid = null;
-        }
-
-        private void PlaceItem(Vector2Int tileGridPosition)
-        {
-            bool canPlace = CanSetInPlace();
-            if (!canPlace)
-            {
-                RevertItemPosition();
-                return;
-            }
-
-            bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
-            if (complete)
-            {
-                if (overlapItem != null)
-                {
-                    selectedItem = overlapItem;
-                    overlapItem = null;
-                    startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
-                }
-
-                rectTransform = null;
-                UpdateInventoryData();
-                UpdateEquip(false);
-                startItemGrid = null;
-                selectedItem = null;
-            }
-        }
-
-        private void PickUpItem(Vector2Int tileGridPosition)
-        {
-            selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
-            if (selectedItem == null)
-            {
-                return;
-            }
-
-            startItemGrid = selectedItemGrid;
-            startGridPosition = new Vector2Int(selectedItem.onGridPositionX, selectedItem.onGridPositionY);
-
-            if (selectedItem != null)
-            {
-                rectTransform = selectedItem.GetComponent<RectTransform>();
-            }
-        }
-
-        private void ItemIconDrag()
-        {
-            if (selectedItem != null)
-            {
-                selectedItem.transform.SetParent(transform);
-                rectTransform.position = inputActions.Mouse.MousePosition.ReadValue<Vector2>();
-            }
-        }
-
-        public void Clean()
-        {
-            SelectedItemGrid = null;
-            oldPosition = new Vector2Int();
-            oldItemGrid = null;
+            inventoryData[index] = inventoryGridData;
+            socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(inventoryData))));
         }
 
         public override void Deinit()
         {
-            RevertItemPosition();
-
-            selectedItemGrid = null;
-            correctInventoryHiglight.SetParent(null);
-            incorrectInventoryHiglight.SetParent(null);
+            if (gridManager != null)
+            {
+                gridManager.onUpdateData.RemoveListener(UpdateData);
+                gridManager.Deinit();
+            }
         }
     }
 

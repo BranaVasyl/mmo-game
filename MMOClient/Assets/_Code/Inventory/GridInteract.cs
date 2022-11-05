@@ -8,23 +8,23 @@ namespace BV
     [RequireComponent(typeof(ItemGrid))]
     public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        InventoryController inventoryController;
+        GridManager gridManager;
         ItemGrid itemGrid;
 
         private void Start()
         {
-            inventoryController = InventoryController.singleton;
+            gridManager = GridManager.singleton;
             itemGrid = GetComponent<ItemGrid>();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            inventoryController.SelectedItemGrid = itemGrid;
+            gridManager.SelectedItemGrid = itemGrid;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            inventoryController.Clean();
+            gridManager.Clean();
         }
     }
 }
