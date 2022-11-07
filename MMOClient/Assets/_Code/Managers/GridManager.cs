@@ -33,7 +33,7 @@ namespace BV
         public InventoryHiglight correctInventoryHiglight;
         public InventoryHiglight incorrectInventoryHiglight;
 
-        private List<InventoryGridData> inventoryData;
+        private List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
         private NewPlayerControls inputActions;
         [HideInInspector]
@@ -70,10 +70,23 @@ namespace BV
 
         public void SetData(List<InventoryGridData> iData)
         {
-            inventoryData = iData;
-            for (int i = 0; i < allActiveGrids.Count; i++)
+            for (int i = 0; i < iData.Count; i++)
             {
-                SetGridData(allActiveGrids[i]);
+                int index = inventoryData.FindIndex(s => s.gridId == iData[i].gridId);
+                if (index == -1)
+                {
+                    inventoryData.Add(iData[i]);
+                }
+                else
+                {
+                    inventoryData[index] = iData[i];
+                }
+
+                ItemGrid currentGrid = allActiveGrids.Find(x => x.gridId == iData[i].gridId);
+                if (currentGrid != null)
+                {
+                    SetGridData(currentGrid);
+                }
             }
         }
 
@@ -84,6 +97,7 @@ namespace BV
                 return;
             }
 
+            itemGrid.CleanGrid();
             InventoryGridData gridData = inventoryData.Find(x => x.gridId == itemGrid.gridId);
             if (gridData == null)
             {

@@ -45,10 +45,8 @@ namespace BV
             gridManager.RegisterGrid(this);
         }
 
-        void OnDisable()
+        public void CleanGrid()
         {
-            inventoryItemSlot = new InventoryItem[0, 0];
-
             var children = new List<GameObject>();
             foreach (Transform child in transform) children.Add(child.gameObject);
             children.ForEach(child =>
@@ -64,7 +62,12 @@ namespace BV
             {
                 placeholder.SetActive(true);
             }
+        }
 
+        void OnDisable()
+        {
+            inventoryItemSlot = new InventoryItem[0, 0];
+            CleanGrid();
             gridManager.RemoveItemGrid(this);
         }
 

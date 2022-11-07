@@ -14,7 +14,8 @@ namespace BV
         private ItemsManager itemsManager;
         private GridManager gridManager;
 
-        private List<InventoryGridData> inventoryData;
+        [HideInInspector]
+        public List<InventoryGridData> inventoryData;
         private InventoryManager inventoryManager;
 
         public static InventoryController singleton;
@@ -52,10 +53,10 @@ namespace BV
             gridManager.onUpdateData.AddListener(UpdateData);
         }
 
-        void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        public void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
         {
             UpdateInventoryData(startGrid);
-            UpdateEquip(startGrid);
+            UpdateEquip(startGrid.gridId);
 
             if (startGrid.gridId == targetGrid.gridId)
             {
@@ -63,7 +64,7 @@ namespace BV
             }
 
             UpdateInventoryData(targetGrid);
-            UpdateEquip(targetGrid);
+            UpdateEquip(targetGrid.gridId);
         }
 
         #region Update Equip
@@ -125,14 +126,9 @@ namespace BV
         }
         #endregion
 
-        private void UpdateEquip(ItemGrid itemGrid)
+        private void UpdateEquip(string gridId)
         {
-            if (inventoryData.Count == 0)
-            {
-                return;
-            }
-
-            switch (itemGrid.gridId)
+            switch (gridId)
             {
                 case "leftHandGrid":
                     UpdateLeftHand();
@@ -158,8 +154,7 @@ namespace BV
         private void UpdateInventoryData(ItemGrid itemGrid)
         {
             List<InventoryItem> checkedItem = new List<InventoryItem>();
-            List<InventoryGridData> newInventoryData = new List<InventoryGridData>();
-
+            
             int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
             if (index == -1)
             {

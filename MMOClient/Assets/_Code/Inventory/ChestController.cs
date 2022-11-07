@@ -2,20 +2,129 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
+using System;
 
 namespace BV
 {
     public class ChestController : MenuPanel
     {
+        private SocketIOComponent socket;
+        private GridManager gridManager;
+        private InventoryController inventoryController;
+
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
-            base.Init(soc, playerData);
+            socket = soc;
+            gridManager = GridManager.singleton;
+            inventoryController = InventoryController.singleton;
+        }
+
+        public override void Open()
+        {
+            gridManager.SetData(inventoryController.inventoryData);
+            gridManager.onUpdateData.AddListener(UpdateData);
+
+            socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+        }
+
+        public void SetChestData(InventoryGridData data)
+        {
+            List<InventoryGridData> gridData = new List<InventoryGridData>() { data };
+            gridManager.SetData(gridData);
+        }
+
+        void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        {
+            ItemGrid chestGrid = null;
+            ItemGrid inventoryGrid = null;
+
+            if (startGrid.gridId == "chestGrid" && targetGrid.gridId == "chestGrid")
+            {
+                chestGrid = startGrid;
+            }
+            else if (startGrid.gridId == "chestGrid")
+            {
+                chestGrid = startGrid;
+                inventoryGrid = targetGrid;
+            }
+            else if (targetGrid.gridId == "chestGrid")
+            {
+                chestGrid = targetGrid;
+                inventoryGrid = startGrid;
+            }
+
+            if (chestGrid == null)
+            {
+                inventoryController.UpdateData(startGrid, targetGrid);
+            }
+            else if (inventoryGrid == null)
+            {
+                UpdateChestData(chestGrid);
+            }
+            else
+            {
+                inventoryController.UpdateData(inventoryGrid, inventoryGrid);
+                UpdateChestData(chestGrid);
+            }
+        }
+
+        void UpdateChestData(ItemGrid itemGrid)
+        {
+            List<InventoryItem> checkedItem = new List<InventoryItem>();
+
+            ChestData chestData = new ChestData("1");
+            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
+            for (int i = 0; i < inventoryItem.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryItem.GetLength(1); j++)
+                {
+                    if (inventoryItem[i, j] != null)
+                    {
+                        InventoryItem curInventoryItem = inventoryItem[i, j];
+                        if (checkedItem.Find(x => x == curInventoryItem) != null)
+                        {
+                            continue;
+                        }
+
+                        chestData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
+                        checkedItem.Add(curInventoryItem);
+                    }
+                }
+            }
+
+            socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
+        }
+
+        public override void Deinit()
+        {
+            if (gridManager != null)
+            {
+                gridManager.onUpdateData.RemoveListener(UpdateData);
+                gridManager.Deinit();
+
+                if (socket != null)
+                {
+                    socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+                }
+            }
         }
 
         public static ChestController singleton;
         void Awake()
         {
             singleton = this;
+        }
+    }
+
+    [Serializable]
+    public class ChestData
+    {
+        public string id = "";
+        public List<InventoryItemData> items = new List<InventoryItemData>();
+
+        public ChestData(string data)
+        {
+            id = data;
         }
     }
 }

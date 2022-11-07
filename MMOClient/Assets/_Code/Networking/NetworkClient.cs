@@ -186,6 +186,12 @@ namespace Project.Networking
 
                 managersController.chatBehaviour.SendMessage("You", "kill enemy " + id);
             });
+
+            On("setChestData", (E) =>
+            {
+                InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
+                ChestController.singleton.SetChestData(gridData);
+            });
         }
 
         public GameObject getPlayer()
