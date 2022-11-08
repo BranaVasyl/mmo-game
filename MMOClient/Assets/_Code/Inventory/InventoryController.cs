@@ -53,18 +53,24 @@ namespace BV
             gridManager.onUpdateData.AddListener(UpdateData);
         }
 
-        public void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        public void UpdateData(ItemGrid? startGrid, ItemGrid? targetGrid)
         {
-            UpdateInventoryData(startGrid);
-            UpdateEquip(startGrid.gridId);
+            if (startGrid != null)
+            {
+                UpdateInventoryData(startGrid);
+                UpdateEquip(startGrid);
+            }
 
-            if (startGrid.gridId == targetGrid.gridId)
+            if (startGrid != null && targetGrid != null && startGrid.gridId == targetGrid.gridId)
             {
                 return;
             }
 
-            UpdateInventoryData(targetGrid);
-            UpdateEquip(targetGrid.gridId);
+            if (targetGrid != null)
+            {
+                UpdateInventoryData(targetGrid);
+                UpdateEquip(targetGrid);
+            }
         }
 
         #region Update Equip
@@ -125,10 +131,14 @@ namespace BV
             inventoryManager.UpdateQuickSpell(id, item);
         }
         #endregion
-
-        private void UpdateEquip(string gridId)
+        private void UpdateEquip(ItemGrid itemGrid)
         {
-            switch (gridId)
+            if (itemGrid == null)
+            {
+                return;
+            }
+
+            switch (itemGrid.gridId)
             {
                 case "leftHandGrid":
                     UpdateLeftHand();
@@ -153,8 +163,13 @@ namespace BV
 
         private void UpdateInventoryData(ItemGrid itemGrid)
         {
+            if (itemGrid == null)
+            {
+                return;
+            }
+
             List<InventoryItem> checkedItem = new List<InventoryItem>();
-            
+
             int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
             if (index == -1)
             {

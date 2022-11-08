@@ -35,36 +35,33 @@ namespace BV
 
         void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
         {
-            ItemGrid chestGrid = null;
-            ItemGrid inventoryGrid = null;
-
-            if (startGrid.gridId == "chestGrid" && targetGrid.gridId == "chestGrid")
+            if (startGrid != null)
             {
-                chestGrid = startGrid;
-            }
-            else if (startGrid.gridId == "chestGrid")
-            {
-                chestGrid = startGrid;
-                inventoryGrid = targetGrid;
-            }
-            else if (targetGrid.gridId == "chestGrid")
-            {
-                chestGrid = targetGrid;
-                inventoryGrid = startGrid;
+                if (startGrid.gridId == "chestGrid")
+                {
+                    UpdateChestData(startGrid);
+                }
+                else
+                {
+                    inventoryController.UpdateData(startGrid, null);
+                }
             }
 
-            if (chestGrid == null)
+            if (startGrid != null && targetGrid != null && startGrid.gridId == targetGrid.gridId)
             {
-                inventoryController.UpdateData(startGrid, targetGrid);
+                return;
             }
-            else if (inventoryGrid == null)
+
+            if (targetGrid != null)
             {
-                UpdateChestData(chestGrid);
-            }
-            else
-            {
-                inventoryController.UpdateData(inventoryGrid, inventoryGrid);
-                UpdateChestData(chestGrid);
+                if (targetGrid.gridId == "chestGrid")
+                {
+                    UpdateChestData(targetGrid);
+                }
+                else
+                {
+                    inventoryController.UpdateData(targetGrid, null);
+                }
             }
         }
 
