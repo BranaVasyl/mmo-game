@@ -23,6 +23,8 @@ namespace BV
         [Header("Header Section")]
         public GameObject header;
         public GameObject panelName;
+        public GameObject prevArrowNavigation;
+        public GameObject nextArrowNavigation;
 
         void Start()
         {
@@ -50,25 +52,28 @@ namespace BV
 
             if (panelsId == null)
             {
-                activePanels = menuPanels;
+                panelsId = new List<string>() { "inventory", "stats", "journal" };
             }
-            else
+
+            for (int i = 0; i < panelsId.Count; i++)
             {
-                for (int i = 0; i < panelsId.Count; i++)
+                MenuPanel panel = menuPanels.Find(x => x.panelId == panelsId[i]);
+                if (panel != null)
                 {
-                    MenuPanel panel = menuPanels.Find(x => x.panelId == panelsId[i]);
-                    if (panel != null)
-                    {
-                        activePanels.Add(panel);
-                    }
+                    activePanels.Add(panel);
                 }
-
-                curPanelIndex = 0;
             }
 
+            curPanelIndex = 0;
             if (activePanels.Count == 0)
             {
                 return;
+            }
+
+            if (activePanels.Count > 1)
+            {
+                prevArrowNavigation.SetActive(true);
+                nextArrowNavigation.SetActive(true);
             }
 
             OpenPanel();
@@ -79,6 +84,10 @@ namespace BV
             ClosePanels();
 
             activePanels = new List<MenuPanel>();
+
+            prevArrowNavigation.SetActive(false);
+            nextArrowNavigation.SetActive(false);
+
             gameMenu.SetActive(false);
             isOpen = false;
         }
