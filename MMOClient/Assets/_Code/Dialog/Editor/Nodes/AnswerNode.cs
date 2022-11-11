@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace BV
 {
-    public class AnswerNode : Node
+    public class AnswerNode : BaseNode
     {
-        public string GUID;
         public string AnswerName;
     }
 }

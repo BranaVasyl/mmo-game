@@ -17,12 +17,15 @@ namespace BV
         private DialogueGraphView _targetGrpaphView;
 
         private List<Edge> Edges => _targetGrpaphView.edges.ToList();
+
+        private List<BaseNode> AllNodes => _targetGrpaphView.nodes.ToList().Where(x => x is BaseNode).Cast<BaseNode>().ToList();
         private EntryPointNode EntryPoint => _targetGrpaphView.nodes.ToList().Where(x => x is EntryPointNode).First() as EntryPointNode;
         private List<AnswerNode> AnswerNodes => _targetGrpaphView.nodes.ToList().Where(x => x is AnswerNode).Cast<AnswerNode>().ToList();
         private List<PhraseNode> PhraseNodes => _targetGrpaphView.nodes.ToList().Where(x => x is PhraseNode).Cast<PhraseNode>().ToList();
         private List<DialogPhrase> Phrases => _targetGrpaphView.Phrases;
         private List<OutPointNode> OutPoints => _targetGrpaphView.nodes.ToList().Where(x => x is OutPointNode).Cast<OutPointNode>().ToList();
         private List<SelectedNode> SelectedNodes => _targetGrpaphView.nodes.ToList().Where(x => x is SelectedNode).Cast<SelectedNode>().ToList();
+        private List<TradeNode> TradeNodes => _targetGrpaphView.nodes.ToList().Where(x => x is TradeNode).Cast<TradeNode>().ToList();
 
         private Dialog _dialog = new Dialog();
 
@@ -40,6 +43,7 @@ namespace BV
             List<DialogPhrase> phrases = new List<DialogPhrase>();
             List<DialogOutput> outputs = new List<DialogOutput>();
             List<DialogSelected> selecteds = new List<DialogSelected>();
+            List<DialogTrade> trades = new List<DialogTrade>();
 
             var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
             foreach (var answerNode in AnswerNodes)
@@ -54,42 +58,21 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    var connectNode = connectedPorts[i].input.node;
-                    string inputNodeId = null;
-
-                    if (connectNode is PhraseNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
-                    }
-
-                    if (connectNode is AnswerNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
-                    }
-
-                    if (connectNode is OutPointNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
-                    }
-
-                    if (connectNode is SelectedNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
-                    }
-
-                    if (inputNodeId == null)
-                    {
-                        continue;
-                    }
-
                     if (connectedPorts[i].output.node is AnswerNode)
                     {
-                        var outputNode = connectedPorts[i].output.node as AnswerNode;
+                        BaseNode inputNode = connectedPorts[i].input.node as BaseNode;
+                        BaseNode outputNode = connectedPorts[i].output.node as BaseNode;
+
+                        if (inputNode == null || outputNode == null)
+                        {
+                            continue;
+                        }
+
                         if (answerNode.GUID == outputNode.GUID)
                         {
                             DialogAnswerItem answerItem = new DialogAnswerItem
                             {
-                                nextPhrase = inputNodeId,
+                                nextPhrase = inputNode.GUID,
                                 sentence = connectedPorts[i].output.portName
                             };
                             newAnswer.answerItems.Add(answerItem);
@@ -115,58 +98,22 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    var connectNode = connectedPorts[i].input.node;
-                    string inputNodeId = null;
+                    BaseNode inputNode = connectedPorts[i].input.node as BaseNode;
+                    BaseNode outputNode = connectedPorts[i].output.node as BaseNode;
 
-                    if (connectNode is PhraseNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
-                    }
-
-                    if (connectNode is AnswerNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
-                    }
-
-                    if (connectNode is OutPointNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
-                    }
-
-                    if (connectNode is SelectedNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
-                    }
-
-                    if (inputNodeId == null)
+                    if (inputNode == null || outputNode == null)
                     {
                         continue;
                     }
 
-                    if (connectedPorts[i].output.node is PhraseNode)
+                    if (phraseNode.GUID == outputNode.GUID)
                     {
-                        var outputNode = connectedPorts[i].output.node as PhraseNode;
-                        if (phraseNode.GUID == outputNode.GUID)
-                        {
-                            newPhrase.nextAnswer = inputNodeId;
-                            continue;
-                        }
+                        newPhrase.nextAnswer = inputNode.GUID;
+                        continue;
                     }
                 }
 
                 phrases.Add(newPhrase);
-            }
-
-            foreach (var outputNode in OutPoints)
-            {
-                DialogOutput node = new DialogOutput
-                {
-                    nodeId = outputNode.GUID,
-                    nodePosition = outputNode.GetPosition().position,
-                    parameter = outputNode.parameter
-                };
-
-                outputs.Add(node);
             }
 
             foreach (var selectedNode in SelectedNodes)
@@ -180,49 +127,71 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    var connectNode = connectedPorts[i].input.node;
-                    string inputNodeId = null;
-
-                    if (connectNode is PhraseNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
-                    }
-
-                    if (connectNode is AnswerNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
-                    }
-
-                    if (connectNode is OutPointNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
-                    }
-
-                    if (connectNode is SelectedNode)
-                    {
-                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
-                    }
-
-                    if (inputNodeId == null)
-                    {
-                        continue;
-                    }
-
                     if (connectedPorts[i].output.node is SelectedNode)
                     {
-                        var outputNode = connectedPorts[i].output.node as SelectedNode;
+                        BaseNode inputNode = connectedPorts[i].input.node as BaseNode;
+                        BaseNode outputNode = connectedPorts[i].output.node as BaseNode;
+
+                        if (inputNode == null || outputNode == null)
+                        {
+                            continue;
+                        }
+
                         if (selectedNode.GUID == outputNode.GUID)
                         {
                             if (connectedPorts[i].output.portName == "True")
-                                node.nextElementPositive = inputNodeId;
+                                node.nextElementPositive = inputNode.GUID;
                             else
-                                node.nextElementNegative = inputNodeId;
+                                node.nextElementNegative = inputNode.GUID;
                             continue;
                         }
                     }
                 }
 
                 selecteds.Add(node);
+            }
+
+            foreach (var tradeNode in TradeNodes)
+            {
+                DialogTrade node = new DialogTrade
+                {
+                    nodeId = tradeNode.GUID,
+                    nodePosition = tradeNode.GetPosition().position,
+                };
+
+                for (var i = 0; i < connectedPorts.Length; i++)
+                {
+                    if (connectedPorts[i].output.node is TradeNode)
+                    {
+                        BaseNode inputNode = connectedPorts[i].input.node as BaseNode;
+                        BaseNode outputNode = connectedPorts[i].output.node as BaseNode;
+
+                        if (inputNode == null || outputNode == null)
+                        {
+                            continue;
+                        }
+
+                        if (tradeNode.GUID == outputNode.GUID)
+                        {
+                            node.nextItem = inputNode.GUID;
+                            continue;
+                        }
+                    }
+                }
+
+                trades.Add(node);
+            }
+
+            foreach (var outputNode in OutPoints)
+            {
+                DialogOutput node = new DialogOutput
+                {
+                    nodeId = outputNode.GUID,
+                    nodePosition = outputNode.GetPosition().position,
+                    parameter = outputNode.parameter
+                };
+
+                outputs.Add(node);
             }
 
             for (var i = 0; i < connectedPorts.Length; i++)
@@ -265,6 +234,7 @@ namespace BV
             _dialog.allAnswer = answers.ToArray();
             _dialog.allOutputNode = outputs;
             _dialog.allSelectedNode = selecteds;
+            _dialog.allTradeNode = trades;
 
             if (_dialog.allPhrase.Length == 0 && _dialog.allAnswer.Length == 0)
             {
@@ -309,21 +279,11 @@ namespace BV
                 {
                     var targetNodeGuid = connections[j].nextPhrase;
                     if (String.IsNullOrEmpty(targetNodeGuid))
+                    {
                         continue;
+                    }
 
-                    Node targetNode = PhraseNodes.Find(x => x.GUID == targetNodeGuid);
-                    if (targetNode == null)
-                    {
-                        targetNode = AnswerNodes.Find(x => x.GUID == targetNodeGuid);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = OutPoints.Find(x => x.GUID == targetNodeGuid);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = SelectedNodes.Find(x => x.GUID == targetNodeGuid);
-                    }
+                    Node targetNode = AllNodes.Find(x => x.GUID == targetNodeGuid);
                     LinkNodes(AnswerNodes[i].outputContainer[j].Q<Port>(), (Port)targetNode.inputContainer[0]);
                 }
             }
@@ -338,21 +298,11 @@ namespace BV
                 var connections = _dialog.allPhrase.Where(x => x.idPhrase == PhraseNodes[i].GUID).First();
                 var targetNodeGuid = connections.nextAnswer;
                 if (String.IsNullOrEmpty(targetNodeGuid))
+                {
                     continue;
+                }
 
-                Node targetNode = AnswerNodes.Find(x => x.GUID == targetNodeGuid);
-                if (targetNode == null)
-                {
-                    targetNode = PhraseNodes.Find(x => x.GUID == targetNodeGuid);
-                }
-                if (targetNode == null)
-                {
-                    targetNode = OutPoints.Find(x => x.GUID == targetNodeGuid);
-                }
-                if (targetNode == null)
-                {
-                    targetNode = SelectedNodes.Find(x => x.GUID == targetNodeGuid);
-                }
+                Node targetNode = AllNodes.Find(x => x.GUID == targetNodeGuid);
                 LinkNodes(PhraseNodes[i].outputContainer[0].Q<Port>(), (Port)targetNode.inputContainer[0]);
             }
 
@@ -372,59 +322,45 @@ namespace BV
                 ));
 
                 var dialogSelected = _dialog.allSelectedNode.First(x => x.nodeId == SelectedNodes[i].GUID);
-
                 if (dialogSelected.nextElementPositive.Length > 0)
                 {
-                    Node targetNode = PhraseNodes.Find(x => x.GUID == dialogSelected.nextElementPositive);
-                    if (targetNode == null)
-                    {
-                        targetNode = AnswerNodes.Find(x => x.GUID == dialogSelected.nextElementPositive);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = OutPoints.Find(x => x.GUID == dialogSelected.nextElementPositive);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = SelectedNodes.Find(x => x.GUID == dialogSelected.nextElementPositive);
-                    }
+                    Node targetNode = AllNodes.Find(x => x.GUID == dialogSelected.nextElementPositive);
                     LinkNodes(SelectedNodes[i].outputContainer[0].Q<Port>(), (Port)targetNode.inputContainer[0]);
                 }
                 if (dialogSelected.nextElementNegative.Length > 0)
                 {
-                    Node targetNode = PhraseNodes.Find(x => x.GUID == dialogSelected.nextElementNegative);
-                    if (targetNode == null)
-                    {
-                        targetNode = AnswerNodes.Find(x => x.GUID == dialogSelected.nextElementNegative);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = OutPoints.Find(x => x.GUID == dialogSelected.nextElementNegative);
-                    }
-                    if (targetNode == null)
-                    {
-                        targetNode = SelectedNodes.Find(x => x.GUID == dialogSelected.nextElementNegative);
-                    }
+                    Node targetNode = AllNodes.Find(x => x.GUID == dialogSelected.nextElementNegative);
                     LinkNodes(SelectedNodes[i].outputContainer[1].Q<Port>(), (Port)targetNode.inputContainer[0]);
                 }
+            }
+
+            for (var i = 0; i < TradeNodes.Count; i++)
+            {
+                DialogTrade dilogNodeData = _dialog.allTradeNode.Find(x => x.nodeId == TradeNodes[i].GUID);
+                if (dilogNodeData == null)
+                {
+                    continue;
+                }
+
+                TradeNodes[i].SetPosition(new Rect(dilogNodeData.nodePosition, _targetGrpaphView.DefaultNodeSize));
+                if (String.IsNullOrEmpty(dilogNodeData.nextItem))
+                {
+                    continue;
+                }
+
+                Node targetNode = AllNodes.Find(x => x.GUID == dilogNodeData.nextItem);
+                LinkNodes(TradeNodes[i].outputContainer[0].Q<Port>(), (Port)targetNode.inputContainer[0]);
             }
 
             if (!String.IsNullOrEmpty(_dialog.entryPointGUID))
             {
                 var targetNodeGuid = _dialog.startPhrase;
                 if (String.IsNullOrEmpty(targetNodeGuid))
+                {
                     return;
-
-                Node targetNode = PhraseNodes.Find(x => x.GUID == targetNodeGuid);
-                if (targetNode == null)
-                {
-                    targetNode = SelectedNodes.Find(x => x.GUID == targetNodeGuid);
-                }
-                if (targetNode == null)
-                {
-                    targetNode = AnswerNodes.Find(x => x.GUID == targetNodeGuid);
                 }
 
+                Node targetNode = AllNodes.Find(x => x.GUID == targetNodeGuid);
                 LinkNodes(EntryPoint.outputContainer[0].Q<Port>(), (Port)targetNode.inputContainer[0]);
             }
         }
@@ -473,6 +409,13 @@ namespace BV
                 tempNode.GUID = selected.nodeId;
                 _targetGrpaphView.AddElement(tempNode);
             }
+
+            foreach (var trade in _dialog.allTradeNode)
+            {
+                var tempNode = _targetGrpaphView.CreateTradeNode();
+                tempNode.GUID = trade.nodeId;
+                _targetGrpaphView.AddElement(tempNode);
+            }
         }
 
         private void ClearGraph()
@@ -481,32 +424,13 @@ namespace BV
             if (Edges.Find(x => x.input.node == EntryPoint) != null)
                 _targetGrpaphView.RemoveElement(Edges.Find(x => x.input.node == EntryPoint));
 
-            foreach (var node in PhraseNodes)
+            foreach (var node in AllNodes)
             {
-                Edges.Where(x => x.input.node == node).ToList()
-                    .ForEach(edge => _targetGrpaphView.RemoveElement(edge));
+                if (node is EntryPointNode)
+                {
+                    continue;
+                }
 
-                _targetGrpaphView.RemoveElement(node);
-            }
-
-            foreach (var node in AnswerNodes)
-            {
-                Edges.Where(x => x.input.node == node).ToList()
-                    .ForEach(edge => _targetGrpaphView.RemoveElement(edge));
-
-                _targetGrpaphView.RemoveElement(node);
-            }
-
-            foreach (var node in OutPoints)
-            {
-                Edges.Where(x => x.input.node == node).ToList()
-                    .ForEach(edge => _targetGrpaphView.RemoveElement(edge));
-
-                _targetGrpaphView.RemoveElement(node);
-            }
-
-            foreach (var node in SelectedNodes)
-            {
                 Edges.Where(x => x.input.node == node).ToList()
                     .ForEach(edge => _targetGrpaphView.RemoveElement(edge));
 

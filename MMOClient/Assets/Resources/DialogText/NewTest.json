@@ -54,6 +54,10 @@
                 {
                     "nextPhrase": "21fcedf8-37f4-4fa9-a73a-f5bc4dc49f65",
                     "sentence": "Choice 3"
+                },
+                {
+                    "nextPhrase": "84f76d63-97de-4bac-9318-e1acfb32beb9",
+                    "sentence": "Choice 4"
                 }
             ]
         },
@@ -106,6 +110,16 @@
             "parameter": "",
             "nextElementPositive": "de2fd096-98ac-4da2-99db-7011f58853ef",
             "nextElementNegative": "5a92d9e2-0df5-464f-aeb4-6324f834a301"
+        }
+    ],
+    "allTradeNode": [
+        {
+            "nodeId": "84f76d63-97de-4bac-9318-e1acfb32beb9",
+            "nodePosition": {
+                "x": 488.0,
+                "y": -61.0
+            },
+            "nextItem": "dee5a8c4-c165-41ed-bdce-6ad32b338cd7"
         }
     ]
 }

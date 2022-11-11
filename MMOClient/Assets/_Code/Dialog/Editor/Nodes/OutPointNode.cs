@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace BV
 {
-    public class OutPointNode : Node
+    public class OutPointNode : BaseNode
     {
-        public string GUID;
         public string parameter;
     }
 }

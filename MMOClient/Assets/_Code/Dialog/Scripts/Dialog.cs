@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BV{
+namespace BV
+{
 
     [System.Serializable]
     public class Dialog
@@ -15,5 +16,6 @@ namespace BV{
         public DialogAnswer[] allAnswer;
         public List<DialogOutput> allOutputNode = new List<DialogOutput>();
         public List<DialogSelected> allSelectedNode = new List<DialogSelected>();
+        public List<DialogTrade> allTradeNode = new List<DialogTrade>();
     }
 }

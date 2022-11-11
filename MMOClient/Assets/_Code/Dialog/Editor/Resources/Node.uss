@@ -3,7 +3,7 @@ EntryPointNode #title{
 }
 
 OutPointNode #title{
-    background-color: #c65d1a;
+    background-color: red;
 }
 
 PhraseNode #title{
@@ -16,6 +16,10 @@ SelectedNode #title{
 
 AnswerNode #title{
     background-color: rgb(0,128,0);
+}
+
+TradeNode #title{
+    background-color: #c65d1a;
 }
 
 .container{

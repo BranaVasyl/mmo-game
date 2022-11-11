@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace BV
 {
-    public class PhraseNode : Node
+    public class PhraseNode : BaseNode
     {
-        public string GUID;
         public string PhraseName;
     }
 }

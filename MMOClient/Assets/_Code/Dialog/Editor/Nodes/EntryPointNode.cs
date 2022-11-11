@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace BV
 {
-    public class EntryPointNode : Node
+    public class EntryPointNode : BaseNode
     {
-        public string GUID;
+
     }
 }
