@@ -18,15 +18,11 @@ namespace BV
 
         private List<Edge> Edges => _targetGrpaphView.edges.ToList();
         private EntryPointNode EntryPoint => _targetGrpaphView.nodes.ToList().Where(x => x is EntryPointNode).First() as EntryPointNode;
-        private List<AnswerNode> AnswerNodes => _targetGrpaphView.nodes.ToList().Where(x => x is AnswerNode)
-                                                        .Cast<AnswerNode>().ToList();
-        private List<PhraseNode> PhraseNodes => _targetGrpaphView.nodes.ToList().Where(x => x is PhraseNode)
-                                                        .Cast<PhraseNode>().ToList();
+        private List<AnswerNode> AnswerNodes => _targetGrpaphView.nodes.ToList().Where(x => x is AnswerNode).Cast<AnswerNode>().ToList();
+        private List<PhraseNode> PhraseNodes => _targetGrpaphView.nodes.ToList().Where(x => x is PhraseNode).Cast<PhraseNode>().ToList();
         private List<DialogPhrase> Phrases => _targetGrpaphView.Phrases;
-        private List<OutPointNode> OutPoints => _targetGrpaphView.nodes.ToList().Where(x => x is OutPointNode)
-                                                        .Cast<OutPointNode>().ToList();
-        private List<SelectedNode> SelectedNodes => _targetGrpaphView.nodes.ToList().Where(x => x is SelectedNode)
-        .Cast<SelectedNode>().ToList();
+        private List<OutPointNode> OutPoints => _targetGrpaphView.nodes.ToList().Where(x => x is OutPointNode).Cast<OutPointNode>().ToList();
+        private List<SelectedNode> SelectedNodes => _targetGrpaphView.nodes.ToList().Where(x => x is SelectedNode).Cast<SelectedNode>().ToList();
 
         private Dialog _dialog = new Dialog();
 
@@ -42,6 +38,8 @@ namespace BV
         {
             List<DialogAnswer> answers = new List<DialogAnswer>();
             List<DialogPhrase> phrases = new List<DialogPhrase>();
+            List<DialogOutput> outputs = new List<DialogOutput>();
+            List<DialogSelected> selecteds = new List<DialogSelected>();
 
             var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
             foreach (var answerNode in AnswerNodes)
@@ -56,83 +54,50 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    if (connectedPorts[i].input.node is PhraseNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as PhraseNode;
+                    var connectNode = connectedPorts[i].input.node;
+                    string inputNodeId = null;
 
-                        if (connectedPorts[i].output.node is AnswerNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as AnswerNode;
-                            if (answerNode.GUID == outputNode.GUID)
-                            {
-                                DialogAnswerItem answerItem = new DialogAnswerItem
-                                {
-                                    nextPhrase = inputNode.GUID,
-                                    sentence = connectedPorts[i].output.portName
-                                };
-                                newAnswer.answerItems.Add(answerItem);
-                                continue;
-                            }
-                        }
+                    if (connectNode is PhraseNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is AnswerNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as AnswerNode;
 
-                        if (connectedPorts[i].output.node is AnswerNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as AnswerNode;
-                            if (answerNode.GUID == outputNode.GUID)
-                            {
-                                DialogAnswerItem answerItem = new DialogAnswerItem
-                                {
-                                    nextPhrase = inputNode.GUID,
-                                    sentence = connectedPorts[i].output.portName
-                                };
-                                newAnswer.answerItems.Add(answerItem);
-                                continue;
-                            }
-                        }
+                    if (connectNode is AnswerNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is OutPointNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as OutPointNode;
 
-                        if (connectedPorts[i].output.node is AnswerNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as AnswerNode;
-                            if (answerNode.GUID == outputNode.GUID)
-                            {
-                                DialogAnswerItem answerItem = new DialogAnswerItem
-                                {
-                                    nextPhrase = inputNode.GUID,
-                                    sentence = connectedPorts[i].output.portName
-                                };
-                                newAnswer.answerItems.Add(answerItem);
-                                continue;
-                            }
-                        }
+                    if (connectNode is OutPointNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is SelectedNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as SelectedNode;
 
-                        if (connectedPorts[i].output.node is AnswerNode)
+                    if (connectNode is SelectedNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
+                    }
+
+                    if (inputNodeId == null)
+                    {
+                        continue;
+                    }
+
+                    if (connectedPorts[i].output.node is AnswerNode)
+                    {
+                        var outputNode = connectedPorts[i].output.node as AnswerNode;
+                        if (answerNode.GUID == outputNode.GUID)
                         {
-                            var outputNode = connectedPorts[i].output.node as AnswerNode;
-                            if (answerNode.GUID == outputNode.GUID)
+                            DialogAnswerItem answerItem = new DialogAnswerItem
                             {
-                                DialogAnswerItem answerItem = new DialogAnswerItem
-                                {
-                                    nextPhrase = inputNode.GUID,
-                                    sentence = connectedPorts[i].output.portName
-                                };
-                                newAnswer.answerItems.Add(answerItem);
-                                continue;
-                            }
+                                nextPhrase = inputNodeId,
+                                sentence = connectedPorts[i].output.portName
+                            };
+                            newAnswer.answerItems.Add(answerItem);
+                            continue;
                         }
                     }
                 }
+
                 answers.Add(newAnswer);
             }
 
@@ -150,56 +115,41 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    if (connectedPorts[i].input.node is AnswerNode)
+                    var connectNode = connectedPorts[i].input.node;
+                    string inputNodeId = null;
+
+                    if (connectNode is PhraseNode)
                     {
-                        var inputNode = connectedPorts[i].input.node as AnswerNode;
-                        if (connectedPorts[i].output.node is PhraseNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as PhraseNode;
-                            if (phraseNode.GUID == outputNode.GUID)
-                            {
-                                newPhrase.nextAnswer = inputNode.GUID;
-                                continue;
-                            }
-                        }
+                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is PhraseNode)
+
+                    if (connectNode is AnswerNode)
                     {
-                        var inputNode = connectedPorts[i].input.node as PhraseNode;
-                        if (connectedPorts[i].output.node is PhraseNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as PhraseNode;
-                            if (phraseNode.GUID == outputNode.GUID)
-                            {
-                                newPhrase.nextAnswer = inputNode.GUID;
-                                continue;
-                            }
-                        }
+                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is OutPointNode)
+
+                    if (connectNode is OutPointNode)
                     {
-                        var inputNode = connectedPorts[i].input.node as OutPointNode;
-                        if (connectedPorts[i].output.node is PhraseNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as PhraseNode;
-                            if (phraseNode.GUID == outputNode.GUID)
-                            {
-                                newPhrase.nextAnswer = inputNode.GUID;
-                                continue;
-                            }
-                        }
+                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
                     }
-                    else if (connectedPorts[i].input.node is SelectedNode)
+
+                    if (connectNode is SelectedNode)
                     {
-                        var inputNode = connectedPorts[i].input.node as SelectedNode;
-                        if (connectedPorts[i].output.node is PhraseNode)
+                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
+                    }
+
+                    if (inputNodeId == null)
+                    {
+                        continue;
+                    }
+
+                    if (connectedPorts[i].output.node is PhraseNode)
+                    {
+                        var outputNode = connectedPorts[i].output.node as PhraseNode;
+                        if (phraseNode.GUID == outputNode.GUID)
                         {
-                            var outputNode = connectedPorts[i].output.node as PhraseNode;
-                            if (phraseNode.GUID == outputNode.GUID)
-                            {
-                                newPhrase.nextAnswer = inputNode.GUID;
-                                continue;
-                            }
+                            newPhrase.nextAnswer = inputNodeId;
+                            continue;
                         }
                     }
                 }
@@ -215,7 +165,8 @@ namespace BV
                     nodePosition = outputNode.GetPosition().position,
                     parameter = outputNode.parameter
                 };
-                _dialog.allOutputNode.Add(node);
+
+                outputs.Add(node);
             }
 
             foreach (var selectedNode in SelectedNodes)
@@ -229,88 +180,49 @@ namespace BV
 
                 for (var i = 0; i < connectedPorts.Length; i++)
                 {
-                    if (connectedPorts[i].input.node is PhraseNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as PhraseNode;
+                    var connectNode = connectedPorts[i].input.node;
+                    string inputNodeId = null;
 
-                        if (connectedPorts[i].output.node is SelectedNode)
+                    if (connectNode is PhraseNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
+                    }
+
+                    if (connectNode is AnswerNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
+                    }
+
+                    if (connectNode is OutPointNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as OutPointNode).GUID;
+                    }
+
+                    if (connectNode is SelectedNode)
+                    {
+                        inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
+                    }
+
+                    if (inputNodeId == null)
+                    {
+                        continue;
+                    }
+
+                    if (connectedPorts[i].output.node is SelectedNode)
+                    {
+                        var outputNode = connectedPorts[i].output.node as SelectedNode;
+                        if (selectedNode.GUID == outputNode.GUID)
                         {
-                            var outputNode = connectedPorts[i].output.node as SelectedNode;
-                            if (selectedNode.GUID == outputNode.GUID)
-                            {
-                                if (connectedPorts[i].output.portName == "True")
-                                    node.nextElementPositive = inputNode.GUID;
-                                else
-                                    node.nextElementNegative = inputNode.GUID;
-                                continue;
-                            }
+                            if (connectedPorts[i].output.portName == "True")
+                                node.nextElementPositive = inputNodeId;
+                            else
+                                node.nextElementNegative = inputNodeId;
+                            continue;
                         }
                     }
                 }
 
-                for (var i = 0; i < connectedPorts.Length; i++)
-                {
-                    if (connectedPorts[i].input.node is OutPointNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as OutPointNode;
-
-                        if (connectedPorts[i].output.node is SelectedNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as SelectedNode;
-                            if (selectedNode.GUID == outputNode.GUID)
-                            {
-                                if (connectedPorts[i].output.portName == "True")
-                                    node.nextElementPositive = inputNode.GUID;
-                                else
-                                    node.nextElementNegative = inputNode.GUID;
-                                continue;
-                            }
-                        }
-                    }
-                }
-
-                for (var i = 0; i < connectedPorts.Length; i++)
-                {
-                    if (connectedPorts[i].input.node is AnswerNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as AnswerNode;
-
-                        if (connectedPorts[i].output.node is SelectedNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as SelectedNode;
-                            if (selectedNode.GUID == outputNode.GUID)
-                            {
-                                if (connectedPorts[i].output.portName == "True")
-                                    node.nextElementPositive = inputNode.GUID;
-                                else
-                                    node.nextElementNegative = inputNode.GUID;
-                                continue;
-                            }
-                        }
-                    }
-                }
-
-                for (var i = 0; i < connectedPorts.Length; i++)
-                {
-                    if (connectedPorts[i].input.node is SelectedNode)
-                    {
-                        var inputNode = connectedPorts[i].input.node as SelectedNode;
-
-                        if (connectedPorts[i].output.node is SelectedNode)
-                        {
-                            var outputNode = connectedPorts[i].output.node as SelectedNode;
-                            if (selectedNode.GUID == outputNode.GUID)
-                            {
-                                if (connectedPorts[i].output.portName == "True")
-                                    node.nextElementPositive = inputNode.GUID;
-                                else
-                                    node.nextElementNegative = inputNode.GUID;
-                                continue;
-                            }
-                        }
-                    }
-                }
-                _dialog.allSelectedNode.Add(node);
+                selecteds.Add(node);
             }
 
             for (var i = 0; i < connectedPorts.Length; i++)
@@ -320,24 +232,26 @@ namespace BV
                     var outputNode = connectedPorts[i].output.node as EntryPointNode;
                     if (EntryPoint.GUID == outputNode.GUID)
                     {
+                        string inputNodeId = null;
+
                         if (connectedPorts[i].input.node is PhraseNode)
                         {
-                            var inputNode = connectedPorts[i].input.node as PhraseNode;
-                            _dialog.startPhrase = inputNode.GUID;
-                            break;
+                            inputNodeId = (connectedPorts[i].input.node as PhraseNode).GUID;
                         }
 
                         if (connectedPorts[i].input.node is AnswerNode)
                         {
-                            var inputNode = connectedPorts[i].input.node as AnswerNode;
-                            _dialog.startPhrase = inputNode.GUID;
-                            break;
+                            inputNodeId = (connectedPorts[i].input.node as AnswerNode).GUID;
                         }
 
                         if (connectedPorts[i].input.node is SelectedNode)
                         {
-                            var inputNode = connectedPorts[i].input.node as SelectedNode;
-                            _dialog.startPhrase = inputNode.GUID;
+                            inputNodeId = (connectedPorts[i].input.node as SelectedNode).GUID;
+                        }
+
+                        if (inputNodeId != null)
+                        {
+                            _dialog.startPhrase = inputNodeId;
                             break;
                         }
                     }
@@ -349,6 +263,8 @@ namespace BV
 
             _dialog.allPhrase = phrases.ToArray();
             _dialog.allAnswer = answers.ToArray();
+            _dialog.allOutputNode = outputs;
+            _dialog.allSelectedNode = selecteds;
 
             if (_dialog.allPhrase.Length == 0 && _dialog.allAnswer.Length == 0)
             {

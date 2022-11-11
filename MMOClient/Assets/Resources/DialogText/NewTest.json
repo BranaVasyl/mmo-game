@@ -1,0 +1,111 @@
+{
+    "dialogName": "NewTest",
+    "entryPointGUID": "0dd27d0b-98de-4d20-bf6e-5a6aefc7b7eb",
+    "startPhrase": "f3b43ea0-61ae-4f98-a48a-ed10b03efe21",
+    "allPhrase": [
+        {
+            "idPhrase": "f3b43ea0-61ae-4f98-a48a-ed10b03efe21",
+            "nodeText": "New Phrase",
+            "nodePosition": {
+                "x": 206.0,
+                "y": 202.0
+            },
+            "nextAnswer": "dee5a8c4-c165-41ed-bdce-6ad32b338cd7",
+            "phraseItems": []
+        },
+        {
+            "idPhrase": "ec6446d7-66cd-4419-8b9d-babe4c84b99e",
+            "nodeText": "New Phrase(1)",
+            "nodePosition": {
+                "x": 603.0,
+                "y": 98.0
+            },
+            "nextAnswer": "77e177ac-400d-4991-8b61-50986ef6042f",
+            "phraseItems": []
+        },
+        {
+            "idPhrase": "5a92d9e2-0df5-464f-aeb4-6324f834a301",
+            "nodeText": "New Phrase(1)(1)",
+            "nodePosition": {
+                "x": 897.0,
+                "y": 318.0
+            },
+            "nextAnswer": "de2fd096-98ac-4da2-99db-7011f58853ef",
+            "phraseItems": []
+        }
+    ],
+    "allAnswer": [
+        {
+            "idAnswer": "dee5a8c4-c165-41ed-bdce-6ad32b338cd7",
+            "nodeText": "New Dialog",
+            "nodePosition": {
+                "x": 376.0,
+                "y": 175.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "ec6446d7-66cd-4419-8b9d-babe4c84b99e",
+                    "sentence": "Choice 1"
+                },
+                {
+                    "nextPhrase": "40c7724d-d1f7-4390-b7e3-25ead2f6021c",
+                    "sentence": "Choice 2"
+                },
+                {
+                    "nextPhrase": "21fcedf8-37f4-4fa9-a73a-f5bc4dc49f65",
+                    "sentence": "Choice 3"
+                }
+            ]
+        },
+        {
+            "idAnswer": "21fcedf8-37f4-4fa9-a73a-f5bc4dc49f65",
+            "nodeText": "New Dialog(1)",
+            "nodePosition": {
+                "x": 572.0,
+                "y": 405.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "de2fd096-98ac-4da2-99db-7011f58853ef",
+                    "sentence": "Choice 1"
+                }
+            ]
+        },
+        {
+            "idAnswer": "77e177ac-400d-4991-8b61-50986ef6042f",
+            "nodeText": "New Dialog(1)(1)",
+            "nodePosition": {
+                "x": 669.0,
+                "y": -82.0
+            },
+            "answerItems": [
+                {
+                    "nextPhrase": "de2fd096-98ac-4da2-99db-7011f58853ef",
+                    "sentence": "54353453545"
+                }
+            ]
+        }
+    ],
+    "allOutputNode": [
+        {
+            "nodeId": "de2fd096-98ac-4da2-99db-7011f58853ef",
+            "nodePosition": {
+                "x": 968.0,
+                "y": 104.0
+            },
+            "parameter": ""
+        }
+    ],
+    "allSelectedNode": [
+        {
+            "nodeId": "40c7724d-d1f7-4390-b7e3-25ead2f6021c",
+            "nodePosition": {
+                "x": 653.0,
+                "y": 234.0
+            },
+            "parameter": "",
+            "nextElementPositive": "de2fd096-98ac-4da2-99db-7011f58853ef",
+            "nextElementNegative": "5a92d9e2-0df5-464f-aeb4-6324f834a301"
+        }
+    ]
+}

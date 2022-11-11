@@ -39,6 +39,10 @@ namespace BV
         [HideInInspector]
         public UnityEvent<ItemGrid, ItemGrid> onUpdateData = new UnityEvent<ItemGrid, ItemGrid>();
 
+        public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid);
+        [HideInInspector]
+        public List<CanUpdateGridDelegate> canUpdateGridCallback = new List<CanUpdateGridDelegate>();
+
         public void Init()
         {
             itemsManager = ItemsManager.singleton;
@@ -311,6 +315,17 @@ namespace BV
 
             Vector2Int tileGridPosition = GetTileGridPosition();
             result = selectedItemGrid.CanPlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
+
+            for (int i = 0; i < canUpdateGridCallback.Count; i++)
+            {
+                if (result == false)
+                {
+                    break;
+                }
+
+                result = canUpdateGridCallback[i](startItemGrid, selectedItemGrid);
+            }
+
             return result;
         }
 
@@ -464,6 +479,7 @@ namespace BV
             correctInventoryHiglight.SetParent(null);
             incorrectInventoryHiglight.SetParent(null);
             inventoryData = new List<InventoryGridData>();
+            canUpdateGridCallback = new List<CanUpdateGridDelegate>();
         }
 
         public static GridManager singleton;

@@ -12,6 +12,9 @@ namespace BV
         private GridManager gridManager;
         private InventoryController inventoryController;
 
+        //@todo just example canUpdate grid
+        private int itemCountUpdate = 0;
+
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
             socket = soc;
@@ -22,9 +25,22 @@ namespace BV
         public override void Open()
         {
             gridManager.SetData(inventoryController.inventoryData);
+
             gridManager.onUpdateData.AddListener(UpdateData);
+            gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
             socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+        }
+
+        //@todo just example canUpdate grid
+        private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid)
+        {
+            if (itemCountUpdate >= 3)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void SetChestData(InventoryGridData data)
@@ -63,6 +79,12 @@ namespace BV
                     inventoryController.UpdateData(targetGrid, null);
                 }
             }
+
+            //@todo just example canUpdate grid
+            if ((startGrid.gridId == "chestGrid" && targetGrid != null) || (startGrid != null && targetGrid.gridId == "chestGrid"))
+            {
+                itemCountUpdate++;
+            }
         }
 
         void UpdateChestData(ItemGrid itemGrid)
@@ -94,6 +116,8 @@ namespace BV
 
         public override void Deinit()
         {
+            itemCountUpdate = 0;
+
             if (gridManager != null)
             {
                 gridManager.onUpdateData.RemoveListener(UpdateData);
