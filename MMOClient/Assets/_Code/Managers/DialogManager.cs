@@ -21,7 +21,8 @@ namespace BV
         private string NPCName;
         private DialogPhrase[] allDialogPhrases;
         private DialogAnswer[] allDialogAnswers;
-        private DialogSelectedOneElement[] allSelectedNode;
+        private DialogSelected[] allSelectedNode;
+        private DialogTrade[] allDialogTrade;
         private DialogOutput[] allOutputNode;
 
         private string nextElementId;
@@ -71,10 +72,10 @@ namespace BV
             allDialogPhrases = dialog.allPhrase;
             allDialogAnswers = dialog.allAnswer;
             allOutputNode = dialog.allOutputNode.ToArray();
+            allSelectedNode = dialog.allSelectedNode.ToArray();
+            allDialogTrade = dialog.allTradeNode.ToArray();
 
-            initDialogSelected(dialog.allSelectedNode);
-            shearchNextElement(dialog.startPhrase);
-
+            ShearchNextElement(dialog.startPhrase);
             StartDialog();
         }
 
@@ -105,59 +106,34 @@ namespace BV
             gameUIManager.Hide();
         }
 
-        void initDialogSelected(List<DialogSelected> dialogsSelected)
-        {
-            var dialogSelectedOneElements = new List<DialogSelectedOneElement>();
-
-            foreach (var item in dialogsSelected)
-            {
-                bool parameterIsTrue = false;
-                string[] command = item.parameter.Split(new char[] { '#' });
-
-                if (command.Length > 1)
-                {
-                    switch (command[0])
-                    {
-                        case "qc":
-                            parameterIsTrue = questManager.QuestIsCompleted(command[1]);
-                            break;
-                        case "qa":
-                            parameterIsTrue = questManager.QuestIsActive(command[1]);
-                            break;
-                        default:
-                            parameterIsTrue = false;
-                            Debug.Log("Unknow command " + command[0]);
-                            break;
-                    }
-                }
-
-                var dialogSelectedOneElement = new DialogSelectedOneElement
-                {
-                    nodeId = item.nodeId,
-                    nextElementId = parameterIsTrue ? item.nextElementPositive : item.nextElementNegative
-                };
-
-                dialogSelectedOneElements.Add(dialogSelectedOneElement);
-            }
-
-            allSelectedNode = dialogSelectedOneElements.ToArray();
-        }
-
-        void shearchNextElement(string id)
+        void ShearchNextElement(string id)
         {
             DialogPhrase dialogPhrase = Array.Find(allDialogPhrases, i => i.idPhrase == id);
             DialogAnswer dialogAnswer = Array.Find(allDialogAnswers, i => i.idAnswer == id);
-            DialogSelectedOneElement dialogSelected = Array.Find(allSelectedNode, i => i.nodeId == id);
+            DialogSelected dialogSelected = Array.Find(allSelectedNode, i => i.nodeId == id);
+            DialogTrade dialogTrade = Array.Find(allDialogTrade, i => i.nodeId == id);
             DialogOutput dialogsOutput = Array.Find(allOutputNode, i => i.nodeId == id);
 
             if (dialogPhrase != null)
+            {
                 ShowPhrase(dialogPhrase);
+            }
             else if (dialogAnswer != null)
+            {
                 ShowAnswer(dialogAnswer);
+            }
             else if (dialogSelected != null)
-                shearchNextElement(dialogSelected.nextElementId);
+            {
+                ShowSelected(dialogSelected);
+            }
+            else if (dialogTrade != null)
+            {
+                ShowTrade(dialogTrade);
+            }
             else
+            {
                 EndDialog(dialogsOutput);
+            }
         }
 
         void ShowPhrase(DialogPhrase phrase)
@@ -176,7 +152,7 @@ namespace BV
                 StartCoroutine(ShowNextPhrase(PhraseItems));
             }
             else if (phrase.nextAnswer.Length > 0)
-                shearchNextElement(phrase.nextAnswer);
+                ShearchNextElement(phrase.nextAnswer);
             else
                 EndDialog();
         }
@@ -191,7 +167,7 @@ namespace BV
             yield return new WaitForSeconds(curPhraseItem.showTime);
 
             if (PhraseItems.Count == 0)
-                shearchNextElement(nextElementId);
+                ShearchNextElement(nextElementId);
             else if (PhraseItems.Count > 0)
                 StartCoroutine(ShowNextPhrase(PhraseItems));
         }
@@ -246,6 +222,42 @@ namespace BV
             answersUIField.SetActive(true);
         }
 
+        private void ShowSelected(DialogSelected dialogSelected)
+        {
+            bool parameterIsTrue = false;
+            string[] command = dialogSelected.parameter.Split(new char[] { '#' });
+
+            if (command.Length > 1)
+            {
+                switch (command[0])
+                {
+                    case "qc":
+                        parameterIsTrue = questManager.QuestIsCompleted(command[1]);
+                        break;
+                    case "qa":
+                        parameterIsTrue = questManager.QuestIsActive(command[1]);
+                        break;
+                    default:
+                        parameterIsTrue = false;
+                        Debug.Log("Unknow command " + command[0]);
+                        break;
+                }
+            }
+
+            ShearchNextElement(parameterIsTrue ? dialogSelected.nextElementPositive : dialogSelected.nextElementNegative);
+        }
+
+        private void ShowTrade(DialogTrade dialogTrade)
+        {
+            //@todo example
+            List<string> activatePanel = new List<string>();
+            activatePanel.Add("chest");
+
+            MenuManager.singleton.OpenMenu(activatePanel);
+
+            ShearchNextElement(dialogTrade.nextItem);
+        }
+
         public void clickFromAnswer(int id)
         {
             DialogAnswer dialogAnswer = Array.Find(allDialogAnswers, i => i.idAnswer == currentAnsweId);
@@ -263,7 +275,7 @@ namespace BV
             {
                 ClearUIElement();
                 nextElementId = dialogAnswer.answerItems[id].nextPhrase;
-                shearchNextElement(nextElementId);
+                ShearchNextElement(nextElementId);
             }
             else
             {
