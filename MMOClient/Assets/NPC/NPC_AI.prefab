@@ -702,6 +702,7 @@ MonoBehaviour:
   networkIdentity: {fileID: 0}
   health: 100
   displayedName: "\u0413\u043E\u0441\u043F\u043E\u0434\u0430\u0440"
+  id: NPC_First
   isDead: 0
   enemyRigidbody: {fileID: 0}
   ignoreLayers:

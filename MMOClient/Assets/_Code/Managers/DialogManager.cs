@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.IO;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
-using TMPro;
+using System.Collections;
 using Project.Networking;
+using UnityEngine.UI;
+using UnityEngine;
+using System.IO;
+using System;
+using TMPro;
 
 namespace BV
 {
@@ -18,7 +18,6 @@ namespace BV
         public GameObject answersUIField;
         public bool showSpeakerName;
 
-        private string NPCName;
         private DialogPhrase[] allDialogPhrases;
         private DialogAnswer[] allDialogAnswers;
         private DialogSelected[] allSelectedNode;
@@ -30,6 +29,10 @@ namespace BV
 
         private StateManager states;
         public List<NPCDialogList> NPCDialogs;
+
+        [Header("NPC Data")]
+        public string activeNPCId = "";
+        public string activeNPCName = "";
 
         private QuestManager questManager;
         private ChatBehaviour chatBehaviour;
@@ -53,9 +56,9 @@ namespace BV
             NPCDialog.dialogList.Add(dialogId);
         }
 
-        public void InitDialog(string NPCId, StateManager st)
+        public void InitDialog(string NPC_Id, string NPC_Name, StateManager st)
         {
-            string currentDialog = GetCurrentNpcDialog(NPCId);
+            string currentDialog = GetCurrentNpcDialog(NPC_Id);
             if (currentDialog.Length == 0)
             {
                 Debug.Log("Not have any active dialog");
@@ -68,7 +71,8 @@ namespace BV
             ClearElement();
             states = st;
 
-            NPCName = dialog.dialogName;
+            activeNPCId = NPC_Id;
+            activeNPCName = NPC_Name;
             allDialogPhrases = dialog.allPhrase;
             allDialogAnswers = dialog.allAnswer;
             allOutputNode = dialog.allOutputNode.ToArray();
@@ -99,7 +103,7 @@ namespace BV
         public void StartDialog()
         {
             states.inDialog = true;
-            Debug.Log("Stard dialog with " + NPCName);
+            Debug.Log("Stard dialog with " + activeNPCName);
 
             dialogUI.SetActive(true);
             chatBehaviour.Hide();
@@ -249,11 +253,10 @@ namespace BV
 
         private void ShowTrade(DialogTrade dialogTrade)
         {
-            //@todo example
-            List<string> activatePanel = new List<string>();
-            activatePanel.Add("chest");
-
+            List<string> activatePanel = new List<string>() { "shop" };
             MenuManager.singleton.OpenMenu(activatePanel);
+
+            ShopController.singleton.SetPlayerData(activeNPCName);
 
             ShearchNextElement(dialogTrade.nextItem);
         }
@@ -315,7 +318,7 @@ namespace BV
                 states.inDialog = false;
                 states = null;
             }
-            Debug.Log("End dialog with" + NPCName);
+            Debug.Log("End dialog with" + activeNPCName);
 
             dialogUI.SetActive(false);
             chatBehaviour.Show();
@@ -329,7 +332,9 @@ namespace BV
             allSelectedNode = null;
             currentAnsweId = "";
             nextElementId = "";
-            NPCName = "";
+
+            activeNPCId = "";
+            activeNPCName = "";
             ClearUIElement();
         }
 

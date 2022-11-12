@@ -11,6 +11,8 @@ namespace BV
         public NetworkIdentity networkIdentity;
         public float health = 100;
         public string displayedName;
+        public string id;
+
         public bool isDead = false;
 
         public void Init(NetworkIdentity nI)

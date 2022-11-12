@@ -3,11 +3,14 @@ using System.Collections;
 using UnityEngine;
 using SocketIO;
 using System;
+using TMPro;
 
 namespace BV
 {
-    public class ChestController : MenuPanel
+    public class ShopController : MenuPanel
     {
+        public GameObject shopName;
+
         private SocketIOComponent socket;
         private GridManager gridManager;
         private InventoryController inventoryController;
@@ -22,9 +25,21 @@ namespace BV
         public override void Open()
         {
             gridManager.SetData(inventoryController.inventoryData);
-            gridManager.onUpdateData.AddListener(UpdateData);
 
-            socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+            gridManager.onUpdateData.AddListener(UpdateData);
+            gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+
+            socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+        }
+
+        public void SetPlayerData(string npcName)
+        {
+            shopName.GetComponent<TMP_Text>().text = npcName;
+        }
+
+        private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid)
+        {
+            return true;
         }
 
         public void SetChestData(InventoryGridData data)
@@ -37,9 +52,9 @@ namespace BV
         {
             if (startGrid != null)
             {
-                if (startGrid.gridId == "chestGrid")
+                if (startGrid.gridId == "shopGrid")
                 {
-                    UpdateChestData(startGrid);
+                    UpdateShopData(startGrid);
                 }
                 else
                 {
@@ -54,9 +69,9 @@ namespace BV
 
             if (targetGrid != null)
             {
-                if (targetGrid.gridId == "chestGrid")
+                if (targetGrid.gridId == "shopGrid")
                 {
-                    UpdateChestData(targetGrid);
+                    UpdateShopData(targetGrid);
                 }
                 else
                 {
@@ -65,7 +80,7 @@ namespace BV
             }
         }
 
-        void UpdateChestData(ItemGrid itemGrid)
+        void UpdateShopData(ItemGrid itemGrid)
         {
             List<InventoryItem> checkedItem = new List<InventoryItem>();
 
@@ -89,11 +104,13 @@ namespace BV
                 }
             }
 
-            socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
+            socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(chestData)));
         }
 
         public override void Deinit()
         {
+            shopName.GetComponent<TMP_Text>().text = "";
+
             if (gridManager != null)
             {
                 gridManager.onUpdateData.RemoveListener(UpdateData);
@@ -101,27 +118,15 @@ namespace BV
 
                 if (socket != null)
                 {
-                    socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+                    socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
                 }
             }
         }
 
-        public static ChestController singleton;
+        public static ShopController singleton;
         void Awake()
         {
             singleton = this;
-        }
-    }
-
-    [Serializable]
-    public class ChestData
-    {
-        public string id = "";
-        public List<InventoryItemData> items = new List<InventoryItemData>();
-
-        public ChestData(string data)
-        {
-            id = data;
         }
     }
 }

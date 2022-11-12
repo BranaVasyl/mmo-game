@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+using System.Collections;
 using Project.Networking;
+using UnityEngine;
 using SocketIO;
+using TMPro;
 
 namespace BV
 {
@@ -44,7 +44,6 @@ namespace BV
             return isOpen;
         }
 
-        //@todo filter menuPanels by array id
         public void OpenMenu(List<string> panelsId = null)
         {
             gameMenu.SetActive(true);
