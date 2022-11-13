@@ -12,6 +12,9 @@ namespace BV
         private GridManager gridManager;
         private InventoryController inventoryController;
 
+        [Header("Chest data")]
+        private string chestId;
+
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
             socket = soc;
@@ -19,12 +22,13 @@ namespace BV
             inventoryController = InventoryController.singleton;
         }
 
-        public override void Open()
+        public override void Open(MenuManagerOptions options)
         {
             gridManager.SetData(inventoryController.inventoryData);
             gridManager.onUpdateData.AddListener(UpdateData);
 
-            socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+            chestId = options.chestId;
+            socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData(chestId))));
         }
 
         public void SetChestData(InventoryGridData data)
@@ -33,61 +37,37 @@ namespace BV
             gridManager.SetData(gridData);
         }
 
-        void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData)
         {
-            if (startGrid != null)
+            if (startGridData != null)
             {
-                if (startGrid.gridId == "chestGrid")
+                if (startGridData.gridId == "chestGrid")
                 {
-                    UpdateChestData(startGrid);
+                    UpdateChestData(startGridData);
                 }
                 else
                 {
-                    inventoryController.UpdateData(startGrid, null);
+                    inventoryController.UpdateData(startGridData, null);
                 }
             }
 
-            if (startGrid != null && targetGrid != null && startGrid.gridId == targetGrid.gridId)
+            if (targetGridData != null)
             {
-                return;
-            }
-
-            if (targetGrid != null)
-            {
-                if (targetGrid.gridId == "chestGrid")
+                if (targetGridData.gridId == "chestGrid")
                 {
-                    UpdateChestData(targetGrid);
+                    UpdateChestData(targetGridData);
                 }
                 else
                 {
-                    inventoryController.UpdateData(targetGrid, null);
+                    inventoryController.UpdateData(targetGridData, null);
                 }
             }
         }
 
-        void UpdateChestData(ItemGrid itemGrid)
+        void UpdateChestData(InventoryGridData itemGridData)
         {
-            List<InventoryItem> checkedItem = new List<InventoryItem>();
-
-            ChestData chestData = new ChestData("1");
-            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
-            for (int i = 0; i < inventoryItem.GetLength(0); i++)
-            {
-                for (int j = 0; j < inventoryItem.GetLength(1); j++)
-                {
-                    if (inventoryItem[i, j] != null)
-                    {
-                        InventoryItem curInventoryItem = inventoryItem[i, j];
-                        if (checkedItem.Find(x => x == curInventoryItem) != null)
-                        {
-                            continue;
-                        }
-
-                        chestData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
-                        checkedItem.Add(curInventoryItem);
-                    }
-                }
-            }
+            ChestData chestData = new ChestData(chestId);
+            chestData.items = itemGridData.items;
 
             socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
         }
@@ -101,9 +81,11 @@ namespace BV
 
                 if (socket != null)
                 {
-                    socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+                    socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(chestId))));
                 }
             }
+
+            chestId = "";
         }
 
         public static ChestController singleton;

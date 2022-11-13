@@ -37,7 +37,7 @@ namespace BV
 
         private NewPlayerControls inputActions;
         [HideInInspector]
-        public UnityEvent<ItemGrid, ItemGrid> onUpdateData = new UnityEvent<ItemGrid, ItemGrid>();
+        public UnityEvent<InventoryGridData, InventoryGridData> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData>();
 
         public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid);
         [HideInInspector]
@@ -134,7 +134,59 @@ namespace BV
 
         private void OnUpdateGridData()
         {
-            onUpdateData.Invoke(startItemGrid, selectedItemGrid);
+            InventoryGridData startGridData = null;
+            InventoryGridData targetGridData = null;
+
+            if (startItemGrid != null)
+            {
+                startGridData = UpdateGridData(startItemGrid);
+            }
+
+            if (startItemGrid != null && selectedItemGrid != null && startItemGrid.gridId != selectedItemGrid.gridId)
+            {
+                targetGridData = UpdateGridData(selectedItemGrid);
+            }
+
+            onUpdateData.Invoke(startGridData, targetGridData);
+        }
+
+        private InventoryGridData UpdateGridData(ItemGrid itemGrid)
+        {
+            if (itemGrid == null)
+            {
+                return null;
+            }
+
+            int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
+            if (index == -1)
+            {
+                return null;
+            }
+
+            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
+
+            List<InventoryItem> alreadyCheckedItems = new List<InventoryItem>();
+            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
+            for (int i = 0; i < inventoryItem.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryItem.GetLength(1); j++)
+                {
+                    if (inventoryItem[i, j] != null)
+                    {
+                        InventoryItem curInventoryItem = inventoryItem[i, j];
+                        if (alreadyCheckedItems.Find(x => x == curInventoryItem) != null)
+                        {
+                            continue;
+                        }
+
+                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
+                        alreadyCheckedItems.Add(curInventoryItem);
+                    }
+                }
+            }
+
+            inventoryData[index] = inventoryGridData;
+            return inventoryGridData;
         }
 
         new private void Update()

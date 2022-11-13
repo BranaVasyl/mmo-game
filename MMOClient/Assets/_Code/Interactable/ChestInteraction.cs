@@ -6,6 +6,8 @@ namespace BV
 {
     public class ChestInteraction : MonoBehaviour, IInteractable
     {
+        public string chestId = "1";
+
         public string GetDescription()
         {
             return "Відкрити судук";
@@ -16,7 +18,7 @@ namespace BV
             List<string> activatePanel = new List<string>();
             activatePanel.Add("chest");
 
-            MenuManager.singleton.OpenMenu(activatePanel);
+            MenuManager.singleton.OpenMenu(activatePanel, new MenuManagerOptions(chestId));
         }
     }
 }

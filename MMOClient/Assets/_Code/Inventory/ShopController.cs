@@ -9,11 +9,15 @@ namespace BV
 {
     public class ShopController : MenuPanel
     {
-        public GameObject shopName;
+        public GameObject shopNameObject;
 
         private SocketIOComponent socket;
         private GridManager gridManager;
         private InventoryController inventoryController;
+
+        [Header("Shop data")]
+        private string shopId;
+        private string shopName;
 
         public override void Init(SocketIOComponent soc, PlayerData playerData)
         {
@@ -22,19 +26,18 @@ namespace BV
             inventoryController = InventoryController.singleton;
         }
 
-        public override void Open()
+        public override void Open(MenuManagerOptions options)
         {
             gridManager.SetData(inventoryController.inventoryData);
 
             gridManager.onUpdateData.AddListener(UpdateData);
             gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
-            socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
-        }
+            shopId = options.chestId;
+            shopName = options.chestName;
 
-        public void SetPlayerData(string npcName)
-        {
-            shopName.GetComponent<TMP_Text>().text = npcName;
+            socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+            shopNameObject.GetComponent<TMP_Text>().text = shopName;
         }
 
         private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid)
@@ -48,69 +51,43 @@ namespace BV
             gridManager.SetData(gridData);
         }
 
-        void UpdateData(ItemGrid startGrid, ItemGrid targetGrid)
+        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData)
         {
-            if (startGrid != null)
+            if (startGridData != null)
             {
-                if (startGrid.gridId == "shopGrid")
+                if (startGridData.gridId == "shopGrid")
                 {
-                    UpdateShopData(startGrid);
+                    UpdateShopData(startGridData);
                 }
                 else
                 {
-                    inventoryController.UpdateData(startGrid, null);
+                    inventoryController.UpdateData(startGridData, null);
                 }
             }
 
-            if (startGrid != null && targetGrid != null && startGrid.gridId == targetGrid.gridId)
+            if (targetGridData != null)
             {
-                return;
-            }
-
-            if (targetGrid != null)
-            {
-                if (targetGrid.gridId == "shopGrid")
+                if (targetGridData.gridId == "shopGrid")
                 {
-                    UpdateShopData(targetGrid);
+                    UpdateShopData(targetGridData);
                 }
                 else
                 {
-                    inventoryController.UpdateData(targetGrid, null);
+                    inventoryController.UpdateData(targetGridData, null);
                 }
             }
         }
 
-        void UpdateShopData(ItemGrid itemGrid)
+        void UpdateShopData(InventoryGridData itemGridData)
         {
-            List<InventoryItem> checkedItem = new List<InventoryItem>();
+            ChestData shopData = new ChestData(shopId);
+            shopData.items = itemGridData.items;
 
-            ChestData chestData = new ChestData("1");
-            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
-            for (int i = 0; i < inventoryItem.GetLength(0); i++)
-            {
-                for (int j = 0; j < inventoryItem.GetLength(1); j++)
-                {
-                    if (inventoryItem[i, j] != null)
-                    {
-                        InventoryItem curInventoryItem = inventoryItem[i, j];
-                        if (checkedItem.Find(x => x == curInventoryItem) != null)
-                        {
-                            continue;
-                        }
-
-                        chestData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
-                        checkedItem.Add(curInventoryItem);
-                    }
-                }
-            }
-
-            socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(chestData)));
+            socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
         }
 
         public override void Deinit()
         {
-            shopName.GetComponent<TMP_Text>().text = "";
-
             if (gridManager != null)
             {
                 gridManager.onUpdateData.RemoveListener(UpdateData);
@@ -118,9 +95,13 @@ namespace BV
 
                 if (socket != null)
                 {
-                    socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData("1"))));
+                    socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
                 }
             }
+
+            shopId = "";
+            shopName = "";
+            shopNameObject.GetComponent<TMP_Text>().text = "";
         }
 
         public static ShopController singleton;

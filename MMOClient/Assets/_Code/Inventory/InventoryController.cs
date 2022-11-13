@@ -47,29 +47,24 @@ namespace BV
             UpdateQuickSpell(3);
         }
 
-        public override void Open()
+        public override void Open(MenuManagerOptions options)
         {
             gridManager.SetData(inventoryData);
             gridManager.onUpdateData.AddListener(UpdateData);
         }
 
-        public void UpdateData(ItemGrid? startGrid, ItemGrid? targetGrid)
+        public void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData)
         {
-            if (startGrid != null)
+            if (startGridData != null)
             {
-                UpdateInventoryData(startGrid);
-                UpdateEquip(startGrid);
+                UpdateInventoryData(startGridData);
+                UpdateEquip(startGridData);
             }
 
-            if (startGrid != null && targetGrid != null && startGrid.gridId == targetGrid.gridId)
+            if (targetGridData != null)
             {
-                return;
-            }
-
-            if (targetGrid != null)
-            {
-                UpdateInventoryData(targetGrid);
-                UpdateEquip(targetGrid);
+                UpdateInventoryData(targetGridData);
+                UpdateEquip(targetGridData);
             }
         }
 
@@ -131,14 +126,14 @@ namespace BV
             inventoryManager.UpdateQuickSpell(id, item);
         }
         #endregion
-        private void UpdateEquip(ItemGrid itemGrid)
+        private void UpdateEquip(InventoryGridData itemGridData)
         {
-            if (itemGrid == null)
+            if (itemGridData == null)
             {
                 return;
             }
 
-            switch (itemGrid.gridId)
+            switch (itemGridData.gridId)
             {
                 case "leftHandGrid":
                     UpdateLeftHand();
@@ -161,42 +156,20 @@ namespace BV
             }
         }
 
-        private void UpdateInventoryData(ItemGrid itemGrid)
+        private void UpdateInventoryData(InventoryGridData itemGridData)
         {
-            if (itemGrid == null)
+            if (itemGridData == null)
             {
                 return;
             }
 
-            List<InventoryItem> checkedItem = new List<InventoryItem>();
-
-            int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
+            int index = inventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
             if (index == -1)
             {
                 return;
             }
 
-            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
-            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
-            for (int i = 0; i < inventoryItem.GetLength(0); i++)
-            {
-                for (int j = 0; j < inventoryItem.GetLength(1); j++)
-                {
-                    if (inventoryItem[i, j] != null)
-                    {
-                        InventoryItem curInventoryItem = inventoryItem[i, j];
-                        if (checkedItem.Find(x => x == curInventoryItem) != null)
-                        {
-                            continue;
-                        }
-
-                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
-                        checkedItem.Add(curInventoryItem);
-                    }
-                }
-            }
-
-            inventoryData[index] = inventoryGridData;
+            inventoryData[index] = itemGridData;
             socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(inventoryData))));
         }
 

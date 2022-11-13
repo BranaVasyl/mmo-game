@@ -254,9 +254,7 @@ namespace BV
         private void ShowTrade(DialogTrade dialogTrade)
         {
             List<string> activatePanel = new List<string>() { "shop" };
-            MenuManager.singleton.OpenMenu(activatePanel);
-
-            ShopController.singleton.SetPlayerData(activeNPCName);
+            MenuManager.singleton.OpenMenu(activatePanel, new MenuManagerOptions(activeNPCId, activeNPCName));
 
             ShearchNextElement(dialogTrade.nextItem);
         }

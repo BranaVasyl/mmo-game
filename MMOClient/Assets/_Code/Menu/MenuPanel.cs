@@ -16,7 +16,7 @@ namespace BV
         {
         }
 
-        public virtual void Open()
+        public virtual void Open(MenuManagerOptions options)
         {
         }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using Project.Networking;
 using UnityEngine;
 using SocketIO;
+using System;
 using TMPro;
 
 namespace BV
@@ -26,6 +27,8 @@ namespace BV
         public GameObject prevArrowNavigation;
         public GameObject nextArrowNavigation;
 
+        private MenuManagerOptions options = new MenuManagerOptions();
+
         void Start()
         {
             CloseMenu();
@@ -44,10 +47,11 @@ namespace BV
             return isOpen;
         }
 
-        public void OpenMenu(List<string> panelsId = null)
+        public void OpenMenu(List<string> panelsId = null, MenuManagerOptions opt = null)
         {
             gameMenu.SetActive(true);
             isOpen = true;
+            options = opt;
 
             if (panelsId == null)
             {
@@ -89,6 +93,8 @@ namespace BV
 
             gameMenu.SetActive(false);
             isOpen = false;
+
+            options = new MenuManagerOptions();
         }
 
         private void OpenPanel()
@@ -97,7 +103,7 @@ namespace BV
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
             currentPanel.gameObject.SetActive(true);
 
-            currentPanel.Open();
+            currentPanel.Open(options);
         }
 
         private void CloseActivePanel()
@@ -164,6 +170,19 @@ namespace BV
         void Awake()
         {
             singleton = this;
+        }
+    }
+
+    [Serializable]
+    public class MenuManagerOptions
+    {
+        public string chestId = "";
+        public string chestName = "";
+
+        public MenuManagerOptions(string cI = "", string cN = "")
+        {
+            chestId = cI;
+            chestName = cN;
         }
     }
 }
