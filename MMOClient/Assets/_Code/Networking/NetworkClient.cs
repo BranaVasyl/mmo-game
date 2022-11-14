@@ -100,6 +100,8 @@ namespace Project.Networking
                 if (ni.IsControlling())
                 {
                     stateManager.health = playerData.health;
+                    stateManager.money = playerData.money;
+
                     if (!stateManager.isDead && playerData.isDead)
                     {
                         stateManager.isDead = playerData.isDead;

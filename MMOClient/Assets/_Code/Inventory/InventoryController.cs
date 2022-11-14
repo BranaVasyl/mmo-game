@@ -53,7 +53,7 @@ namespace BV
             gridManager.onUpdateData.AddListener(UpdateData);
         }
 
-        public void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData)
+        public void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
         {
             if (startGridData != null)
             {

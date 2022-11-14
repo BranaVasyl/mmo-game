@@ -37,7 +37,7 @@ namespace BV
 
         private NewPlayerControls inputActions;
         [HideInInspector]
-        public UnityEvent<InventoryGridData, InventoryGridData> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData>();
+        public UnityEvent<InventoryGridData, InventoryGridData, InventoryItem> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData, InventoryItem>();
 
         public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid);
         [HideInInspector]
@@ -147,7 +147,7 @@ namespace BV
                 targetGridData = UpdateGridData(selectedItemGrid);
             }
 
-            onUpdateData.Invoke(startGridData, targetGridData);
+            onUpdateData.Invoke(startGridData, targetGridData, selectedItem);
         }
 
         private InventoryGridData UpdateGridData(ItemGrid itemGrid)

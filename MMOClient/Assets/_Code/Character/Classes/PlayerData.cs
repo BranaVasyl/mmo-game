@@ -10,6 +10,7 @@ namespace BV
     {
         public string id;
         public float health;
+        public float money;
         public Vector3 position;
         public Quaternion rotation;
         public float vertical;

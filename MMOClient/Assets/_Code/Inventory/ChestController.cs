@@ -37,7 +37,7 @@ namespace BV
             gridManager.SetData(gridData);
         }
 
-        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData)
+        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
         {
             if (startGridData != null)
             {
@@ -47,7 +47,7 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(startGridData, null);
+                    inventoryController.UpdateData(startGridData, null, selectedItem);
                 }
             }
 
@@ -59,7 +59,7 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(targetGridData, null);
+                    inventoryController.UpdateData(targetGridData, null, selectedItem);
                 }
             }
         }

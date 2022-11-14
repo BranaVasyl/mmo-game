@@ -120,6 +120,8 @@ namespace BV
                 EnableRagdoll();
             }
 
+            money = playerData.money;
+
             syncTime = 0f;
             Vector3 syncVelocity = Vector3.zero;
             syncDelay = Time.time - lastSynchronizationTime;

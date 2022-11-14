@@ -159,8 +159,7 @@ namespace BV
 
         public void UpdateState(EnemyData enemyData)
         {
-            this.health = enemyData.health;
-
+            health = enemyData.health;
             if (enemyUI != null)
             {
                 enemyUI.healthSlider.value = this.health;
@@ -172,6 +171,8 @@ namespace BV
                 isDead = enemyData.isDead;
                 EnableRagdoll();
             }
+
+            money = enemyData.money;
 
             syncTime = 0f;
             Vector3 syncVelocity = Vector3.zero;
@@ -221,7 +222,8 @@ namespace BV
                 result = true;
                 Vector3 targetPosition = hit.point;
 
-                if(lastPelvisPositionY == 0) {
+                if (lastPelvisPositionY == 0)
+                {
                     lastPelvisPositionY = targetPosition.y;
                 }
 

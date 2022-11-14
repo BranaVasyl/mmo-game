@@ -15,6 +15,8 @@ namespace BV
 
         public bool isDead = false;
 
+        public float money = 0;
+
         public void Init(NetworkIdentity nI)
         {
             networkIdentity = nI;
