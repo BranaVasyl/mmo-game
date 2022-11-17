@@ -19,9 +19,8 @@ namespace BV
         private InventoryController inventoryController;
 
         [Header("Shop data")]
-        private string shopId;
-        private string shopName;
-        private float shopMoney;
+        private string NPCId;
+        private float shopMoney = 0;
 
         [Header("Player data")]
         private float playerMoney = 0;
@@ -42,16 +41,17 @@ namespace BV
             gridManager.onUpdateData.AddListener(UpdateData);
             gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
-            if (menuManager.currentNPCStates != null)
-            {
-                shopId = menuManager.currentNPCStates.id;
-                shopName = menuManager.currentNPCStates.displayedName;
-            }
             playerMoney = managersController.stateManager.money;
 
-            managersController.socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+            if (menuManager.currentNPCStates == null)
+            {
+                return;
+            }
 
-            shopNameObject.GetComponent<TMP_Text>().text = shopName;
+            NPCId = menuManager.currentNPCStates.networkIdentity.GetID();
+
+            shopNameObject.GetComponent<TMP_Text>().text = menuManager.currentNPCStates.displayedName;
+            managersController.socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
         }
 
         private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem)
@@ -80,16 +80,13 @@ namespace BV
             return false;
         }
 
-        public void SetShopData(InventoryGridData data)
+        public void SetShopData(InventoryGridData data, float money)
         {
             List<InventoryGridData> gridData = new List<InventoryGridData>() { data };
             gridManager.SetData(gridData);
 
-            if (menuManager.currentNPCStates != null)
-            {
-                shopMoney = menuManager.currentNPCStates.money;
-                RenderMoney(shopMoney);
-            }
+            shopMoney = money;
+            RenderMoney(money);
         }
 
         void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
@@ -172,7 +169,7 @@ namespace BV
 
         void UpdateShopData(InventoryGridData itemGridData)
         {
-            ChestData shopData = new ChestData(shopId);
+            ChestData shopData = new ChestData(NPCId);
             shopData.items = itemGridData.items;
 
             managersController.socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
@@ -185,15 +182,15 @@ namespace BV
                 gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
-                if (!String.IsNullOrEmpty(shopId))
+                if (!String.IsNullOrEmpty(NPCId))
                 {
-                    managersController.socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+                    managersController.socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
                 }
             }
 
-            shopId = "";
-            shopName = "";
+            NPCId = "";
             shopMoney = 0;
+            playerMoney = 0;
 
             shopNameObject.GetComponent<TMP_Text>().text = "";
             shopMoneyObject.GetComponent<TMP_Text>().text = "";

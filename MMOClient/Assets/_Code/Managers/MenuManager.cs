@@ -231,12 +231,12 @@ namespace BV
     public class SendUpdateMoneyData
     {
         public string id;
-        public float addition;
+        public string addition;
 
         public SendUpdateMoneyData(string i, float a)
         {
             id = i;
-            addition = a;
+            addition = a.ToString();
         }
     }
 

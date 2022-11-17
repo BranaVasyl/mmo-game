@@ -460,7 +460,6 @@ namespace BV
             startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
             rectTransform = null;
             selectedItem = null;
-            OnUpdateGridData();
             startItemGrid = null;
         }
 

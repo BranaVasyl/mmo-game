@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2034.9761, g: 1799.3379, b: 2139.5938, a: 1}
+  m_IndirectSpecularColor: {r: 1964.6406, g: 1740.7451, b: 2033.4961, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5111,6 +5111,22 @@ MonoBehaviour:
   weatherManager: {fileID: 0}
   itemsManager: {fileID: 0}
   gridManager: {fileID: 0}
+  socket: {fileID: 0}
+  currentPlayerGameObject: {fileID: 0}
+  stateManager: {fileID: 0}
+  playerData:
+    id: 
+    health: 0
+    money: 0
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    vertical: 0
+    horizontal: 0
+    isDead: 0
+    run: 0
+    walk: 0
+    isTwoHanded: 0
+    inventoryData: []
 --- !u!1 &311974856
 GameObject:
   m_ObjectHideFlags: 0
@@ -11100,8 +11116,7 @@ MonoBehaviour:
   - NPCId: NPC_First
     dialogList:
     - Test
-  activeNPCId: 
-  activeNPCName: 
+  NPCState: {fileID: 0}
 --- !u!4 &689462561
 Transform:
   m_ObjectHideFlags: 0
@@ -15703,6 +15718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770728f8008f0ef429ceb2c84f37e2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  managersController: {fileID: 0}
   gameMenu: {fileID: 1556342546}
   menuPanels:
   - {fileID: 8866688314570395280}
@@ -15715,6 +15731,8 @@ MonoBehaviour:
   prevArrowNavigation: {fileID: 1966555818}
   nextArrowNavigation: {fileID: 333979109}
   panelMoney: {fileID: 1849283276}
+  currentChestId: 
+  currentNPCStates: {fileID: 0}
 --- !u!4 &961882317
 Transform:
   m_ObjectHideFlags: 0
@@ -17309,11 +17327,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid2
-  placeholder: {fileID: 276168834}
-  gridSizeWidth: 1
-  gridSizeHeight: 1
-  supportedItemType: 01000000
+  gridId: 
+  placeholder: {fileID: 0}
+  gridSizeWidth: 0
+  gridSizeHeight: 0
+  supportedItemType: 
 --- !u!114 &1029063772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24248,6 +24266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa455346e817c374fa2613c437d864a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  managersController: {fileID: 0}
   pieMenu: {fileID: 1258219317}
 --- !u!1 &1412298330
 GameObject:
@@ -26536,7 +26555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: NPC_First
+  chestId: 2
 --- !u!1 &1493942608
 GameObject:
   m_ObjectHideFlags: 0
@@ -38768,4 +38787,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelId: inventory
   panelName: "\u0420\u044E\u043A\u0437\u0430\u043A"
-  inventoryData: []
