@@ -11,6 +11,8 @@ namespace Project.Networking
 {
     public class ChatBehaviour : MonoBehaviour
     {
+        private ManagersController managersController;
+
         [SerializeField]
         private GameObject chatUI = null;
 
@@ -20,12 +22,10 @@ namespace Project.Networking
         [SerializeField]
         private TMP_InputField inputField = null;
 
-        private SocketIOComponent socket;
-
-        public static ChatBehaviour singleton;
-        private void Awake()
+        public void Init(ManagersController mC)
         {
-            singleton = this;
+            managersController = mC;
+            Show();
         }
 
         public void Show()
@@ -36,13 +36,6 @@ namespace Project.Networking
         public void Hide()
         {
             chatUI.SetActive(false);
-        }
-
-
-        public void Init(SocketIOComponent soc)
-        {
-            socket = soc;
-            Show();
         }
 
         public void SendMessage(string id, string message)
@@ -62,7 +55,13 @@ namespace Project.Networking
         {
             inputField.text = "";
             SendMessageData sendData = new SendMessageData(message);
-            socket.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
+            managersController.socket.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
+        }
+
+        public static ChatBehaviour singleton;
+        private void Awake()
+        {
+            singleton = this;
         }
     }
 

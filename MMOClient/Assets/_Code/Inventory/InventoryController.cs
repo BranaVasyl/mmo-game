@@ -10,21 +10,20 @@ namespace BV
 {
     public class InventoryController : MenuPanel
     {
-        private SocketIOComponent socket;
+        private ManagersController managersController;
+        private MenuManager menuManager;
+
         private ItemsManager itemsManager;
         private GridManager gridManager;
 
-        [HideInInspector]
-        public List<InventoryGridData> inventoryData;
         private InventoryManager inventoryManager;
 
-        public static InventoryController singleton;
-        public override void Init(SocketIOComponent soc, PlayerData playerData)
+        public override void Init(ManagersController mC, MenuManager mM)
         {
             singleton = this;
 
-            socket = soc;
-            inventoryData = playerData.inventoryData;
+            managersController = mC;
+            menuManager = mM;
 
             itemsManager = ItemsManager.singleton;
             gridManager = GridManager.singleton;
@@ -34,7 +33,7 @@ namespace BV
         {
             inventoryManager = characterMan.gameObject.GetComponent<InventoryManager>();
 
-            if (inventoryData.Count == 0)
+            if (managersController.playerData.inventoryData.Count == 0)
             {
                 return;
             }
@@ -47,9 +46,9 @@ namespace BV
             UpdateQuickSpell(3);
         }
 
-        public override void Open(MenuManagerOptions options)
+        public override void Open()
         {
-            gridManager.SetData(inventoryData);
+            gridManager.SetData(managersController.playerData.inventoryData);
             gridManager.onUpdateData.AddListener(UpdateData);
         }
 
@@ -57,13 +56,13 @@ namespace BV
         {
             if (startGridData != null)
             {
-                UpdateInventoryData(startGridData);
+                menuManager.UpdateInventoryData(startGridData);
                 UpdateEquip(startGridData);
             }
 
             if (targetGridData != null)
             {
-                UpdateInventoryData(targetGridData);
+                menuManager.UpdateInventoryData(targetGridData);
                 UpdateEquip(targetGridData);
             }
         }
@@ -71,7 +70,7 @@ namespace BV
         #region Update Equip
         private void UpdateLeftHand()
         {
-            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "leftHandGrid");
+            InventoryGridData inventoryGrid = managersController.playerData.inventoryData.Find(x => x.gridId == "leftHandGrid");
             if (inventoryGrid == null)
             {
                 return;
@@ -90,7 +89,7 @@ namespace BV
 
         private void UpdateRightHand()
         {
-            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "rightHandGrid");
+            InventoryGridData inventoryGrid = managersController.playerData.inventoryData.Find(x => x.gridId == "rightHandGrid");
             if (inventoryGrid == null)
             {
                 return;
@@ -109,7 +108,7 @@ namespace BV
 
         private void UpdateQuickSpell(int id)
         {
-            InventoryGridData inventoryGrid = inventoryData.Find(x => x.gridId == "quickSpellGrid" + (id + 1));
+            InventoryGridData inventoryGrid = managersController.playerData.inventoryData.Find(x => x.gridId == "quickSpellGrid" + (id + 1));
             if (inventoryGrid == null)
             {
                 return;
@@ -126,6 +125,7 @@ namespace BV
             inventoryManager.UpdateQuickSpell(id, item);
         }
         #endregion
+
         private void UpdateEquip(InventoryGridData itemGridData)
         {
             if (itemGridData == null)
@@ -156,23 +156,6 @@ namespace BV
             }
         }
 
-        private void UpdateInventoryData(InventoryGridData itemGridData)
-        {
-            if (itemGridData == null)
-            {
-                return;
-            }
-
-            int index = inventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
-            if (index == -1)
-            {
-                return;
-            }
-
-            inventoryData[index] = itemGridData;
-            socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(inventoryData))));
-        }
-
         public override void Deinit()
         {
             if (gridManager != null)
@@ -181,15 +164,11 @@ namespace BV
                 gridManager.Deinit();
             }
         }
-    }
 
-    [Serializable]
-    public class SendInventoryData
-    {
-        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
-        public SendInventoryData(List<InventoryGridData> data)
+        public static InventoryController singleton;
+        void Awake()
         {
-            inventoryData = data;
+            singleton = this;
         }
     }
 }

@@ -19,9 +19,15 @@ namespace BV
         public ItemsManager itemsManager;
         public GridManager gridManager;
 
-        private SocketIOComponent socket;
-        private StateManager states;
-        private PlayerData playerData;
+        [Header("Current client")]
+        [HideInInspector]
+        public SocketIOComponent socket;
+        [HideInInspector]
+        public GameObject currentPlayerGameObject;
+        [HideInInspector]
+        public StateManager stateManager;
+        [HideInInspector]
+        public PlayerData playerData;
 
         void Start()
         {
@@ -37,22 +43,24 @@ namespace BV
             gridManager = GridManager.singleton;
         }
 
-        public void Init(SocketIOComponent soc, StateManager sm, PlayerData pd)
+        public void Init(SocketIOComponent soc, StateManager sM, PlayerData pD)
         {
             socket = soc;
-            states = sm;
-            playerData = pd;
+
+            currentPlayerGameObject = sM.gameObject;
+            stateManager = sM;
+            playerData = pD;
 
             InitManagers();
         }
 
         private void InitManagers()
         {
-            chatBehaviour.Init(socket);
+            chatBehaviour.Init(this);
             gameUIManager.Init();
-            menuManager.Init(socket, playerData);
-            pieMenuManager.Init(states.GetComponent<InventoryManager>());
-            damageManager.Init(socket);
+            menuManager.Init(this);
+            pieMenuManager.Init(this);
+            damageManager.Init(this);
             questManager.Init();
             weatherManager.Init();
             itemsManager.Init();

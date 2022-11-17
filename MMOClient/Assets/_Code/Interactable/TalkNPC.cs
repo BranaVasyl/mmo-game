@@ -7,8 +7,7 @@ namespace BV
 {
     public class TalkNPC : MonoBehaviour, IInteractable
     {
-        private string NPCId;
-        private string NPCName;
+        CharacterManager NPCCharacter;
         private GameObject player;
 
         private DialogManager dialogManager;
@@ -16,21 +15,18 @@ namespace BV
         private void Start()
         {
             dialogManager = DialogManager.singleton;
-
-            CharacterManager cm = GetComponent<CharacterManager>();
-            NPCId = cm.id;
-            NPCName = cm.displayedName;
+            NPCCharacter = GetComponent<CharacterManager>();
         }
 
         public string GetDescription()
         {
-            return "Поговорити з : " + NPCName;
+            return "Поговорити з : " + NPCCharacter.displayedName;
         }
 
         public void Interact(GameObject character)
         {
             player = character;
-            dialogManager.InitDialog(NPCId, NPCName, character.GetComponent<StateManager>());
+            dialogManager.InitDialog(NPCCharacter, character.GetComponent<StateManager>());
         }
 
         private void Update()

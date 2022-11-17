@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SocketIO;
 
 namespace BV
 {
     public class PieMenuManager : MonoBehaviour
     {
-        private SocketIOComponent socket;
+        public ManagersController managersController;
+
         public PieMenu pieMenu;
         private bool isOpen;
         private InventoryManager inventoryManager;
@@ -17,9 +17,10 @@ namespace BV
             CloseMenu();
         }
 
-        public void Init(InventoryManager im)
+        public void Init(ManagersController mC)
         {
-            inventoryManager = im;
+            managersController = mC;
+            inventoryManager = managersController.currentPlayerGameObject.GetComponent<InventoryManager>();
         }
 
         public bool IsOpen()

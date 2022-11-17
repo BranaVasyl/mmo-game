@@ -8,18 +8,12 @@ namespace BV
 {
     public class DamageManager : MonoBehaviour
     {
-        private SocketIOComponent socket;
+        private ManagersController managersController;
         public List<KillListener> killListeners;
 
-        public static DamageManager singleton;
-        void Awake()
+        public void Init(ManagersController mC)
         {
-            singleton = this;
-        }
-
-        public void Init(SocketIOComponent soc)
-        {
-            socket = soc;
+            managersController = mC;
         }
 
         public void CreatateDamageEvent(CharacterManager agent, CharacterManager target, float damage)
@@ -28,7 +22,7 @@ namespace BV
             {
                 target.DoDamage();
                 SendDamageData sendData = new SendDamageData(agent.networkIdentity.GetID(), target.networkIdentity.GetID(), damage);
-                socket.Emit("doDamage", new JSONObject(JsonUtility.ToJson(sendData)));
+                managersController.socket.Emit("doDamage", new JSONObject(JsonUtility.ToJson(sendData)));
             }
         }
 
@@ -41,6 +35,12 @@ namespace BV
             }
 
             killListener.OnComlete();
+        }
+
+        public static DamageManager singleton;
+        void Awake()
+        {
+            singleton = this;
         }
     }
 

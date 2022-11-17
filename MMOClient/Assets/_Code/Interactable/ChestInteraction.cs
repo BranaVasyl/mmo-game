@@ -15,10 +15,7 @@ namespace BV
 
         public void Interact(GameObject player)
         {
-            List<string> activatePanel = new List<string>();
-            activatePanel.Add("chest");
-
-            MenuManager.singleton.OpenMenu(activatePanel, new MenuManagerOptions(chestId));
+            MenuManager.singleton.OpenChest(chestId);
         }
     }
 }

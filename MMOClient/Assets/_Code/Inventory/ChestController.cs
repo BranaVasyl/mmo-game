@@ -8,27 +8,25 @@ namespace BV
 {
     public class ChestController : MenuPanel
     {
-        private SocketIOComponent socket;
+        private ManagersController managersController;
+        private MenuManager menuManager;
+
         private GridManager gridManager;
-        private InventoryController inventoryController;
 
-        [Header("Chest data")]
-        private string chestId;
-
-        public override void Init(SocketIOComponent soc, PlayerData playerData)
+        public override void Init(ManagersController mC, MenuManager mM)
         {
-            socket = soc;
+            managersController = mC;
+            menuManager = mM;
+
             gridManager = GridManager.singleton;
-            inventoryController = InventoryController.singleton;
         }
 
-        public override void Open(MenuManagerOptions options)
+        public override void Open()
         {
-            gridManager.SetData(inventoryController.inventoryData);
+            gridManager.SetData(managersController.playerData.inventoryData);
             gridManager.onUpdateData.AddListener(UpdateData);
 
-            chestId = options.chestId;
-            socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData(chestId))));
+            managersController.socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
         }
 
         public void SetChestData(InventoryGridData data)
@@ -47,7 +45,7 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(startGridData, null, selectedItem);
+                    menuManager.UpdateInventoryData(startGridData);
                 }
             }
 
@@ -59,17 +57,17 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(targetGridData, null, selectedItem);
+                    menuManager.UpdateInventoryData(targetGridData);
                 }
             }
         }
 
         void UpdateChestData(InventoryGridData itemGridData)
         {
-            ChestData chestData = new ChestData(chestId);
+            ChestData chestData = new ChestData(menuManager.currentChestId);
             chestData.items = itemGridData.items;
 
-            socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
+            managersController.socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
         }
 
         public override void Deinit()
@@ -79,13 +77,11 @@ namespace BV
                 gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
-                if (socket != null)
+                if (!String.IsNullOrEmpty(menuManager.currentChestId))
                 {
-                    socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(chestId))));
+                    managersController.socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
                 }
             }
-
-            chestId = "";
         }
 
         public static ChestController singleton;

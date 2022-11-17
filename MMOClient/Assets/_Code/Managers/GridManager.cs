@@ -39,7 +39,7 @@ namespace BV
         [HideInInspector]
         public UnityEvent<InventoryGridData, InventoryGridData, InventoryItem> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData, InventoryItem>();
 
-        public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid);
+        public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem);
         [HideInInspector]
         public List<CanUpdateGridDelegate> canUpdateGridCallback = new List<CanUpdateGridDelegate>();
 
@@ -375,7 +375,7 @@ namespace BV
                     break;
                 }
 
-                result = canUpdateGridCallback[i](startItemGrid, selectedItemGrid);
+                result = canUpdateGridCallback[i](startItemGrid, selectedItemGrid, selectedItem);
             }
 
             return result;

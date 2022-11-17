@@ -12,11 +12,11 @@ namespace BV
         public string panelId;
         public string panelName;
 
-        public virtual void Init(SocketIOComponent soc, PlayerData pD)
+        public virtual void Init(ManagersController managersController, MenuManager menuManager)
         {
         }
 
-        public virtual void Open(MenuManagerOptions options)
+        public virtual void Open()
         {
         }
 

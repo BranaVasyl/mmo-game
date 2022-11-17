@@ -31,8 +31,7 @@ namespace BV
         public List<NPCDialogList> NPCDialogs;
 
         [Header("NPC Data")]
-        public string activeNPCId = "";
-        public string activeNPCName = "";
+        public CharacterManager NPCState;
 
         private QuestManager questManager;
         private ChatBehaviour chatBehaviour;
@@ -56,9 +55,9 @@ namespace BV
             NPCDialog.dialogList.Add(dialogId);
         }
 
-        public void InitDialog(string NPC_Id, string NPC_Name, StateManager st)
+        public void InitDialog(CharacterManager NPCSt, StateManager st)
         {
-            string currentDialog = GetCurrentNpcDialog(NPC_Id);
+            string currentDialog = GetCurrentNpcDialog(NPCSt.id);
             if (currentDialog.Length == 0)
             {
                 Debug.Log("Not have any active dialog");
@@ -70,9 +69,8 @@ namespace BV
 
             ClearElement();
             states = st;
+            NPCState = NPCSt;
 
-            activeNPCId = NPC_Id;
-            activeNPCName = NPC_Name;
             allDialogPhrases = dialog.allPhrase;
             allDialogAnswers = dialog.allAnswer;
             allOutputNode = dialog.allOutputNode.ToArray();
@@ -103,7 +101,7 @@ namespace BV
         public void StartDialog()
         {
             states.inDialog = true;
-            Debug.Log("Stard dialog with " + activeNPCName);
+            Debug.Log("Stard dialog with " + NPCState.displayedName);
 
             dialogUI.SetActive(true);
             chatBehaviour.Hide();
@@ -253,9 +251,7 @@ namespace BV
 
         private void ShowTrade(DialogTrade dialogTrade)
         {
-            List<string> activatePanel = new List<string>() { "shop" };
-            MenuManager.singleton.OpenMenu(activatePanel, new MenuManagerOptions(activeNPCId, activeNPCName));
-
+            MenuManager.singleton.OpenShop(NPCState);
             ShearchNextElement(dialogTrade.nextItem);
         }
 
@@ -309,6 +305,8 @@ namespace BV
             }
 
             StopAllCoroutines();
+
+            Debug.Log("End dialog with " + NPCState.displayedName);
             ClearElement();
 
             if (states != null)
@@ -316,7 +314,6 @@ namespace BV
                 states.inDialog = false;
                 states = null;
             }
-            Debug.Log("End dialog with" + activeNPCName);
 
             dialogUI.SetActive(false);
             chatBehaviour.Show();
@@ -331,8 +328,7 @@ namespace BV
             currentAnsweId = "";
             nextElementId = "";
 
-            activeNPCId = "";
-            activeNPCName = "";
+            NPCState = null;
             ClearUIElement();
         }
 

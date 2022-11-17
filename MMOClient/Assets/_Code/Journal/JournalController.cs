@@ -40,7 +40,7 @@ namespace BV
             questManager = QuestManager.singleton;
         }
 
-        public override void Open(MenuManagerOptions options)
+        public override void Open()
         {
             activeQusets = questManager.quests.FindAll(i => i.active);
             questItems = questItems.Concat(activeQusets).ToList();

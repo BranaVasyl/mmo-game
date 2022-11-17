@@ -10,7 +10,8 @@ namespace BV
 {
     public class MenuManager : MonoBehaviour
     {
-        private SocketIOComponent socket;
+        [HideInInspector]
+        public ManagersController managersController;
 
         public GameObject gameMenu;
         public List<MenuPanel> menuPanels;
@@ -26,20 +27,23 @@ namespace BV
         public GameObject panelName;
         public GameObject prevArrowNavigation;
         public GameObject nextArrowNavigation;
+        public GameObject panelMoney;
 
-        private MenuManagerOptions options = new MenuManagerOptions();
+        [Header("Chest Data")]
+        public string currentChestId = "";
+
+        [Header("Chest Data")]
+        public CharacterManager currentNPCStates;
 
         void Start()
         {
             CloseMenu();
         }
 
-        public void Init(SocketIOComponent soc, PlayerData pD)
+        public void Init(ManagersController mC)
         {
-            socket = soc;
-            playerData = pD;
-
-            menuPanels.ForEach(panel => panel.Init(socket, playerData));
+            managersController = mC;
+            menuPanels.ForEach(panel => panel.Init(managersController, this));
         }
 
         public bool IsOpen()
@@ -47,11 +51,10 @@ namespace BV
             return isOpen;
         }
 
-        public void OpenMenu(List<string> panelsId = null, MenuManagerOptions opt = null)
+        public void OpenMenu(List<string> panelsId = null)
         {
             gameMenu.SetActive(true);
             isOpen = true;
-            options = opt;
 
             if (panelsId == null)
             {
@@ -82,9 +85,31 @@ namespace BV
             OpenPanel();
         }
 
+        public void OpenChest(string chestId)
+        {
+            currentChestId = chestId;
+
+            List<string> activatePanel = new List<string>();
+            activatePanel.Add("chest");
+            activatePanel.Add("inventory");
+
+            OpenMenu(activatePanel);
+        }
+
+        public void OpenShop(CharacterManager states)
+        {
+            currentNPCStates = states;
+
+            List<string> activatePanel = new List<string>();
+            activatePanel.Add("shop");
+
+            OpenMenu(activatePanel);
+        }
+
         public void CloseMenu()
         {
             ClosePanels();
+            panelMoney.GetComponent<TMP_Text>().text = "";
 
             activePanels = new List<MenuPanel>();
 
@@ -94,16 +119,20 @@ namespace BV
             gameMenu.SetActive(false);
             isOpen = false;
 
-            options = new MenuManagerOptions();
+            currentChestId = "";
+            currentNPCStates = null;
         }
 
         private void OpenPanel()
         {
             currentPanel = activePanels[curPanelIndex];
+
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
+            RenderMoney(managersController.stateManager.money);
+
             currentPanel.gameObject.SetActive(true);
 
-            currentPanel.Open(options);
+            currentPanel.Open();
         }
 
         private void CloseActivePanel()
@@ -166,6 +195,31 @@ namespace BV
             OpenPanel();
         }
 
+        public void RenderMoney(float moneyCount)
+        {
+            panelMoney.GetComponent<TMP_Text>().text = moneyCount.ToString();
+        }
+
+        #region Global Functions
+        public void UpdateInventoryData(InventoryGridData itemGridData)
+        {
+            if (itemGridData == null)
+            {
+                return;
+            }
+
+            int index = managersController.playerData.inventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
+            if (index == -1)
+            {
+                return;
+            }
+
+            managersController.playerData.inventoryData[index] = itemGridData;
+            managersController.socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerData.inventoryData))));
+        }
+        #endregion
+
+
         public static MenuManager singleton;
         void Awake()
         {
@@ -174,15 +228,25 @@ namespace BV
     }
 
     [Serializable]
-    public class MenuManagerOptions
+    public class SendUpdateMoneyData
     {
-        public string chestId = "";
-        public string chestName = "";
+        public string id;
+        public float addition;
 
-        public MenuManagerOptions(string cI = "", string cN = "")
+        public SendUpdateMoneyData(string i, float a)
         {
-            chestId = cI;
-            chestName = cN;
+            id = i;
+            addition = a;
+        }
+    }
+
+    [Serializable]
+    public class SendInventoryData
+    {
+        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
+        public SendInventoryData(List<InventoryGridData> data)
+        {
+            inventoryData = data;
         }
     }
 }

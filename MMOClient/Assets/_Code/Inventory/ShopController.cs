@@ -9,46 +9,87 @@ namespace BV
 {
     public class ShopController : MenuPanel
     {
-        public GameObject shopNameObject;
+        private ManagersController managersController;
+        private MenuManager menuManager;
 
-        private SocketIOComponent socket;
+        public GameObject shopNameObject;
+        public GameObject shopMoneyObject;
+
         private GridManager gridManager;
         private InventoryController inventoryController;
 
         [Header("Shop data")]
         private string shopId;
         private string shopName;
+        private float shopMoney;
 
-        public override void Init(SocketIOComponent soc, PlayerData playerData)
+        [Header("Player data")]
+        private float playerMoney = 0;
+
+        public override void Init(ManagersController mC, MenuManager mM)
         {
-            socket = soc;
+            managersController = mC;
+            menuManager = mM;
+
             gridManager = GridManager.singleton;
             inventoryController = InventoryController.singleton;
         }
 
-        public override void Open(MenuManagerOptions options)
+        public override void Open()
         {
-            gridManager.SetData(inventoryController.inventoryData);
+            gridManager.SetData(managersController.playerData.inventoryData);
 
             gridManager.onUpdateData.AddListener(UpdateData);
             gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
-            shopId = options.chestId;
-            shopName = options.chestName;
+            if (menuManager.currentNPCStates != null)
+            {
+                shopId = menuManager.currentNPCStates.id;
+                shopName = menuManager.currentNPCStates.displayedName;
+            }
+            playerMoney = managersController.stateManager.money;
 
-            socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+            managersController.socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+
             shopNameObject.GetComponent<TMP_Text>().text = shopName;
         }
 
-        private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid)
+        private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem)
         {
-            return true;
+            if (startGrid == null || targetGrid == null || startGrid.gridId == targetGrid.gridId)
+            {
+                return true;
+            }
+
+            if (startGrid.gridId == "shopGrid")
+            {
+                if (playerMoney >= 50)
+                {
+                    return true;
+                }
+            }
+
+            if (targetGrid.gridId == "shopGrid")
+            {
+                if (shopMoney >= 50)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public void SetChestData(InventoryGridData data)
+        public void SetShopData(InventoryGridData data)
         {
             List<InventoryGridData> gridData = new List<InventoryGridData>() { data };
             gridManager.SetData(gridData);
+
+            if (menuManager.currentNPCStates != null)
+            {
+                shopMoney = menuManager.currentNPCStates.money;
+                RenderMoney(shopMoney);
+            }
         }
 
         void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
@@ -61,7 +102,7 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(startGridData, null, selectedItem);
+                    menuManager.UpdateInventoryData(startGridData);
                 }
             }
 
@@ -73,23 +114,59 @@ namespace BV
                 }
                 else
                 {
-                    inventoryController.UpdateData(targetGridData, null, selectedItem);
+                    menuManager.UpdateInventoryData(targetGridData);
                 }
             }
 
-            if (startGridData == null || targetGridData == null || startGridData.gridId == targetGridData.gridId)
-            {
-                return;
-            }
+            CalculatedMoney(startGridData, targetGridData, selectedItem);
+        }
 
-            if (startGridData.gridId == "shopGrid")
+        //@todo rebuild this
+        private void CalculatedMoney(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
+        {
+            if (startGridData != null && targetGridData != null)
             {
-                Debug.Log("Buy item : " + selectedItem.itemData.id);
-            }
+                if (startGridData.gridId == "shopGrid")
+                {
+                    if (selectedItem != null)
+                    {
+                        Debug.Log("Buy item : " + selectedItem.itemData.id);
 
-            if (targetGridData.gridId == "shopGrid")
-            {
-                Debug.Log("Sell item : " + selectedItem.itemData.id);
+                        playerMoney -= 50;
+                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
+                            new SendUpdateMoneyData(managersController.stateManager.networkIdentity.GetID(), -50)
+                        )));
+
+                        shopMoney += 50;
+                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
+                            new SendUpdateMoneyData(menuManager.currentNPCStates.networkIdentity.GetID(), 50)
+                        )));
+
+                        menuManager.RenderMoney(playerMoney);
+                        RenderMoney(shopMoney);
+                    }
+                }
+
+                if (targetGridData.gridId == "shopGrid")
+                {
+                    if (selectedItem != null)
+                    {
+                        Debug.Log("Sell item : " + selectedItem.itemData.id);
+
+                        playerMoney += 50;
+                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
+                            new SendUpdateMoneyData(managersController.stateManager.networkIdentity.GetID(), 50)
+                        )));
+
+                        shopMoney -= 50;
+                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
+                            new SendUpdateMoneyData(menuManager.currentNPCStates.networkIdentity.GetID(), -50)
+                        )));
+
+                        menuManager.RenderMoney(playerMoney);
+                        RenderMoney(shopMoney);
+                    }
+                }
             }
         }
 
@@ -98,7 +175,7 @@ namespace BV
             ChestData shopData = new ChestData(shopId);
             shopData.items = itemGridData.items;
 
-            socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
+            managersController.socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
         }
 
         public override void Deinit()
@@ -108,15 +185,23 @@ namespace BV
                 gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
-                if (socket != null)
+                if (!String.IsNullOrEmpty(shopId))
                 {
-                    socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
+                    managersController.socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(shopId))));
                 }
             }
 
             shopId = "";
             shopName = "";
+            shopMoney = 0;
+
             shopNameObject.GetComponent<TMP_Text>().text = "";
+            shopMoneyObject.GetComponent<TMP_Text>().text = "";
+        }
+
+        public void RenderMoney(float moneyCount)
+        {
+            shopMoneyObject.GetComponent<TMP_Text>().text = moneyCount.ToString();
         }
 
         public static ShopController singleton;
