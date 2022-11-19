@@ -60,7 +60,13 @@ namespace BV
             rectTransform.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);
         }
 
-        public ItemType GetItemType() {
+        public string GetItemId()
+        {
+            return itemData.id;
+        }
+
+        public ItemType GetItemType()
+        {
             return itemData.itemType;
         }
     }

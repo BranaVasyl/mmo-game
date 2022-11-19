@@ -28,6 +28,7 @@ namespace BV
         public GameObject prevArrowNavigation;
         public GameObject nextArrowNavigation;
         public GameObject panelMoney;
+        public GameObject menuLoader;
 
         [Header("Chest Data")]
         public string currentChestId = "";
@@ -115,6 +116,7 @@ namespace BV
 
             prevArrowNavigation.SetActive(false);
             nextArrowNavigation.SetActive(false);
+            menuLoader.SetActive(false);
 
             gameMenu.SetActive(false);
             isOpen = false;
@@ -200,6 +202,11 @@ namespace BV
             panelMoney.GetComponent<TMP_Text>().text = moneyCount.ToString();
         }
 
+        public void ToogleLoader(bool active = false)
+        {
+            menuLoader.SetActive(active);
+        }
+
         #region Global Functions
         public void UpdateInventoryData(InventoryGridData itemGridData)
         {
@@ -228,15 +235,19 @@ namespace BV
     }
 
     [Serializable]
-    public class SendUpdateMoneyData
+    public class SendTradeData
     {
-        public string id;
-        public string addition;
+        public string playerId = "";
+        public string NPCId = "";
+        public string itemId = "";
+        public int operationType = 1;
 
-        public SendUpdateMoneyData(string i, float a)
+        public SendTradeData(string pI, string nI, string iI, int oT)
         {
-            id = i;
-            addition = a.ToString();
+            playerId = pI;
+            NPCId = nI;
+            itemId = iI;
+            operationType = oT;
         }
     }
 

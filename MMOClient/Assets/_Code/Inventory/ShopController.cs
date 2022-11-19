@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Collections;
+using Project.Utility;
 using UnityEngine;
 using SocketIO;
 using System;
@@ -54,30 +56,72 @@ namespace BV
             managersController.socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
         }
 
-        private bool CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem)
+        private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
         {
+            bool result = false;
+
             if (startGrid == null || targetGrid == null || startGrid.gridId == targetGrid.gridId)
             {
                 return true;
             }
 
-            if (startGrid.gridId == "shopGrid")
+            if (startGrid.gridId != "shopGrid" && targetGrid.gridId != "shopGrid")
             {
-                if (playerMoney >= 50)
-                {
-                    return true;
-                }
+                return true;
             }
 
-            if (targetGrid.gridId == "shopGrid")
+            int operationType = startGrid.gridId == "shopGrid" ? 1 : 2;
+            switch (operationType)
             {
-                if (shopMoney >= 50)
-                {
-                    return true;
-                }
+                case 1:
+                    result = playerMoney >= 50;
+                    break;
+                case 2:
+                    result = shopMoney >= 50;
+                    break;
             }
 
-            return false;
+            if (placeItemMode && result)
+            {
+                string playerId = managersController.stateManager.networkIdentity.GetID();
+                string NPCId = menuManager.currentNPCStates.networkIdentity.GetID();
+                string itemId = selectedItem.GetItemId();
+
+                result = await BuyItem(playerId, NPCId, itemId, operationType);
+            }
+
+            return result;
+        }
+
+        private async Task<bool> BuyItem(string playerId, string NPCID, string itemId, int operationType)
+        {
+            bool requestStatus = false;
+            bool result = false;
+
+            SendTradeData sendData = new SendTradeData(playerId, NPCID, itemId, operationType);
+            managersController.socket.Emit("shopTrade", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
+            {
+                var data = response[0];
+                result = data["result"].ToString() == "true";
+
+                if (result)
+                {
+                    playerMoney = data["playerMoney"].JSONObjectToFloat();
+                    shopMoney = data["shopMoney"].JSONObjectToFloat();
+
+                    menuManager.RenderMoney(playerMoney);
+                    RenderMoney(shopMoney);
+                }
+
+                requestStatus = true;
+            });
+
+            while (!requestStatus)
+            {
+                await Task.Yield();
+            }
+
+            return result;
         }
 
         public void SetShopData(InventoryGridData data, float money)
@@ -112,57 +156,6 @@ namespace BV
                 else
                 {
                     menuManager.UpdateInventoryData(targetGridData);
-                }
-            }
-
-            CalculatedMoney(startGridData, targetGridData, selectedItem);
-        }
-
-        //@todo rebuild this
-        private void CalculatedMoney(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
-        {
-            if (startGridData != null && targetGridData != null)
-            {
-                if (startGridData.gridId == "shopGrid")
-                {
-                    if (selectedItem != null)
-                    {
-                        Debug.Log("Buy item : " + selectedItem.itemData.id);
-
-                        playerMoney -= 50;
-                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
-                            new SendUpdateMoneyData(managersController.stateManager.networkIdentity.GetID(), -50)
-                        )));
-
-                        shopMoney += 50;
-                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
-                            new SendUpdateMoneyData(menuManager.currentNPCStates.networkIdentity.GetID(), 50)
-                        )));
-
-                        menuManager.RenderMoney(playerMoney);
-                        RenderMoney(shopMoney);
-                    }
-                }
-
-                if (targetGridData.gridId == "shopGrid")
-                {
-                    if (selectedItem != null)
-                    {
-                        Debug.Log("Sell item : " + selectedItem.itemData.id);
-
-                        playerMoney += 50;
-                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
-                            new SendUpdateMoneyData(managersController.stateManager.networkIdentity.GetID(), 50)
-                        )));
-
-                        shopMoney -= 50;
-                        managersController.socket.Emit("updateMoneyCount", new JSONObject(JsonUtility.ToJson(
-                            new SendUpdateMoneyData(menuManager.currentNPCStates.networkIdentity.GetID(), -50)
-                        )));
-
-                        menuManager.RenderMoney(playerMoney);
-                        RenderMoney(shopMoney);
-                    }
                 }
             }
         }

@@ -199,7 +199,7 @@ namespace Project.Networking
             On("setShopData", (E) =>
             {
                 InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
-                float money =  E.data["money"].JSONObjectToFloat();
+                float money = E.data["money"].JSONObjectToFloat();
 
                 ShopController.singleton.SetShopData(gridData, money);
             });

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine.Events;
 using UnityEngine;
@@ -35,13 +36,17 @@ namespace BV
 
         private List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
+        [Header("Grid Events and Callback")]
         private NewPlayerControls inputActions;
         [HideInInspector]
         public UnityEvent<InventoryGridData, InventoryGridData, InventoryItem> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData, InventoryItem>();
 
-        public delegate bool CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem);
+        public delegate Task<bool> CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode);
         [HideInInspector]
         public List<CanUpdateGridDelegate> canUpdateGridCallback = new List<CanUpdateGridDelegate>();
+
+        [Header("Loader")]
+        private bool loadInProcsess = false;
 
         public void Init()
         {
@@ -132,19 +137,19 @@ namespace BV
             }
         }
 
-        private void OnUpdateGridData()
+        private void OnUpdateGridData(ItemGrid startGrid, ItemGrid selectedGrid)
         {
             InventoryGridData startGridData = null;
             InventoryGridData targetGridData = null;
 
-            if (startItemGrid != null)
+            if (startGrid != null)
             {
-                startGridData = UpdateGridData(startItemGrid);
+                startGridData = UpdateGridData(startGrid);
             }
 
-            if (startItemGrid != null && selectedItemGrid != null && startItemGrid.gridId != selectedItemGrid.gridId)
+            if (startGrid != null && selectedGrid != null && startGrid.gridId != selectedGrid.gridId)
             {
-                targetGridData = UpdateGridData(selectedItemGrid);
+                targetGridData = UpdateGridData(selectedGrid);
             }
 
             onUpdateData.Invoke(startGridData, targetGridData, selectedItem);
@@ -191,6 +196,11 @@ namespace BV
 
         new private void Update()
         {
+            if (loadInProcsess)
+            {
+                return;
+            }
+
             SimulateDragEvent();
             ItemIconDrag();
 
@@ -215,7 +225,7 @@ namespace BV
                 }
                 else
                 {
-                    RevertItemPosition();
+                    RevertItemPosition(startItemGrid, selectedItemGrid);
                 }
             }
 
@@ -290,7 +300,7 @@ namespace BV
         Vector2Int oldPosition;
         ItemGrid oldItemGrid;
         InventoryItem itemToHighlight;
-        private void HandleHighlight()
+        private async void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTileGridPosition();
             if (oldPosition == positionOnGrid && selectedItemGrid == oldItemGrid)
@@ -324,7 +334,7 @@ namespace BV
             }
             else
             {
-                bool canPlace = CanSetInPlace();
+                bool canPlace = await CanSetInPlace(false);
                 if (canPlace)
                 {
                     correctInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
@@ -344,7 +354,7 @@ namespace BV
             }
         }
 
-        private bool CanSetInPlace()
+        private async Task<bool> CanSetInPlace(bool placeItemMode = false)
         {
             bool result = false;
             if (selectedItem == null || selectedItemGrid == null)
@@ -375,7 +385,7 @@ namespace BV
                     break;
                 }
 
-                result = canUpdateGridCallback[i](startItemGrid, selectedItemGrid, selectedItem);
+                result = await canUpdateGridCallback[i](startItemGrid, selectedItemGrid, selectedItem, placeItemMode);
             }
 
             return result;
@@ -450,43 +460,53 @@ namespace BV
             return selectedItemGrid.GetTileGridPosition(position);
         }
 
-        private void RevertItemPosition()
+        private void RevertItemPosition(ItemGrid startGrid = null, ItemGrid selectedGrid = null)
         {
-            if (startItemGrid == null || selectedItem == null)
+            if (startGrid == null || selectedItem == null)
             {
                 return;
             }
 
-            startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
+            startGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
             rectTransform = null;
             selectedItem = null;
             startItemGrid = null;
         }
 
-        private void PlaceItem(Vector2Int tileGridPosition)
+        private async void PlaceItem(Vector2Int tileGridPosition)
         {
-            bool canPlace = CanSetInPlace();
-            if (!canPlace)
-            {
-                RevertItemPosition();
-                return;
-            }
+            ItemGrid saveStartGrid = startItemGrid;
+            ItemGrid saveSelectGrid = selectedItemGrid;
 
-            bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
-            if (complete)
+            loadInProcsess = true;
+            MenuManager.singleton.ToogleLoader(true);
+
+            bool canPlace = await CanSetInPlace(true);
+            if (canPlace)
             {
-                if (overlapItem != null)
+                bool complete = saveSelectGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
+                if (complete)
                 {
-                    selectedItem = overlapItem;
-                    overlapItem = null;
-                    startItemGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
-                }
+                    if (overlapItem != null)
+                    {
+                        selectedItem = overlapItem;
+                        overlapItem = null;
+                        saveStartGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
+                    }
 
-                rectTransform = null;
-                OnUpdateGridData();
-                startItemGrid = null;
-                selectedItem = null;
+                    rectTransform = null;
+                    OnUpdateGridData(saveStartGrid, saveSelectGrid);
+                    startItemGrid = null;
+                    selectedItem = null;
+                }
             }
+            else
+            {
+                RevertItemPosition(saveStartGrid, saveSelectGrid);
+            }
+
+            loadInProcsess = false;
+            MenuManager.singleton.ToogleLoader(false);
         }
 
         private void PickUpItem(Vector2Int tileGridPosition)
@@ -524,7 +544,7 @@ namespace BV
 
         public void Deinit()
         {
-            RevertItemPosition();
+            RevertItemPosition(startItemGrid, selectedItemGrid);
 
             selectedItemGrid = null;
             correctInventoryHiglight.SetParent(null);
