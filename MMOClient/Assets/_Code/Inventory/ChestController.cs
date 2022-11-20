@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 using SocketIO;
@@ -13,6 +14,9 @@ namespace BV
 
         private GridManager gridManager;
 
+        [Header("Player data")]
+        private string playerId;
+
         public override void Init(ManagersController mC, MenuManager mM)
         {
             managersController = mC;
@@ -25,8 +29,57 @@ namespace BV
         {
             gridManager.SetData(managersController.playerData.inventoryData);
             gridManager.onUpdateData.AddListener(UpdateData);
+            gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+
+            playerId = managersController.stateManager.networkIdentity.GetID();
 
             managersController.socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
+        }
+
+        private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
+        {
+            if (startGrid == null || targetGrid == null || startGrid.gridId == targetGrid.gridId)
+            {
+                return true;
+            }
+
+            if (startGrid.gridId != "chestGrid" && targetGrid.gridId != "chestGrid")
+            {
+                return true;
+            }
+
+            if (!placeItemMode)
+            {
+                return true;
+            }
+
+            bool result = false;
+            int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
+            result = await PickUpItem(playerId, menuManager.currentChestId, selectedItem.GetItemId(), operationType);
+
+            return result;
+        }
+
+        private async Task<bool> PickUpItem(string playerId, string chestID, string itemId, int operationType)
+        {
+            bool requestStatus = false;
+            bool result = false;
+
+            SendChestPickUpData sendData = new SendChestPickUpData(playerId, chestID, itemId, operationType);
+            managersController.socket.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
+            {
+                var data = response[0];
+                result = data["result"].ToString() == "true";
+
+                requestStatus = true;
+            });
+
+            while (!requestStatus)
+            {
+                await Task.Yield();
+            }
+
+            return result;
         }
 
         public void SetChestData(InventoryGridData data)

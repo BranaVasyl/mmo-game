@@ -368,7 +368,8 @@ namespace BV
                     {
                         result = true;
                     }
-                });
+                }
+            );
 
             if (!result)
             {

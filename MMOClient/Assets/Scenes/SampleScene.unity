@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1980.9736, g: 1756.7969, b: 2134.8027, a: 1}
+  m_IndirectSpecularColor: {r: 1978.5615, g: 1751.458, b: 2119.9395, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4492,7 +4492,7 @@ GameObject:
   - component: {fileID: 248693836}
   - component: {fileID: 248693835}
   m_Layer: 5
-  m_Name: ChestContent
+  m_Name: ShopContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17328,11 +17328,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
-  placeholder: {fileID: 0}
-  gridSizeWidth: 0
-  gridSizeHeight: 0
-  supportedItemType: 
+  gridId: quickSpellGrid2
+  placeholder: {fileID: 276168834}
+  gridSizeWidth: 1
+  gridSizeHeight: 1
+  supportedItemType: 01000000
 --- !u!114 &1029063772
 MonoBehaviour:
   m_ObjectHideFlags: 0
