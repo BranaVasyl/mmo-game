@@ -22,10 +22,8 @@ namespace BV
 
         RectTransform rectTransform;
 
-        [SerializeField]
-        int gridSizeWidth = 5;
-        [SerializeField]
-        int gridSizeHeight = 7;
+        public int gridSizeWidth = 5;
+        public int gridSizeHeight = 7;
         public List<ItemType> supportedItemType;
 
         void Awake()
@@ -40,6 +38,15 @@ namespace BV
         {
             boundTileSizeWidth = tileSizeWidth * canvas.scaleFactor;
             boundTileSizeHeight = tileSizeHeight * canvas.scaleFactor;
+
+            InventoryGridData? gridSetting = gridManager.GetGridSetting(gridId);
+            if (gridSetting != null)
+            {
+                gridSizeWidth = gridSetting.gridSize.x;
+                gridSizeHeight = gridSetting.gridSize.y;
+                supportedItemType = gridSetting.supportedItemType;
+            }
+
             Init(gridSizeWidth, gridSizeHeight);
 
             gridManager.RegisterGrid(this);
@@ -273,7 +280,6 @@ namespace BV
                 {
                     if (inventoryItemSlot[posX + x, posY + y] != null)
                     {
-
                         return false;
                     }
                 }

@@ -61,6 +61,11 @@ namespace BV
             inputActions.Enable();
         }
 
+        public InventoryGridData? GetGridSetting(string gridId)
+        {
+            return inventoryData.Find(i => i.gridId == gridId);
+        }
+
         public void RegisterGrid(ItemGrid itemGrid)
         {
             allActiveGrids.Add(itemGrid);
@@ -168,7 +173,7 @@ namespace BV
                 return null;
             }
 
-            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId);
+            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId, new Vector2Int(itemGrid.gridSizeWidth, itemGrid.gridSizeHeight), itemGrid.supportedItemType);
 
             List<InventoryItem> alreadyCheckedItems = new List<InventoryItem>();
             InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
@@ -408,7 +413,6 @@ namespace BV
         private void InsertItem(InventoryItem itemToInsert)
         {
             Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
-
             if (posOnGrid == null)
             {
                 Destroy(itemToInsert.gameObject);
@@ -508,6 +512,116 @@ namespace BV
 
             loadInProcsess = false;
             MenuManager.singleton.ToogleLoader(false);
+        }
+
+        public void PickUpItem(string itemId)
+        {
+            ItemData? item = itemsManager.GetItemData(itemId);
+            if (item == null)
+            {
+                return;
+            }
+
+            ref List<InventoryGridData> inventoryData = ref ManagersController.singleton.playerData.inventoryData;
+            int gridIndex = inventoryData.FindIndex(el =>
+            {
+                for (int i = 0; i < el.supportedItemType.Count; i++)
+                {
+                    if (el.supportedItemType[i] == item.itemType)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+            if (gridIndex == -1)
+            {
+                return;
+            }
+            InventoryGridData gridData = inventoryData[gridIndex];
+
+            bool rotated = false;
+            bool[,] inventoryDataMatrix = GenerateInventoryDataMatrix(gridData);
+
+            Vector2Int? itemPosition = FindSpaceForObject(item.width, item.height, gridData, inventoryDataMatrix);
+            if (itemPosition == null)
+            {
+                rotated = true;
+                itemPosition = FindSpaceForObject(item.height, item.width, gridData, inventoryDataMatrix);
+            }
+
+            if (itemPosition == null)
+            {
+                Debug.Log("Нема місця");
+                return;
+            }
+
+            InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);
+            inventoryData[gridIndex].items.Add(newItemData);
+
+        }
+
+        private bool[,] GenerateInventoryDataMatrix(InventoryGridData gridData)
+        {
+            bool[,] array = new bool[gridData.gridSize.x, gridData.gridSize.y];
+
+            for (int i = 0; i < gridData.items.Count; i++)
+            {
+                ItemData? selectItem = itemsManager.GetItemData(gridData.items[i].id);
+                if (selectItem == null)
+                {
+                    continue;
+                }
+
+                int itemWidth = gridData.items[i].rotated ? selectItem.height : selectItem.width;
+                int itemHeight = gridData.items[i].rotated ? selectItem.width : selectItem.height;
+
+                for (int x = 0; x < itemWidth; x++)
+                {
+                    for (int y = 0; y < itemHeight; y++)
+                    {
+                        array[gridData.items[i].position.x + x, gridData.items[i].position.y + y] = true;
+                    }
+                }
+            }
+
+            return array;
+        }
+
+        public Vector2Int? FindSpaceForObject(int itemWidth, int itemHeight, InventoryGridData gridData, bool[,] array)
+        {
+            int width = gridData.gridSize.x - itemWidth + 1;
+            int height = gridData.gridSize.y - itemHeight + 1;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (CheckAvaibleSpace(array, x, y, itemWidth, itemHeight) == true)
+                    {
+                        return new Vector2Int(x, y);
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        private bool CheckAvaibleSpace(bool[,] array, int posX, int posY, int width, int height)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (array[posX + x, posY + y])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         private void PickUpItem(Vector2Int tileGridPosition)

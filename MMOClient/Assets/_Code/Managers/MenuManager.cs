@@ -20,7 +20,6 @@ namespace BV
         private bool isOpen;
         private MenuPanel currentPanel;
         private int curPanelIndex = 0;
-        private PlayerData playerData;
 
         [Header("Header Section")]
         public GameObject header;
