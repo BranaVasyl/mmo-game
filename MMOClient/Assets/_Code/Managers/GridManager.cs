@@ -124,7 +124,7 @@ namespace BV
                 InventoryItemData item = items[i];
 
                 string itemId = item.id;
-                ItemData itemData = itemsManager.allItems.Find(x => x.id == itemId);
+                ItemData itemData = itemsManager.GetItemById(itemId);
 
                 if (itemData == null)
                 {
@@ -438,8 +438,8 @@ namespace BV
             InventoryItem inventoryItem = CreateInventoryItem();
             selectedItem = inventoryItem;
 
-            int selectedItemID = UnityEngine.Random.Range(0, itemsManager.allItems.Count);
-            inventoryItem.Set(itemsManager.allItems[selectedItemID]);
+            int selectedItemID = UnityEngine.Random.Range(0, itemsManager.GetItemsCount());
+            inventoryItem.Set(itemsManager.GetItemByIndex(selectedItemID));
         }
 
         private void RotateItem()
@@ -516,7 +516,7 @@ namespace BV
 
         public void PickUpItem(string itemId)
         {
-            ItemData? item = itemsManager.GetItemData(itemId);
+            ItemData? item = itemsManager.GetItemById(itemId);
             if (item == null)
             {
                 return;
@@ -553,8 +553,12 @@ namespace BV
 
             if (itemPosition == null)
             {
-                Debug.Log("Нема місця");
+                Debug.Log("Немає місця");
                 return;
+            }
+            else
+            {
+                Debug.LogFormat("Підібрано предмет : {0}", item.itemName);
             }
 
             InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);
@@ -568,7 +572,7 @@ namespace BV
 
             for (int i = 0; i < gridData.items.Count; i++)
             {
-                ItemData? selectItem = itemsManager.GetItemData(gridData.items[i].id);
+                ItemData? selectItem = itemsManager.GetItemById(gridData.items[i].id);
                 if (selectItem == null)
                 {
                     continue;

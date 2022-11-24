@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Apple
   m_EditorClassIdentifier: 
   id: apple
-  itemName: 
+  itemName: "\u042F\u0431\u043B\u0443\u043A\u043E"
   itemDescription: 
   width: 1
   height: 1
   itemType: 3
   itemIcon: {fileID: 21300000, guid: 94384c1fcc24b39488d9f50fcff6f56c, type: 3}
-  weaponModel: {fileID: 0}

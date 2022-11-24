@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   id: sword
-  itemName: 
+  itemName: "\u041C\u0435\u0447"
   itemDescription: 
   width: 1
   height: 2

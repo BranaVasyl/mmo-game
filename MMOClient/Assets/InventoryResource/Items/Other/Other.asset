@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Other
   m_EditorClassIdentifier: 
   id: other
-  itemName: 
+  itemName: "\u041F\u043B\u0430\u0442\u0438\u043D\u0430"
   itemDescription: 
   width: 1
   height: 1
   itemType: 8
   itemIcon: {fileID: 21300000, guid: 0815501dbb7e402498f6f41dff463380, type: 3}
-  weaponModel: {fileID: 0}

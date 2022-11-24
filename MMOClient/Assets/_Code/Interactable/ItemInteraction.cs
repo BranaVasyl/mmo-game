@@ -15,6 +15,15 @@ namespace BV
 
         public void Interact(GameObject player)
         {
+            if (itemId == "random")
+            {
+                int selectedItemID = UnityEngine.Random.Range(0, ItemsManager.singleton.GetItemsCount());
+                ItemData item = ItemsManager.singleton.GetItemByIndex(selectedItemID);
+
+                GridManager.singleton.PickUpItem(item.id);
+                return;
+            }
+
             GridManager.singleton.PickUpItem(itemId);
         }
     }

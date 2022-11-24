@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Sword1
   m_EditorClassIdentifier: 
   id: sword1
-  itemName: 
+  itemName: "\u0420\u0430\u043F\u0456\u0440\u0430"
   itemDescription: 
   width: 1
   height: 2
   itemType: 0
   itemIcon: {fileID: 21300000, guid: badd22fadd82b5e4496d98043535ae81, type: 3}
-  weaponModel: {fileID: 1993076575720630405, guid: 7ef6fda2d4fa43b4a8513300197cdef9, type: 3}
   oh_idle_name: oh_idle
   th_idle_name: th_idle
   actions:
@@ -71,3 +70,4 @@ MonoBehaviour:
     mirror: 0
     defaultStep:
       branches: []
+  weaponModel: {fileID: 1993076575720630405, guid: 7ef6fda2d4fa43b4a8513300197cdef9, type: 3}

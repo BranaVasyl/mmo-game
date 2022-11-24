@@ -85,7 +85,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = itemsManager.allItems.Find(x => x.id == itemId) as ItemWeaponData;
+                item = itemsManager.GetItemById(itemId) as ItemWeaponData;
             }
 
             inventoryManager.UpdateLeftHand(item);
@@ -104,7 +104,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = itemsManager.allItems.Find(x => x.id == itemId) as ItemWeaponData;
+                item = itemsManager.GetItemById(itemId) as ItemWeaponData;
             }
 
             inventoryManager.UpdateRightHand(item);
@@ -123,7 +123,7 @@ namespace BV
             if (items.Count > 0)
             {
                 string itemId = items[0].id;
-                item = itemsManager.allItems.Find(x => x.id == itemId) as Spell;
+                item = itemsManager.GetItemById(itemId) as Spell;
             }
 
             inventoryManager.UpdateQuickSpell(id, item);
