@@ -556,9 +556,15 @@ namespace BV
                 Debug.Log("Немає місця");
                 return;
             }
-            else
+
+            if (item.itemType == ItemType.quest)
             {
-                Debug.LogFormat("Підібрано предмет : {0}", item.itemName);
+                string notificationTitle = "Отримано: Hовий квестовий предмет";
+                string notificationSubtitle = item.itemName;
+                Sprite notificationIcon = item.itemIcon;
+                NotificationActionType action = NotificationActionType.alert;
+
+                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon));
             }
 
             InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);

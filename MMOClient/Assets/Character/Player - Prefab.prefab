@@ -863,7 +863,9 @@ MonoBehaviour:
   networkIdentity: {fileID: 0}
   health: 100
   displayedName: 
+  id: 
   isDead: 0
+  money: 0
   activeModel: {fileID: 0}
   vertical: 0
   horizontal: 0
