@@ -19,6 +19,7 @@ namespace BV
         public ItemsManager itemsManager;
         public GridManager gridManager;
         public NotificationManager notificationManager;
+        public TooltipManager tooltipManager;
 
         [Header("Current client")]
         [HideInInspector]
@@ -43,6 +44,7 @@ namespace BV
             itemsManager = ItemsManager.singleton;
             gridManager = GridManager.singleton;
             notificationManager = NotificationManager.singleton;
+            tooltipManager = TooltipManager.singleton;
         }
 
         public void Init(SocketIOComponent soc, StateManager sM, PlayerData pD)
@@ -69,6 +71,7 @@ namespace BV
             itemsManager.Init();
             gridManager.Init();
             notificationManager.Init();
+            tooltipManager.Init();
         }
 
         public static ManagersController singleton;

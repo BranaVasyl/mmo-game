@@ -306,6 +306,7 @@ namespace BV
         Vector2Int oldPosition;
         ItemGrid oldItemGrid;
         InventoryItem itemToHighlight;
+        InventoryItem lastItemHihlight;
         private async void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTileGridPosition();
@@ -337,6 +338,16 @@ namespace BV
                     correctInventoryHiglight.Show(false);
                     incorrectInventoryHiglight.Show(false);
                 }
+
+                if (itemToHighlight != lastItemHihlight)
+                {
+                    OnMouseExitItem();
+                    lastItemHihlight = itemToHighlight;
+                    if (lastItemHihlight != null)
+                    {
+                        OnMouseHoverItem(lastItemHihlight.itemData);
+                    }
+                }
             }
             else
             {
@@ -357,7 +368,42 @@ namespace BV
 
                     correctInventoryHiglight.Show(false);
                 }
+
+                if (lastItemHihlight != null)
+                {
+                    OnMouseExitItem();
+                }
             }
+        }
+
+        private void OnMouseHoverItem(ItemData item)
+        {
+            string subtitle = "";
+            switch (item.itemType)
+            {
+                case ItemType.weapon:
+                    subtitle = "Зброя";
+                    break;
+                case ItemType.quest:
+                    subtitle = "Предмет для квесту";
+                    break;
+                case ItemType.alchemy:
+                    subtitle = "Інгредієнт";
+                    break;
+                case ItemType.elixir:
+                    subtitle = "Еліксир";
+                    break;
+                default:
+                    subtitle = "Сміття";
+                    break;
+            }
+
+            TooltipManager.singleton.ShowTooltip(new TooltipData(item.itemName, subtitle));
+        }
+
+        public void OnMouseExitItem()
+        {
+            TooltipManager.singleton.HideTooltip();
         }
 
         private async Task<bool> CanSetInPlace(bool placeItemMode = false)
@@ -669,6 +715,9 @@ namespace BV
             SelectedItemGrid = null;
             oldPosition = new Vector2Int();
             oldItemGrid = null;
+
+            lastItemHihlight = null;
+            OnMouseExitItem();
         }
 
         public void Deinit()
