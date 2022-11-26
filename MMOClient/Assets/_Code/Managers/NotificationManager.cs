@@ -37,8 +37,8 @@ namespace BV
 
         [Header("Audio Source")]
         public AudioClip allertAudio;
+        public AudioClip logAudio;
         private AudioSource audioSource;
-
 
         public void Init()
         {
@@ -77,9 +77,12 @@ namespace BV
             notificationImage.sprite = data.icon;
 
             //@todo add more audio
-            AudioClip targetAudio = allertAudio;
+            AudioClip targetAudio = logAudio;
             switch (data.notificationAction)
             {
+                case NotificationActionType.log:
+                    targetAudio = logAudio;
+                    break;
                 case NotificationActionType.alert:
                     targetAudio = allertAudio;
                     break;
@@ -189,7 +192,7 @@ namespace BV
 
     public enum NotificationActionType
     {
-        alert, error, complete
+        log, alert, error, complete
     }
 
     [Serializable]
@@ -200,7 +203,7 @@ namespace BV
         public Sprite icon;
         public NotificationActionType notificationAction;
 
-        public NotificationData(string t = "", string sT = "", Sprite i = null, NotificationActionType nA = NotificationActionType.alert)
+        public NotificationData(string t = "", string sT = "", Sprite i = null, NotificationActionType nA = NotificationActionType.log)
         {
             title = t;
             subtitle = sT;

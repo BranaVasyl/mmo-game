@@ -33,6 +33,7 @@ namespace BV
 
         public InventoryHiglight correctInventoryHiglight;
         public InventoryHiglight incorrectInventoryHiglight;
+        public GameObject itemPrefab;
 
         private List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
@@ -424,7 +425,7 @@ namespace BV
 
         private InventoryItem CreateInventoryItem()
         {
-            InventoryItem inventoryItem = Instantiate(itemsManager.itemPrefab).GetComponent<InventoryItem>();
+            InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
 
             rectTransform = inventoryItem.GetComponent<RectTransform>();
             rectTransform.SetParent(canvasTransform);
@@ -562,9 +563,9 @@ namespace BV
                 string notificationTitle = "Отримано: Hовий квестовий предмет";
                 string notificationSubtitle = item.itemName;
                 Sprite notificationIcon = item.itemSmallIcon != null ? item.itemSmallIcon : item.itemIcon;
-                NotificationActionType action = NotificationActionType.alert;
+                NotificationActionType action = NotificationActionType.log;
 
-                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon));
+                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
             }
 
             NotificationManager.singleton.AddNewMessage("Отримано: " + item.itemName);

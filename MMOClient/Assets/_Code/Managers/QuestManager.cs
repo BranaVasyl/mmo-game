@@ -44,7 +44,7 @@ namespace BV
             }
             if (questStage != null && !questStage.IsActive())
             {
-                questStage.OnStart();
+                questStage.OnStart(quest);
             }
         }
 

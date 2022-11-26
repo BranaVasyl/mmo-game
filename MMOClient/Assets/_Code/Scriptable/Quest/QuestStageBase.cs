@@ -29,7 +29,7 @@ namespace BV
             return completed;
         }
 
-        public void OnStart()
+        public void OnStart(Quest curQuest)
         {
             if (IsCompleted())
             {
@@ -42,6 +42,7 @@ namespace BV
             }
 
             active = true;
+            ShowNotification(curQuest);
         }
 
         public void OnComplete()
@@ -58,6 +59,16 @@ namespace BV
 
             active = false;
             completed = true;
+        }
+
+        private void ShowNotification(Quest curQuest)
+        {
+            string notificationTitle = "Квест: " + curQuest.questName;
+            string notificationSubtitle = "Квест обновлено";
+            Sprite notificationIcon = curQuest.questIcon;
+            NotificationActionType action = NotificationActionType.log;
+
+            NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
         }
     }
 

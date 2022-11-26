@@ -7,7 +7,6 @@ namespace BV
     public class ItemsManager : MonoBehaviour
     {
         public List<ItemData> allItems;
-        public GameObject itemPrefab;
 
         private Dictionary<string, ItemData> itemsDict = new Dictionary<string, ItemData>();
 
