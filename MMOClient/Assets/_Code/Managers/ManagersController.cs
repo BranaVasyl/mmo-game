@@ -60,6 +60,7 @@ namespace BV
         {
             chatBehaviour.Init(this);
             gameUIManager.Init();
+            dialogManager.Init();
             menuManager.Init(this);
             pieMenuManager.Init(this);
             damageManager.Init(this);

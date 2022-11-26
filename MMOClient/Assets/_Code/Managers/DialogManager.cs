@@ -26,6 +26,7 @@ namespace BV
 
         private string nextElementId;
         private string currentAnsweId;
+        private float phraseTimer = 0;
 
         private StateManager states;
         public List<NPCDialogList> NPCDialogs;
@@ -37,6 +38,19 @@ namespace BV
         private ChatBehaviour chatBehaviour;
         private GameUIManager gameUIManager;
         private NotificationManager notificationManager;
+        private NewPlayerControls inputActions;
+        private bool rb_input = false;
+
+        public void Init()
+        {
+            if (inputActions == null)
+            {
+                inputActions = new NewPlayerControls();
+                GetInput();
+            }
+
+            inputActions.Enable();
+        }
 
         private void Start()
         {
@@ -169,12 +183,28 @@ namespace BV
             phraseUi.transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text =
             showSpeakerName ? curPhraseItem.speaker + " : " + curPhraseItem.sentence : curPhraseItem.sentence;
 
-            yield return new WaitForSeconds(curPhraseItem.showTime);
+            phraseTimer = curPhraseItem.showTime;
+            do
+            {
+                phraseTimer -= Time.deltaTime;
+                if (rb_input)
+                {
+                    rb_input = false;
+                    phraseTimer = 0;
+                }
+
+                yield return null;
+            } while (phraseTimer > 0);
+            phraseTimer = 0;
 
             if (PhraseItems.Count == 0)
+            {
                 ShearchNextElement(nextElementId);
+            }
             else if (PhraseItems.Count > 0)
+            {
                 StartCoroutine(ShowNextPhrase(PhraseItems));
+            }
         }
 
         private void ShowAnswer(DialogAnswer answer)
@@ -324,6 +354,13 @@ namespace BV
             notificationManager.Show();
         }
 
+        void GetInput()
+        {
+            //RBInput
+            inputActions.PlayerActions.RB.performed += inputActions => rb_input = true;
+            inputActions.PlayerActions.RB.canceled += inputActions => rb_input = false;
+        }
+
         void ClearElement()
         {
             allDialogPhrases = null;
@@ -331,6 +368,7 @@ namespace BV
             allSelectedNode = null;
             currentAnsweId = "";
             nextElementId = "";
+            phraseTimer = 0;
 
             NPCState = null;
             ClearUIElement();
