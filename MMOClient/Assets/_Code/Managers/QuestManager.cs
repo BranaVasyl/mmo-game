@@ -38,13 +38,14 @@ namespace BV
             }
 
             QuestStageBase questStage = GetQuestStage(quest, stageId);
-            if (!quest.IsActive())
+            if (!quest.IsActive() && !quest.IsCompleted())
             {
                 quest.OnStart();
+                ShowNotification("Квест розпочато", quest.questName, quest.questIcon, NotificationActionType.log);
             }
             if (questStage != null && !questStage.IsActive())
             {
-                questStage.OnStart(quest);
+                questStage.OnStart();
             }
         }
 
@@ -69,7 +70,11 @@ namespace BV
             QuestStageBase questStage = GetQuestStage(quest, stageId);
             if (questStage == null)
             {
-                quest.OnComplete();
+                if (!quest.IsCompleted())
+                {
+                    quest.OnComplete();
+                    ShowNotification("Квест завершено", quest.questName, quest.questIcon, NotificationActionType.alert);
+                }
             }
             else
             {
@@ -77,7 +82,12 @@ namespace BV
                 {
                     quest.OnStart();
                 }
-                questStage.OnComplete();
+
+                if (!questStage.IsCompleted() && !quest.IsCompleted())
+                {
+                    questStage.OnComplete();
+                    ShowNotification("Квест обновлено", quest.questName, quest.questIcon, NotificationActionType.log);
+                }
             }
         }
 
@@ -165,6 +175,11 @@ namespace BV
             {
                 return quest.IsCompleted();
             }
+        }
+
+        private void ShowNotification(string title = "", string subtitle = "", Sprite icon = null, NotificationActionType type = NotificationActionType.log)
+        {
+            NotificationManager.singleton.AddNewNotification(new NotificationData(title, subtitle, icon, type));
         }
 
         private void ResetQustsStates()

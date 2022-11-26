@@ -46,7 +46,6 @@ namespace BV
             }
 
             active = true;
-            ShowNotification("Квест розпочато", NotificationActionType.log);
         }
 
         public void OnComplete()
@@ -63,18 +62,6 @@ namespace BV
 
             active = false;
             completed = true;
-
-            ShowNotification("Квест завершено", NotificationActionType.alert);
-        }
-
-        private void ShowNotification(string subtitle = "", NotificationActionType aType = NotificationActionType.log)
-        {
-            string notificationTitle = "Квест: " + questName;
-            string notificationSubtitle = subtitle;
-            Sprite notificationIcon = questIcon;
-            NotificationActionType action = aType;
-
-            NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
         }
     }
 }
