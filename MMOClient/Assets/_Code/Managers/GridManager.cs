@@ -554,10 +554,11 @@ namespace BV
 
             if (itemPosition == null)
             {
-                NotificationManager.singleton.AddNewMessage("Немає місця для: " + item.itemName);
+                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.itemName);
                 return;
             }
 
+            //@todo add QuestEvent to item ... if questEvents.count do trigger events
             if (item.itemType == ItemType.quest)
             {
                 string notificationTitle = "Отримано: Hовий квестовий предмет";

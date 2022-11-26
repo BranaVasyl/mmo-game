@@ -78,13 +78,13 @@ namespace BV
             }
             else
             {
-                if (!quest.IsActive())
+                if (!quest.IsActive() && !quest.IsCompleted())
                 {
                     ShowNotification("Квест розпочато", quest.questName, quest.questIcon, NotificationActionType.log);
                     quest.OnStart();
                 }
 
-                if (!questStage.IsCompleted() && !quest.IsCompleted())
+                if (!questStage.IsCompleted())
                 {
                     ShowNotification("Квест обновлено", quest.questName, quest.questIcon, NotificationActionType.log);
                     questStage.OnComplete();
