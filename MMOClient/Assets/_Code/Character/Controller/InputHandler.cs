@@ -148,20 +148,6 @@ namespace BV
             //LTInput
             inputActions.PlayerActions.LT.performed += inputActions => lt_input = true;
             inputActions.PlayerActions.LT.canceled += inputActions => lt_input = false;
-
-            // if(Input.GetButtonDown("showCursor"))
-            //     Cursor.visible  = !Cursor.visible ;
-
-            // if(Input.GetButtonDown("equip1"))
-            //     states.ChangeEquip(1);
-
-            // if(Input.GetButtonDown("equip2"))
-            //     states.ChangeEquip(2);
-        }
-
-        bool GetButtonStatus(UnityEngine.InputSystem.InputActionPhase phase)
-        {
-            return phase == UnityEngine.InputSystem.InputActionPhase.Started;
         }
 
         void UpdateStates()

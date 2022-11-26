@@ -40,8 +40,8 @@ namespace BV
             QuestStageBase questStage = GetQuestStage(quest, stageId);
             if (!quest.IsActive() && !quest.IsCompleted())
             {
-                quest.OnStart();
                 ShowNotification("Квест розпочато", quest.questName, quest.questIcon, NotificationActionType.log);
+                quest.OnStart();
             }
             if (questStage != null && !questStage.IsActive())
             {
@@ -72,21 +72,22 @@ namespace BV
             {
                 if (!quest.IsCompleted())
                 {
-                    quest.OnComplete();
                     ShowNotification("Квест завершено", quest.questName, quest.questIcon, NotificationActionType.alert);
+                    quest.OnComplete();
                 }
             }
             else
             {
                 if (!quest.IsActive())
                 {
+                    ShowNotification("Квест розпочато", quest.questName, quest.questIcon, NotificationActionType.log);
                     quest.OnStart();
                 }
 
                 if (!questStage.IsCompleted() && !quest.IsCompleted())
                 {
-                    questStage.OnComplete();
                     ShowNotification("Квест обновлено", quest.questName, quest.questIcon, NotificationActionType.log);
+                    questStage.OnComplete();
                 }
             }
         }
