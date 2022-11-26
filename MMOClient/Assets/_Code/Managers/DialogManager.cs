@@ -36,12 +36,14 @@ namespace BV
         private QuestManager questManager;
         private ChatBehaviour chatBehaviour;
         private GameUIManager gameUIManager;
+        private NotificationManager notificationManager;
 
         private void Start()
         {
             questManager = QuestManager.singleton;
             chatBehaviour = ChatBehaviour.singleton;
             gameUIManager = GameUIManager.singleton;
+            notificationManager = NotificationManager.singleton;
         }
 
         public void UpdateDialogList(string NPC_Id, string dialogId)
@@ -106,6 +108,7 @@ namespace BV
             dialogUI.SetActive(true);
             chatBehaviour.Hide();
             gameUIManager.Hide();
+            notificationManager.Hide();
         }
 
         void ShearchNextElement(string id)
@@ -318,6 +321,7 @@ namespace BV
             dialogUI.SetActive(false);
             chatBehaviour.Show();
             gameUIManager.Show();
+            notificationManager.Show();
         }
 
         void ClearElement()

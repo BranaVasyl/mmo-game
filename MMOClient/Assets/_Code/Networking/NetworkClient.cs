@@ -185,8 +185,7 @@ namespace Project.Networking
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
                 managersController.damageManager.OnKillEvent(id);
-
-                managersController.chatBehaviour.SendMessage("You", "kill enemy " + id);
+                managersController.notificationManager.AddNewMessage("Ви вбили: " + id);
             });
 
             On("setChestData", (E) =>

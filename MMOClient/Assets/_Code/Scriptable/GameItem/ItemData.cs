@@ -17,6 +17,7 @@ namespace BV
 
         public ItemType itemType;
         public Sprite itemIcon;
+        public Sprite itemSmallIcon;
     }
 
     public enum ItemType

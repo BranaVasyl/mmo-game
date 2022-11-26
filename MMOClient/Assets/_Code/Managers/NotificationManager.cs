@@ -10,50 +10,71 @@ namespace BV
 {
     public class NotificationManager : MonoBehaviour
     {
-        public TMP_Text popupTitle;
-        public TMP_Text popupSubtitle;
-        public Image popupImage;
+        public GameObject notificationContainer;
 
-        [Header("Audio source")]
-        public AudioClip allertAudio;
+        [Header("Notification Data")]
+        public GameObject notificationTemplate;
+        public TMP_Text notificationTitle;
+        public TMP_Text notificationSubtitle;
+        public Image notificationImage;
+        public AnimationCurve notificationFadeCurve;
 
-        public GameObject window;
+        private Queue<NotificationData> notificationQueue;
+        private Coroutine notificationQueueChecker;
         private CanvasGroup canvasGroup;
-        private AudioSource audioSource;
-
-        private Queue<NotificationData> popupQueue;
-        private Coroutine queueChecker;
-
-        private float currentTime = 0;
+        private float currentNotificationTime = 0;
         private float showNotificationTime = 2f;
 
-        public AnimationCurve notificationFadeCurve;
+        [Header("Message Data")]
+        public GameObject messageContainer;
+        public GameObject messageTemplate;
+        public AnimationCurve messageFadeCurve;
+
+        private List<MessageNotificationData> messagesDataQueue = new List<MessageNotificationData>();
+        private Queue<string> messagesQueue;
+        private Coroutine messagesQueueChecker;
+        private float showMessageTime = 2f;
+
+        [Header("Audio Source")]
+        public AudioClip allertAudio;
+        private AudioSource audioSource;
+
 
         public void Init()
         {
+            //notification
+            notificationContainer.SetActive(true);
+            notificationTemplate.SetActive(false);
             showNotificationTime = notificationFadeCurve[notificationFadeCurve.length - 1].time;
-            canvasGroup = window.GetComponent<CanvasGroup>();
+            canvasGroup = notificationTemplate.GetComponent<CanvasGroup>();
             audioSource = GetComponent<AudioSource>();
 
-            popupQueue = new Queue<NotificationData>();
-            CleanPopupData();
+            notificationQueue = new Queue<NotificationData>();
+            CleanNotificationData();
+
+            //message
+            messageContainer.SetActive(true);
+            messageTemplate.SetActive(false);
+            showMessageTime = messageFadeCurve[messageFadeCurve.length - 1].time;
+            messagesQueue = new Queue<string>();
         }
 
+        #region Notification
         public void AddNewNotification(NotificationData newData)
         {
-            popupQueue.Enqueue(newData);
-            if (queueChecker == null)
+            notificationQueue.Enqueue(newData);
+            if (notificationQueueChecker == null)
             {
-                queueChecker = StartCoroutine(CheckQueue());
+                notificationQueueChecker = StartCoroutine(CheckNotificationQueue());
             }
         }
 
-        private void ShowPopup(NotificationData data)
+        private void ShowNotification(NotificationData data)
         {
-            window.SetActive(true);
-            popupTitle.text = data.title;
-            popupSubtitle.text = data.subtitle;
-            popupImage.sprite = data.icon;
+            notificationTemplate.SetActive(true);
+            notificationTitle.text = data.title;
+            notificationSubtitle.text = data.subtitle;
+            notificationImage.sprite = data.icon;
 
             //@todo add more audio
             AudioClip targetAudio = allertAudio;
@@ -63,37 +84,100 @@ namespace BV
                     targetAudio = allertAudio;
                     break;
             }
-            
-            audioSource.PlayOneShot(targetAudio);
 
+            audioSource.PlayOneShot(targetAudio);
         }
 
-        private IEnumerator CheckQueue()
+        private IEnumerator CheckNotificationQueue()
         {
             do
             {
-                ShowPopup(popupQueue.Dequeue());
+                ShowNotification(notificationQueue.Dequeue());
                 do
                 {
-                    currentTime += Time.deltaTime;
-                    canvasGroup.alpha = notificationFadeCurve.Evaluate(currentTime);
+                    currentNotificationTime += Time.deltaTime;
+                    canvasGroup.alpha = notificationFadeCurve.Evaluate(currentNotificationTime);
 
                     yield return null;
-                } while (currentTime < showNotificationTime);
+                } while (currentNotificationTime < showNotificationTime);
 
-                CleanPopupData();
-                currentTime = 0;
-            } while (popupQueue.Count > 0);
+                CleanNotificationData();
+                currentNotificationTime = 0;
+            } while (notificationQueue.Count > 0);
 
-            window.SetActive(false);
-            queueChecker = null;
+            notificationTemplate.SetActive(false);
+            notificationQueueChecker = null;
         }
 
-        private void CleanPopupData()
+        private void CleanNotificationData()
         {
-            popupTitle.text = "";
-            popupSubtitle.text = "";
-            popupImage.sprite = null;
+            notificationTitle.text = "";
+            notificationSubtitle.text = "";
+            notificationImage.sprite = null;
+        }
+        #endregion
+
+        #region Message
+        public void AddNewMessage(string message)
+        {
+            messagesQueue.Enqueue(message);
+            if (messagesQueueChecker == null)
+            {
+                messagesQueueChecker = StartCoroutine(CheckMessagesQueue());
+            }
+        }
+
+        private MessageNotificationData ShowMessage(string message)
+        {
+            GameObject g = Instantiate(messageTemplate, messageContainer.transform);
+            g.SetActive(true);
+            g.GetComponent<TMP_Text>().text = message;
+
+            return new MessageNotificationData(message, g);
+        }
+
+        private IEnumerator CheckMessagesQueue()
+        {
+            do
+            {
+
+                while (messagesDataQueue.Count < 5 && messagesQueue.Count > 0)
+                {
+                    messagesDataQueue.Add(ShowMessage(messagesQueue.Dequeue()));
+                }
+
+                for (int i = 0; i < messagesDataQueue.Count; i++)
+                {
+                    MessageNotificationData messageData = messagesDataQueue[i];
+                    if (messageData.timer >= showMessageTime)
+                    {
+                        Destroy(messageData.messageTemplate);
+                        messagesDataQueue.Remove(messageData);
+                        continue;
+                    }
+
+                    messageData.timer += Time.deltaTime;
+                    messageData.messageTemplate.GetComponent<CanvasGroup>().alpha = messageFadeCurve.Evaluate(messageData.timer);
+                }
+
+                if (messagesDataQueue.Count > 0)
+                {
+                    yield return null;
+                }
+            } while (messagesQueue.Count > 0 || messagesDataQueue.Count > 0);
+
+            messagesQueueChecker = null;
+        }
+        #endregion
+
+        public void Show()
+        {
+            notificationContainer.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            notificationContainer.SetActive(false);
         }
 
         public static NotificationManager singleton;
@@ -122,6 +206,21 @@ namespace BV
             subtitle = sT;
             icon = i;
             notificationAction = nA;
+        }
+    }
+
+    [Serializable]
+    public class MessageNotificationData
+    {
+        public string message;
+        public GameObject messageTemplate;
+        public float timer;
+
+        public MessageNotificationData(string m = "", GameObject mT = null, float t = 0)
+        {
+            message = m;
+            messageTemplate = mT;
+            timer = t;
         }
     }
 }

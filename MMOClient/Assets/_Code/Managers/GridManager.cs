@@ -553,7 +553,7 @@ namespace BV
 
             if (itemPosition == null)
             {
-                Debug.Log("Немає місця");
+                NotificationManager.singleton.AddNewMessage("Немає місця для: " + item.itemName);
                 return;
             }
 
@@ -561,11 +561,13 @@ namespace BV
             {
                 string notificationTitle = "Отримано: Hовий квестовий предмет";
                 string notificationSubtitle = item.itemName;
-                Sprite notificationIcon = item.itemIcon;
+                Sprite notificationIcon = item.itemSmallIcon != null ? item.itemSmallIcon : item.itemIcon;
                 NotificationActionType action = NotificationActionType.alert;
 
                 NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon));
             }
+
+            NotificationManager.singleton.AddNewMessage("Отримано: " + item.itemName);
 
             InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);
             inventoryData[gridIndex].items.Add(newItemData);
