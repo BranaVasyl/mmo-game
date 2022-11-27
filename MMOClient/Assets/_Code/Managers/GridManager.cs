@@ -345,7 +345,7 @@ namespace BV
                     lastItemHihlight = itemToHighlight;
                     if (lastItemHihlight != null)
                     {
-                        OnMouseHoverItem(lastItemHihlight.itemData);
+                        OnMouseHoverItem(lastItemHihlight);
                     }
                 }
             }
@@ -376,29 +376,9 @@ namespace BV
             }
         }
 
-        private void OnMouseHoverItem(ItemData item)
+        private void OnMouseHoverItem(InventoryItem item)
         {
-            string subtitle = "";
-            switch (item.itemType)
-            {
-                case ItemType.weapon:
-                    subtitle = "Зброя";
-                    break;
-                case ItemType.quest:
-                    subtitle = "Предмет для квесту";
-                    break;
-                case ItemType.alchemy:
-                    subtitle = "Інгредієнт";
-                    break;
-                case ItemType.elixir:
-                    subtitle = "Еліксир";
-                    break;
-                default:
-                    subtitle = "Сміття";
-                    break;
-            }
-
-            TooltipManager.singleton.ShowTooltip(new TooltipData(item.itemName, subtitle));
+            TooltipManager.singleton.ShowInventoryItemTooltip(item);
         }
 
         public void OnMouseExitItem()
@@ -729,6 +709,7 @@ namespace BV
             incorrectInventoryHiglight.SetParent(null);
             inventoryData = new List<InventoryGridData>();
             canUpdateGridCallback = new List<CanUpdateGridDelegate>();
+            OnMouseExitItem();
         }
 
         public static GridManager singleton;

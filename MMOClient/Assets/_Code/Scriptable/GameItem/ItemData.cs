@@ -11,7 +11,10 @@ namespace BV
         public string id;
         public string itemName;
         public string itemDescription;
+        public float mass = -1;
+        public float price = -1;
 
+        [Header("Inventory Stats")]
         public int width = 1;
         public int height = 1;
 

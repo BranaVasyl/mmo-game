@@ -10,10 +10,24 @@ namespace BV
     [ExecuteInEditMode()]
     public class Tooltip : MonoBehaviour
     {
-        public TextMeshProUGUI titleField;
-        public TextMeshProUGUI subtitleField;
         public LayoutElement layoutElement;
         public AnimationCurve tooltipFadeCurve;
+
+        [Header("Header Section")]
+        public GameObject headerContainer;
+        public TextMeshProUGUI titleField;
+        public TextMeshProUGUI subtitleField;
+
+        [Header("Content Section")]
+        public GameObject contentContainer;
+        public TextMeshProUGUI contentField;
+
+        [Header("Footer Section")]
+        public GameObject footerContainer;
+        public GameObject massContainer;
+        public TextMeshProUGUI massField;
+        public GameObject priceContainer;
+        public TextMeshProUGUI priceField;
 
         private CanvasGroup canvasGroup;
         private NewPlayerControls inputActions;
@@ -23,7 +37,7 @@ namespace BV
         private float showTooltiTime = 0;
         private float tooltipTimer = 0;
 
-        private void Start()
+        public void Init()
         {
             if (inputActions == null)
             {
@@ -39,33 +53,6 @@ namespace BV
             showTooltiTime = tooltipFadeCurve[tooltipFadeCurve.length - 1].time;
         }
 
-        public void SetData(TooltipData data)
-        {
-            tooltipData = data;
-            if (string.IsNullOrEmpty(data.title))
-            {
-                titleField.gameObject.SetActive(false);
-            }
-            else
-            {
-                titleField.gameObject.SetActive(true);
-                titleField.text = data.title;
-            }
-
-            subtitleField.text = data.subtitle;
-
-
-            if (false)
-            {
-                //auto width tooltip
-                layoutElement.enabled = Math.Max(titleField.preferredWidth, subtitleField.preferredWidth) >= layoutElement.preferredWidth;
-            }
-            else
-            {
-                layoutElement.enabled = true;
-            }
-        }
-
         private void Update()
         {
             if (tooltipData == null)
@@ -73,42 +60,117 @@ namespace BV
                 return;
             }
 
-            tooltipTimer += Time.deltaTime;
             if (tooltipTimer < showTooltiTime)
             {
+                tooltipTimer += Time.deltaTime;
                 canvasGroup.alpha = tooltipFadeCurve.Evaluate(tooltipTimer);
             }
 
-            Vector2 position = inputActions.Mouse.MousePosition.ReadValue<Vector2>();
+            if (tooltipData.position == Vector2.zero)
+            {
+                SetPosition(inputActions.Mouse.MousePosition.ReadValue<Vector2>());
+            }
+        }
 
+        public void SetData(TooltipData data)
+        {
+            tooltipData = data;
+            bool showHeader = true;
+            bool showContent = !string.IsNullOrEmpty(data.content);
+            bool showFooter = !string.IsNullOrEmpty(data.mass) || !string.IsNullOrEmpty(data.price);
+            bool flexWidth = !showContent && !showFooter && (data.flexWidth || string.IsNullOrEmpty(data.title));
+
+            // renderHeader
+            if (showHeader)
+            {
+                if (!string.IsNullOrEmpty(data.title))
+                {
+                    titleField.text = data.title;
+                    titleField.gameObject.SetActive(true);
+                }
+
+                if (!string.IsNullOrEmpty(data.subtitle))
+                {
+                    subtitleField.text = data.subtitle;
+                    subtitleField.gameObject.SetActive(true);
+                }
+
+                headerContainer.SetActive(true);
+            }
+
+            // renderContent
+            if (showContent)
+            {
+                if (!string.IsNullOrEmpty(data.content))
+                {
+                    contentField.text = data.content;
+                    contentField.gameObject.SetActive(true);
+                }
+
+                contentContainer.SetActive(true);
+            }
+
+            // renderFooter
+            if (showFooter)
+            {
+                if (!string.IsNullOrEmpty(data.mass))
+                {
+                    massField.text = data.mass;
+                    massContainer.SetActive(true);
+                }
+
+                if (string.IsNullOrEmpty(data.price))
+                {
+                    priceField.text = data.price;
+                    priceContainer.SetActive(true);
+                }
+
+                footerContainer.SetActive(true);
+            }
+
+            //auto width only header
+            if (flexWidth)
+            {
+                layoutElement.enabled = Math.Max(titleField.preferredWidth, subtitleField.preferredWidth) >= layoutElement.preferredWidth;
+            }
+            else
+            {
+                layoutElement.enabled = true;
+            }
+
+            SetPosition(tooltipData.position);
+        }
+
+        private void SetPosition(Vector2 position)
+        {
             float pivotX = 0;
             float pivotY = 0;
 
-            bool left = Screen.width / 2 >= position.x;
-            bool bottom = Screen.height / 2 >= position.y;
-            if (left)
+            bool top = Screen.height / 2 <= position.y;
+            bool right = Screen.width / 2 <= position.x;
+            if (right)
             {
-                if (!bottom)
+                if (top)
                 {
-                    pivotX = 0;
+                    pivotX = 1;
                     pivotY = 1;
                 }
                 else
                 {
-                    pivotX = 0;
+                    pivotX = 1;
                     pivotY = 0;
                 }
             }
             else
             {
-                if (!bottom)
+                if (top)
                 {
-                    pivotX = 1;
+                    pivotX = 0;
                     pivotY = 1;
                 }
                 else
                 {
-                    pivotX = 1;
+                    pivotX = 0;
                     pivotY = 0;
                 }
             }
@@ -119,8 +181,23 @@ namespace BV
 
         public void Clean()
         {
+            headerContainer.SetActive(false);
+            titleField.gameObject.SetActive(false);
+            subtitleField.gameObject.SetActive(false);
+
+            contentContainer.SetActive(false);
+            contentField.gameObject.SetActive(false);
+
+            footerContainer.SetActive(false);
+            massContainer.SetActive(false);
+            priceContainer.SetActive(false);
+
             titleField.text = "";
             subtitleField.text = "";
+            contentField.text = "";
+            massField.text = "";
+            priceField.text = "";
+
             tooltipTimer = 0;
             tooltipData = null;
 
@@ -128,19 +205,6 @@ namespace BV
             {
                 canvasGroup.alpha = 0;
             }
-        }
-    }
-
-    [Serializable]
-    public class TooltipData
-    {
-        public string title;
-        public string subtitle;
-
-        public TooltipData(string t = "", string sT = "")
-        {
-            title = t;
-            subtitle = sT;
         }
     }
 }

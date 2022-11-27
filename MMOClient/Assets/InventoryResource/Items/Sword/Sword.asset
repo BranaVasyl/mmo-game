@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: sword
   itemName: "\u041C\u0435\u0447"
-  itemDescription: 
+  itemDescription: "\u041F\u0440\u0438\u043A\u043E\u043B\u044C\u043D\u0438\u0439
+    \u043C\u0435\u0447"
+  mass: 5
+  price: 15
   width: 1
   height: 2
   itemType: 0
   itemIcon: {fileID: 21300000, guid: cc70cd59a4dac1340adab66b067c4d6c, type: 3}
+  itemSmallIcon: {fileID: 0}
   oh_idle_name: oh_idle
   th_idle_name: th_idle
   actions:
