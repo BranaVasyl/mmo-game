@@ -46,7 +46,7 @@ namespace BV
             {
                 if (spellsData[i] != null)
                 {
-                    menuItems[i].icon.GetComponent<Image>().sprite = spellsData[i].itemIcon;
+                    menuItems[i].icon.GetComponent<Image>().sprite = spellsData[i].icon;
                 }
             }
         }
@@ -100,8 +100,8 @@ namespace BV
                     Spell selectionItem = spellsData[selection];
                     if (selectionItem != null)
                     {
-                        titleContainer.text = selectionItem.itemName;
-                        descriptionContainer.text = selectionItem.itemDescription;
+                        titleContainer.text = selectionItem.name;
+                        descriptionContainer.text = selectionItem.description;
                     }
                 }
                 menuItemSc.Select();

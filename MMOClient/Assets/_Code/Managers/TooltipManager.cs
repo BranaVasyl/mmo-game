@@ -32,7 +32,7 @@ namespace BV
         {
             ItemData itemData = item.itemData;
             string subtitle = "";
-            switch (itemData.itemType)
+            switch (itemData.type)
             {
                 case ItemType.weapon:
                     subtitle = "Зброя";
@@ -52,9 +52,9 @@ namespace BV
             }
 
             TooltipData tooltipData = new TooltipData(
-                itemData.itemName,
+                itemData.name,
                 subtitle,
-                itemData.itemDescription,
+                itemData.description,
                 itemData.mass >= 0 ? itemData.mass.ToString() : "",
                 itemData.price >= 0 ? itemData.price.ToString() : "",
                 item.GetComponent<RectTransform>().position,

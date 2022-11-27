@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Armor
   m_EditorClassIdentifier: 
   id: armor2
-  itemName: "\u0411\u0440\u043E\u043D\u044F \u041B\u0438\u0446\u0430\u0440\u044F"
-  itemDescription: 
+  name: "\u0411\u0440\u043E\u043D\u044F \u043B\u0438\u0446\u0430\u0440\u044F"
+  description: 
+  mass: -1
+  price: -1
   width: 2
   height: 2
-  itemType: 2
-  itemIcon: {fileID: 21300000, guid: d045a3fff1411a14590d0fb92f1ad884, type: 3}
+  type: 2
+  icon: {fileID: 21300000, guid: d045a3fff1411a14590d0fb92f1ad884, type: 3}
+  smallIcon: {fileID: 0}

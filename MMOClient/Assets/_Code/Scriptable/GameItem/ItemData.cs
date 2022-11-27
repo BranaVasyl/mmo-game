@@ -9,8 +9,8 @@ namespace BV
     {
         [Header("General Stats")]
         public string id;
-        public string itemName;
-        public string itemDescription;
+        public string name;
+        public string description;
         public float mass = -1;
         public float price = -1;
 
@@ -18,9 +18,9 @@ namespace BV
         public int width = 1;
         public int height = 1;
 
-        public ItemType itemType;
-        public Sprite itemIcon;
-        public Sprite itemSmallIcon;
+        public ItemType type;
+        public Sprite icon;
+        public Sprite smallIcon;
     }
 
     public enum ItemType

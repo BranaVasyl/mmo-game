@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Elixir
   m_EditorClassIdentifier: 
   id: elixir
-  itemName: "\u041A\u0456\u0448\u043A\u0430"
-  itemDescription: 
+  name: "\u041A\u0456\u0448\u043A\u0430"
+  description: 
+  mass: -1
+  price: -1
   width: 1
   height: 1
-  itemType: 4
-  itemIcon: {fileID: 21300000, guid: 0ea7966ad5bcb294a96a575c50599afd, type: 3}
+  type: 4
+  icon: {fileID: 21300000, guid: 0ea7966ad5bcb294a96a575c50599afd, type: 3}
+  smallIcon: {fileID: 0}

@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: LongSword
   m_EditorClassIdentifier: 
   id: longSword
-  itemName: "\u0414\u043E\u0432\u0433\u0438\u0439 \u043C\u0435\u0447"
-  itemDescription: 
+  name: "\u0414\u043E\u0432\u0433\u0438\u0439 \u043C\u0435\u0447"
+  description: 
+  mass: -1
+  price: -1
   width: 1
   height: 2
   itemType: 0
-  itemIcon: {fileID: 21300000, guid: b75578d2f3a9fc1459995f8caccf9182, type: 3}
+  icon: {fileID: 21300000, guid: b75578d2f3a9fc1459995f8caccf9182, type: 3}
+  smallIcon: {fileID: 0}
   oh_idle_name: gs_oh_idle
   th_idle_name: gs_th_idle
   actions:

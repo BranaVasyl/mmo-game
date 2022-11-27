@@ -44,7 +44,7 @@ namespace BV
         {
             this.itemData = itemData;
 
-            GetComponent<Image>().sprite = itemData.itemIcon;
+            GetComponent<Image>().sprite = itemData.icon;
 
             Vector2 size = new Vector2();
             size.x = itemData.width * ItemGrid.boundTileSizeWidth;
@@ -67,7 +67,7 @@ namespace BV
 
         public ItemType GetItemType()
         {
-            return itemData.itemType;
+            return itemData.type;
         }
     }
 }

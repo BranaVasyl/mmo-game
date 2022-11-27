@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Craft
   m_EditorClassIdentifier: 
   id: craft
-  itemName: "\u0424\u043E\u0441\u0444\u043E\u0440"
-  itemDescription: 
+  name: "\u0424\u043E\u0441\u0444\u043E\u0440"
+  description: 
+  mass: -1
+  price: -1
   width: 1
   height: 1
-  itemType: 5
-  itemIcon: {fileID: 21300000, guid: 567b3c7af4dbdb247a29ed0127111ff9, type: 3}
+  type: 5
+  icon: {fileID: 21300000, guid: 567b3c7af4dbdb247a29ed0127111ff9, type: 3}
+  smallIcon: {fileID: 0}

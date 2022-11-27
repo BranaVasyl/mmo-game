@@ -554,7 +554,7 @@ namespace BV
             {
                 for (int i = 0; i < el.supportedItemType.Count; i++)
                 {
-                    if (el.supportedItemType[i] == item.itemType)
+                    if (el.supportedItemType[i] == item.type)
                     {
                         return true;
                     }
@@ -580,22 +580,22 @@ namespace BV
 
             if (itemPosition == null)
             {
-                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.itemName);
+                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.name);
                 return;
             }
 
             //@todo add QuestEvent to item ... if questEvents.count do trigger events
-            if (item.itemType == ItemType.quest)
+            if (item.type == ItemType.quest)
             {
                 string notificationTitle = "Отримано: Hовий квестовий предмет";
-                string notificationSubtitle = item.itemName;
-                Sprite notificationIcon = item.itemSmallIcon != null ? item.itemSmallIcon : item.itemIcon;
+                string notificationSubtitle = item.name;
+                Sprite notificationIcon = item.smallIcon != null ? item.smallIcon : item.icon;
                 NotificationActionType action = NotificationActionType.log;
 
                 NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
             }
 
-            NotificationManager.singleton.AddNewMessage("Отримано: " + item.itemName);
+            NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
 
             InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);
             inventoryData[gridIndex].items.Add(newItemData);
