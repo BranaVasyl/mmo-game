@@ -66,7 +66,7 @@ namespace BV
                 canvasGroup.alpha = tooltipFadeCurve.Evaluate(tooltipTimer);
             }
 
-            if (tooltipData.position == Vector2.zero)
+            if (tooltipData.cellPosition == Vector2.zero)
             {
                 SetPosition(inputActions.Mouse.MousePosition.ReadValue<Vector2>());
             }
@@ -138,7 +138,7 @@ namespace BV
                 layoutElement.enabled = true;
             }
 
-            SetPosition(tooltipData.position);
+            SetPosition(tooltipData.cellPosition);
         }
 
         private void SetPosition(Vector2 position)
@@ -176,7 +176,7 @@ namespace BV
             }
 
             rectTransform.pivot = new Vector2(pivotX, pivotY);
-            transform.position = position;
+            transform.position = new Vector2(position.x + tooltipData.offsetX, position.y + tooltipData.offsetY);
         }
 
         public void Clean()

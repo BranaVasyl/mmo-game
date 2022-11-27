@@ -379,7 +379,7 @@ namespace BV
 
         private void OnMouseHoverItem(InventoryItem item)
         {
-            TooltipManager.singleton.ShowInventoryItemTooltip(item);
+            TooltipManager.singleton.ShowInventoryItemTooltip(item, canvasTransform.GetComponent<Canvas>().scaleFactor);
         }
 
         public void OnMouseExitItem()

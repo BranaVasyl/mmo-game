@@ -28,7 +28,7 @@ namespace BV
             tooltipContainer.SetActive(false);
         }
 
-        public void ShowInventoryItemTooltip(InventoryItem item)
+        public void ShowInventoryItemTooltip(InventoryItem item, float scaleFactor)
         {
             ItemData itemData = item.itemData;
             string subtitle = "";
@@ -51,15 +51,50 @@ namespace BV
                     break;
             }
 
+            Vector2 cellPosition = item.GetComponent<RectTransform>().position;
+            float offsetX = 0;
+            float offsetY = 0;
+
+            bool top = Screen.height / 2 <= cellPosition.y;
+            bool right = Screen.width / 2 <= cellPosition.x;
+            if (right)
+            {
+                if (top)
+                {
+                    offsetX = -(((item.WIDTH * 64) / 2) * scaleFactor);
+                    offsetY = -(((item.HEIGHT * 64) / 2) * scaleFactor);
+                }
+                else
+                {
+                    offsetX = -(((item.WIDTH * 64) / 2) * scaleFactor);
+                    offsetY = +(((item.HEIGHT * 64) / 2) * scaleFactor);
+                }
+            }
+            else
+            {
+                if (top)
+                {
+                    offsetX = +(((item.WIDTH * 64) / 2) * scaleFactor);
+                    offsetY = -(((item.HEIGHT * 64) / 2) * scaleFactor);
+                }
+                else
+                {
+                    offsetX = +(((item.WIDTH * 64) / 2) * scaleFactor);
+                    offsetY = +(((item.HEIGHT * 64) / 2) * scaleFactor);
+                }
+            }
+
             TooltipData tooltipData = new TooltipData(
                 itemData.name,
                 subtitle,
                 itemData.description,
                 itemData.mass >= 0 ? itemData.mass.ToString() : "",
-                itemData.price >= 0 ? itemData.price.ToString() : "",
-                item.GetComponent<RectTransform>().position,
-                false
+                itemData.price >= 0 ? itemData.price.ToString() : ""
             );
+            tooltipData.cellPosition = cellPosition;
+            tooltipData.offsetX = offsetX;
+            tooltipData.offsetY = offsetY;
+            tooltipData.flexWidth = false;
 
             ShowTooltip(tooltipData);
         }
@@ -86,24 +121,25 @@ namespace BV
     [Serializable]
     public class TooltipData
     {
-        public string title;
-        public string subtitle;
-        public string content;
-        public string mass;
-        public string price;
+        public string title = "";
+        public string subtitle = "";
+        public string content = "";
+        public string mass = "";
+        public string price = "";
 
-        public Vector2 position;
-        public bool flexWidth; //if have only header contnet
+        public Vector2 cellPosition = new Vector2();
+        public float offsetX = 0;
+        public float offsetY = 0;
 
-        public TooltipData(string t = "", string sT = "", string c = "", string m = "", string p = "", Vector2 pos = new Vector2(), bool fW = true)
+        public bool flexWidth = true; //if have only header contnet
+
+        public TooltipData(string t = "", string sT = "", string c = "", string m = "", string p = "")
         {
             title = t;
             subtitle = sT;
             content = c;
             mass = m;
             price = p;
-            position = pos;
-            flexWidth = fW;
         }
     }
 }
