@@ -119,7 +119,7 @@ namespace BV
                     massContainer.SetActive(true);
                 }
 
-                if (string.IsNullOrEmpty(data.price))
+                if (!string.IsNullOrEmpty(data.price))
                 {
                     priceField.text = data.price;
                     priceContainer.SetActive(true);

@@ -19,7 +19,7 @@ MonoBehaviour:
   price: -1
   width: 1
   height: 2
-  itemType: 0
+  type: 0
   icon: {fileID: 21300000, guid: badd22fadd82b5e4496d98043535ae81, type: 3}
   smallIcon: {fileID: 0}
   oh_idle_name: oh_idle

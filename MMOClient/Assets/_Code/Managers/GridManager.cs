@@ -246,6 +246,7 @@ namespace BV
             {
                 Vector2Int tileGridPosition = GetTileGridPosition();
                 PickUpItem(tileGridPosition);
+                OnMouseExitItem();
             }
 
             HandleHighlight();
