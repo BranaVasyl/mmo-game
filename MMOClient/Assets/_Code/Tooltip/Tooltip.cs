@@ -53,17 +53,29 @@ namespace BV
             showTooltiTime = tooltipFadeCurve[tooltipFadeCurve.length - 1].time;
         }
 
+        public void Open()
+        {
+            gameObject.SetActive(true);
+            StartCoroutine(OpenTooltip());
+        }
+
+        private IEnumerator OpenTooltip()
+        {
+            while (tooltipTimer < showTooltiTime)
+            {
+                tooltipTimer += Time.deltaTime;
+                canvasGroup.alpha = tooltipFadeCurve.Evaluate(tooltipTimer);
+                yield return null;
+            }
+
+            tooltipTimer = 0;
+        }
+
         private void Update()
         {
             if (tooltipData == null)
             {
                 return;
-            }
-
-            if (tooltipTimer < showTooltiTime)
-            {
-                tooltipTimer += Time.deltaTime;
-                canvasGroup.alpha = tooltipFadeCurve.Evaluate(tooltipTimer);
             }
 
             if (tooltipData.cellPosition == Vector2.zero)
@@ -185,6 +197,11 @@ namespace BV
 
             rectTransform.pivot = new Vector2(pivotX, pivotY);
             transform.position = new Vector2(position.x + tooltipData.offsetX, position.y + tooltipData.offsetY);
+        }
+
+        public void Close()
+        {
+            gameObject.SetActive(false);
         }
 
         public void Clean()

@@ -176,13 +176,13 @@ namespace BV
         public void ShowTooltip(TooltipData data)
         {
             tooltip.SetData(data);
-            tooltip.gameObject.SetActive(true);
+            tooltip.Open();
         }
 
         public void HideTooltip()
         {
             tooltip.Clean();
-            tooltip.gameObject.SetActive(false);
+            tooltip.Close();
         }
 
         public static TooltipManager singleton;
