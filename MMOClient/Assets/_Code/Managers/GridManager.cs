@@ -233,6 +233,8 @@ namespace BV
                 {
                     RevertItemPosition(startItemGrid, selectedItemGrid);
                 }
+
+                forceHighlight = true;
             }
 
             if (selectedItemGrid == null)
@@ -308,10 +310,11 @@ namespace BV
         ItemGrid oldItemGrid;
         InventoryItem itemToHighlight;
         InventoryItem lastItemHihlight;
+        bool forceHighlight = false;
         private async void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTileGridPosition();
-            if (oldPosition == positionOnGrid && selectedItemGrid == oldItemGrid)
+            if (oldPosition == positionOnGrid && selectedItemGrid == oldItemGrid && !forceHighlight)
             {
                 return;
             }
@@ -341,7 +344,7 @@ namespace BV
                     TooltipManager.singleton.ShowEmptyEquipTolltip(selectedItemGrid, canvasTransform.GetComponent<Canvas>().scaleFactor);
                 }
 
-                if (itemToHighlight != lastItemHihlight)
+                if ((itemToHighlight != lastItemHihlight) || forceHighlight)
                 {
                     OnMouseExitItem();
                     lastItemHihlight = itemToHighlight;
@@ -371,11 +374,14 @@ namespace BV
                     correctInventoryHiglight.Show(false);
                 }
 
-                if (lastItemHihlight != null)
+                if ((lastItemHihlight != null) || forceHighlight)
                 {
                     OnMouseExitItem();
                 }
+
             }
+
+            forceHighlight = false;
         }
 
         private void OnMouseHoverItem(InventoryItem item)
