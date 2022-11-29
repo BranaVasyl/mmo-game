@@ -99,6 +99,80 @@ namespace BV
             ShowTooltip(tooltipData);
         }
 
+        public void ShowEmptyEquipTolltip(ItemGrid grid, float scaleFactor)
+        {
+            string tooltipContent = "";
+            switch (grid.gridId)
+            {
+                case "leftHandGrid":
+                    tooltipContent = "Ліва рука";
+                    break;
+                case "rightHandGrid":
+                    tooltipContent = "Права рука";
+                    break;
+                case "bowGrid":
+                    tooltipContent = "Лук";
+                    break;
+                case "arrowGrid":
+                    tooltipContent = "Стріли";
+                    break;
+                case "quickSpellGrid4":
+                case "quickSpellGrid3":
+                case "quickSpellGrid2":
+                case "quickSpellGrid1":
+                    tooltipContent = "Магія";
+                    break;
+                case "pocketsGrid4":
+                case "pocketsGrid3":
+                case "pocketsGrid2":
+                case "pocketsGrid1":
+                    tooltipContent = "Кармани";
+                    break;
+                case "bodyArmorGrid":
+                    tooltipContent = "Броня";
+                    break;
+                case "handArmorGrid":
+                    tooltipContent = "Рукавиці";
+                    break;
+                case "legsArmorGrid":
+                    tooltipContent = "Штани";
+                    break;
+                case "shoesArmorGrid":
+                    tooltipContent = "Взуття";
+                    break;
+                case "jewelryGrid4":
+                case "jewelryGrid3":
+                case "jewelryGrid2":
+                case "jewelryGrid1":
+                    tooltipContent = "Біжутерія";
+                    break;
+                case "dropItemGrid":
+                    tooltipContent = "Викинути предмет";
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(tooltipContent))
+            {
+                return;
+            }
+
+            Vector2 cellPosition = grid.placeholder.GetComponent<RectTransform>().position;
+
+            float itemWidth = grid.placeholder.GetComponent<RectTransform>().sizeDelta.x;
+            float itemHeight = grid.placeholder.GetComponent<RectTransform>().sizeDelta.y;
+            float offsetX = +((itemWidth / 2) * scaleFactor);
+            float offsetY = -((itemHeight / 2) * scaleFactor);
+
+            TooltipData tooltipData = new TooltipData();
+            tooltipData.subtitle = tooltipContent;
+            tooltipData.cellPosition = cellPosition;
+            tooltipData.offsetX = offsetX;
+            tooltipData.offsetY = offsetY;
+            tooltipData.calculatePivot = false;
+
+            ShowTooltip(tooltipData);
+        }
+
         public void ShowTooltip(TooltipData data)
         {
             tooltip.SetData(data);
@@ -132,6 +206,7 @@ namespace BV
         public float offsetY = 0;
 
         public bool flexWidth = true; //if have only header contnet
+        public bool calculatePivot = true;
 
         public TooltipData(string t = "", string sT = "", string c = "", string m = "", string p = "")
         {

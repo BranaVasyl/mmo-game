@@ -338,6 +338,7 @@ namespace BV
                 {
                     correctInventoryHiglight.Show(false);
                     incorrectInventoryHiglight.Show(false);
+                    TooltipManager.singleton.ShowEmptyEquipTolltip(selectedItemGrid, canvasTransform.GetComponent<Canvas>().scaleFactor);
                 }
 
                 if (itemToHighlight != lastItemHihlight)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1927.7153, g: 1694.4688, b: 2023.4512, a: 1}
+  m_IndirectSpecularColor: {r: 1946.375, g: 1711.9414, b: 1966.9453, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1648,7 +1648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 86153977}
   m_Layer: 5
-  m_Name: Horse (3)
+  m_Name: Jewelry (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10544,7 +10544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: arrowGrid
   placeholder: {fileID: 2029426297}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -11955,7 +11955,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683858638}
   m_Layer: 5
-  m_Name: Horse (2)
+  m_Name: Jewelry (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12540,7 +12540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 720899951}
   m_Layer: 5
-  m_Name: Horse (4)
+  m_Name: Jewelry (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13081,7 +13081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: bowGrid
   placeholder: {fileID: 1954874447}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -14962,7 +14962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: jewelryGrid1
   placeholder: {fileID: 1816143256}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -17525,7 +17525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: jewelryGrid4
   placeholder: {fileID: 225116176}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -20468,7 +20468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1124293111}
   m_Layer: 5
-  m_Name: ArrowWeapon
+  m_Name: BowWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21702,7 +21702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: handArmorGrid
   placeholder: {fileID: 1909581882}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -21835,7 +21835,7 @@ GameObject:
   - component: {fileID: 1204977438}
   - component: {fileID: 1204977437}
   m_Layer: 5
-  m_Name: HorseContainer
+  m_Name: JewelryContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22875,7 +22875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: bodyArmorGrid
   placeholder: {fileID: 1324223011}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -23799,7 +23799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: shoesArmorGrid
   placeholder: {fileID: 415492209}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -34293,7 +34293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1795681729}
   m_Layer: 5
-  m_Name: BowWeapon
+  m_Name: ArrowWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36258,7 +36258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: jewelryGrid3
   placeholder: {fileID: 1483046982}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -37224,7 +37224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: legsArmorGrid
   placeholder: {fileID: 1455615403}
   gridSizeWidth: 1
   gridSizeHeight: 2
@@ -39215,7 +39215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: jewelryGrid2
   placeholder: {fileID: 1747127937}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -39496,7 +39496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2037958220}
   m_Layer: 5
-  m_Name: Horse (1)
+  m_Name: Jewelry (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40589,8 +40589,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
-  placeholder: {fileID: 0}
+  gridId: dropItemGrid
+  placeholder: {fileID: 161569527}
   gridSizeWidth: 1
   gridSizeHeight: 1
   supportedItemType: 

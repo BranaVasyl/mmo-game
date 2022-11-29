@@ -146,33 +146,41 @@ namespace BV
             float pivotX = 0;
             float pivotY = 0;
 
-            bool top = Screen.height / 2 <= position.y;
-            bool right = Screen.width / 2 <= position.x;
-            if (right)
+            if (tooltipData.calculatePivot)
             {
-                if (top)
+                bool top = Screen.height / 2 <= position.y;
+                bool right = Screen.width / 2 <= position.x;
+                if (right)
                 {
-                    pivotX = 1;
-                    pivotY = 1;
+                    if (top)
+                    {
+                        pivotX = 1;
+                        pivotY = 1;
+                    }
+                    else
+                    {
+                        pivotX = 1;
+                        pivotY = 0;
+                    }
                 }
                 else
                 {
-                    pivotX = 1;
-                    pivotY = 0;
+                    if (top)
+                    {
+                        pivotX = 0;
+                        pivotY = 1;
+                    }
+                    else
+                    {
+                        pivotX = 0;
+                        pivotY = 0;
+                    }
                 }
             }
             else
             {
-                if (top)
-                {
-                    pivotX = 0;
-                    pivotY = 1;
-                }
-                else
-                {
-                    pivotX = 0;
-                    pivotY = 0;
-                }
+                pivotX = 0;
+                pivotY = 1;
             }
 
             rectTransform.pivot = new Vector2(pivotX, pivotY);
