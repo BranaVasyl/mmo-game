@@ -14,9 +14,6 @@ namespace Project.Networking
         private ManagersController managersController;
 
         [SerializeField]
-        private GameObject chatUI = null;
-
-        [SerializeField]
         private TMP_Text chatText = null;
 
         [SerializeField]
@@ -25,17 +22,6 @@ namespace Project.Networking
         public void Init(ManagersController mC)
         {
             managersController = mC;
-            Show();
-        }
-
-        public void Show()
-        {
-            chatUI.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            chatUI.SetActive(false);
         }
 
         public void SendMessage(string id, string message)

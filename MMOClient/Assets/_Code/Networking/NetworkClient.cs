@@ -188,6 +188,12 @@ namespace Project.Networking
                 managersController.notificationManager.AddNewMessage("Ви вбили: " + id);
             });
 
+            On("setBagData", (E) =>
+            {
+                InventoryGridData bagData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
+                PickUpManager.singleton.SetBagData(bagData.items);
+            });
+
             On("setChestData", (E) =>
             {
                 InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());

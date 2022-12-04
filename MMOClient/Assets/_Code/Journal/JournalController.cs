@@ -35,7 +35,7 @@ namespace BV
 
         QuestManager questManager;
 
-        void Awake()
+        void Awake() 
         {
             questManager = QuestManager.singleton;
         }

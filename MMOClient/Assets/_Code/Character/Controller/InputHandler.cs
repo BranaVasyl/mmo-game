@@ -40,6 +40,7 @@ namespace BV
         CameraManager camManager;
         MenuManager menuManager;
         PieMenuManager pieMenuManager;
+        GameUIManager gameUIManager;
 
         NewPlayerControls inputActions;
 
@@ -59,6 +60,7 @@ namespace BV
 
                 menuManager = MenuManager.singleton;
                 pieMenuManager = PieMenuManager.singleton;
+                gameUIManager = GameUIManager.singleton;
 
                 if (inputActions == null)
                 {
@@ -182,8 +184,10 @@ namespace BV
                 pieMenuManager.CloseMenu();
             }
 
-            if (menuManager.IsOpen())
+            if (menuManager.IsOpen() || states.inDialog)
             {
+                states.run = false;
+                states.moveAmount = 0;
                 return;
             }
 
@@ -197,7 +201,7 @@ namespace BV
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
 
-            if (pieMenuManager.IsOpen())
+            if (pieMenuManager.IsOpen() || gameUIManager.IsAlreadyInteracted())
             {
                 return;
             }

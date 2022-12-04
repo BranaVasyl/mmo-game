@@ -75,7 +75,14 @@ namespace BV
                 }
             }
 
-            gameUIManager.interactionUi.SetActive(hitSomething);
+            if (hitSomething)
+            {
+                gameUIManager.ShowInteractionUI();
+            }
+            else
+            {
+                gameUIManager.HideInteractionUI();
+            }
         }
     }
 }

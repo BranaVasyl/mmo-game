@@ -6,7 +6,7 @@ namespace BV
 {
     public class PieMenuManager : MonoBehaviour
     {
-        public ManagersController managersController;
+        private ManagersController managersController;
 
         public PieMenu pieMenu;
         private bool isOpen;
