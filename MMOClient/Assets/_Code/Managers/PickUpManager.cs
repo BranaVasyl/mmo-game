@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Collections;
 using Project.Utility;
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 using TMPro;
 
 namespace BV
@@ -13,8 +15,9 @@ namespace BV
         private GameUIManager gameUIManager;
 
         public GameObject itemsContainer;
-        public GameObject currentBagObject;
 
+        [Header("Bag data")]
+        private GameObject currentBagObject;
         private string currentbagId = "";
 
         [Header("Player data")]
@@ -68,26 +71,97 @@ namespace BV
             }
         }
 
-        void ItemClicked(ItemData itemData)
+        private async Task<bool> PickUpItem(string playerId, string chestID, string itemId)
         {
-            int index = itemsData.FindIndex(i => i == itemData);
-            if (index < 0)
+            bool requestStatus = false;
+            bool result = false;
+
+            SendChestPickUpData sendData = new SendChestPickUpData(playerId, chestID, itemId, 1);
+            managersController.socket.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
             {
-                Debug.Log("Something went wrong");
+                var data = response[0];
+                result = data["result"].ToString() == "true";
+
+                requestStatus = true;
+            });
+
+            while (!requestStatus)
+            {
+                await Task.Yield();
+            }
+
+            return result;
+        }
+
+        async void ItemClicked(ItemData item)
+        {
+            //request
+            bool result = false;
+            result = await PickUpItem(playerId, currentbagId, item.id);
+            if (!result)
+            {
                 return;
             }
-            Debug.Log(index);
+
+            result = GridManager.singleton.PickUpItem(item);
+            if (!result)
+            {
+                return;
+            }
+
+            int index = itemsData.FindIndex(i => i == item);
 
             GameObject itemUI = itemsObject[index];
             itemsObject.Remove(itemUI);
             Destroy(itemUI);
 
-            GridManager.singleton.PickUpItem(itemData.id);
-            itemsData.Remove(itemData);
+            itemsData.Remove(item);
 
             if (itemsData.Count == 0)
             {
-                Destroy(currentBagObject);
+                Debug.Log("Debu Remove Object");
+                //Destroy(currentBagObject);
+                ClsoeBag();
+            }
+        }
+
+        public async void TakeAllItems()
+        {
+            List<ItemData> completed = new List<ItemData>();
+            foreach (ItemData item in itemsData)
+            {
+                //request
+                bool result = false;
+                result = await PickUpItem(playerId, currentbagId, item.id);
+                if (!result)
+                {
+                    continue;
+                }
+
+                result = GridManager.singleton.PickUpItem(item);
+                if (!result)
+                {
+                    continue;
+                }
+
+                completed.Add(item);
+            }
+
+            foreach (ItemData item in completed)
+            {
+                int index = itemsData.FindIndex(i => i == item);
+
+                GameObject itemUI = itemsObject[index];
+                itemsObject.Remove(itemUI);
+                Destroy(itemUI);
+
+                itemsData.Remove(item);
+            }
+
+            if (itemsData.Count == 0)
+            {
+                Debug.Log("Debu Remove Object");
+                //Destroy(currentBagObject);
                 ClsoeBag();
             }
         }
@@ -105,6 +179,11 @@ namespace BV
 
         public void ClsoeBag()
         {
+            if (!String.IsNullOrEmpty(currentbagId))
+            {
+                managersController.socket.Emit("closeBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
+            }
+
             Clean();
             currentBagObject = null;
             gameUIManager.HideBagUI();

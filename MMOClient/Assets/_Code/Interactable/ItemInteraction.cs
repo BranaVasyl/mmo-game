@@ -18,13 +18,19 @@ namespace BV
             if (itemId == "random")
             {
                 int selectedItemID = UnityEngine.Random.Range(0, ItemsManager.singleton.GetItemsCount());
-                ItemData item = ItemsManager.singleton.GetItemByIndex(selectedItemID);
+                ItemData randomItem = ItemsManager.singleton.GetItemByIndex(selectedItemID);
 
-                GridManager.singleton.PickUpItem(item.id);
+                GridManager.singleton.PickUpItem(randomItem);
                 return;
             }
 
-            GridManager.singleton.PickUpItem(itemId);
+            ItemData? item = ItemsManager.singleton.GetItemById(itemId);
+            if (item == null)
+            {
+                return;
+            }
+
+            GridManager.singleton.PickUpItem(item);
         }
     }
 }

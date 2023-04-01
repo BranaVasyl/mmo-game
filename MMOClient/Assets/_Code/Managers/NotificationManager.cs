@@ -10,8 +10,6 @@ namespace BV
 {
     public class NotificationManager : MonoBehaviour
     {
-        public GameObject notificationContainer;
-
         [Header("Notification Data")]
         public GameObject notificationTemplate;
         public TMP_Text notificationTitle;
@@ -43,7 +41,6 @@ namespace BV
         public void Init()
         {
             //notification
-            notificationContainer.SetActive(true);
             notificationTemplate.SetActive(false);
             showNotificationTime = notificationFadeCurve[notificationFadeCurve.length - 1].time;
             canvasGroup = notificationTemplate.GetComponent<CanvasGroup>();
@@ -172,16 +169,6 @@ namespace BV
             messagesQueueChecker = null;
         }
         #endregion
-
-        public void Show()
-        {
-            notificationContainer.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            notificationContainer.SetActive(false);
-        }
 
         public static NotificationManager singleton;
         void Awake()

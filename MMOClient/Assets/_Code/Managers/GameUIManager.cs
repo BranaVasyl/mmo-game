@@ -25,6 +25,9 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI interactionText;
     public bool alreadyInteracted = false;
 
+    [Header("Notification")]
+    public GameObject notificationUI;
+
     [Header("Bag")]
     public GameObject bagUI;
 
@@ -42,6 +45,9 @@ public class GameUIManager : MonoBehaviour
     public void Init()
     {
         Show();
+        ShowWeatherUI();
+        ShowChatUI();
+        ShowNotificationUI();
     }
 
     public void Show()
@@ -123,6 +129,16 @@ public class GameUIManager : MonoBehaviour
     {
         bagUI.SetActive(false);
         alreadyInteracted = false;
+    }
+
+    public void ShowNotificationUI()
+    {
+        notificationUI.SetActive(true);
+    }
+
+    public void HideNotificationUI()
+    {
+        notificationUI.SetActive(false);
     }
 
     public static GameUIManager singleton;

@@ -159,12 +159,10 @@ namespace BV
                 inventory_input = false;
                 if (!menuManager.IsOpen())
                 {
-                    states.openMenu = true;
                     menuManager.OpenMenu();
                 }
                 else
                 {
-                    states.openMenu = false;
                     menuManager.CloseMenu();
                 }
             }
@@ -173,14 +171,12 @@ namespace BV
             {
                 if (!pieMenuManager.IsOpen())
                 {
-                    states.openMenu = true;
                     pieMenuManager.OpenMenu();
                 }
             }
 
             if (!rightAxis_down && pieMenuManager.IsOpen())
             {
-                states.openMenu = false;
                 pieMenuManager.CloseMenu();
             }
 
@@ -201,12 +197,12 @@ namespace BV
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
 
-            if (pieMenuManager.IsOpen() || gameUIManager.IsAlreadyInteracted())
+            if (menuManager.IsOpen() || pieMenuManager.IsOpen() || gameUIManager.IsAlreadyInteracted())
             {
+                states.openMenu = true;
                 return;
             }
-
-            if (states.openMenu)
+            else
             {
                 states.openMenu = false;
             }

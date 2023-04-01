@@ -549,14 +549,8 @@ namespace BV
             MenuManager.singleton.ToogleLoader(false);
         }
 
-        public void PickUpItem(string itemId)
+        public bool PickUpItem(ItemData item)
         {
-            ItemData? item = itemsManager.GetItemById(itemId);
-            if (item == null)
-            {
-                return;
-            }
-
             ref List<InventoryGridData> inventoryData = ref ManagersController.singleton.playerData.inventoryData;
             int gridIndex = inventoryData.FindIndex(el =>
             {
@@ -570,9 +564,10 @@ namespace BV
 
                 return false;
             });
+            
             if (gridIndex == -1)
             {
-                return;
+                return false;
             }
             InventoryGridData gridData = inventoryData[gridIndex];
 
@@ -589,7 +584,7 @@ namespace BV
             if (itemPosition == null)
             {
                 NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.name);
-                return;
+                return false;
             }
 
             //@todo add QuestEvent to item ... if questEvents.count do trigger events
@@ -605,9 +600,10 @@ namespace BV
 
             NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
 
-            InventoryItemData newItemData = new InventoryItemData(itemId, itemPosition.Value.x, itemPosition.Value.y, rotated);
+            InventoryItemData newItemData = new InventoryItemData(item.id, itemPosition.Value.x, itemPosition.Value.y, rotated);
             inventoryData[gridIndex].items.Add(newItemData);
 
+            return true;
         }
 
         private bool[,] GenerateInventoryDataMatrix(InventoryGridData gridData)
