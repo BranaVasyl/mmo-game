@@ -319,6 +319,7 @@ namespace BV
             {
                 canAttack = true;
                 canMove = true;
+                actionManager.actionIndex = 0;
             }
 
             if (!onEmpty && !canMove && !canAttack)
@@ -675,7 +676,7 @@ namespace BV
             canMove = false;
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
-            anim.CrossFade(targetAnim, 0.2f);
+            anim.CrossFade(targetAnim, 0.08f);
         }
 
         void BlockAction(Action slot)
