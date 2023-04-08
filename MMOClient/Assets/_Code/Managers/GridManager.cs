@@ -247,7 +247,7 @@ namespace BV
             if (dragStart)
             {
                 Vector2Int tileGridPosition = GetTileGridPosition();
-                PickUpItem(tileGridPosition);
+                StartDragItem(tileGridPosition);
                 OnMouseExitItem();
             }
 
@@ -551,7 +551,7 @@ namespace BV
 
         public bool PickUpItem(ItemData item)
         {
-            ref List<InventoryGridData> inventoryData = ref ManagersController.singleton.playerData.inventoryData;
+            ref List<InventoryGridData> inventoryData = ref ManagersController.singleton.playerInventoryData;
             int gridIndex = inventoryData.FindIndex(el =>
             {
                 for (int i = 0; i < el.supportedItemType.Count; i++)
@@ -668,7 +668,7 @@ namespace BV
             return true;
         }
 
-        private void PickUpItem(Vector2Int tileGridPosition)
+        private void StartDragItem(Vector2Int tileGridPosition)
         {
             selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
             if (selectedItem == null)

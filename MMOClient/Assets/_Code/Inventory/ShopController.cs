@@ -39,7 +39,7 @@ namespace BV
 
         public override void Open()
         {
-            gridManager.SetData(managersController.playerData.inventoryData);
+            gridManager.SetData(managersController.playerInventoryData);
 
             gridManager.onUpdateData.AddListener(UpdateData);
             gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);

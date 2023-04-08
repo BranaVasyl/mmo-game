@@ -29,8 +29,10 @@ namespace BV
         public GameObject currentPlayerGameObject;
         [HideInInspector]
         public StateManager stateManager;
-        [HideInInspector]
-        public PlayerData playerData;
+
+        [Header("Player Data")]
+        public List<InventoryGridData> playerInventoryData = new List<InventoryGridData>();
+        public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
 
         void Start()
         {
@@ -55,7 +57,9 @@ namespace BV
 
             currentPlayerGameObject = sM.gameObject;
             stateManager = sM;
-            playerData = pD;
+            
+            playerInventoryData = pD.inventoryData;
+            playerEquipData = pD.playerEquipData;
 
             InitManagers();
         }

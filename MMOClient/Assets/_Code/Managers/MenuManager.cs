@@ -214,14 +214,14 @@ namespace BV
                 return;
             }
 
-            int index = managersController.playerData.inventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
+            int index = managersController.playerInventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
             if (index == -1)
             {
                 return;
             }
 
-            managersController.playerData.inventoryData[index] = itemGridData;
-            managersController.socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerData.inventoryData))));
+            managersController.playerInventoryData[index] = itemGridData;
+            managersController.socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerInventoryData))));
         }
         #endregion
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1868.5127, g: 1566.3438, b: 1655.2441, a: 1}
+  m_IndirectSpecularColor: {r: 1919.9961, g: 1665.4834, b: 1945.5605, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21970,7 +21970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: 
+  gridId: elixirGrid
   placeholder: {fileID: 0}
   gridSizeWidth: 5
   gridSizeHeight: 7

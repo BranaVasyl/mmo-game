@@ -33,7 +33,7 @@ namespace BV
         {
             inventoryManager = characterMan.gameObject.GetComponent<InventoryManager>();
 
-            if (managersController.playerData.playerEquipData.Count == 0)
+            if (managersController.playerEquipData.Count == 0)
             {
                 return;
             }
@@ -48,8 +48,8 @@ namespace BV
 
         public override void Open()
         {
-            gridManager.SetData(managersController.playerData.inventoryData);
-            gridManager.SetData(managersController.playerData.playerEquipData);
+            gridManager.SetData(managersController.playerInventoryData);
+            gridManager.SetData(managersController.playerEquipData);
 
             gridManager.onUpdateData.AddListener(UpdateData);
         }
@@ -74,7 +74,7 @@ namespace BV
         #region Update Equip
         private void UpdateLeftHand()
         {
-            InventoryGridData inventoryGrid = managersController.playerData.playerEquipData.Find(x => x.gridId == "leftHandGrid");
+            InventoryGridData inventoryGrid = managersController.playerEquipData.Find(x => x.gridId == "leftHandGrid");
             if (inventoryGrid == null)
             {
                 return;
@@ -93,7 +93,7 @@ namespace BV
 
         private void UpdateRightHand()
         {
-            InventoryGridData inventoryGrid = managersController.playerData.playerEquipData.Find(x => x.gridId == "rightHandGrid");
+            InventoryGridData inventoryGrid = managersController.playerEquipData.Find(x => x.gridId == "rightHandGrid");
             if (inventoryGrid == null)
             {
                 return;
@@ -112,7 +112,7 @@ namespace BV
 
         private void UpdateQuickSpell(int id)
         {
-            InventoryGridData inventoryGrid = managersController.playerData.playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (id + 1));
+            InventoryGridData inventoryGrid = managersController.playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (id + 1));
             if (inventoryGrid == null)
             {
                 return;
@@ -132,14 +132,14 @@ namespace BV
 
         private void UpdatePlayerEquipData(InventoryGridData itemGridData)
         {
-            int index = managersController.playerData.playerEquipData.FindIndex(s => s.gridId == itemGridData.gridId);
+            int index = managersController.playerEquipData.FindIndex(s => s.gridId == itemGridData.gridId);
             if (index == -1)
             {
                 return;
             }
 
-            managersController.playerData.playerEquipData[index] = itemGridData;
-            managersController.socket.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerData.playerEquipData))));
+            managersController.playerEquipData[index] = itemGridData;
+            managersController.socket.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
         }
 
         private void UpdateEquip(InventoryGridData itemGridData)
