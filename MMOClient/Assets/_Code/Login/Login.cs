@@ -46,12 +46,12 @@ public class Login : MonoBehaviour
             yield break;
         }
 
-        if (!Regex.IsMatch(password, PASSWORD_REGEX))
-        {
-            alertText.text = "Invalid credentials";
-            ActivateButtons(true);
-            yield break;
-        }
+        // if (!Regex.IsMatch(password, PASSWORD_REGEX))
+        // {
+        //     alertText.text = "Invalid credentials";
+        //     ActivateButtons(true);
+        //     yield break;
+        // }
 
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
