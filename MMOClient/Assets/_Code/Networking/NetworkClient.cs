@@ -25,6 +25,9 @@ namespace Project.Networking
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
+        [HideInInspector]
+        private bool isConnected = false;
+
         // Start is called before the first frame update
         public override void Start()
         {
@@ -49,7 +52,12 @@ namespace Project.Networking
         {
             On("open", (E) =>
             {
-                Debug.Log("Connection made to the server");
+                if (!isConnected)
+                {
+                    Debug.Log("Connection made to the server");
+                    AttemptToJoinLobby();
+                    isConnected = true;
+                }
             });
 
             On("register", (E) =>

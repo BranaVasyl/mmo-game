@@ -39,7 +39,7 @@ public class GameUIManager : MonoBehaviour
         HideInteractionUI();
         HideBagUI();
 
-        loginPanel.SetActive(true);
+        //loginPanel.SetActive(true);
     }
 
     public void Init()
