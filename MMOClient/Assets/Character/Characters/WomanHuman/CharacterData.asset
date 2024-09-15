@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9069b4c3f0f1ebe45845f8b493ac129c, type: 3}
+  m_Name: CharacterData
+  m_EditorClassIdentifier: 
+  id: womanHuman
+  sex: 1
+  race: 0
+  gameObject: {fileID: 6679339757132984336, guid: f260264660cdfa04784b91545ef9fc33, type: 3}
