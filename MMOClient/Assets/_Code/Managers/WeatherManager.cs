@@ -55,6 +55,10 @@ namespace BV
             timeMultiplier = tM;
         }
 
+        public void SetOrbitSbeed(float oS) {
+            orbitSpeed = oS;
+        }
+
         private void UpdateTime(float time = -1f)
         {
             if (time == -1)

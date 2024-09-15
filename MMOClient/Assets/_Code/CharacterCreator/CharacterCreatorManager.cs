@@ -10,6 +10,11 @@ namespace BV
     public class CharacterCreatorManager : MonoBehaviour
     {
         private CharactersController charactersController;
+        private WeatherManager weatherManager;
+
+
+        private string slectedSex = "man";
+        private string slectedRace = "human";
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -19,7 +24,12 @@ namespace BV
         void Start()
         {
             creatorPanel.SetActive(false);
+
             charactersController = GetComponent<CharactersController>();
+            weatherManager = GetComponent<WeatherManager>();
+
+            weatherManager.SetOrbitSbeed(0);
+
             GoDefaultMode();
         }
 
@@ -44,13 +54,38 @@ namespace BV
         {
         }
 
-        public void CreateCharacter(string id = "manHuman")
+
+
+        public void OnSetSex(string sex)
+        {
+            if (slectedSex == sex)
+            {
+                return;
+            }
+
+            slectedSex = sex;
+            CreateCharacter();
+        }
+
+        public void OnSetRace(string race)
+        {
+            if (slectedRace == race)
+            {
+                return;
+            }
+
+            slectedRace = race;
+            CreateCharacter();
+        }
+
+        public void CreateCharacter()
         {
             if (currentCharacter)
             {
                 Destroy(currentCharacter);
             }
 
+            string id = slectedSex.ToLower() + char.ToUpper(slectedRace[0]) + slectedRace.Substring(1).ToLower();
             currentCharacter = charactersController.CreateCharacter(id, transformSpawnPoint);
         }
 
