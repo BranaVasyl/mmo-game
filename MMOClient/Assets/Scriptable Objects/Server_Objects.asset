@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Server_Objects
   m_EditorClassIdentifier: 
   Objects:
-  - Name: AI_Zombie1
+  - Name: AI_Zombie
     Prefab: {fileID: 3474922075524253662, guid: 6e45889a8e70a784290fe21f72609b00, type: 3}
-  - Name: NPC_First2
+  - Name: NPC_First
     Prefab: {fileID: 1845021260846373711, guid: d429d5f35c991e14fb8ac0fe872c5c40, type: 3}
   - Name: Agent
     Prefab: {fileID: 4714603377104606014, guid: 3d84e8916fe28d945ba576f3d7788c75, type: 3}
