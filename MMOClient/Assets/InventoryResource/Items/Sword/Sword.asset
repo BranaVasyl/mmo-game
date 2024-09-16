@@ -19,8 +19,8 @@ MonoBehaviour:
   price: 15
   width: 1
   height: 2
-  itemType: 0
-  icon: {fileID: 21300000, guid: cc70cd59a4dac1340adab66b067c4d6c, type: 3}
+  type: 0
+  icon: {fileID: 21300000, guid: 447489a8b1cb3dc4cb9cd39c57983508, type: 3}
   smallIcon: {fileID: 0}
   oh_idle_name: oh_idle
   th_idle_name: th_idle
@@ -49,4 +49,4 @@ MonoBehaviour:
       branches: []
   LeftHandMirror: 1
   two_handedActions: []
-  weaponModel: {fileID: 1993076575720630405, guid: b5fae0cb3bfa29d488fc8e51b2543ccb, type: 3}
+  weaponModel: {fileID: 1993076575720630405, guid: 66e17b700d707d546962bf5a15b7d335, type: 3}

@@ -73,4 +73,4 @@ MonoBehaviour:
     mirror: 0
     defaultStep:
       branches: []
-  weaponModel: {fileID: 1993076575720630405, guid: 7ef6fda2d4fa43b4a8513300197cdef9, type: 3}
+  weaponModel: {fileID: 1993076575720630405, guid: 3db8a8ac4c4c533499db76ff80db2a2a, type: 3}

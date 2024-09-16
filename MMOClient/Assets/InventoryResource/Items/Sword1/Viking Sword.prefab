@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 4972394867667608985}
   - component: {fileID: 4060690464855203759}
   - component: {fileID: 7739138120033592150}
-  - component: {fileID: 1899766446851712288}
   m_Layer: 9
   m_Name: Viking Sword
   m_TagString: Untagged
@@ -143,17 +142,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1899766446851712288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8311999017942472586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd61ac717b43dae42947227c57ead627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageCollider:
-  - {fileID: 3296631755220408818}
