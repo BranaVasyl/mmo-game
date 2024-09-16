@@ -80,7 +80,7 @@ namespace Project.Networking
                 go.transform.position = playerData.position;
                 go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
 
-                GameObject character = charactersController.CreateCharacter("womanHuman", go.transform);
+                GameObject character = charactersController.CreateCharacter("manHuman", go.transform);
 
                 if (!character)
                 {

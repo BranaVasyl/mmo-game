@@ -126,10 +126,6 @@ namespace BV
 #nullable enable
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
-            if (!leftHandPivot)
-            {
-            }
-
             if (leftHandObject != null)
             {
                 leftHandObject.SetActive(false);
