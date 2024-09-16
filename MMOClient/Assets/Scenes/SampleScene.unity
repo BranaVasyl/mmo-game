@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1797.5537, g: 1503.918, b: 1544.3379, a: 1}
+  m_IndirectSpecularColor: {r: 1790.7671, g: 1479.2178, b: 1486.3027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7589,6 +7589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 391939055}
   - component: {fileID: 391939054}
+  - component: {fileID: 391939056}
   m_Layer: 0
   m_Name: '[ Code - Networking]'
   m_TagString: Untagged
@@ -7632,6 +7633,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &391939056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391939053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbf761a96a96bc4987ab9949f36fc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 11400000, guid: 819e532bba4d78c4ea5e90c89c4e0151, type: 2}
+  - {fileID: 11400000, guid: 6daa708dbbbde7e4a9adbfa3634f2006, type: 2}
 --- !u!114 &394546639 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9048665564435229141, guid: b7194f1cc5a85dc4f94c6ac99ce93076, type: 3}

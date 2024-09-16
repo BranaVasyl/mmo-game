@@ -20,6 +20,7 @@ namespace Project.Networking
         private ServerObjects serverSpawnables;
 
         private ManagersController managersController;
+        private CharactersController charactersController;
 
         public static string ClientID { get; private set; }
 
@@ -31,6 +32,7 @@ namespace Project.Networking
         // Start is called before the first frame update
         public override void Start()
         {
+
             base.Start();
             initialize();
             setupEvents();
@@ -46,6 +48,7 @@ namespace Project.Networking
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
             managersController = ManagersController.singleton;
+            charactersController = GetComponent<CharactersController>();
         }
 
         private void setupEvents()
@@ -76,6 +79,14 @@ namespace Project.Networking
                 go.name = string.Format("Player ({0})", playerData.id);
                 go.transform.position = playerData.position;
                 go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
+
+                GameObject character = charactersController.CreateCharacter("manHuman", go.transform);
+
+                if (!character)
+                {
+                    Destroy(go);
+                    return;
+                }
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
                 ni.SetControllerID(playerData.id);

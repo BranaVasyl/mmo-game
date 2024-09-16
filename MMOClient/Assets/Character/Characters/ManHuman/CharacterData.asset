@@ -15,4 +15,4 @@ MonoBehaviour:
   id: manHuman
   sex: 0
   race: 0
-  gameObject: {fileID: 6679339757132984336, guid: 585f3a07862d44c4586d251d14d08373, type: 3}
+  gameObject: {fileID: 1609381959624796612, guid: b9014259c169f5347bd00f2d20d35452, type: 3}

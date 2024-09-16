@@ -7,6 +7,7 @@ namespace BV
     public class InventoryManager : MonoBehaviour
     {
         [Header("Right Hand Weapon")]
+        [HideInInspector]
         public GameObject rightHandPivot;
         public ItemWeaponData rightHandData;
         [HideInInspector]
@@ -15,6 +16,7 @@ namespace BV
         public WeaponHook rightHandWeaponHook;
 
         [Header("Left Hand Weapon")]
+        [HideInInspector]
         public GameObject leftHandPivot;
         public ItemWeaponData leftHandData;
         [HideInInspector]
@@ -35,12 +37,27 @@ namespace BV
         public GameObject inventoryCameraHodler;
 
         private StateManager states;
+        private CharacterModelProvider characterModelProvider;
 
         public void Init(StateManager st)
         {
             states = st;
-            UpdateLeftHand(leftHandData);
-            UpdateRightHand(rightHandData);
+
+            characterModelProvider = st.activeModel.GetComponent<CharacterModelProvider>();
+            if (characterModelProvider)
+            {
+                rightHandPivot = characterModelProvider.GetRightHandPivot();
+                if (rightHandPivot)
+                {
+                    UpdateRightHand(rightHandData);
+                }
+
+                leftHandPivot = characterModelProvider.GetLeftHandPivot();
+                if (leftHandPivot)
+                {
+                    UpdateLeftHand(leftHandData);
+                }
+            }
         }
 
         public void OpenAllDamageColliders()
@@ -109,6 +126,10 @@ namespace BV
 #nullable enable
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
+            if (!leftHandPivot)
+            {
+            }
+
             if (leftHandObject != null)
             {
                 leftHandObject.SetActive(false);

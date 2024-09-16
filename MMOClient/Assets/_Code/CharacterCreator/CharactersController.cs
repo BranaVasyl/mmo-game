@@ -15,7 +15,9 @@ namespace BV
             {
                 if (characterData.id == id)
                 {
-                    GameObject newCharacter = Instantiate(characterData.gameObject, transform.position, transform.rotation);
+                    GameObject newCharacter = Instantiate(characterData.gameObject, transform);
+                    newCharacter.transform.position = transform.position;
+
                     return newCharacter;
                 }
             }
