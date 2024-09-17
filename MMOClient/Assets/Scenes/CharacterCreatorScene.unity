@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3470.0625, g: 2755.7988, b: 3180.582, a: 1}
+  m_IndirectSpecularColor: {r: 3458.7998, g: 2737.4395, b: 3121.832, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -887,9 +887,17 @@ MonoBehaviour:
   creatorPanel: {fileID: 447018313}
   transformSpawnPoint: {fileID: 223707298}
   characterCreatorInventoryDatas:
-  - id: warrior
-    rightHandItem: {fileID: 0}
+  - id: 0
+    rightHandItem: {fileID: 11400000, guid: 54b6975595a88aa409321e7a74853b60, type: 2}
+    leftHandItem: {fileID: 11400000, guid: 14a37a5d5d7847d4db6d4ce785820935, type: 2}
+    isTwoHadned: 0
+  - id: 1
+    rightHandItem: {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
     leftHandItem: {fileID: 0}
+    isTwoHadned: 1
+  - id: 2
+    rightHandItem: {fileID: 11400000, guid: fb5d2a62d224b6847b01cbdb9c43a1d3, type: 2}
+    leftHandItem: {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
     isTwoHadned: 0
 --- !u!4 &470977957
 Transform:
