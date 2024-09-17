@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace BV
 {
@@ -11,21 +12,7 @@ namespace BV
     {
         private CharactersController charactersController;
         private WeatherManager weatherManager;
-
-        public ItemWeaponData warriorR;
-        public ItemWeaponData warriorL;
-
-        public ItemWeaponData banditR;
-        public ItemWeaponData banditL;
-
-        public ItemWeaponData magicR;
-        public ItemWeaponData magicL;
-
-
-        private GameObject rightHandObject;
-
-        private GameObject leftHandObject;
-
+        private Animator anim;
 
         private string slectedSex = "man";
         private string slectedRace = "human";
@@ -34,10 +21,11 @@ namespace BV
 
         public GameObject creatorPanel;
         public Transform transformSpawnPoint;
-        public Animator anim;
 
-
+        public CharacterCreatorInventoryData[] characterCreatorInventoryDatas;
         private CharacterModelProvider characterModelProvider;
+        private GameObject rightHandObject;
+        private GameObject leftHandObject;
 
         void Start()
         {
@@ -107,65 +95,6 @@ namespace BV
             ChangeItems();
         }
 
-        private void ChangeItems()
-        {
-            if (slectedClass == "warrior")
-            {
-                ChangeRightHandItem(warriorR);
-                ChangeLeftHandItem(warriorL);
-            }
-            else if (slectedClass == "magic")
-            {
-                ChangeRightHandItem(magicR);
-                ChangeLeftHandItem(magicL);
-            }
-            else if (slectedClass == "bandit")
-            {
-                ChangeRightHandItem(banditR, true);
-                ChangeLeftHandItem(banditL);
-            }
-        }
-
-        private void ChangeRightHandItem(ItemWeaponData? item, bool twoHanded = false)
-        {
-            if (rightHandObject)
-            {
-                rightHandObject.SetActive(false);
-                Destroy(rightHandObject);
-                rightHandObject = null;
-            }
-
-            if (!item || !characterModelProvider)
-            {
-                return;
-            }
-
-            rightHandObject = Instantiate(item.weaponModel, characterModelProvider.GetRightHandPivot().transform);
-            rightHandObject.transform.localPosition = Vector3.zero;
-            rightHandObject.transform.localRotation = Quaternion.identity;
-            EquipWeapon(item, false, twoHanded);
-        }
-
-        private void ChangeLeftHandItem(ItemWeaponData? item, bool twoHanded = false)
-        {
-            if (leftHandObject)
-            {
-                leftHandObject.SetActive(false);
-                Destroy(leftHandObject);
-                leftHandObject = null;
-            }
-
-            if (!item || !characterModelProvider)
-            {
-                return;
-            }
-
-            leftHandObject = Instantiate(item.weaponModel, characterModelProvider.GetLeftHandPivot().transform);
-            leftHandObject.transform.localPosition = Vector3.zero;
-            leftHandObject.transform.localRotation = Quaternion.identity;
-            EquipWeapon(item, true, twoHanded);
-        }
-
         public void CreateCharacter()
         {
             if (currentCharacter)
@@ -187,42 +116,174 @@ namespace BV
             ChangeItems();
         }
 
+        private void ChangeItems()
+        {
+            CharacterCreatorInventoryData? currentInventoryData = null;
+
+            foreach (CharacterCreatorInventoryData inventoryData in characterCreatorInventoryDatas)
+            {
+                if (inventoryData.id.ToString() == slectedClass)
+                {
+                    currentInventoryData = inventoryData;
+                    break;
+                }
+            }
+
+            if (anim != null)
+            {
+                ChangeRightHandItem(currentInventoryData?.rightHandItem ?? null);
+                ChangeLeftHandItem(currentInventoryData?.leftHandItem ?? null);
+                HandleTwoHanded(currentInventoryData.isTwoHadned, currentInventoryData);
+            }
+        }
+
         public void OnPlayClick()
         {
             SceneManager.LoadScene("SampleScene");
         }
 
-        private void EquipWeapon(ItemWeaponData w, bool isLeft = false, bool twoHanded = false)
+        #region change character items
+        private void ChangeRightHandItem(ItemWeaponData? item)
+        {
+            if (rightHandObject)
+            {
+                rightHandObject.SetActive(false);
+                Destroy(rightHandObject);
+                rightHandObject = null;
+            }
+
+            if (!item || !characterModelProvider)
+            {
+                anim.Play("Empty Right");
+                return;
+            }
+
+            rightHandObject = Instantiate(item.weaponModel, characterModelProvider.GetRightHandPivot().transform);
+            rightHandObject.transform.localPosition = Vector3.zero;
+            rightHandObject.transform.localRotation = Quaternion.identity;
+            EquipWeapon(item, false);
+        }
+
+        private void ChangeLeftHandItem(ItemWeaponData? item)
+        {
+            if (leftHandObject)
+            {
+                leftHandObject.SetActive(false);
+                Destroy(leftHandObject);
+                leftHandObject = null;
+            }
+
+            if (!item || !characterModelProvider)
+            {
+                anim.Play("Empty Left");
+                return;
+            }
+
+            leftHandObject = Instantiate(item.weaponModel, characterModelProvider.GetLeftHandPivot().transform);
+            leftHandObject.transform.localPosition = Vector3.zero;
+            leftHandObject.transform.localRotation = Quaternion.identity;
+            EquipWeapon(item, true);
+        }
+
+        private void EquipWeapon(ItemWeaponData w, bool isLeft = false)
         {
             if (!anim)
             {
                 return;
             }
 
-            string targetIdle = twoHanded ? w.th_idle_name : w.oh_idle_name;
-            if (!twoHanded)
+            string targetIdle = w.oh_idle_name;
+            if (targetIdle.Length > 0)
             {
-                anim.Play("Empty Both");
-
-                if (targetIdle.Length > 0)
+                targetIdle += isLeft ? "_l" : "_r";
+            }
+            else
+            {
+                if (isLeft)
                 {
-                    targetIdle += isLeft ? "_l" : "_r";
+                    targetIdle = "Empty Left";
                 }
                 else
                 {
-                    if (isLeft)
-                    {
-                        targetIdle = "Empty Left";
-                    }
-                    else
-                    {
-                        targetIdle = "Empty Right";
-                    }
+                    targetIdle = "Empty Right";
                 }
             }
 
             anim.SetBool("mirror", isLeft);
             anim.Play(targetIdle);
         }
+
+        public void HandleTwoHanded(bool isTwoHanded, CharacterCreatorInventoryData? inventoryData)
+        {
+            anim.SetBool("twoHanded", isTwoHanded);
+
+            if (inventoryData == null)
+            {
+                return;
+            }
+
+            bool isRight = true;
+            ItemWeaponData currentWeapon = inventoryData.rightHandItem;
+            if (currentWeapon == null)
+            {
+                isRight = false;
+                currentWeapon = inventoryData.leftHandItem;
+            }
+
+            if (currentWeapon == null)
+            {
+                return;
+            }
+
+            if (isTwoHanded)
+            {
+                anim.Play(currentWeapon.th_idle_name);
+
+                if (isRight)
+                {
+                    if (leftHandObject != null)
+                    {
+                        leftHandObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    if (rightHandObject != null)
+                    {
+                        rightHandObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                anim.Play("Empty Both");
+                if (leftHandObject != null)
+                {
+                    leftHandObject.SetActive(true);
+                }
+
+                if (rightHandObject != null)
+                {
+                    rightHandObject.SetActive(true);
+                }
+            }
+        }
+        #endregion
+    }
+
+    [Serializable]
+    public class CharacterCreatorInventoryData
+    {
+        public CharacterClass id;
+        public ItemWeaponData rightHandItem;
+        public ItemWeaponData leftHandItem;
+        public bool isTwoHadned = false;
+    }
+
+    public enum CharacterClass
+    {
+        warrior,
+        bandit,
+        magic
     }
 }

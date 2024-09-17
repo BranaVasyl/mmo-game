@@ -862,8 +862,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 470977957}
-  - component: {fileID: 470977956}
   - component: {fileID: 470977958}
+  - component: {fileID: 470977956}
   - component: {fileID: 470977959}
   m_Layer: 0
   m_Name: '[Managers]'
@@ -884,15 +884,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7683fd1939deb3419363e89c76d9e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warriorR: {fileID: 11400000, guid: 54b6975595a88aa409321e7a74853b60, type: 2}
-  warriorL: {fileID: 11400000, guid: 14a37a5d5d7847d4db6d4ce785820935, type: 2}
-  banditR: {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
-  banditL: {fileID: 0}
-  magicR: {fileID: 11400000, guid: fb5d2a62d224b6847b01cbdb9c43a1d3, type: 2}
-  magicL: {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
   creatorPanel: {fileID: 447018313}
   transformSpawnPoint: {fileID: 223707298}
-  anim: {fileID: 0}
+  characterCreatorInventoryDatas:
+  - id: warrior
+    rightHandItem: {fileID: 0}
+    leftHandItem: {fileID: 0}
+    isTwoHadned: 0
 --- !u!4 &470977957
 Transform:
   m_ObjectHideFlags: 0
