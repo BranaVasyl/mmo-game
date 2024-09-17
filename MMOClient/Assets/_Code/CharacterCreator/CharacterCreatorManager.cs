@@ -23,7 +23,7 @@ namespace BV
         public Transform transformSpawnPoint;
 
         public CharacterCreatorInventoryData[] characterCreatorInventoryDatas;
-        private CharacterModelProvider characterModelProvider;
+        private CharacterModelController characterModelProvider;
         private GameObject rightHandObject;
         private GameObject leftHandObject;
 
@@ -111,7 +111,7 @@ namespace BV
             }
 
             anim = currentCharacter.GetComponent<Animator>();
-            characterModelProvider = currentCharacter.GetComponent<CharacterModelProvider>();
+            characterModelProvider = currentCharacter.GetComponent<CharacterModelController>();
 
             ChangeItems();
         }

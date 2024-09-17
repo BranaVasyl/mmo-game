@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    public class CharacterModelProvider : MonoBehaviour
+    public class CharacterModelController : MonoBehaviour
     {
         public GameObject rightHandPivot;
         public GameObject leftHandPivot;

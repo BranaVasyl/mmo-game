@@ -37,13 +37,13 @@ namespace BV
         public GameObject inventoryCameraHodler;
 
         private StateManager states;
-        private CharacterModelProvider characterModelProvider;
+        private CharacterModelController characterModelProvider;
 
         public void Init(StateManager st)
         {
             states = st;
 
-            characterModelProvider = st.activeModel.GetComponent<CharacterModelProvider>();
+            characterModelProvider = st.activeModel.GetComponent<CharacterModelController>();
             if (characterModelProvider)
             {
                 rightHandPivot = characterModelProvider.GetRightHandPivot();
