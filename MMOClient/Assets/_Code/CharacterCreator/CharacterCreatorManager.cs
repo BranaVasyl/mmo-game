@@ -17,6 +17,7 @@ namespace BV
         private string slectedSex = "man";
         private string slectedRace = "human";
         private string slectedClass = "warrior";
+        private CharacterCustomizationData characterCustomizationData = new CharacterCustomizationData();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -26,6 +27,7 @@ namespace BV
         private CharacterModelController characterModelProvider;
         private GameObject rightHandObject;
         private GameObject leftHandObject;
+        public AvaibleCharacterCustomization avaibleCharacterCustomization;
 
         void Start()
         {
@@ -95,6 +97,43 @@ namespace BV
             ChangeItems();
         }
 
+        public void OnNextHair()
+        {
+            if (avaibleCharacterCustomization.hairList.Length == 0)
+            {
+                characterCustomizationData.hairId = null;
+            }
+            else
+            {
+                if (characterCustomizationData.hairId == null)
+                {
+                    characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
+                }
+                else
+                {
+                    for (int i = 0; i < avaibleCharacterCustomization.hairList.Length; i++)
+                    {
+                        if (avaibleCharacterCustomization.hairList[i].id == characterCustomizationData.hairId)
+                        {
+                            if (i < avaibleCharacterCustomization.hairList.Length - 1)
+                            {
+                                characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[i + 1].id;
+                            }
+                            else
+                            {
+                                characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
+                            }
+
+                            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
+        }
+
         public void CreateCharacter()
         {
             if (currentCharacter)
@@ -113,7 +152,27 @@ namespace BV
             anim = currentCharacter.GetComponent<Animator>();
             characterModelProvider = currentCharacter.GetComponent<CharacterModelController>();
 
+            ChangeAvaibleCustomizeData();
             ChangeItems();
+        }
+
+        private void ChangeAvaibleCustomizeData()
+        {
+            avaibleCharacterCustomization = characterModelProvider.GetAvaibleCharacterCustomization();
+
+            if (avaibleCharacterCustomization.hairList.Length == 0)
+            {
+                characterCustomizationData.hairId = null;
+            }
+            else
+            {
+                if (System.Array.Find(avaibleCharacterCustomization.hairList, hair => hair.id == characterCustomizationData.hairId) == null)
+                {
+                    characterCustomizationData.hairId = avaibleCharacterCustomization.hairList.Length > 0 ? avaibleCharacterCustomization.hairList[0].id : null;
+                }
+            }
+
+            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
         }
 
         private void ChangeItems()
