@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BV
 {
-    [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/Character", order = 3)]
-    public class CharacterData : ScriptableObject
+    [CreateAssetMenu(fileName = "CharacterModelData", menuName = "Scriptable Objects/Character", order = 3)]
+    public class CharacterModelData : ScriptableObject
     {
         [HideInInspector]
         public string id;
@@ -23,18 +23,5 @@ namespace BV
         {
             GenerateID();
         }
-    }
-
-    public enum Gender
-    {
-        man,
-        woman
-    }
-
-    public enum Race
-    {
-        human,
-        elf,
-        dwarf
     }
 }

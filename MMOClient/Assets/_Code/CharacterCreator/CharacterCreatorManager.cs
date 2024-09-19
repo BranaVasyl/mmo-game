@@ -14,10 +14,7 @@ namespace BV
         private WeatherManager weatherManager;
         private Animator anim;
 
-        private string slectedSex = "man";
-        private string slectedRace = "human";
-        private string slectedClass = "warrior";
-        private CharacterCustomizationData characterCustomizationData = new CharacterCustomizationData();
+        private CharacterData characterData = new();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -34,8 +31,8 @@ namespace BV
             creatorPanel.SetActive(false);
 
             charactersController = GetComponent<CharactersController>();
-            weatherManager = GetComponent<WeatherManager>();
 
+            weatherManager = GetComponent<WeatherManager>();
             weatherManager.SetOrbitSbeed(0);
 
             GoDefaultMode();
@@ -64,74 +61,86 @@ namespace BV
 
 
 
-        public void OnSetSex(string sex)
+        public void OnSetGender(string gender)
         {
-            if (slectedSex == sex)
+            if (characterData.gender == gender)
             {
                 return;
             }
 
-            slectedSex = sex;
+            characterData.gender = gender;
             CreateCharacter();
         }
 
         public void OnSetRace(string race)
         {
-            if (slectedRace == race)
+            if (characterData.race == race)
             {
                 return;
             }
 
-            slectedRace = race;
+            characterData.race = race;
             CreateCharacter();
         }
 
         public void OnSetClass(string characterClass)
         {
-            if (slectedClass == characterClass)
+            if (characterData.characterClass == characterClass)
             {
                 return;
             }
 
-            slectedClass = characterClass;
+            characterData.characterClass = characterClass;
             ChangeItems();
         }
+
+        public void OnSetAlliance(string alliance)
+        {
+            if (characterData.alliance == alliance)
+            {
+                return;
+            }
+
+            characterData.alliance = alliance;
+            ChangeItems();
+        }
+
 
         public void OnNextHair()
         {
             if (avaibleCharacterCustomization.hairList.Length == 0)
             {
-                characterCustomizationData.hairId = null;
+                characterData.characterCustomizationData.hairId = null;
             }
             else
             {
-                if (characterCustomizationData.hairId == null)
+                if (characterData.characterCustomizationData.hairId == null)
                 {
-                    characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
+                    characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
                 }
                 else
                 {
                     for (int i = 0; i < avaibleCharacterCustomization.hairList.Length; i++)
                     {
-                        if (avaibleCharacterCustomization.hairList[i].id == characterCustomizationData.hairId)
+                        if (avaibleCharacterCustomization.hairList[i].id == characterData.characterCustomizationData.hairId)
                         {
                             if (i < avaibleCharacterCustomization.hairList.Length - 1)
                             {
-                                characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[i + 1].id;
+                                characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[i + 1].id;
                             }
                             else
                             {
-                                characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
+                                characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
                             }
 
-                            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
+                            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
                             return;
                         }
                     }
                 }
             }
 
-            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
+            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
         }
 
         public void CreateCharacter()
@@ -141,8 +150,7 @@ namespace BV
                 Destroy(currentCharacter);
             }
 
-            string id = slectedSex.ToLower() + char.ToUpper(slectedRace[0]) + slectedRace.Substring(1).ToLower();
-            currentCharacter = charactersController.CreateCharacter(id, transformSpawnPoint);
+            currentCharacter = charactersController.CreateCharacter(characterData, transformSpawnPoint, false);
 
             if (!currentCharacter)
             {
@@ -158,30 +166,35 @@ namespace BV
 
         private void ChangeAvaibleCustomizeData()
         {
+            //@todo request to server
             avaibleCharacterCustomization = characterModelProvider.GetAvaibleCharacterCustomization();
 
             if (avaibleCharacterCustomization.hairList.Length == 0)
             {
-                characterCustomizationData.hairId = null;
+                characterData.characterCustomizationData.hairId = null;
             }
             else
             {
-                if (System.Array.Find(avaibleCharacterCustomization.hairList, hair => hair.id == characterCustomizationData.hairId) == null)
+                if (System.Array.Find(avaibleCharacterCustomization.hairList, hair => hair.id == characterData.characterCustomizationData.hairId) == null)
                 {
-                    characterCustomizationData.hairId = avaibleCharacterCustomization.hairList.Length > 0 ? avaibleCharacterCustomization.hairList[0].id : null;
+                    characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList.Length > 0 ? avaibleCharacterCustomization.hairList[0].id : null;
                 }
             }
-
-            characterModelProvider.UpdateCharacterCustomization(characterCustomizationData);
         }
 
+        public void OnPlayClick()
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
+
+        #region change character items
         private void ChangeItems()
         {
             CharacterCreatorInventoryData? currentInventoryData = null;
 
             foreach (CharacterCreatorInventoryData inventoryData in characterCreatorInventoryDatas)
             {
-                if (inventoryData.id.ToString() == slectedClass)
+                if (inventoryData.id.ToString() == characterData.characterClass)
                 {
                     currentInventoryData = inventoryData;
                     break;
@@ -196,12 +209,6 @@ namespace BV
             }
         }
 
-        public void OnPlayClick()
-        {
-            SceneManager.LoadScene("SampleScene");
-        }
-
-        #region change character items
         private void ChangeRightHandItem(ItemWeaponData? item)
         {
             if (rightHandObject)
@@ -337,12 +344,5 @@ namespace BV
         public ItemWeaponData rightHandItem;
         public ItemWeaponData leftHandItem;
         public bool isTwoHadned = false;
-    }
-
-    public enum CharacterClass
-    {
-        warrior,
-        bandit,
-        magic
     }
 }

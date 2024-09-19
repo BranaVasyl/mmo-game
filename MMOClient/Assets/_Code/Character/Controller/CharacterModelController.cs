@@ -48,7 +48,8 @@ namespace BV
 
             foreach (GameObjectById hair in hairList)
             {
-                if (hair.gameObject == null) {
+                if (hair.gameObject == null)
+                {
                     continue;
                 }
 
@@ -81,12 +82,5 @@ namespace BV
     public class AvaibleCharacterCustomization
     {
         public GameObjectById[] hairList;
-    }
-
-    [Serializable]
-    public class GameObjectById
-    {
-        public string id;
-        public GameObject gameObject;
     }
 }

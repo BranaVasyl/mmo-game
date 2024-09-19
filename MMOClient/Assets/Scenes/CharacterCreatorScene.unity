@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3438.879, g: 2745.537, b: 3212.9258, a: 1}
+  m_IndirectSpecularColor: {r: 3438.873, g: 2745.541, b: 3212.9844, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -899,6 +899,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 470977956}
+        m_TargetAssemblyTypeName: BV.CharacterCreatorManager, Assembly-CSharp
+        m_MethodName: OnSetAlliance
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: alliance2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &215234767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1543,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 470977956}
+        m_TargetAssemblyTypeName: BV.CharacterCreatorManager, Assembly-CSharp
+        m_MethodName: OnSetAlliance
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: alliance3
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &401143442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,7 +1900,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 470977956}
         m_TargetAssemblyTypeName: BV.CharacterCreatorManager, Assembly-CSharp
-        m_MethodName: OnSetSex
+        m_MethodName: OnSetGender
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4257,7 +4281,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 470977956}
         m_TargetAssemblyTypeName: BV.CharacterCreatorManager, Assembly-CSharp
-        m_MethodName: OnSetSex
+        m_MethodName: OnSetGender
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5302,6 +5326,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 470977956}
+        m_TargetAssemblyTypeName: BV.CharacterCreatorManager, Assembly-CSharp
+        m_MethodName: OnSetAlliance
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: alliance1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1605352869
