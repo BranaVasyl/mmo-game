@@ -20,7 +20,8 @@ namespace BV
 
         void Start()
         {
-            OnTabSelected(tabButtons[tabButtons.Count - 1]);
+
+            OnTabSelected(tabButtons[0]);
         }
 
         public void Subscribe(TabButton button)
