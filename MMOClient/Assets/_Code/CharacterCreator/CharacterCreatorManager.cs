@@ -14,7 +14,7 @@ namespace BV
         private WeatherManager weatherManager;
         private Animator anim;
 
-        private CharacterData characterData = new();
+        public CharacterData characterData = new();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -25,6 +25,9 @@ namespace BV
         private GameObject rightHandObject;
         private GameObject leftHandObject;
         public AvaibleCharacterCustomization avaibleCharacterCustomization;
+
+        [Header("Character Customization")]
+        public StepLider hairStyleSlider;
 
         void Start()
         {
@@ -106,43 +109,6 @@ namespace BV
         }
 
 
-        public void OnNextHair()
-        {
-            if (avaibleCharacterCustomization.hairList.Length == 0)
-            {
-                characterData.characterCustomizationData.hairId = null;
-            }
-            else
-            {
-                if (characterData.characterCustomizationData.hairId == null)
-                {
-                    characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
-                }
-                else
-                {
-                    for (int i = 0; i < avaibleCharacterCustomization.hairList.Length; i++)
-                    {
-                        if (avaibleCharacterCustomization.hairList[i].id == characterData.characterCustomizationData.hairId)
-                        {
-                            if (i < avaibleCharacterCustomization.hairList.Length - 1)
-                            {
-                                characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[i + 1].id;
-                            }
-                            else
-                            {
-                                characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
-                            }
-
-                            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
-                            return;
-                        }
-                    }
-                }
-            }
-
-            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
-        }
-
         public void CreateCharacter()
         {
             if (currentCharacter)
@@ -169,17 +135,43 @@ namespace BV
             //@todo request to server
             avaibleCharacterCustomization = characterModelProvider.GetAvaibleCharacterCustomization();
 
+            hairStyleSlider.gameObject.SetActive(false);
+            hairStyleSlider.onUpdateData.RemoveListener(OnUpdateHair);
             if (avaibleCharacterCustomization.hairList.Length == 0)
             {
                 characterData.characterCustomizationData.hairId = null;
             }
             else
             {
-                if (System.Array.Find(avaibleCharacterCustomization.hairList, hair => hair.id == characterData.characterCustomizationData.hairId) == null)
+                hairStyleSlider.gameObject.SetActive(true);
+                hairStyleSlider.onUpdateData.AddListener(OnUpdateHair);
+
+                hairStyleSlider.SetValue(0);
+                hairStyleSlider.SetMaxValue(avaibleCharacterCustomization.hairList.Length - 1);
+
+                int hairIndex = System.Array.FindIndex(avaibleCharacterCustomization.hairList, hair => hair.id == characterData.characterCustomizationData.hairId);
+                if (hairIndex >= 0)
                 {
-                    characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList.Length > 0 ? avaibleCharacterCustomization.hairList[0].id : null;
+                    hairStyleSlider.SetValue(hairIndex);
+                }
+                else
+                {
+                    hairStyleSlider.SetValue(0);
+                    characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
                 }
             }
+        }
+
+        private void OnUpdateHair(float value)
+        {
+            int index = Mathf.RoundToInt(value);
+            if (index > avaibleCharacterCustomization.hairList.Length || avaibleCharacterCustomization.hairList.Length == 0)
+            {
+                return;
+            }
+
+            characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[index].id;
+            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
         }
 
         public void OnPlayClick()
