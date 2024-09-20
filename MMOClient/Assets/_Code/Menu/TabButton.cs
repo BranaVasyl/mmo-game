@@ -35,7 +35,9 @@ namespace BV
         {
             icon = transform.GetChild(0).GetComponent<Image>();
             background = GetComponent<Image>();
-            tabGroup.Subscribe(this);
+
+            Debug.Log(this.transform.GetSiblingIndex());
+            tabGroup.Subscribe(this, this.transform.GetSiblingIndex());
         }
     }
 }

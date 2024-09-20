@@ -20,18 +20,22 @@ namespace BV
 
         void Start()
         {
-
             OnTabSelected(tabButtons[0]);
         }
 
-        public void Subscribe(TabButton button)
+        public void Subscribe(TabButton button, int index)
         {
             if (tabButtons == null)
             {
                 tabButtons = new List<TabButton>();
             }
 
-            tabButtons.Add(button);
+            while (tabButtons.Count <= index)
+            {
+                tabButtons.Add(null);
+            }
+
+            tabButtons[index] = button;
         }
 
         public void OnTabEnter(TabButton button)
