@@ -210,8 +210,8 @@ MonoBehaviour:
     y: 0
     width: 494
     height: 598
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 7}
   m_Panes:
   - {fileID: 7}
@@ -250,21 +250,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: b6a2f9ff66b0f9ffd2f8f9ffaa27faff127ffaff7284faffceb8faffce10fcff2844fcff12bafcff3863feffcea7feffe88affffec8affff548bffff588bffff5c8bffff808bffff888bffffa08bffff6c92ffff60a2ffff2cf6ffff20fbffff22fbffffc4680000fa680000966900001c6a0000966a0000a66a000004b2010010b301009eb30100dcb601004eb80100e6bb01000ad801005cd80100e2d8010068d90100ccd90100f4d9010004da01003cda0100
+      m_ExpandedIDs: 4af4efff76f5efffe8f8efff9ef9efffc6f9efff5cb4f0ff60b4f0ff94b4f0ff98b4f0ff00b5f0ff04b5f0ff08b5f0ff34b5f0ff4eb5f0ff9cc1f0ffa0c1f0ffd4c1f0ffd8c1f0ff40c2f0ff44c2f0ff48c2f0ff74c2f0ff8ec2f0ffca4ef1ffce4ef1ff364ff1ff3a4ff1ff3e4ff1ff6a4ff1ff824ff1ff4865f1ff4c65f1ffb465f1ffb865f1ffbc65f1ffe865f1ff0066f1ff8a80f1ff8e80f1ff9883f1ff9c83f1ff0484f1ff0884f1ff0c84f1ff3884f1ff5084f1ff4097f1ff4497f1ff4e9af1ff529af1ffba9af1ffbe9af1ffc29af1ffee9af1ff069bf1ffb4b2f1ffb8b2f1ffbcb2f1ffc0b2f1ff28b3f1ff2cb3f1ff30b3f1ff5cb3f1ff74b3f1ffd6c2f1ffdac2f1ffe4c5f1ffe8c5f1ff50c6f1ff54c6f1ff58c6f1ff84c6f1ff9cc6f1ffb6a2f9ff66b0f9ffd2f8f9ffaa27faff127ffaff7284faffceb8faffce10fcff2844fcff12bafcff3863feffcea7feffe88affffec8affff548bffff588bffff5c8bffff808bffff888bffffa08bffff6c92ffff60a2ffff2cf6ffff20fbffff22fbffffc4680000fa680000966900001c6a0000966a0000a66a000004b2010010b301009eb30100dcb601004eb80100e6bb01000ad8010040d801005cd80100e2d80100ccd90100f4d9010004da0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Sky and Fog Global Volume
+        m_OriginalName: Sky and Fog Global Volume
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: 121300
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 6}
       m_SearchString: 
@@ -560,9 +560,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 924.9162, y: 294.40338, z: 0.7856842}
+    m_Target: {x: 915.0271, y: 304.00372, z: 0.38795686}
     speed: 2
-    m_Value: {x: 924.9162, y: 294.40338, z: 0.7856842}
+    m_Value: {x: 915.0271, y: 304.00372, z: 0.38795686}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -613,9 +613,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 206.5917
+    m_Target: 246.36446
     speed: 2
-    m_Value: 206.5917
+    m_Value: 246.36446
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -633,8 +633,8 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
-  m_LastSceneViewOrtho: 0
+  m_LastSceneViewRotation: {x: -0.0076417984, y: 0.9629832, z: -0.027452426, w: -0.26805946}
+  m_LastSceneViewOrtho: 1
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
   m_SceneVisActive: 0
@@ -1096,22 +1096,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Character/Characters/WomanHuman
+    - Assets/Character/CharacterParts/HairWoman1
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Character/Characters/WomanHuman
+  - Assets/Character/CharacterParts/HairWoman1
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\unity\MMOGame\mmo-game\MMOClient
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 336}
-    m_SelectedIDs: 82760000
-    m_LastClickedID: 30338
-    m_ExpandedIDs: 00000000e4750000e6750000e8750000ea750000ec750000ee750000f0750000f2750000f4750000f6750000f8750000fa750000fc750000fe75000000760000027600000476000006760000087600000a7600000c7600000e76000010760000127600001476000016760000187600001a7600001c7600001e76000020760000227600002476000026760000287600002a7600002c7600002e76000030760000327600003c76000074760000ca780000d2780000849d0000
+    scrollPos: {x: 0, y: 32}
+    m_SelectedIDs: 84760000
+    m_LastClickedID: 30340
+    m_ExpandedIDs: 00000000e4750000e6750000e8750000ea750000ec750000ee750000f0750000f2750000f4750000f6750000f8750000fa750000fc750000fe75000000760000027600000476000006760000087600000a7600000c7600000e76000010760000127600001476000016760000187600001a7600001c7600001e760000207600002276000024760000287600002a7600002c7600002e76000030760000327600004076000074760000ca780000d2780000849d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1164,24 +1164,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 8ad80100
-    m_LastClickedInstanceID: 120970
+    m_SelectedInstanceIDs: c26c0000
+    m_LastClickedInstanceID: 27842
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000fa50000000000000806f00000c41010008bb00007e660000521b0400025800002a6a0000b6fb00002a920000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: WomanHuman
+      m_OriginalName: WomanHuman
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 30338
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
@@ -1299,7 +1299,7 @@ MonoBehaviour:
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Debug
+    m_Text: Inspector
     m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
-  m_InspectorMode: 1
+  m_InspectorMode: 0
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}

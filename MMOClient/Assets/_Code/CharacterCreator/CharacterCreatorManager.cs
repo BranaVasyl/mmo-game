@@ -14,7 +14,7 @@ namespace BV
         private WeatherManager weatherManager;
         private Animator anim;
 
-        public CharacterData characterData = new();
+        private CharacterData characterData = new();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -24,9 +24,10 @@ namespace BV
         private CharacterModelController characterModelProvider;
         private GameObject rightHandObject;
         private GameObject leftHandObject;
-        public AvaibleCharacterCustomization avaibleCharacterCustomization;
 
         [Header("Character Customization")]
+        private AvaibleCharacterCustomization avaibleCharacterCustomization;
+
         public StepLider hairStyleSlider;
         public ColorPallete hairColorPallete;
 

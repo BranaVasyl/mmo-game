@@ -72,9 +72,70 @@ namespace BV
             }
         }
 
-        private void ApplyCharacterHairColor(string color)
+        private void ApplyCharacterHairColor(string hexColor)
         {
-            Debug.Log(color);
+            Color newColor;
+            if (!string.IsNullOrEmpty(hexColor))
+            {
+                ColorUtility.TryParseHtmlString(hexColor, out newColor);
+            }
+            else
+            {
+                newColor = Color.white;
+            }
+
+            GameObjectById[] hairList = avaibleCharacterCustomization.hairList;
+            foreach (GameObjectById hair in hairList)
+            {
+                if (hair.gameObject == null || !hair.gameObject.activeSelf)
+                {
+                    continue;
+                }
+
+                List<GameObject> gameObjectList = CollectRenderersFromGameObjects(hair.gameObject);
+                foreach (GameObject gameObject in gameObjectList)
+                {
+                    Renderer renderer = gameObject.GetComponent<Renderer>();
+                    if (renderer == null)
+                    {
+                        continue;
+                    }
+
+                    Material[] materials = renderer.sharedMaterials;
+
+                    for (int i = 0; i < materials.Length; i++)
+                    {
+                        Material instanceMaterial = new Material(materials[i])
+                        {
+                            color = newColor
+                        };
+
+                        materials[i] = instanceMaterial;
+                    }
+
+                    renderer.sharedMaterials = materials;
+                }
+            }
+        }
+
+        public List<GameObject> CollectRenderersFromGameObjects(GameObject obj)
+        {
+            List<GameObject> gameObjectList = new List<GameObject>();
+
+            if (obj.activeSelf)
+            {
+                if (obj.GetComponent<Renderer>() != null)
+                {
+                    gameObjectList.Add(obj);
+                }
+
+                foreach (Transform child in obj.transform)
+                {
+                    gameObjectList.AddRange(CollectRenderersFromGameObjects(child.gameObject));
+                }
+            }
+
+            return gameObjectList;
         }
     }
 
