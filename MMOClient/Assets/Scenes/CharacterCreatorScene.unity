@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3458.8037, g: 2737.4473, b: 3121.8008, a: 1}
+  m_IndirectSpecularColor: {r: 3468.957, g: 2752.3945, b: 3162.4102, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1905,13 +1905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7683fd1939deb3419363e89c76d9e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData:
-    gender: man
-    race: human
-    characterClass: warrior
-    alliance: alliance1
-    characterCustomizationData:
-      hairId: 
   creatorPanel: {fileID: 83292391}
   transformSpawnPoint: {fileID: 223707298}
   characterCreatorInventoryDatas:

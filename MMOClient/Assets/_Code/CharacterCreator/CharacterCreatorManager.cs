@@ -14,7 +14,7 @@ namespace BV
         private WeatherManager weatherManager;
         private Animator anim;
 
-        public CharacterData characterData = new();
+        private CharacterData characterData = new();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
