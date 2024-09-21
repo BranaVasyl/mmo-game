@@ -24,19 +24,12 @@ namespace BV
                 }
             }
 
-            if (newCharacter != null)
+            if (newCharacter != null && isStatic)
             {
                 CharacterModelController сharacterModelController = newCharacter.GetComponent<CharacterModelController>();
                 if (сharacterModelController != null)
                 {
-                    if (isStatic)
-                    {
-                        сharacterModelController.SetCharacterCustomization(characterData.characterCustomizationData);
-                    }
-                    else
-                    {
-                        сharacterModelController.UpdateCharacterCustomization(characterData.characterCustomizationData);
-                    }
+                    сharacterModelController.SetCharacterCustomization(characterData.characterCustomizationData);
                 }
             }
 

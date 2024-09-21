@@ -121,7 +121,7 @@ namespace BV
             {
                 Debug.Log("Debu Remove Object");
                 //Destroy(currentBagObject);
-                ClsoeBag();
+                CloseBag();
             }
         }
 
@@ -162,7 +162,7 @@ namespace BV
             {
                 Debug.Log("Debu Remove Object");
                 //Destroy(currentBagObject);
-                ClsoeBag();
+                CloseBag();
             }
         }
 
@@ -177,7 +177,7 @@ namespace BV
             itemsData = new List<ItemData>();
         }
 
-        public void ClsoeBag()
+        public void CloseBag()
         {
             if (!String.IsNullOrEmpty(currentbagId))
             {

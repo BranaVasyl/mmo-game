@@ -14,7 +14,7 @@ namespace BV
         private WeatherManager weatherManager;
         private Animator anim;
 
-        private CharacterData characterData = new();
+        public CharacterData characterData = new();
         private GameObject currentCharacter;
 
         public GameObject creatorPanel;
@@ -28,6 +28,7 @@ namespace BV
 
         [Header("Character Customization")]
         public StepLider hairStyleSlider;
+        public ColorPallete hairColorPallete;
 
         void Start()
         {
@@ -127,6 +128,8 @@ namespace BV
             characterModelProvider = currentCharacter.GetComponent<CharacterModelController>();
 
             ChangeAvaibleCustomizeData();
+            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
+
             ChangeItems();
         }
 
@@ -135,8 +138,9 @@ namespace BV
             //@todo request to server
             avaibleCharacterCustomization = characterModelProvider.GetAvaibleCharacterCustomization();
 
+            //#region hairStyle
             hairStyleSlider.gameObject.SetActive(false);
-            hairStyleSlider.onUpdateData.RemoveListener(OnUpdateHair);
+            hairStyleSlider.onUpdateData.RemoveListener(OnUpdateHairStyle);
             if (avaibleCharacterCustomization.hairList.Length == 0)
             {
                 characterData.characterCustomizationData.hairId = null;
@@ -144,7 +148,7 @@ namespace BV
             else
             {
                 hairStyleSlider.gameObject.SetActive(true);
-                hairStyleSlider.onUpdateData.AddListener(OnUpdateHair);
+                hairStyleSlider.onUpdateData.AddListener(OnUpdateHairStyle);
 
                 hairStyleSlider.SetValue(0);
                 hairStyleSlider.SetMaxValue(avaibleCharacterCustomization.hairList.Length - 1);
@@ -160,17 +164,61 @@ namespace BV
                     characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[0].id;
                 }
             }
+            //#endregion
+
+            //#region hairStyle
+            hairColorPallete.gameObject.SetActive(false);
+            hairColorPallete.onUpdateData.RemoveListener(OnUpdateHairColor);
+            if (avaibleCharacterCustomization.hairCollorPallete.Length == 0)
+            {
+                characterData.characterCustomizationData.hairColor = null;
+            }
+            else
+            {
+                hairColorPallete.gameObject.SetActive(true);
+                hairColorPallete.onUpdateData.AddListener(OnUpdateHairColor);
+                hairColorPallete.SetPalette(avaibleCharacterCustomization.hairCollorPallete);
+
+                int colorIndex = System.Array.FindIndex(avaibleCharacterCustomization.hairCollorPallete,
+                    color => color.Equals(characterData.characterCustomizationData.hairColor)
+                );
+
+                if (colorIndex < 0)
+                {
+                    string hexColor = ColorUtility.ToHtmlStringRGB(avaibleCharacterCustomization.hairCollorPallete[0]);
+                    characterData.characterCustomizationData.hairColor = "#" + hexColor;
+                }
+            }
+            //#endregion
         }
 
-        private void OnUpdateHair(float value)
+        private void OnUpdateHairStyle(float value)
         {
             int index = Mathf.RoundToInt(value);
             if (index > avaibleCharacterCustomization.hairList.Length || avaibleCharacterCustomization.hairList.Length == 0)
             {
-                return;
+                characterData.characterCustomizationData.hairId = null;
+            }
+            else
+            {
+                characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[index].id;
             }
 
-            characterData.characterCustomizationData.hairId = avaibleCharacterCustomization.hairList[index].id;
+            characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
+        }
+
+        private void OnUpdateHairColor(Color color, int index)
+        {
+            if (index > avaibleCharacterCustomization.hairCollorPallete.Length || avaibleCharacterCustomization.hairCollorPallete.Length == 0)
+            {
+                characterData.characterCustomizationData.hairColor = null;
+            }
+            else
+            {
+                string hexColor = ColorUtility.ToHtmlStringRGB(color);
+                characterData.characterCustomizationData.hairColor = "#" + hexColor;
+            }
+
             characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
         }
 

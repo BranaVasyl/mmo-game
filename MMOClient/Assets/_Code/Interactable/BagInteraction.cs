@@ -26,7 +26,7 @@ namespace BV
             {
                 if (Vector3.Distance(transform.position, player.transform.position) > 2f)
                 {
-                    PickUpManager.singleton.ClsoeBag();
+                    PickUpManager.singleton.CloseBag();
                 }
             }
         }

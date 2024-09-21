@@ -39,10 +39,11 @@ namespace BV
 
         private void ApplyCharacterCustomization(CharacterCustomizationData characterCustomizationData, bool removeAfterAply = false)
         {
-            ApplyCharacterHair(characterCustomizationData.hairId, removeAfterAply);
+            ApplyCharacterHairStyle(characterCustomizationData.hairId, removeAfterAply);
+            ApplyCharacterHairColor(characterCustomizationData.hairColor);
         }
 
-        private void ApplyCharacterHair(string id, bool removeAfterAply = false)
+        private void ApplyCharacterHairStyle(string id, bool removeAfterAply = false)
         {
             GameObjectById[] hairList = avaibleCharacterCustomization.hairList;
 
@@ -70,17 +71,24 @@ namespace BV
                 }
             }
         }
+
+        private void ApplyCharacterHairColor(string color)
+        {
+            Debug.Log(color);
+        }
     }
 
     [Serializable]
     public class CharacterCustomizationData
     {
         public string hairId;
+        public string hairColor;
     }
 
     [Serializable]
     public class AvaibleCharacterCustomization
     {
         public GameObjectById[] hairList;
+        public Color[] hairCollorPallete;
     }
 }
