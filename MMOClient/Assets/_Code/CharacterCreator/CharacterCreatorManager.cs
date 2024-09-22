@@ -225,6 +225,11 @@ namespace BV
 
         public void OnPlayClick()
         {
+            if (SessionManager.Instance != null)
+            {
+                SessionManager.Instance.characterData = characterData;
+            }
+            
             SceneManager.LoadScene("SampleScene");
         }
 

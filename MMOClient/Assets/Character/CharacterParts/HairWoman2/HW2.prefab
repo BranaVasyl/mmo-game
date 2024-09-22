@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1812587733592965951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HW2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,6 +91,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5188744645697384643, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -4069881682404924729, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -104,12 +108,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 0042ed46a164f77468e7c400b0d90570, type: 2}
     - target: {fileID: -166220755413031868, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -166220755413031868, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
       propertyPath: m_Name
       value: HairModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4889344394417493554, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
       propertyPath: m_DirtyAABB
@@ -203,6 +215,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0042ed46a164f77468e7c400b0d90570, type: 2}
+    - target: {fileID: 6617679589825074268, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756631433444335618, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879097297667570664, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304175215116285622, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8304175215116285622, guid: a6e919bfcc4d9bb448bca255217bca30, type: 3}
       propertyPath: m_IsActive
       value: 0
