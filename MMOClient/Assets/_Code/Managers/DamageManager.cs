@@ -8,10 +8,10 @@ namespace BV
 {
     public class DamageManager : MonoBehaviour
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
         public List<KillListener> killListeners;
 
-        public void Init(ManagersController mC)
+        public void Init(SampleSceneManager mC)
         {
             managersController = mC;
         }

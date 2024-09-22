@@ -6,7 +6,7 @@ namespace BV
 {
     public class PieMenuManager : MonoBehaviour
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
 
         public PieMenu pieMenu;
         private bool isOpen;
@@ -17,7 +17,7 @@ namespace BV
             CloseMenu();
         }
 
-        public void Init(ManagersController mC)
+        public void Init(SampleSceneManager mC)
         {
             managersController = mC;
             inventoryManager = managersController.currentPlayerGameObject.GetComponent<InventoryManager>();

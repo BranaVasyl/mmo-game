@@ -11,7 +11,7 @@ namespace BV
 {
     public class PickUpManager : MonoBehaviour
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
         private GameUIManager gameUIManager;
 
         public GameObject itemsContainer;
@@ -25,7 +25,7 @@ namespace BV
         private List<GameObject> itemsObject = new List<GameObject>();
         private List<ItemData> itemsData = new List<ItemData>();
 
-        public void Init(ManagersController mC)
+        public void Init(SampleSceneManager mC)
         {
             managersController = mC;
             gameUIManager = GameUIManager.singleton;

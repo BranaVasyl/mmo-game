@@ -12,7 +12,7 @@ namespace BV
         public string panelId;
         public string panelName;
 
-        public virtual void Init(ManagersController managersController, MenuManager menuManager)
+        public virtual void Init(SampleSceneManager managersController, MenuManager menuManager)
         {
         }
 

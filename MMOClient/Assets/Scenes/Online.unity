@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 1091827175}
   - component: {fileID: 1091827174}
   m_Layer: 0
-  m_Name: '[ Code - Networking] 1'
+  m_Name: '[ Code - Networking]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

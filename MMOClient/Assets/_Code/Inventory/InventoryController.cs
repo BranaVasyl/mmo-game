@@ -10,7 +10,7 @@ namespace BV
 {
     public class InventoryController : MenuPanel
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
         private MenuManager menuManager;
 
         private ItemsManager itemsManager;
@@ -18,7 +18,7 @@ namespace BV
 
         private InventoryManager inventoryManager;
 
-        public override void Init(ManagersController mC, MenuManager mM)
+        public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             singleton = this;
 

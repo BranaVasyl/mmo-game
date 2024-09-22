@@ -11,7 +11,7 @@ namespace Project.Networking
 {
     public class ChatBehaviour : MonoBehaviour
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
 
         [SerializeField]
         private TMP_Text chatText = null;
@@ -19,7 +19,7 @@ namespace Project.Networking
         [SerializeField]
         private TMP_InputField inputField = null;
 
-        public void Init(ManagersController mC)
+        public void Init(SampleSceneManager mC)
         {
             managersController = mC;
         }

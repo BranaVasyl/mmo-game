@@ -11,7 +11,7 @@ namespace BV
 {
     public class ShopController : MenuPanel
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
         private MenuManager menuManager;
 
         public GameObject shopNameObject;
@@ -28,7 +28,7 @@ namespace BV
         private string playerId;
         private float playerMoney = 0;
 
-        public override void Init(ManagersController mC, MenuManager mM)
+        public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             managersController = mC;
             menuManager = mM;

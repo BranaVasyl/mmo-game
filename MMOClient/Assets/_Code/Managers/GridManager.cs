@@ -551,7 +551,7 @@ namespace BV
 
         public bool PickUpItem(ItemData item)
         {
-            ref List<InventoryGridData> inventoryData = ref ManagersController.singleton.playerInventoryData;
+            ref List<InventoryGridData> inventoryData = ref SampleSceneManager.singleton.playerInventoryData;
             int gridIndex = inventoryData.FindIndex(el =>
             {
                 for (int i = 0; i < el.supportedItemType.Count; i++)

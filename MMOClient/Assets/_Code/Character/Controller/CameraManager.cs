@@ -132,7 +132,7 @@ namespace BV
         }
 
         public static CameraManager singleton;
-        void Awake()
+        public override void Awake()
         {
             singleton = this;
         }

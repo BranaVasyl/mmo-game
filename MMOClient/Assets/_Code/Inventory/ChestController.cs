@@ -9,7 +9,7 @@ namespace BV
 {
     public class ChestController : MenuPanel
     {
-        private ManagersController managersController;
+        private SampleSceneManager managersController;
         private MenuManager menuManager;
 
         private GridManager gridManager;
@@ -17,7 +17,7 @@ namespace BV
         [Header("Player data")]
         private string playerId;
 
-        public override void Init(ManagersController mC, MenuManager mM)
+        public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             managersController = mC;
             menuManager = mM;

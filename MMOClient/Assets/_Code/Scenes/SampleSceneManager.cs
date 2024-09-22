@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 using Project.Networking;
+using Project.Utility;
 
 namespace BV
 {
-    public class ManagersController : MonoBehaviour
+    public class SampleSceneManager : MonoBehaviour
     {
         public ChatBehaviour chatBehaviour;
         public MenuManager menuManager;
@@ -57,7 +58,7 @@ namespace BV
         {
             currentPlayerGameObject = sM.gameObject;
             stateManager = sM;
-            
+
             playerInventoryData = pD.inventoryData;
             playerEquipData = pD.playerEquipData;
 
@@ -81,7 +82,7 @@ namespace BV
             pickUpManager.Init(this);
         }
 
-        public static ManagersController singleton;
+        public static SampleSceneManager singleton;
         void Awake()
         {
             singleton = this;

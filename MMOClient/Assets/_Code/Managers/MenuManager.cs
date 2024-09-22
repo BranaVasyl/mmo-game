@@ -11,7 +11,7 @@ namespace BV
     public class MenuManager : MonoBehaviour
     {
         [HideInInspector]
-        public ManagersController managersController;
+        public SampleSceneManager managersController;
 
         public GameObject gameMenu;
         public List<MenuPanel> menuPanels;
@@ -40,7 +40,7 @@ namespace BV
             CloseMenu();
         }
 
-        public void Init(ManagersController mC)
+        public void Init(SampleSceneManager mC)
         {
             managersController = mC;
             menuPanels.ForEach(panel => panel.Init(managersController, this));

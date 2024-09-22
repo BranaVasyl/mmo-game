@@ -43,7 +43,7 @@ namespace Project.Networking
         public override void Start()
         {
             base.Start();
-            initialize();
+            Init();
             setupEvents();
 
             if (instance == null)
@@ -64,7 +64,7 @@ namespace Project.Networking
             base.Update();
         }
 
-        private void initialize()
+        private void Init()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
         }
@@ -116,7 +116,7 @@ namespace Project.Networking
                 {
                     CameraManager.Instance.gameObject.transform.position = playerData.position;
                     StateManager states = go.GetComponent<StateManager>();
-                    ManagersController.singleton.InitPlayer(states, playerData);
+                    SampleSceneManager.singleton.InitPlayer(states, playerData);
                 }
             });
 
@@ -246,16 +246,6 @@ namespace Project.Networking
 
                 ShopController.singleton.SetShopData(gridData, money);
             });
-        }
-
-        public GameObject getPlayer()
-        {
-            return playerPrefab;
-        }
-
-        public void AttemptToJoinLobby()
-        {
-            Emit("joinGame");
         }
     }
 }
