@@ -20,6 +20,14 @@ namespace BV
         [SerializeField] private TMP_InputField usernameInputField;
         [SerializeField] private TMP_InputField passwordInputField;
 
+        void Start()
+        {
+            SceneManagementManager.Instance.LoadLevel(SceneList.ONLINE, (levelName) =>
+            {
+
+            });
+        }
+
         public void OnLoginClick()
         {
             alertText.text = "Sign in ...";
@@ -85,7 +93,9 @@ namespace BV
                     ActivateButtons(false);
                     alertText.text = "Welcome " + ((response.data.adminFlag == 1) ? " Admin" : "");
 
-                    SceneManager.LoadScene("CharacterCreatorScene");
+                    SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) => {
+                        SceneManagementManager.Instance.UnloadLevel(SceneList.LOGIN_SCENE);
+                    });
                 }
                 else
                 {

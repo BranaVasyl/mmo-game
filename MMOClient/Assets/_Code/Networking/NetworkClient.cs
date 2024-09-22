@@ -19,8 +19,14 @@ namespace Project.Networking
         [SerializeField]
         private ServerObjects serverSpawnables;
 
-        private ManagersController managersController;
-        private CharactersController charactersController;
+        private ManagersController managerReference;
+            public ManagersController ManagerReference
+            {
+                get
+                {
+                    return managerReference = (managerReference == null) ? ManagersController.singleton : managerReference;
+                }
+            }
 
         public static string ClientID { get; private set; }
 
@@ -29,13 +35,36 @@ namespace Project.Networking
         [HideInInspector]
         private bool isConnected = false;
 
+        private static NetworkClient instance;
+        public static NetworkClient Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    Debug.LogError("SessionManager not found. Make sure it exists in the scene.");
+                }
+                return instance;
+            }
+        }
+
         // Start is called before the first frame update
         public override void Start()
         {
-
             base.Start();
             initialize();
             setupEvents();
+
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+                DestroyImmediate(this);
+                return;
+            }
         }
 
         // Update is called once per frame
@@ -47,8 +76,6 @@ namespace Project.Networking
         private void initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
-            managersController = ManagersController.singleton;
-            charactersController = GetComponent<CharactersController>();
         }
 
         private void setupEvents()
@@ -58,7 +85,6 @@ namespace Project.Networking
                 if (!isConnected)
                 {
                     Debug.Log("Connection made to the server");
-                    AttemptToJoinLobby();
                     isConnected = true;
                 }
             });
@@ -80,16 +106,8 @@ namespace Project.Networking
                 go.transform.position = playerData.position;
                 go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
 
-                CharacterData characterData;
-                if (SessionManager.Instance != null)
-                {
-                    characterData = SessionManager.Instance.characterData;
-                }
-                else
-                {
-                    characterData = new();
-                }
-                GameObject character = charactersController.CreateCharacter(characterData, go.transform);
+                CharacterData characterData = SessionManager.Instance.characterData;
+                GameObject character = CharactersController.Instance.CreateCharacter(characterData, go.transform);
 
                 if (!character)
                 {
@@ -103,10 +121,10 @@ namespace Project.Networking
 
                 serverObjects.Add(playerData.id, ni);
 
-                if (ni.IsControlling() && managersController != null)
+                if (ni.IsControlling())
                 {
                     StateManager states = go.GetComponent<StateManager>();
-                    managersController.Init(this, states, playerData);
+                    ManagerReference.InitPlayer(states, playerData);
                 }
             });
 
@@ -162,7 +180,7 @@ namespace Project.Networking
                 float orbitSpeed = E.data["orbitSpeed"].JSONObjectToFloat();
                 float TimeMultiplier = E.data["timeMultiplier"].JSONObjectToFloat();
 
-                managersController.weatherManager.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
+                ManagerReference.weatherManager.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
             });
 
             On("serverSpawn", (E) =>
@@ -206,14 +224,14 @@ namespace Project.Networking
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
-                managersController.chatBehaviour.SendMessage(id, message);
+                ManagerReference.chatBehaviour.SendMessage(id, message);
             });
 
             On("triggerKillEvent", (E) =>
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
-                managersController.damageManager.OnKillEvent(id);
-                managersController.notificationManager.AddNewMessage("Ви вбили: " + id);
+                ManagerReference.damageManager.OnKillEvent(id);
+                ManagerReference.notificationManager.AddNewMessage("Ви вбили: " + id);
             });
 
             On("setBagData", (E) =>

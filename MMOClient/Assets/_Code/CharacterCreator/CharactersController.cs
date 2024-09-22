@@ -5,7 +5,7 @@ using System;
 
 namespace BV
 {
-    public class CharactersController : MonoBehaviour
+    public class CharactersController : Singleton<CharactersController>
     {
         public CharacterModelData[] characters;
 

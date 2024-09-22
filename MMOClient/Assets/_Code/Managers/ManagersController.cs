@@ -36,6 +36,8 @@ namespace BV
 
         void Start()
         {
+            socket = NetworkClient.Instance;
+
             chatBehaviour = ChatBehaviour.singleton;
             menuManager = MenuManager.singleton;
             pieMenuManager = PieMenuManager.singleton;
@@ -51,10 +53,8 @@ namespace BV
             pickUpManager = PickUpManager.singleton;
         }
 
-        public void Init(SocketIOComponent soc, StateManager sM, PlayerData pD)
+        public void InitPlayer(StateManager sM, PlayerData pD)
         {
-            socket = soc;
-
             currentPlayerGameObject = sM.gameObject;
             stateManager = sM;
             

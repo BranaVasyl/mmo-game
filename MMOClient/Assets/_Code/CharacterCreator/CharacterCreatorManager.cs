@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Project.Networking;
 
 namespace BV
 {
-    [RequireComponent(typeof(CharactersController))]
     public class CharacterCreatorManager : MonoBehaviour
     {
-        private CharactersController charactersController;
         private WeatherManager weatherManager;
         private Animator anim;
 
@@ -34,8 +33,6 @@ namespace BV
         void Start()
         {
             creatorPanel.SetActive(false);
-
-            charactersController = GetComponent<CharactersController>();
 
             weatherManager = GetComponent<WeatherManager>();
             weatherManager.SetOrbitSbeed(0);
@@ -118,7 +115,7 @@ namespace BV
                 Destroy(currentCharacter);
             }
 
-            currentCharacter = charactersController.CreateCharacter(characterData, transformSpawnPoint, false);
+            currentCharacter = CharactersController.Instance.CreateCharacter(characterData, transformSpawnPoint, false);
 
             if (!currentCharacter)
             {
@@ -229,8 +226,12 @@ namespace BV
             {
                 SessionManager.Instance.characterData = characterData;
             }
-            
-            SceneManager.LoadScene("SampleScene");
+
+            SceneManagementManager.Instance.UnloadLevel(SceneList.CHARACTER_CREATOR_SCENE);
+            SceneManagementManager.Instance.LoadLevel(SceneList.SAMPLE_SCENE, (levelName) =>
+                {
+                    NetworkClient.Instance.Emit("joinGame");
+                });
         }
 
         #region change character items
