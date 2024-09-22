@@ -19,15 +19,6 @@ namespace Project.Networking
         [SerializeField]
         private ServerObjects serverSpawnables;
 
-        private ManagersController managerReference;
-            public ManagersController ManagerReference
-            {
-                get
-                {
-                    return managerReference = (managerReference == null) ? ManagersController.singleton : managerReference;
-                }
-            }
-
         public static string ClientID { get; private set; }
 
         private Dictionary<string, NetworkIdentity> serverObjects;
@@ -123,8 +114,9 @@ namespace Project.Networking
 
                 if (ni.IsControlling())
                 {
+                    CameraManager.Instance.gameObject.transform.position = playerData.position;
                     StateManager states = go.GetComponent<StateManager>();
-                    ManagerReference.InitPlayer(states, playerData);
+                    ManagersController.singleton.InitPlayer(states, playerData);
                 }
             });
 
@@ -180,7 +172,7 @@ namespace Project.Networking
                 float orbitSpeed = E.data["orbitSpeed"].JSONObjectToFloat();
                 float TimeMultiplier = E.data["timeMultiplier"].JSONObjectToFloat();
 
-                ManagerReference.weatherManager.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
+                WeatherManager.singleton.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
             });
 
             On("serverSpawn", (E) =>
@@ -224,14 +216,14 @@ namespace Project.Networking
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
-                ManagerReference.chatBehaviour.SendMessage(id, message);
+                ChatBehaviour.singleton.SendMessage(id, message);
             });
 
             On("triggerKillEvent", (E) =>
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
-                ManagerReference.damageManager.OnKillEvent(id);
-                ManagerReference.notificationManager.AddNewMessage("Ви вбили: " + id);
+                DamageManager.singleton.OnKillEvent(id);
+                NotificationManager.singleton.AddNewMessage("Ви вбили: " + id);
             });
 
             On("setBagData", (E) =>

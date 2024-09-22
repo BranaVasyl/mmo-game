@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : Singleton<CameraManager>
     {
         public bool lockon;
         public float followSpeed = 9;
