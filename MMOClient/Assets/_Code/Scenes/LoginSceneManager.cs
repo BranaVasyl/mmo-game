@@ -1,18 +1,17 @@
-using UnityEngine;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using UnityEngine;
 using System.Text.RegularExpressions;
+using TMPro;
+using UnityEngine.UI;
+using Project.Networking;
+using System;
 
 namespace BV
 {
-    public class Login : MonoBehaviour
+    public class LoginSceneManager : MonoBehaviour
     {
         private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})";
-        [SerializeField] private string loginEndpoint = "http://127.0.0.1:13756/account/login";
-        [SerializeField] private string createEndpoint = "http://127.0.0.1:13756/account/create";
 
         [SerializeField] private TextMeshProUGUI alertText;
         [SerializeField] private Button loginButton;
@@ -22,10 +21,7 @@ namespace BV
 
         void Start()
         {
-            SceneManagementManager.Instance.LoadLevel(SceneList.ONLINE, (levelName) =>
-            {
-
-            });
+            SceneManagementManager.Instance.LoadLevel(SceneList.ONLINE, (levelName) => { });
         }
 
         public void OnLoginClick()
@@ -63,60 +59,57 @@ namespace BV
             //     yield break;
             // }
 
-            WWWForm form = new WWWForm();
-            form.AddField("rUsername", username);
-            form.AddField("rPassword", password);
+            JSONObject loginData = new();
+            loginData.AddField("rUsername", username);
+            loginData.AddField("rPassword", password);
 
-            UnityWebRequest request = UnityWebRequest.Post(loginEndpoint, form);
-            var handler = request.SendWebRequest();
-
+            bool isResponseReceived = false;
             float startTime = 0;
-            while (!handler.isDone)
+            float timeoutDuration = 10.0f;
+
+            NetworkClient.Instance.Emit("accountLogin", loginData, (response) =>
             {
-                startTime += Time.deltaTime;
+                isResponseReceived = true;
+                LoginResponse responseData = JsonUtility.FromJson<LoginResponse>(response[0].ToString());
 
-                if (startTime > 10.0f)
+                if (responseData.code == 0)
                 {
-                    break;
-                }
-
-                yield return null;
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                LoginResponse response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-
-                if (response.code == 0)
-                {
-                    Debug.Log(response.data);
                     ActivateButtons(false);
-                    alertText.text = "Welcome " + ((response.data.adminFlag == 1) ? " Admin" : "");
+                    alertText.text = "Welcome " + ((responseData.data.adminFlag == 1) ? " Admin" : "");
 
-                    SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) => {
+                    SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) =>
+                    {
                         SceneManagementManager.Instance.UnloadLevel(SceneList.LOGIN_SCENE);
                     });
                 }
                 else
                 {
-                    switch (response.code)
+                    switch (responseData.code)
                     {
                         case 1:
                             alertText.text = "Invalid credentials";
-                            ActivateButtons(true);
                             break;
                         default:
                             alertText.text = "Coruption detected";
-                            ActivateButtons(false);
                             break;
                     }
 
+                    ActivateButtons(true);
                 }
-            }
-            else
+            });
+
+            while (!isResponseReceived)
             {
-                alertText.text = "Error cnecting to the server ...";
-                ActivateButtons(true);
+                startTime += Time.deltaTime;
+
+                if (startTime > timeoutDuration)
+                {
+                    alertText.text = "Error cnecting to the server ...";
+                    ActivateButtons(true);
+                    yield break;
+                }
+
+                yield return null;
             }
 
             yield return null;
@@ -141,37 +134,27 @@ namespace BV
                 yield break;
             }
 
-            WWWForm form = new WWWForm();
-            form.AddField("rUsername", username);
-            form.AddField("rPassword", password);
+            JSONObject loginData = new();
+            loginData.AddField("rUsername", username);
+            loginData.AddField("rPassword", password);
 
-            UnityWebRequest request = UnityWebRequest.Post(createEndpoint, form);
-            var handler = request.SendWebRequest();
-
+            bool isResponseReceived = false;
             float startTime = 0;
-            while (!handler.isDone)
+            float timeoutDuration = 10.0f;
+
+
+            NetworkClient.Instance.Emit("accountCreate", loginData, (response) =>
             {
-                startTime += Time.deltaTime;
+                isResponseReceived = true;
+                CreateResponse responseData = JsonUtility.FromJson<CreateResponse>(response[0].ToString());
 
-                if (startTime > 10.0f)
+                if (responseData.code == 0)
                 {
-                    break;
-                }
-
-                yield return null;
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                CreateResponse response = JsonUtility.FromJson<CreateResponse>(request.downloadHandler.text);
-
-                if (response.code == 0)
-                {
-                    alertText.text = "Account has been created :" + response.data.username;
+                    alertText.text = "Account has been created :" + responseData.data.username;
                 }
                 else
                 {
-                    switch (response.code)
+                    switch (responseData.code)
                     {
                         case 0:
                             alertText.text = "Invalid credentails";
@@ -188,13 +171,24 @@ namespace BV
 
                     }
                 }
-            }
-            else
+
+                ActivateButtons(true);
+            });
+
+            while (!isResponseReceived)
             {
-                alertText.text = "Error cnecting to the server ...";
+                startTime += Time.deltaTime;
+
+                if (startTime > timeoutDuration)
+                {
+                    alertText.text = "Error cnecting to the server ...";
+                    ActivateButtons(true);
+                    yield break;
+                }
+
+                yield return null;
             }
 
-            ActivateButtons(true);
             yield return null;
         }
 
@@ -204,4 +198,29 @@ namespace BV
             createButton.interactable = toogle;
         }
     }
+
+    [Serializable]
+    public class CreateResponse
+    {
+        public int code;
+        public string msg;
+        public GameAccount data;
+    }
+
+    [Serializable]
+    public class LoginResponse
+    {
+        public int code;
+        public string msg;
+        public GameAccount data;
+    }
+
+    [Serializable]
+    public class GameAccount
+    {
+        public string _id;
+        public int adminFlag;
+        public string username;
+    }
+
 }
