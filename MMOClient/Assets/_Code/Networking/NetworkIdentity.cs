@@ -25,7 +25,7 @@ namespace Project.Networking {
         public void SetControllerID (string ID)
         {
             id = ID;
-            isControlling = (NetworkClient.ClientID == ID) ? true : false; //Chexk incoming id versuses the one we have saved from the server
+            isControlling = (NetworkClient.SessionID == ID) ? true : false; //Chexk incoming id versuses the one we have saved from the server
         }
 
         public void SetSocketReference(SocketIOComponent soc)

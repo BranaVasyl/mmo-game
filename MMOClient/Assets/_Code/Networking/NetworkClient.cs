@@ -19,7 +19,7 @@ namespace Project.Networking
         [SerializeField]
         private ServerObjects serverSpawnables;
 
-        public static string ClientID { get; private set; }
+        public static string SessionID { get; private set; }
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
@@ -82,15 +82,15 @@ namespace Project.Networking
 
             On("register", (E) =>
             {
-                ClientID = E.data["id"].ToString().RemoveQuotes();
-                Debug.LogFormat("Our Client's ID ({0})", ClientID);
+                SessionID = E.data["id"].ToString().RemoveQuotes();
+                Debug.LogFormat("Our Client's ID ({0})", SessionID);
             });
 
             On("spawn", (E) =>
             {
                 //Handling all spawning all players
                 //Passed Data
-                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
+                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data["playerData"].ToString());
 
                 GameObject go = Instantiate(playerPrefab, networkContainer);
                 go.name = string.Format("Player ({0})", playerData.id);
@@ -107,8 +107,12 @@ namespace Project.Networking
                 }
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
-                ni.SetControllerID(playerData.id);
                 ni.SetSocketReference(this);
+
+                if (E.data["myself"].ToString() == "true")
+                {
+                    ni.SetControllerID(SessionID);
+                }
 
                 serverObjects.Add(playerData.id, ni);
 
@@ -156,7 +160,7 @@ namespace Project.Networking
                 EnemyData enemyData = JsonUtility.FromJson<EnemyData>(E.data.ToString());
                 if (enemyData.playerSpawnedId.Length > 0)
                 {
-                    enemyData.isControlling = ClientID == enemyData.playerSpawnedId;
+                    enemyData.isControlling = SessionID == enemyData.playerSpawnedId;
                 }
 
                 NetworkIdentity ni = serverObjects[enemyData.id];
