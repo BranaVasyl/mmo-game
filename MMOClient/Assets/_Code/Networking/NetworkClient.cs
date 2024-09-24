@@ -86,6 +86,27 @@ namespace Project.Networking
                 Debug.LogFormat("Our Client's ID ({0})", SessionID);
             });
 
+            On("loadScene", (E) =>
+            {
+                if (E.data.HasField("sceneName"))
+                {
+                    string sceneNameKey = E.data["sceneName"].ToString().RemoveQuotes();
+
+                    if (SceneList.sceneMapping.TryGetValue(sceneNameKey, out string sceneName))
+                    {
+                        SceneManagementManager.Instance.ReplaceLevel(sceneName, (levelName) => Emit("sceneLoaded"));
+                    }
+                    else
+                    {
+                        Debug.LogError($"Scene with the key {sceneNameKey} not found in the list.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("SceneName not found in the event data.");
+                }
+            });
+
             On("spawn", (E) =>
             {
                 //Handling all spawning all players

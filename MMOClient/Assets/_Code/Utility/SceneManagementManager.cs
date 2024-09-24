@@ -39,6 +39,21 @@ namespace BV
             }
         }
 
+        public void ReplaceLevel(string levelName, Action<string> onLevelLoaded, bool isShowingLoadingScreen = false)
+        {
+            var nonStaticLoadedScenes = SceneList.GetNonStaticScenes().Where(scene => currentlyLoadedScenes.Contains(scene)).ToList();
+            foreach (string scene in nonStaticLoadedScenes)
+            {
+                UnloadLevel(scene);
+            }
+
+            LoadLevel(
+                levelName,
+                (loadedLevelName) => { onLevelLoaded(loadedLevelName); },
+                isShowingLoadingScreen
+            );
+        }
+
         public void LoadLevel(string levelName, Action<string> onLevelLoaded, bool isShowingLoadingScreen = false)
         {
             bool value = currentlyLoadedScenes.Any(x => x == levelName);
@@ -91,6 +106,25 @@ namespace BV
         public const string LOGIN_SCENE = "LoginScene";
         public const string CHARACTER_CREATOR_SCENE = "CharacterCreatorScene";
         public const string SAMPLE_SCENE = "SampleScene";
+
         public const string ONLINE = "Online";
+
+        public static readonly string[] staticScenes = { INTRO, ONLINE };
+
+        public static readonly string[] AllScenes = { INTRO, LOGIN_SCENE, CHARACTER_CREATOR_SCENE, SAMPLE_SCENE, ONLINE };
+
+        public static string[] GetNonStaticScenes()
+        {
+            return AllScenes.Except(staticScenes).ToArray();
+        }
+
+        public static readonly Dictionary<string, string> sceneMapping = new Dictionary<string, string>
+        {
+            { "CHARACTER_CREATOR_SCENE", CHARACTER_CREATOR_SCENE },
+            { "INTRO", INTRO },
+            { "LOGIN_SCENE", LOGIN_SCENE },
+            { "SAMPLE_SCENE", SAMPLE_SCENE },
+            { "ONLINE", ONLINE }
+        };
     }
 }

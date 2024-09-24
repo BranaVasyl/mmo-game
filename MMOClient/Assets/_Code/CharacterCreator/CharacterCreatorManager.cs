@@ -224,20 +224,13 @@ namespace BV
         {
             //@todo pass character id
             NetworkClient.Instance.Emit("selectCharacter", null, (response) =>
+            {
+                if (SessionManager.Instance != null)
                 {
-                    if (SessionManager.Instance != null)
-                    {
-                        SessionManager.Instance.characterData = characterData;
-                    }
-
-                    SceneManagementManager.Instance.UnloadLevel(SceneList.CHARACTER_CREATOR_SCENE);
-                    SceneManagementManager.Instance.LoadLevel(SceneList.SAMPLE_SCENE, (levelName) =>
-                        {
-                            NetworkClient.Instance.Emit("joinGame");
-                        });
-                });
+                    SessionManager.Instance.characterData = characterData;
+                }
+            });
         }
-
 
         #region change character items
         private void ChangeItems()

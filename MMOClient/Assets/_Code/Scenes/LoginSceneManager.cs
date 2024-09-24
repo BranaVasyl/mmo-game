@@ -70,14 +70,7 @@ namespace BV
                     isResponseReceived = true;
                     JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
 
-                    if (responseData.code == 0)
-                    {
-                        SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) =>
-                            {
-                                SceneManagementManager.Instance.UnloadLevel(SceneList.LOGIN_SCENE);
-                            });
-                    }
-                    else
+                    if (responseData.code != 0)
                     {
                         switch (responseData.code)
                         {
