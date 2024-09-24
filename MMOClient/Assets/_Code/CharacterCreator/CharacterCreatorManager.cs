@@ -222,17 +222,22 @@ namespace BV
 
         public void OnPlayClick()
         {
-            if (SessionManager.Instance != null)
-            {
-                SessionManager.Instance.characterData = characterData;
-            }
-
-            SceneManagementManager.Instance.UnloadLevel(SceneList.CHARACTER_CREATOR_SCENE);
-            SceneManagementManager.Instance.LoadLevel(SceneList.SAMPLE_SCENE, (levelName) =>
+            //@todo pass character id
+            NetworkClient.Instance.Emit("selectCharacter", null, (response) =>
                 {
-                    NetworkClient.Instance.Emit("joinGame");
+                    if (SessionManager.Instance != null)
+                    {
+                        SessionManager.Instance.characterData = characterData;
+                    }
+
+                    SceneManagementManager.Instance.UnloadLevel(SceneList.CHARACTER_CREATOR_SCENE);
+                    SceneManagementManager.Instance.LoadLevel(SceneList.SAMPLE_SCENE, (levelName) =>
+                        {
+                            NetworkClient.Instance.Emit("joinGame");
+                        });
                 });
         }
+
 
         #region change character items
         private void ChangeItems()

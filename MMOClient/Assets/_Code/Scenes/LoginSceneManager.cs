@@ -13,14 +13,26 @@ namespace BV
     {
         private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})";
 
+        [Header("Login Form Data")]
+        [SerializeField] private GameObject loginForm;
         [SerializeField] private TextMeshProUGUI alertText;
         [SerializeField] private Button loginButton;
         [SerializeField] private Button createButton;
         [SerializeField] private TMP_InputField usernameInputField;
         [SerializeField] private TMP_InputField passwordInputField;
 
+        [Header("Connection Server Data")]
+        [SerializeField] private GameObject connectionForm;
+        [SerializeField] private GameObject progressContainer;
+        [SerializeField] private GameObject feedbackContainer;
+        [SerializeField] private TextMeshProUGUI feedbackText;
+        [SerializeField] private Button refreshButton;
+
+
         void Start()
         {
+            loginForm.SetActive(true);
+            connectionForm.SetActive(false);
             SceneManagementManager.Instance.LoadLevel(SceneList.ONLINE, (levelName) => { });
         }
 
@@ -38,6 +50,67 @@ namespace BV
             ActivateButtons(false);
 
             StartCoroutine(TryCreate());
+        }
+
+        public void OnRefreshClick()
+        {
+            StartCoroutine(OnTryJoinTheServer());
+        }
+
+        public IEnumerator OnTryJoinTheServer()
+        {
+            ShowFeedback(false);
+
+            bool isResponseReceived = false;
+            float startTime = 0;
+            float timeoutDuration = 10.0f;
+
+            NetworkClient.Instance.Emit("joinServer", null, (response) =>
+                {
+                    isResponseReceived = true;
+                    JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
+
+                    if (responseData.code == 0)
+                    {
+                        SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) =>
+                            {
+                                SceneManagementManager.Instance.UnloadLevel(SceneList.LOGIN_SCENE);
+                            });
+                    }
+                    else
+                    {
+                        switch (responseData.code)
+                        {
+                            case 1:
+                                feedbackText.text = "No available slots on the server";
+                                break;
+                            case 2:
+                                feedbackText.text = "User is already connected to the server";
+                                break;
+                            default:
+                                feedbackText.text = "Coruption detected";
+                                break;
+                        }
+
+                        ShowFeedback(true);
+                    };
+                });
+
+            while (!isResponseReceived)
+            {
+                startTime += Time.deltaTime;
+
+                if (startTime > timeoutDuration)
+                {
+                    feedbackText.text = "Error cnecting to the server ...";
+                    ShowFeedback(true);
+                    yield break;
+                }
+
+                yield return null;
+            }
+
+            yield return null;
         }
 
         private IEnumerator TryLogin()
@@ -77,10 +150,9 @@ namespace BV
                     ActivateButtons(false);
                     alertText.text = "Welcome " + ((responseData.data.adminFlag == 1) ? " Admin" : "");
 
-                    SceneManagementManager.Instance.LoadLevel(SceneList.CHARACTER_CREATOR_SCENE, (levelName) =>
-                    {
-                        SceneManagementManager.Instance.UnloadLevel(SceneList.LOGIN_SCENE);
-                    });
+                    loginForm.SetActive(false);
+                    connectionForm.SetActive(true);
+                    StartCoroutine(OnTryJoinTheServer());
                 }
                 else
                 {
@@ -197,6 +269,12 @@ namespace BV
             loginButton.interactable = toogle;
             createButton.interactable = toogle;
         }
+
+        private void ShowFeedback(bool toogle)
+        {
+            progressContainer.SetActive(!toogle);
+            feedbackContainer.SetActive(toogle);
+        }
     }
 
     [Serializable]
@@ -216,11 +294,17 @@ namespace BV
     }
 
     [Serializable]
+    public class JoinServerResponse
+    {
+        public int code;
+        public string msg;
+    }
+
+    [Serializable]
     public class GameAccount
     {
         public string _id;
         public int adminFlag;
         public string username;
     }
-
 }
