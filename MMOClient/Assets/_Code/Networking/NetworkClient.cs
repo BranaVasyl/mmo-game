@@ -193,11 +193,14 @@ namespace Project.Networking
 
             On("updateWeather", (E) =>
             {
-                float timeOfDay = E.data["timeOfDay"].JSONObjectToFloat();
-                float orbitSpeed = E.data["orbitSpeed"].JSONObjectToFloat();
-                float TimeMultiplier = E.data["timeMultiplier"].JSONObjectToFloat();
+                if (WeatherManager.singleton != null)
+                {
+                    float timeOfDay = E.data.HasField("timeOfDay") ? E.data["timeOfDay"].JSONObjectToFloat() : 0f;
+                    float orbitSpeed = E.data.HasField("orbitSpeed") ? E.data["orbitSpeed"].JSONObjectToFloat() : 0f;
+                    float timeMultiplier = E.data.HasField("timeMultiplier") ? E.data["timeMultiplier"].JSONObjectToFloat() : 0f;
 
-                WeatherManager.singleton.UpdateWeatherData(timeOfDay, orbitSpeed, TimeMultiplier);
+                    WeatherManager.singleton.UpdateWeatherData(timeOfDay, orbitSpeed, timeMultiplier);
+                }
             });
 
             On("serverSpawn", (E) =>
