@@ -106,12 +106,11 @@ namespace BV
         public const string LOGIN_SCENE = "LoginScene";
         public const string CHARACTER_CREATOR_SCENE = "CharacterCreatorScene";
         public const string SAMPLE_SCENE = "SampleScene";
-
+        public const string FIRST_DANGE = "FirstDange";
         public const string ONLINE = "Online";
 
         public static readonly string[] staticScenes = { INTRO, ONLINE };
-
-        public static readonly string[] AllScenes = { INTRO, LOGIN_SCENE, CHARACTER_CREATOR_SCENE, SAMPLE_SCENE, ONLINE };
+        public static readonly string[] AllScenes = { INTRO, LOGIN_SCENE, CHARACTER_CREATOR_SCENE, FIRST_DANGE, SAMPLE_SCENE, ONLINE };
 
         public static string[] GetNonStaticScenes()
         {
@@ -121,6 +120,7 @@ namespace BV
         public static readonly Dictionary<string, string> sceneMapping = new Dictionary<string, string>
         {
             { "CHARACTER_CREATOR_SCENE", CHARACTER_CREATOR_SCENE },
+            { "FIRST_DANGE", FIRST_DANGE },
             { "INTRO", INTRO },
             { "LOGIN_SCENE", LOGIN_SCENE },
             { "SAMPLE_SCENE", SAMPLE_SCENE },

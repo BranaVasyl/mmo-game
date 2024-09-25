@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Online.unity
     guid: 7ab18481cb50a454995a5b2dace0c63f
+  - enabled: 1
+    path: Assets/Scenes/FirstDange.unity
+    guid: 7d1f92109d4bc7c47aa0ca250fec5adb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 87767c8cbe9e89c49837ef3398cab6e4, type: 2}
