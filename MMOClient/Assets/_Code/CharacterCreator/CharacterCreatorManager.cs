@@ -5,19 +5,21 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using Project.Networking;
+using TMPro;
 
 namespace BV
 {
     public class CharacterCreatorManager : MonoBehaviour
     {
-        private WeatherManager weatherManager;
+        private CharacterCreatorSceneManager characterCreatorSceneManager;
+
+        public GameObject creatorPanel;
+        public Transform transformSpawnPoint;
+
         private Animator anim;
 
         private CharacterData characterData = new();
         private GameObject currentCharacter;
-
-        public GameObject creatorPanel;
-        public Transform transformSpawnPoint;
 
         public CharacterCreatorInventoryData[] characterCreatorInventoryDatas;
         private CharacterModelController characterModelProvider;
@@ -27,41 +29,44 @@ namespace BV
         [Header("Character Customization")]
         private AvaibleCharacterCustomization avaibleCharacterCustomization;
 
+        public TMP_InputField characterNameInputField;
         public StepLider hairStyleSlider;
         public ColorPallete hairColorPallete;
 
         void Start()
         {
-            creatorPanel.SetActive(false);
-
-            weatherManager = GetComponent<WeatherManager>();
-            weatherManager.SetOrbitSbeed(0);
-
-            GoDefaultMode();
+            characterNameInputField.onValueChanged.AddListener((v) =>
+            {
+                characterData.name = v;
+            });
         }
 
-        public void GoCharacterCreatorMode()
+        public void Init(CharacterCreatorSceneManager ccsm)
         {
-            creatorPanel.SetActive(true);
+            characterCreatorSceneManager = ccsm;
+
             CreateCharacter();
+            creatorPanel.SetActive(true);
         }
 
-        public void LeaveCharacterCreatorMode()
+        public void Deinit()
         {
             if (currentCharacter)
             {
                 Destroy(currentCharacter);
             }
+
             creatorPanel.SetActive(false);
-
-            GoDefaultMode();
         }
 
-        public void GoDefaultMode()
+        public void OnCreateCharacter()
         {
+            NetworkClient.Instance.Emit("createCharacter", new JSONObject(JsonUtility.ToJson(characterData)), (response) =>
+            {
+                //todo check error
+                characterCreatorSceneManager.OnGoSelectCharacterMode();
+            });
         }
-
-
 
         public void OnSetGender(string gender)
         {
@@ -107,7 +112,6 @@ namespace BV
             ChangeItems();
         }
 
-
         public void CreateCharacter()
         {
             if (currentCharacter)
@@ -122,6 +126,7 @@ namespace BV
                 return;
             }
 
+Debug.Log(1111111);
             anim = currentCharacter.GetComponent<Animator>();
             characterModelProvider = currentCharacter.GetComponent<CharacterModelController>();
 
@@ -218,18 +223,6 @@ namespace BV
             }
 
             characterModelProvider.UpdateCharacterCustomization(characterData.characterCustomizationData);
-        }
-
-        public void OnPlayClick()
-        {
-            //@todo pass character id
-            NetworkClient.Instance.Emit("selectCharacter", null, (response) =>
-            {
-                if (SessionManager.Instance != null)
-                {
-                    SessionManager.Instance.characterData = characterData;
-                }
-            });
         }
 
         #region change character items
