@@ -60,6 +60,7 @@ namespace BV
             {
                 Destroy(currentCharacter);
             }
+            characterNameInputField.text = "";
             characterData = new();
 
             creatorPanel.SetActive(false);
@@ -88,6 +89,9 @@ namespace BV
                                     break;
                                 case 2:
                                     text = "Не вдалося створити персонажа";
+                                    break;
+                                case 3:
+                                    text = responseData.msg;
                                     break;
                                 default:
                                     text = "Щось пішло не так :(";
