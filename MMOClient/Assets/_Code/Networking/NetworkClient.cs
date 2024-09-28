@@ -94,7 +94,7 @@ namespace Project.Networking
 
                     if (SceneList.sceneMapping.TryGetValue(sceneNameKey, out string sceneName))
                     {
-                        SceneManagementManager.Instance.ReplaceLevel(sceneName, (levelName) => Emit("sceneLoaded"));
+                        SceneManagementManager.Instance.ReplaceLevel(sceneName, (levelName) => Emit("sceneLoaded"), true);
                     }
                     else
                     {

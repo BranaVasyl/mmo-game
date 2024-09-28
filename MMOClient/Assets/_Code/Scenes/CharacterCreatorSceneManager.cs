@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace BV
 {
@@ -8,6 +9,12 @@ namespace BV
     {
         public CharacterCreatorManager characterCreatorManager;
         public CharacterSelectorManager characterSelectorManager;
+
+        public static CharacterCreatorSceneManager singleton;
+        private void Awake()
+        {
+            singleton = this;
+        }
 
         void Start()
         {
@@ -22,7 +29,7 @@ namespace BV
 
         public void OnGoCreateCharacterMode()
         {
-            characterCreatorManager.Init(this);
+            characterCreatorManager.Init();
             characterSelectorManager.Deinit();
         }
     }

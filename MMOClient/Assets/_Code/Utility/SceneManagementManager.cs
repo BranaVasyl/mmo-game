@@ -66,13 +66,15 @@ namespace BV
             LevelLoadingData lld = new LevelLoadingData();
             lld.ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
             lld.sceneName = levelName;
-            lld.onLevelLoaded = onLevelLoaded;
+            lld.onLevelLoaded = (levelName) => {
+                ApplicationManager.Instance.HideLoadingScreen();
+                onLevelLoaded(levelName);
+            };
             levelsLoading.Add(lld);
 
             if (isShowingLoadingScreen)
             {
-                //Turn on your loading screen here
-                //ApplicationManager.Instance.ShowLoadingScreen();
+                ApplicationManager.Instance.ShowLoadingScreen();
             }
         }
 

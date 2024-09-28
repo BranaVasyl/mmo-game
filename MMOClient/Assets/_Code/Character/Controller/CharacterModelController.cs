@@ -27,20 +27,20 @@ namespace BV
             return avaibleCharacterCustomization;
         }
 
-        public void UpdateCharacterCustomization(CharacterCustomizationData characterCustomizationData)
+        public void UpdateCharacterCustomization(CharacterCustomizationData customization)
         {
-            ApplyCharacterCustomization(characterCustomizationData);
+            ApplyCharacterCustomization(customization);
         }
 
-        public void SetCharacterCustomization(CharacterCustomizationData characterCustomizationData)
+        public void SetCharacterCustomization(CharacterCustomizationData customization)
         {
-            ApplyCharacterCustomization(characterCustomizationData, true);
+            ApplyCharacterCustomization(customization, true);
         }
 
-        private void ApplyCharacterCustomization(CharacterCustomizationData characterCustomizationData, bool removeAfterAply = false)
+        private void ApplyCharacterCustomization(CharacterCustomizationData customization, bool removeAfterAply = false)
         {
-            ApplyCharacterHairStyle(characterCustomizationData.hairId, removeAfterAply);
-            ApplyCharacterHairColor(characterCustomizationData.hairColor);
+            ApplyCharacterHairStyle(customization.hairId, removeAfterAply);
+            ApplyCharacterHairColor(customization.hairColor);
         }
 
         private void ApplyCharacterHairStyle(string id, bool removeAfterAply = false)

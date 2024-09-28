@@ -29,7 +29,7 @@ namespace BV
                 CharacterModelController сharacterModelController = newCharacter.GetComponent<CharacterModelController>();
                 if (сharacterModelController != null)
                 {
-                    сharacterModelController.SetCharacterCustomization(characterData.characterCustomizationData);
+                    сharacterModelController.SetCharacterCustomization(characterData.customization);
                 }
             }
 
@@ -45,7 +45,7 @@ namespace BV
         public string race;
         public string characterClass;
         public string alliance;
-        public CharacterCustomizationData characterCustomizationData;
+        public CharacterCustomizationData customization;
 
         public CharacterData()
         {
@@ -54,7 +54,7 @@ namespace BV
             race = "human";
             characterClass = "warrior";
             alliance = "alliance1";
-            characterCustomizationData = new CharacterCustomizationData();
+            customization = new CharacterCustomizationData();
         }
     }
 

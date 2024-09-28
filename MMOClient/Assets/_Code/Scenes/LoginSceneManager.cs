@@ -11,262 +11,209 @@ namespace BV
 {
     public class LoginSceneManager : MonoBehaviour
     {
+        private ApplicationManager applicationManager;
+
         private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})";
 
-        [Header("Login Form Data")]
+        [Header("Login Form")]
         [SerializeField] private GameObject loginForm;
         [SerializeField] private TextMeshProUGUI alertText;
-        [SerializeField] private Button loginButton;
-        [SerializeField] private Button createButton;
+
         [SerializeField] private TMP_InputField usernameInputField;
         [SerializeField] private TMP_InputField passwordInputField;
+        [SerializeField] private Button loginButton;
+        [SerializeField] private Button createButton;
 
-        [Header("Connection Server Data")]
-        [SerializeField] private GameObject connectionForm;
-        [SerializeField] private GameObject progressContainer;
-        [SerializeField] private GameObject feedbackContainer;
-        [SerializeField] private TextMeshProUGUI feedbackText;
-        [SerializeField] private Button refreshButton;
-
+        void Awake()
+        {
+            applicationManager = ApplicationManager.Instance;
+        }
 
         void Start()
         {
-            loginForm.SetActive(true);
-            connectionForm.SetActive(false);
             SceneManagementManager.Instance.LoadLevel(SceneList.ONLINE, (levelName) => { });
+
+            loginForm.SetActive(true);
         }
 
         public void OnLoginClick()
         {
-            alertText.text = "Sign in ...";
-            ActivateButtons(false);
-
-            StartCoroutine(TryLogin());
+            TryLogin();
         }
 
         public void OnCreateClick()
         {
-            alertText.text = "Creating account ...";
-            ActivateButtons(false);
-
-            StartCoroutine(TryCreate());
+            TryCreate();
         }
 
-        public void OnRefreshClick()
+        public void OnTryJoinTheServer()
         {
-            StartCoroutine(OnTryJoinTheServer());
-        }
+            ShowProgress("Триває підключення до сервера");
 
-        public IEnumerator OnTryJoinTheServer()
-        {
-            ShowFeedback(false);
-
-            bool isResponseReceived = false;
-            float startTime = 0;
-            float timeoutDuration = 10.0f;
-
-            NetworkClient.Instance.Emit("joinServer", null, (response) =>
-                {
-                    isResponseReceived = true;
-                    JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
-
-                    if (responseData.code != 0)
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "joinServer",
+                null,
+                (response) =>
                     {
-                        switch (responseData.code)
+                        applicationManager.CloseModal();
+
+                        JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
+
+                        if (responseData.code != 0)
                         {
-                            case 1:
-                                feedbackText.text = "No available slots on the server";
-                                break;
-                            case 2:
-                                feedbackText.text = "User is already connected to the server";
-                                break;
-                            default:
-                                feedbackText.text = "Coruption detected";
-                                break;
-                        }
+                            string text = "";
+                            switch (responseData.code)
+                            {
+                                case 1:
+                                    text = "Не має вільного міся на сервері, спробуй пізніше";
+                                    break;
+                                case 2:
+                                    text = "Такий користувач уже є в ігровій сесії";
+                                    break;
+                                default:
+                                    text = "Щось пішло не так :(";
+                                    break;
+                            }
 
-                        ShowFeedback(true);
-                    };
-                });
-
-            while (!isResponseReceived)
-            {
-                startTime += Time.deltaTime;
-
-                if (startTime > timeoutDuration)
-                {
-                    feedbackText.text = "Error cnecting to the server ...";
-                    ShowFeedback(true);
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            yield return null;
+                            ShowFeedback(text);
+                        };
+                    },
+                (msg) => ShowFeedback(msg)
+            );
         }
 
-        private IEnumerator TryLogin()
+        private void TryLogin()
         {
+            ShowProgress("Триває підключення до сервера");
+
             string username = usernameInputField.text;
             string password = passwordInputField.text;
 
             if (username.Length < 3 || username.Length > 24)
             {
-                alertText.text = "Invalid username";
-                ActivateButtons(true);
-                yield break;
+                ShowFeedback("Не правильне ім'я користувача");
+                return;
             }
 
             // if (!Regex.IsMatch(password, PASSWORD_REGEX))
             // {
-            //     alertText.text = "Invalid credentials";
-            //     ActivateButtons(true);
-            //     yield break;
+            //     ShowFeedback("Не правильні дані");
+            //     return;
             // }
 
             JSONObject loginData = new();
             loginData.AddField("rUsername", username);
             loginData.AddField("rPassword", password);
 
-            bool isResponseReceived = false;
-            float startTime = 0;
-            float timeoutDuration = 10.0f;
-
-            NetworkClient.Instance.Emit("accountLogin", loginData, (response) =>
-            {
-                isResponseReceived = true;
-                LoginResponse responseData = JsonUtility.FromJson<LoginResponse>(response[0].ToString());
-
-                if (responseData.code == 0)
-                {
-                    ActivateButtons(false);
-                    alertText.text = "Welcome " + ((responseData.data.adminFlag == 1) ? " Admin" : "");
-
-                    loginForm.SetActive(false);
-                    connectionForm.SetActive(true);
-                    StartCoroutine(OnTryJoinTheServer());
-                }
-                else
-                {
-                    switch (responseData.code)
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "accountLogin",
+                loginData,
+                (response) =>
                     {
-                        case 1:
-                            alertText.text = "Invalid credentials";
-                            break;
-                        default:
-                            alertText.text = "Coruption detected";
-                            break;
-                    }
+                        applicationManager.CloseModal();
 
-                    ActivateButtons(true);
-                }
-            });
+                        LoginResponse responseData = JsonUtility.FromJson<LoginResponse>(response[0].ToString());
 
-            while (!isResponseReceived)
-            {
-                startTime += Time.deltaTime;
+                        if (responseData.code == 0)
+                        {
+                            OnTryJoinTheServer();
+                        }
+                        else
+                        {
+                            string text = "";
+                            switch (responseData.code)
+                            {
+                                case 1:
+                                    text = "Не правильні дані";
+                                    break;
+                                default:
+                                    text = "Щось пішло не так :(";
+                                    break;
+                            }
 
-                if (startTime > timeoutDuration)
-                {
-                    alertText.text = "Error cnecting to the server ...";
-                    ActivateButtons(true);
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            yield return null;
+                            ShowFeedback(text);
+                        }
+                    },
+                (msg) => ShowFeedback(msg)
+            );
         }
 
-        private IEnumerator TryCreate()
+        private void TryCreate()
         {
+            ShowProgress("Триває створення користувача");
+
             string username = usernameInputField.text;
             string password = passwordInputField.text;
 
             if (username.Length < 3 || username.Length > 24)
             {
-                alertText.text = "Invalid username";
-                ActivateButtons(true);
-                yield break;
+                ShowFeedback("Не правильне ім'я користувача");
+                return;
             }
 
             if (!Regex.IsMatch(password, PASSWORD_REGEX))
             {
-                alertText.text = "Invalid credentials";
-                ActivateButtons(true);
-                yield break;
+                ShowFeedback("Не правильні дані");
+                return;
             }
 
             JSONObject loginData = new();
             loginData.AddField("rUsername", username);
             loginData.AddField("rPassword", password);
 
-            bool isResponseReceived = false;
-            float startTime = 0;
-            float timeoutDuration = 10.0f;
-
-
-            NetworkClient.Instance.Emit("accountCreate", loginData, (response) =>
-            {
-                isResponseReceived = true;
-                CreateResponse responseData = JsonUtility.FromJson<CreateResponse>(response[0].ToString());
-
-                if (responseData.code == 0)
-                {
-                    alertText.text = "Account has been created :" + responseData.data.username;
-                }
-                else
-                {
-                    switch (responseData.code)
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "accountCreate",
+                loginData,
+                (response) =>
                     {
-                        case 0:
-                            alertText.text = "Invalid credentails";
-                            break;
-                        case 2:
-                            alertText.text = "Username is alredy taken";
-                            break;
-                        case 3:
-                            alertText.text = "Password in unsafe";
-                            break;
-                        default:
-                            alertText.text = "Coruption detected";
-                            break;
+                        applicationManager.CloseModal();
 
-                    }
-                }
+                        CreateResponse responseData = JsonUtility.FromJson<CreateResponse>(response[0].ToString());
 
-                ActivateButtons(true);
-            });
+                        string text = "";
+                        if (responseData.code == 0)
+                        {
+                            text = "Аккаунт (" + responseData.data.username + ") успішно створено";
+                        }
+                        else
+                        {
+                            switch (responseData.code)
+                            {
+                                case 0:
+                                    text = "Не правильні дані";
+                                    break;
+                                case 2:
+                                    text = "Ім'я корисувача зайняте";
+                                    break;
+                                case 3:
+                                    text = "Пароль не надійний";
+                                    break;
+                                default:
+                                    text = "Щось пішло не так :(";
+                                    break;
 
-            while (!isResponseReceived)
+                            }
+                        }
+
+                        ShowFeedback(text);
+                    },
+                (msg) => ShowFeedback(msg)
+            );
+        }
+
+        private void ShowFeedback(string fT = "")
+        {
+            loginForm.SetActive(false);
+            applicationManager.ShowConfirmationModal(fT, () =>
             {
-                startTime += Time.deltaTime;
-
-                if (startTime > timeoutDuration)
-                {
-                    alertText.text = "Error cnecting to the server ...";
-                    ActivateButtons(true);
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            yield return null;
+                loginForm.SetActive(true);
+            });
         }
 
-        private void ActivateButtons(bool toogle)
+        private void ShowProgress(string pT = "")
         {
-            loginButton.interactable = toogle;
-            createButton.interactable = toogle;
-        }
-
-        private void ShowFeedback(bool toogle)
-        {
-            progressContainer.SetActive(!toogle);
-            feedbackContainer.SetActive(toogle);
+            loginForm.SetActive(false);
+            applicationManager.ShowInformationModal(pT);
         }
     }
 

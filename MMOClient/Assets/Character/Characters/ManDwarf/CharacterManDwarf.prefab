@@ -2340,6 +2340,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandPivot: {fileID: 2052316810227175849}
   leftHandPivot: {fileID: 1979746329220600013}
+  avaibleCharacterCustomization:
+    hairList: []
+    hairCollorPallete:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0.9233203, a: 1}
+    - {r: 0, g: 0.07107735, b: 1, a: 1}
+    - {r: 0, g: 0.60363317, b: 1, a: 1}
+    - {r: 0, g: 1, b: 0.19350243, a: 1}
 --- !u!1 &7798022237056433151
 GameObject:
   m_ObjectHideFlags: 0
