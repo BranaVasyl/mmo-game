@@ -59,8 +59,20 @@ namespace BV
             currentPlayerGameObject = sM.gameObject;
             stateManager = sM;
 
-            playerInventoryData = pD.inventoryData;
-            playerEquipData = pD.playerEquipData;
+            for (var i = 0; i < pD.inventoryData.Count; i++)
+            {
+                InventoryGridData inventoryData = playerInventoryData.Find(el => el.gridId == pD.inventoryData[i].gridId);
+                if (inventoryData != null)
+                {
+                    inventoryData.items = pD.inventoryData[i].items;
+                }
+
+                InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.playerEquipData[i].gridId);
+                if (equipData != null)
+                {
+                    equipData.items = pD.playerEquipData[i].items;
+                }
+            }
 
             InitManagers();
         }

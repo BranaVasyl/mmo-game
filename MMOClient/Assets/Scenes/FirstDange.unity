@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2023.1499, g: 1787.5596, b: 2187.6152, a: 1}
+  m_IndirectSpecularColor: {r: 1978.9941, g: 1754.0908, b: 2143.0098, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5873,7 +5873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309419830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -330.76343, y: -5.1180835, z: -24.72804}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5921,8 +5921,88 @@ MonoBehaviour:
   socket: {fileID: 0}
   currentPlayerGameObject: {fileID: 0}
   stateManager: {fileID: 0}
-  playerInventoryData: []
-  playerEquipData: []
+  playerInventoryData:
+  - gridId: otherGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 08000000
+    items: []
+  - gridId: craftGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 05000000
+    items: []
+  - gridId: questGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 09000000
+    items: []
+  - gridId: alchemyGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 06000000
+    items: []
+  - gridId: spellGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 01000000
+    items: []
+  - gridId: foodGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 03000000
+    items: []
+  - gridId: elixirGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 04000000
+    items: []
+  - gridId: butterGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 07000000
+    items: []
+  - gridId: armorGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 02000000
+    items: []
+  - gridId: wepaonGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 00000000
+    items: []
+  playerEquipData:
+  - gridId: rightHandGrid
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: leftHandGrid
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: quickSpellGrid1
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: quickSpellGrid2
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: quickSpellGrid3
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: quickSpellGrid4
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: pocketsGrid1
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: pocketsGrid2
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: pocketsGrid3
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
+  - gridId: pocketsGrid4
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items: []
 --- !u!1 &311974856
 GameObject:
   m_ObjectHideFlags: 0
