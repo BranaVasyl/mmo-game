@@ -21,6 +21,7 @@ namespace BV
         private List<GameObject> listObject = new List<GameObject>();
 
         private CharacterData[] charactersData;
+        private CharacterData currentCharacterData;
         private GameObject currentCharacter;
 
         void Awake()
@@ -41,6 +42,11 @@ namespace BV
 
         public void Deinit()
         {
+            if (currentCharacterData != null)
+            {
+                currentCharacterData = null;
+            }
+
             if (currentCharacter)
             {
                 Destroy(currentCharacter);
@@ -104,34 +110,59 @@ namespace BV
                 Destroy(currentCharacter);
             }
 
-            currentCharacter = CharactersController.Instance.CreateCharacter(charactersData[characterIndex], transformSpawnPoint, true);
-
-            if (!currentCharacter)
-            {
-                return;
-            }
+            currentCharacterData = charactersData[characterIndex];
+            currentCharacter = CharactersController.Instance.CreateCharacter(currentCharacterData, transformSpawnPoint, true);
         }
 
         public void OnPlayClick()
         {
+            if (currentCharacterData == null)
+            {
+                return;
+            }
+
             applicationManager.ShowInformationModal("Триває підключення до сервера");
+
+            JSONObject selectCharacterData = new();
+            selectCharacterData.AddField("id", currentCharacterData.id);
 
             //@todo pass character id
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "selectCharacter",
-                null,
+                selectCharacterData,
                 (response) =>
                     {
                         applicationManager.CloseModal();
 
-                        if (SessionManager.Instance != null)
+                        SelectCharacterResponse responseData = JsonUtility.FromJson<SelectCharacterResponse>(response[0].ToString());
+
+                        if (responseData.code != 0)
                         {
-                            SessionManager.Instance.characterData = new();
-                        }
+                            string text = "";
+                            switch (responseData.code)
+                            {
+                                case 1:
+                                    text = "Не вдалося вибрати даного персонажа, спробуй іншого";
+                                    break;
+                                default:
+                                    text = "Щось пішло не так :(";
+                                    break;
+                            }
+
+                            applicationManager.ShowConfirmationModal(text);
+                            return;
+                        };
                     },
                 (msg) => applicationManager.ShowConfirmationModal(msg)
             );
         }
+    }
+
+    [Serializable]
+    public class SelectCharacterResponse
+    {
+        public int code;
+        public string msg;
     }
 
     [System.Serializable]

@@ -118,7 +118,7 @@ namespace Project.Networking
                 go.transform.position = playerData.position;
                 go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
 
-                CharacterData characterData = SessionManager.Instance.characterData;
+                CharacterData characterData = playerData.characterData;
                 GameObject character = CharactersController.Instance.CreateCharacter(characterData, go.transform);
 
                 if (!character)

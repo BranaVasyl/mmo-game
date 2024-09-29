@@ -40,6 +40,7 @@ namespace BV
     [Serializable]
     public class CharacterData
     {
+        public string id;
         public string name;
         public string gender;
         public string race;
@@ -49,6 +50,7 @@ namespace BV
 
         public CharacterData()
         {
+            id = null;
             name = "";
             gender = "man";
             race = "human";
