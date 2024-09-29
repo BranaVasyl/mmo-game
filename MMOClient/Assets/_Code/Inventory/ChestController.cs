@@ -83,13 +83,23 @@ namespace BV
             bool result = false;
 
             SendChestPickUpData sendData = new SendChestPickUpData(managersController.stateManager.networkIdentity.GetID(), chestID, itemId, operationType);
-            managersController.socket.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
-            {
-                var data = response[0];
-                result = data["result"].ToString() == "true";
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "chestPickUp",
+                new JSONObject(JsonUtility.ToJson(sendData)),
+                (response) =>
+                    {
+                        var data = response[0];
+                        result = data["result"].ToString() == "true";
 
-                requestStatus = true;
-            });
+                        requestStatus = true;
+                    },
+                (msg) =>
+                    {
+                        requestStatus = true;
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося підібрати передмет");
+                    }
+            );
 
             while (!requestStatus)
             {

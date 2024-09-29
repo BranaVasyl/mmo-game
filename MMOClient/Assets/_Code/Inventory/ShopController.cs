@@ -115,22 +115,32 @@ namespace BV
             bool result = false;
 
             SendTradeData sendData = new SendTradeData(managersController.stateManager.networkIdentity.GetID(), NPCID, itemId, operationType);
-            managersController.socket.Emit("shopTrade", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
-            {
-                var data = response[0];
-                result = data["result"].ToString() == "true";
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "shopTrade",
+                new JSONObject(JsonUtility.ToJson(sendData)),
+                (response) =>
+                    {
+                        var data = response[0];
+                        result = data["result"].ToString() == "true";
 
-                if (result)
-                {
-                    playerMoney = data["playerMoney"].JSONObjectToFloat();
-                    shopMoney = data["shopMoney"].JSONObjectToFloat();
+                        if (result)
+                        {
+                            playerMoney = data["playerMoney"].JSONObjectToFloat();
+                            shopMoney = data["shopMoney"].JSONObjectToFloat();
 
-                    menuManager.RenderMoney(playerMoney);
-                    RenderMoney(shopMoney);
-                }
+                            menuManager.RenderMoney(playerMoney);
+                            RenderMoney(shopMoney);
+                        }
 
-                requestStatus = true;
-            });
+                        requestStatus = true;
+                    },
+                (msg) =>
+                    {
+                        requestStatus = true;
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
+                    }
+            );
 
             while (!requestStatus)
             {
