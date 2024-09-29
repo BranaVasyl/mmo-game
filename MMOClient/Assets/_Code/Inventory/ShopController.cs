@@ -23,9 +23,6 @@ namespace BV
         [Header("Shop data")]
         private string NPCId;
         private float shopMoney = 0;
-
-        [Header("Player data")]
-        private string playerId;
         private float playerMoney = 0;
 
         public override void Init(SampleSceneManager mC, MenuManager mM)
@@ -39,23 +36,45 @@ namespace BV
 
         public override void Open()
         {
-            gridManager.SetData(managersController.playerInventoryData);
-
-            gridManager.onUpdateData.AddListener(UpdateData);
-            gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
-
-            playerId = managersController.stateManager.networkIdentity.GetID();
-            playerMoney = managersController.stateManager.money;
-
             if (menuManager.currentNPCStates == null)
             {
                 return;
             }
 
+            playerMoney = managersController.stateManager.money;
+
             NPCId = menuManager.currentNPCStates.networkIdentity.GetID();
             shopNameObject.GetComponent<TMP_Text>().text = menuManager.currentNPCStates.displayedName;
 
-            managersController.socket.Emit("openShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
+            JSONObject shopData = new();
+            shopData.AddField("id", NPCId);
+
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "openShop",
+                shopData,
+                (response) =>
+                {
+                    ApplicationManager.Instance.CloseSpinerLoader();
+
+                    gridManager.SetData(managersController.playerInventoryData);
+                    gridManager.onUpdateData.AddListener(UpdateData);
+                    gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+
+                    InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(response[0].ToString());
+                    float money = response[0]["money"].JSONObjectToFloat();
+
+                    ShopController.singleton.SetShopData(gridData, money);
+                },
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити магазин", () =>
+                            {
+                                menuManager.CloseMenu();
+                            });
+                    }
+            );
         }
 
         private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
@@ -84,18 +103,18 @@ namespace BV
 
             if (placeItemMode && result)
             {
-                result = await BuyItem(playerId, NPCId, selectedItem.GetItemId(), operationType);
+                result = await BuyItem(NPCId, selectedItem.GetItemId(), operationType);
             }
 
             return result;
         }
 
-        private async Task<bool> BuyItem(string playerId, string NPCID, string itemId, int operationType)
+        private async Task<bool> BuyItem(string NPCID, string itemId, int operationType)
         {
             bool requestStatus = false;
             bool result = false;
 
-            SendTradeData sendData = new SendTradeData(playerId, NPCID, itemId, operationType);
+            SendTradeData sendData = new SendTradeData(managersController.stateManager.networkIdentity.GetID(), NPCID, itemId, operationType);
             managersController.socket.Emit("shopTrade", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
             {
                 var data = response[0];
@@ -183,8 +202,6 @@ namespace BV
 
             NPCId = "";
             shopMoney = 0;
-
-            playerId = "";
             playerMoney = 0;
 
             shopNameObject.GetComponent<TMP_Text>().text = "";

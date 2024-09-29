@@ -41,10 +41,15 @@ namespace BV
         private System.Action onConfirmAction;
         private System.Action onDeclineAction;
 
+        [Header("Spiner Screen")]
+        [SerializeField]
+        private Transform _spinerScreen;
+
         void Start()
         {
             ShowLoadingScreen();
             CloseModal();
+            CloseSpinerLoader();
             SceneManagementManager.Instance.LoadLevel(SceneList.LOGIN_SCENE, (levelName) => { }, true);
         }
 
@@ -122,6 +127,18 @@ namespace BV
         public void OnDeclineModal()
         {
             onDeclineAction?.Invoke();
+        }
+        #endregion
+
+        #region SpinerLoaderScreen
+        public void ShowSpinerLoader()
+        {
+            _spinerScreen.gameObject.SetActive(true);
+        }
+
+        public void CloseSpinerLoader()
+        {
+            _spinerScreen.gameObject.SetActive(false);
         }
         #endregion
     }

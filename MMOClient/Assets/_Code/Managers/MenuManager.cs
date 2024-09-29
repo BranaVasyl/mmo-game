@@ -27,7 +27,6 @@ namespace BV
         public GameObject prevArrowNavigation;
         public GameObject nextArrowNavigation;
         public GameObject panelMoney;
-        public GameObject menuLoader;
 
         [Header("Chest Data")]
         public string currentChestId = "";
@@ -115,7 +114,6 @@ namespace BV
 
             prevArrowNavigation.SetActive(false);
             nextArrowNavigation.SetActive(false);
-            menuLoader.SetActive(false);
 
             gameMenu.SetActive(false);
             isOpen = false;
@@ -199,11 +197,6 @@ namespace BV
         public void RenderMoney(float moneyCount)
         {
             panelMoney.GetComponent<TMP_Text>().text = moneyCount.ToString();
-        }
-
-        public void ToogleLoader(bool active = false)
-        {
-            menuLoader.SetActive(active);
         }
 
         #region Global Functions

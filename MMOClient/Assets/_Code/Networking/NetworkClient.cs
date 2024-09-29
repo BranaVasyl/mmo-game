@@ -264,7 +264,6 @@ namespace Project.Networking
             {
                 InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
                 ChestController.singleton.SetChestData(gridData);
-
             });
 
             On("setShopData", (E) =>

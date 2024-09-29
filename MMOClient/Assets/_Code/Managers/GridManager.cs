@@ -519,7 +519,7 @@ namespace BV
             ItemGrid saveSelectGrid = selectedItemGrid;
 
             loadInProcsess = true;
-            MenuManager.singleton.ToogleLoader(true);
+            ApplicationManager.Instance.ShowSpinerLoader();
 
             bool canPlace = await CanSetInPlace(true);
             if (canPlace)
@@ -546,7 +546,7 @@ namespace BV
             }
 
             loadInProcsess = false;
-            MenuManager.singleton.ToogleLoader(false);
+            ApplicationManager.Instance.CloseSpinerLoader();
         }
 
         public bool PickUpItem(ItemData item)
@@ -564,7 +564,7 @@ namespace BV
 
                 return false;
             });
-            
+
             if (gridIndex == -1)
             {
                 return false;

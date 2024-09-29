@@ -14,9 +14,6 @@ namespace BV
 
         private GridManager gridManager;
 
-        [Header("Player data")]
-        private string playerId;
-
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             managersController = mC;
@@ -27,13 +24,33 @@ namespace BV
 
         public override void Open()
         {
-            gridManager.SetData(managersController.playerInventoryData);
-            gridManager.onUpdateData.AddListener(UpdateData);
-            gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+            JSONObject chestData = new();
+            chestData.AddField("id", menuManager.currentChestId);
 
-            playerId = managersController.stateManager.networkIdentity.GetID();
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "openChest",
+                chestData,
+                (response) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
 
-            managersController.socket.Emit("openChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
+                        gridManager.SetData(managersController.playerInventoryData);
+                        gridManager.onUpdateData.AddListener(UpdateData);
+                        gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+
+                        InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(response[0].ToString());
+                        ChestController.singleton.SetChestData(gridData);
+                    },
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити сундук", () =>
+                            {
+                                menuManager.CloseMenu();
+                            });
+                    }
+            );
         }
 
         private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
@@ -55,17 +72,17 @@ namespace BV
 
             bool result = false;
             int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
-            result = await PickUpItem(playerId, menuManager.currentChestId, selectedItem.GetItemId(), operationType);
+            result = await PickUpItem(menuManager.currentChestId, selectedItem.GetItemId(), operationType);
 
             return result;
         }
 
-        private async Task<bool> PickUpItem(string playerId, string chestID, string itemId, int operationType)
+        private async Task<bool> PickUpItem(string chestID, string itemId, int operationType)
         {
             bool requestStatus = false;
             bool result = false;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(playerId, chestID, itemId, operationType);
+            SendChestPickUpData sendData = new SendChestPickUpData(managersController.stateManager.networkIdentity.GetID(), chestID, itemId, operationType);
             managersController.socket.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
             {
                 var data = response[0];
