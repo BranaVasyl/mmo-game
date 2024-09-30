@@ -8,7 +8,7 @@ using System;
 
 namespace Project.Networking
 {
-    [RequireComponent(typeof(NetworkIdentity))]
+    [RequireComponent(typeof(NetworkIdentity))] 
     public class NetworkAnimations : MonoBehaviour
     {
         [SerializeField]
