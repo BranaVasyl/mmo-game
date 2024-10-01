@@ -35,7 +35,7 @@ namespace BV
         public InventoryHiglight incorrectInventoryHiglight;
         public GameObject itemPrefab;
 
-        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
+        private List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
         [Header("Grid Events and Callback")]
         private NewPlayerControls inputActions;
@@ -96,20 +96,8 @@ namespace BV
                 {
                     inventoryData[index] = iData[i];
                 }
-            }
-        }
 
-        public void SetItems(List<CharacterInventoryData> itemsData)
-        {
-            for (var i = 0; i < itemsData.Count; i++)
-            {
-                InventoryGridData item = inventoryData.Find(el => el.gridId == itemsData[i].gridId);
-                if (item != null)
-                {
-                    item.items = itemsData[i].items;
-                }
-
-                ItemGrid currentGrid = allActiveGrids.Find(x => x.gridId == itemsData[i].gridId);
+                ItemGrid currentGrid = allActiveGrids.Find(x => x.gridId == iData[i].gridId);
                 if (currentGrid != null)
                 {
                     SetGridData(currentGrid);
