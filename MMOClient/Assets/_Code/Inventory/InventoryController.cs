@@ -52,7 +52,27 @@ namespace BV
             gridManager.SetData(managersController.playerInventoryData);
             gridManager.SetData(managersController.playerEquipData);
 
-            gridManager.onUpdateData.AddListener(UpdateData);
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "getInventoryData",
+                null,
+                (response) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        CharacterInventoryResponse inventoryData = JsonUtility.FromJson<CharacterInventoryResponse>(response[0].ToString());
+
+                        gridManager.SetItems(inventoryData.data);
+                        gridManager.onUpdateData.AddListener(UpdateData);
+                    },
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити інвентар", () =>
+                            {
+                                menuManager.CloseMenu();
+                            });
+                    }
+            );
         }
 
         public void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
@@ -126,7 +146,7 @@ namespace BV
                 string itemId = items[0].id;
                 item = itemsManager.GetItemById(itemId) as Spell;
             }
- 
+
             inventoryManager.UpdateQuickSpell(id, item);
         }
         #endregion
@@ -187,5 +207,12 @@ namespace BV
         {
             singleton = this;
         }
+    }
+
+    [Serializable]
+    public class CharacterInventoryResponse
+    {
+        public List<CharacterInventoryData> data;
+        public int length;
     }
 }
