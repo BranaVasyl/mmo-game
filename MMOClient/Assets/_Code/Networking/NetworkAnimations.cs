@@ -83,7 +83,7 @@ namespace Project.Networking
             player.isTwoHanded = stateManager.isTwoHanded;
 
             SendAnimationsnData sendData = new SendAnimationsnData(player);
-            networkIdentity.GetSocket().Emit("updateAnimations", new JSONObject(JsonUtility.ToJson(sendData)));
+            NetworkClient.Instance.Emit("updateAnimations", new JSONObject(JsonUtility.ToJson(sendData)));
         }
     }
 

@@ -5,6 +5,7 @@ using Project.Utility;
 using UnityEngine;
 using SocketIO;
 using System;
+using Project.Networking;
 
 namespace BV
 {
@@ -125,7 +126,7 @@ namespace BV
                 string itemId = items[0].id;
                 item = itemsManager.GetItemById(itemId) as Spell;
             }
-
+ 
             inventoryManager.UpdateQuickSpell(id, item);
         }
         #endregion
@@ -139,7 +140,7 @@ namespace BV
             }
 
             managersController.playerEquipData[index] = itemGridData;
-            managersController.socket.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
+            NetworkClient.Instance.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
         }
 
         private void UpdateEquip(InventoryGridData itemGridData)

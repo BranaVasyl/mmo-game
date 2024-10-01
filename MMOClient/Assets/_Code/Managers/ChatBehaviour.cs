@@ -41,7 +41,7 @@ namespace Project.Networking
         {
             inputField.text = "";
             SendMessageData sendData = new SendMessageData(message);
-            managersController.socket.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
+            NetworkClient.Instance.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
         }
 
         public static ChatBehaviour singleton;

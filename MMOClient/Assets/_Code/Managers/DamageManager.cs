@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 using System;
+using Project.Networking;
 
 namespace BV
 {
@@ -22,7 +23,7 @@ namespace BV
             {
                 target.DoDamage();
                 SendDamageData sendData = new SendDamageData(agent.networkIdentity.GetID(), target.networkIdentity.GetID(), damage);
-                managersController.socket.Emit("doDamage", new JSONObject(JsonUtility.ToJson(sendData)));
+                NetworkClient.Instance.Emit("doDamage", new JSONObject(JsonUtility.ToJson(sendData)));
             }
         }
 

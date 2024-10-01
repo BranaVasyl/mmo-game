@@ -6,6 +6,7 @@ using Project.Utility;
 using System;
 using BV;
 using Project.Scriptable;
+using UnityEngine.Events;
 
 namespace Project.Networking
 {
@@ -25,6 +26,9 @@ namespace Project.Networking
 
         [HideInInspector]
         private bool isConnected = false;
+
+        [HideInInspector]
+        public UnityEvent<GameObject, PlayerData> onPlayerSpawned; 
 
         private static NetworkClient instance;
         public static NetworkClient Instance
@@ -128,11 +132,11 @@ namespace Project.Networking
                 }
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
-                ni.SetSocketReference(this);
+                ni.SetControllerID(playerData.id);
 
                 if (E.data["myself"].ToString() == "true")
                 {
-                    ni.SetControllerID(SessionID);
+                    ni.setIsControling(true);
                 }
 
                 serverObjects.Add(playerData.id, ni);
@@ -140,8 +144,7 @@ namespace Project.Networking
                 if (ni.IsControlling())
                 {
                     CameraManager.Instance.gameObject.transform.position = playerData.position;
-                    StateManager states = go.GetComponent<StateManager>();
-                    SampleSceneManager.singleton.InitPlayer(states, playerData);
+                    onPlayerSpawned.Invoke(go, playerData);
                 }
             });
 
@@ -226,7 +229,6 @@ namespace Project.Networking
                     spawnedObject.transform.rotation = Quaternion.Euler(xr, yr, zr);
                     var ni = spawnedObject.GetComponent<NetworkIdentity>();
                     ni.SetControllerID(id);
-                    ni.SetSocketReference(this);
 
                     serverObjects.Add(id, ni);
                 }

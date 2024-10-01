@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using SocketIO;
 using System;
+using Project.Networking;
 
 namespace BV
 {
@@ -82,7 +83,7 @@ namespace BV
             bool requestStatus = false;
             bool result = false;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(managersController.stateManager.networkIdentity.GetID(), chestID, itemId, operationType);
+            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, chestID, itemId, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "chestPickUp",
                 new JSONObject(JsonUtility.ToJson(sendData)),
@@ -147,7 +148,7 @@ namespace BV
             ChestData chestData = new ChestData(menuManager.currentChestId);
             chestData.items = itemGridData.items;
 
-            managersController.socket.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
+            NetworkClient.Instance.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
         }
 
         public override void Deinit()
@@ -159,7 +160,7 @@ namespace BV
 
                 if (!String.IsNullOrEmpty(menuManager.currentChestId))
                 {
-                    managersController.socket.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
+                    NetworkClient.Instance.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
                 }
             }
         }

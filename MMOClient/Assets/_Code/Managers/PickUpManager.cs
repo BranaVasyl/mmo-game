@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using TMPro;
+using Project.Networking;
 
 namespace BV
 {
@@ -21,7 +22,6 @@ namespace BV
         private string currentbagId = "";
 
         [Header("Player data")]
-        private string playerId;
         private List<GameObject> itemsObject = new List<GameObject>();
         private List<ItemData> itemsData = new List<ItemData>();
 
@@ -38,8 +38,7 @@ namespace BV
 
             gameUIManager.ShowBagUI();
 
-            playerId = managersController.stateManager.networkIdentity.GetID();
-            managersController.socket.Emit("openBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
+            NetworkClient.Instance.Emit("openBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
         }
 
         public void SetBagData(List<InventoryItemData> items)
@@ -71,13 +70,13 @@ namespace BV
             }
         }
 
-        private async Task<bool> PickUpItem(string playerId, string chestID, string itemId)
+        private async Task<bool> PickUpItem(string itemId)
         {
             bool requestStatus = false;
             bool result = false;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(playerId, chestID, itemId, 1);
-            managersController.socket.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
+            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentbagId, itemId, 1);
+            NetworkClient.Instance.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
             {
                 var data = response[0];
                 result = data["result"].ToString() == "true";
@@ -97,7 +96,7 @@ namespace BV
         {
             //request
             bool result = false;
-            result = await PickUpItem(playerId, currentbagId, item.id);
+            result = await PickUpItem(item.id);
             if (!result)
             {
                 return;
@@ -132,7 +131,7 @@ namespace BV
             {
                 //request
                 bool result = false;
-                result = await PickUpItem(playerId, currentbagId, item.id);
+                result = await PickUpItem(item.id);
                 if (!result)
                 {
                     continue;
@@ -181,7 +180,7 @@ namespace BV
         {
             if (!String.IsNullOrEmpty(currentbagId))
             {
-                managersController.socket.Emit("closeBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
+                NetworkClient.Instance.Emit("closeBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
             }
 
             Clean();
@@ -192,7 +191,6 @@ namespace BV
         public void Clean()
         {
             currentbagId = "";
-            playerId = "";
             CleanItemsList();
         }
 

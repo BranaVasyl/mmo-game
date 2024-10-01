@@ -5,6 +5,7 @@ using UnityEngine;
 using SocketIO;
 using System;
 using TMPro;
+using Project.Networking;
 
 namespace BV
 {
@@ -127,7 +128,9 @@ namespace BV
             currentPanel = activePanels[curPanelIndex];
 
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
-            RenderMoney(managersController.stateManager.money);
+
+            //@todo get money in server
+            RenderMoney(managersController.currentPlayerGameObject.GetComponent<StateManager>().money);
 
             currentPanel.gameObject.SetActive(true);
 
@@ -214,7 +217,7 @@ namespace BV
             }
 
             managersController.playerInventoryData[index] = itemGridData;
-            managersController.socket.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerInventoryData))));
+            NetworkClient.Instance.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerInventoryData))));
         }
         #endregion
 

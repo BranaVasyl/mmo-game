@@ -23,21 +23,35 @@ namespace BV
         public TooltipManager tooltipManager;
         public PickUpManager pickUpManager;
 
-        [Header("Current client")]
-        [HideInInspector]
-        public SocketIOComponent socket;
-        [HideInInspector]
-        public GameObject currentPlayerGameObject;
-        [HideInInspector]
-        public StateManager stateManager;
-
         [Header("Player Data")]
+        public GameObject currentPlayerGameObject;
+
+        //@todo remove this
         public List<InventoryGridData> playerInventoryData = new List<InventoryGridData>();
         public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
 
         void Start()
         {
-            socket = NetworkClient.Instance;
+            NetworkClient.Instance.onPlayerSpawned.AddListener((go, pD) =>
+            {
+                currentPlayerGameObject = go;
+                for (var i = 0; i < pD.inventoryData.Count; i++)
+                {
+                    InventoryGridData inventoryData = playerInventoryData.Find(el => el.gridId == pD.inventoryData[i].gridId);
+                    if (inventoryData != null)
+                    {
+                        inventoryData.items = pD.inventoryData[i].items;
+                    }
+
+                    InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.playerEquipData[i].gridId);
+                    if (equipData != null)
+                    {
+                        equipData.items = pD.playerEquipData[i].items;
+                    }
+                }
+
+                InitManagers();
+            });
 
             chatBehaviour = ChatBehaviour.singleton;
             menuManager = MenuManager.singleton;
@@ -52,29 +66,6 @@ namespace BV
             notificationManager = NotificationManager.singleton;
             tooltipManager = TooltipManager.singleton;
             pickUpManager = PickUpManager.singleton;
-        }
-
-        public void InitPlayer(StateManager sM, PlayerData pD)
-        {
-            currentPlayerGameObject = sM.gameObject;
-            stateManager = sM;
-
-            for (var i = 0; i < pD.inventoryData.Count; i++)
-            {
-                InventoryGridData inventoryData = playerInventoryData.Find(el => el.gridId == pD.inventoryData[i].gridId);
-                if (inventoryData != null)
-                {
-                    inventoryData.items = pD.inventoryData[i].items;
-                }
-
-                InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.playerEquipData[i].gridId);
-                if (equipData != null)
-                {
-                    equipData.items = pD.playerEquipData[i].items;
-                }
-            }
-
-            InitManagers();
         }
 
         private void InitManagers()

@@ -6,6 +6,7 @@ using UnityEngine;
 using SocketIO;
 using System;
 using TMPro;
+using Project.Networking;
 
 namespace BV
 {
@@ -41,7 +42,8 @@ namespace BV
                 return;
             }
 
-            playerMoney = managersController.stateManager.money;
+            //@todo get money in server
+            playerMoney = managersController.currentPlayerGameObject.GetComponent<StateManager>().money;
 
             NPCId = menuManager.currentNPCStates.networkIdentity.GetID();
             shopNameObject.GetComponent<TMP_Text>().text = menuManager.currentNPCStates.displayedName;
@@ -114,7 +116,7 @@ namespace BV
             bool requestStatus = false;
             bool result = false;
 
-            SendTradeData sendData = new SendTradeData(managersController.stateManager.networkIdentity.GetID(), NPCID, itemId, operationType);
+            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, NPCID, itemId, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "shopTrade",
                 new JSONObject(JsonUtility.ToJson(sendData)),
@@ -194,7 +196,7 @@ namespace BV
             ChestData shopData = new ChestData(NPCId);
             shopData.items = itemGridData.items;
 
-            managersController.socket.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
+            NetworkClient.Instance.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
         }
 
         public override void Deinit()
@@ -206,7 +208,7 @@ namespace BV
 
                 if (!String.IsNullOrEmpty(NPCId))
                 {
-                    managersController.socket.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
+                    NetworkClient.Instance.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
                 }
             }
 

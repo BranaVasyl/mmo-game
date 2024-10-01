@@ -65,7 +65,7 @@ namespace Project.Networking
             player.rotation.z = Mathf.Round(transform.rotation.eulerAngles.z * 1000.0f) / 1000.0f;
 
             SendRotationData sendData = new SendRotationData(player);
-            networkIdentity.GetSocket().Emit("updateRotation", new JSONObject(JsonUtility.ToJson(sendData)));
+            NetworkClient.Instance.Emit("updateRotation", new JSONObject(JsonUtility.ToJson(sendData)));
         }
     }
 

@@ -25,7 +25,7 @@ namespace Project.Networking
             position.z = Mathf.Round(transform.position.z * 1000.0f) / 1000.0f;
 
             SendEnemyPositionData sendData = new SendEnemyPositionData(position, networkIdentity.GetID());
-            networkIdentity.GetSocket().Emit("updateEnemyPosition", new JSONObject(JsonUtility.ToJson(sendData)));
+            NetworkClient.Instance.Emit("updateEnemyPosition", new JSONObject(JsonUtility.ToJson(sendData)));
         }
     }
 

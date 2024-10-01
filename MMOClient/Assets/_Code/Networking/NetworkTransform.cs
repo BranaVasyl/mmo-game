@@ -64,7 +64,7 @@ namespace Project.Networking
             player.position.z = Mathf.Round(transform.position.z * 1000.0f) / 1000.0f;
 
             SendPositionData sendData = new SendPositionData(player);
-            networkIdentity.GetSocket().Emit("updatePosition", new JSONObject(JsonUtility.ToJson(sendData)));
+            NetworkClient.Instance.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(sendData)));
         }
     }
 
