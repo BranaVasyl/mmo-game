@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 1895.1038, g: 1641.2542, b: 1982.0569, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5901,6 +5901,147 @@ MonoBehaviour:
   correctInventoryHiglight: {fileID: 304330305}
   incorrectInventoryHiglight: {fileID: 304330304}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
+  inventoryData:
+  - gridId: otherGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 08000000
+    items:
+    - id: other
+      position: {x: 2, y: 3}
+      rotated: 0
+  - gridId: craftGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 05000000
+    items:
+    - id: craft
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: questGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 09000000
+    items:
+    - id: quest
+      position: {x: 1, y: 0}
+      rotated: 0
+    - id: oldRustyKey
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: alchemyGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 06000000
+    items:
+    - id: alchemy
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: spellGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 01000000
+    items:
+    - id: fireball
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: foodGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 03000000
+    items:
+    - id: apple
+      position: {x: 0, y: 0}
+      rotated: 0
+    - id: apple
+      position: {x: 3, y: 0}
+      rotated: 0
+  - gridId: elixirGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 04000000
+    items:
+    - id: elixir
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: butterGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 07000000
+    items:
+    - id: butter
+      position: {x: 0, y: 0}
+      rotated: 0
+  - gridId: armorGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 02000000
+    items:
+    - id: armor
+      position: {x: 0, y: 0}
+      rotated: 0
+    - id: armor2
+      position: {x: 2, y: 0}
+      rotated: 0
+  - gridId: wepaonGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 00000000
+    items:
+    - id: sword
+      position: {x: 0, y: 0}
+      rotated: 0
+    - id: sword1
+      position: {x: 1, y: 0}
+      rotated: 0
+    - id: longSword
+      position: {x: 2, y: 0}
+      rotated: 0
+    - id: pyromancyFlame
+      position: {x: 3, y: 0}
+      rotated: 0
+    - id: shield
+      position: {x: 0, y: 2}
+      rotated: 1
+  - gridId: chestGrid
+    gridSize: {x: 0, y: 0}
+    supportedItemType: 
+    items:
+    - id: sword
+      position: {x: 0, y: 0}
+      rotated: 0
+    - id: quest
+      position: {x: 0, y: 2}
+      rotated: 0
+    - id: sword1
+      position: {x: 1, y: 0}
+      rotated: 0
+    - id: craft
+      position: {x: 1, y: 2}
+      rotated: 0
+    - id: longSword
+      position: {x: 2, y: 0}
+      rotated: 0
+    - id: alchemy
+      position: {x: 2, y: 2}
+      rotated: 0
+    - id: other
+      position: {x: 3, y: 2}
+      rotated: 0
+    - id: shield
+      position: {x: 3, y: 3}
+      rotated: 0
+    - id: pyromancyFlame
+      position: {x: 4, y: 0}
+      rotated: 0
+    - id: apple
+      position: {x: 4, y: 2}
+      rotated: 0
+    - id: armor
+      position: {x: 5, y: 0}
+      rotated: 0
+    - id: fireball
+      position: {x: 5, y: 2}
+      rotated: 0
+    - id: elixir
+      position: {x: 6, y: 2}
+      rotated: 0
+    - id: armor2
+      position: {x: 7, y: 0}
+      rotated: 0
+    - id: butter
+      position: {x: 7, y: 2}
+      rotated: 0
   onUpdateData:
     m_PersistentCalls:
       m_Calls: []

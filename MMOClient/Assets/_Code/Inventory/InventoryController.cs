@@ -68,11 +68,11 @@ namespace BV
             }
 
             managersController.playerEquipData[index] = itemGridData;
-            List<CharacterInventoryData> characterInventoryDataList = managersController.playerEquipData
-                .Select(gridData => new CharacterInventoryData(gridData.gridId, gridData.items))
-                .ToList();
 
-            inventoryManager.SetPlayerEquip(characterInventoryDataList);
+            List<InventoryGridData> itemList = new List<InventoryGridData>();
+            itemList.Add(itemGridData);
+
+            inventoryManager.SetPlayerEquip(itemList);
 
             NetworkClient.Instance.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
         }

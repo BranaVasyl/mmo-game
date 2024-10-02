@@ -10,8 +10,8 @@ namespace BV
     {
         public string id;
         public CharacterData characterData;
-        public List<CharacterInventoryData> inventoryData = new List<CharacterInventoryData>();
-        public List<CharacterInventoryData> playerEquipData = new List<CharacterInventoryData>();
+        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
+        public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
 
         public float health;
         public float money;
@@ -23,19 +23,6 @@ namespace BV
         public bool run;
         public bool walk;
         public bool isTwoHanded;
-    }
-
-    [Serializable]
-    public class CharacterInventoryData
-    {
-        public string gridId;
-        public List<InventoryItemData> items = new List<InventoryItemData>();
-
-        public CharacterInventoryData(string id, List<InventoryItemData> it)
-        {
-            gridId = id;
-            items = it;
-        }
     }
 
     [Serializable]

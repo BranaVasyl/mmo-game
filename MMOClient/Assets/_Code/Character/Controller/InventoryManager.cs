@@ -7,7 +7,7 @@ namespace BV
     public class InventoryManager : MonoBehaviour
     {
         public ItemsManager itemsManager;
-        private List<CharacterInventoryData> playerEquipData;
+        private List<InventoryGridData> playerEquipData;
 
         [Header("Right Hand Weapon")]
         [HideInInspector]
@@ -62,7 +62,7 @@ namespace BV
             UpdatePlayerEquip();
         }
 
-        public void SetPlayerEquip(List<CharacterInventoryData> pED)
+        public void SetPlayerEquip(List<InventoryGridData> pED)
         {
             playerEquipData = pED;
 
@@ -80,7 +80,7 @@ namespace BV
                 return;
             }
 
-            CharacterInventoryData leftHandGrid = playerEquipData.Find(x => x.gridId == "leftHandGrid");
+            InventoryGridData leftHandGrid = playerEquipData.Find(x => x.gridId == "leftHandGrid");
             if (leftHandGrid != null)
             {
                 List<InventoryItemData> items = leftHandGrid.items;
@@ -94,7 +94,7 @@ namespace BV
                 UpdateLeftHand(item);
             }
 
-            CharacterInventoryData rightHandGrid = playerEquipData.Find(x => x.gridId == "rightHandGrid");
+            InventoryGridData rightHandGrid = playerEquipData.Find(x => x.gridId == "rightHandGrid");
             if (rightHandGrid != null)
             {
                 List<InventoryItemData> items = rightHandGrid.items;
@@ -110,7 +110,7 @@ namespace BV
 
             for (int i = 0; i < 4; i++)
             {
-                CharacterInventoryData quickSpellGrid = playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
+                InventoryGridData quickSpellGrid = playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
                 if (quickSpellGrid != null)
                 {
                     List<InventoryItemData> items = quickSpellGrid.items;
