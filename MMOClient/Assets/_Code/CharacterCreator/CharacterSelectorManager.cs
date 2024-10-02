@@ -76,7 +76,11 @@ namespace BV
                         CharacterListResponse characterListResponse = JsonUtility.FromJson<CharacterListResponse>(response[0].ToString());
                         charactersData = characterListResponse.data;
 
-                        ShowAwaibleCharactersList();
+                        if (charactersData.Length > 0)
+                        {
+                            ShowAwaibleCharactersList();
+                            ItemClicked(0);
+                        }
                     },
                 (msg) => applicationManager.ShowConfirmationModal(msg)
             );

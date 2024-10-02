@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1895.1038, g: 1641.2542, b: 1982.0569, a: 1}
+  m_IndirectSpecularColor: {r: 1900.405, g: 1659.4573, b: 2035.1545, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6175,7 +6175,7 @@ MonoBehaviour:
     supportedItemType: 01000000
     items: []
   - gridId: quickSpellGrid3
-    gridSize: {x: 1, y: 0}
+    gridSize: {x: 1, y: 1}
     supportedItemType: 01000000
     items: []
   - gridId: quickSpellGrid4
