@@ -6,6 +6,9 @@ namespace BV
 {
     public class InventoryManager : MonoBehaviour
     {
+        public ItemsManager itemsManager;
+        private List<CharacterInventoryData> playerEquipData;
+
         [Header("Right Hand Weapon")]
         [HideInInspector]
         public GameObject rightHandPivot;
@@ -42,20 +45,78 @@ namespace BV
         public void Init(StateManager st)
         {
             states = st;
+            itemsManager = ItemsManager.Instance;
 
             characterModelProvider = st.activeModel.GetComponent<CharacterModelController>();
             if (characterModelProvider)
             {
                 rightHandPivot = characterModelProvider.GetRightHandPivot();
-                if (rightHandPivot)
+                leftHandPivot = characterModelProvider.GetLeftHandPivot();
+            }
+
+            UpdatePlayerEquip();
+        }
+
+        public void SetPlayerEquip(List<CharacterInventoryData> pED)
+        {
+            playerEquipData = pED;
+
+            if (characterModelProvider != null)
+            {
+                UpdatePlayerEquip();
+            }
+        }
+
+        public void UpdatePlayerEquip()
+        {
+            if (playerEquipData == null)
+            {
+                Debug.LogWarning("Not found player equip data");
+                return;
+            }
+
+            CharacterInventoryData leftHandGrid = playerEquipData.Find(x => x.gridId == "leftHandGrid");
+            if (leftHandGrid != null)
+            {
+                List<InventoryItemData> items = leftHandGrid.items;
+                ItemWeaponData item = null;
+                if (items.Count > 0)
                 {
-                    UpdateRightHand(rightHandData);
+                    string itemId = items[0].id;
+                    item = itemsManager.GetItemById(itemId) as ItemWeaponData;
                 }
 
-                leftHandPivot = characterModelProvider.GetLeftHandPivot();
-                if (leftHandPivot)
+                UpdateLeftHand(item);
+            }
+
+            CharacterInventoryData rightHandGrid = playerEquipData.Find(x => x.gridId == "rightHandGrid");
+            if (rightHandGrid != null)
+            {
+                List<InventoryItemData> items = rightHandGrid.items;
+                ItemWeaponData item = null;
+                if (items.Count > 0)
                 {
-                    UpdateLeftHand(leftHandData);
+                    string itemId = items[0].id;
+                    item = itemsManager.GetItemById(itemId) as ItemWeaponData;
+                }
+
+                UpdateRightHand(item);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                CharacterInventoryData quickSpellGrid = playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
+                if (quickSpellGrid != null)
+                {
+                    List<InventoryItemData> items = quickSpellGrid.items;
+                    Spell item = null;
+                    if (items.Count > 0)
+                    {
+                        string itemId = items[0].id;
+                        item = itemsManager.GetItemById(itemId) as Spell;
+                    }
+
+                    UpdateQuickSpell(i, item);
                 }
             }
         }
@@ -123,7 +184,6 @@ namespace BV
             states.anim.Play(targetIdle);
         }
 
-#nullable enable
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
             if (leftHandObject != null)
@@ -152,9 +212,7 @@ namespace BV
             EquipWeapon(leftHandData, true);
             CloseAllDamageColliders();
         }
-#nullable disable
 
-#nullable enable
         public void UpdateRightHand(ItemWeaponData? newItem)
         {
             if (rightHandObject != null)
@@ -182,9 +240,7 @@ namespace BV
             EquipWeapon(rightHandData, false);
             CloseAllDamageColliders();
         }
-#nullable disable
 
-#nullable enable
         public void UpdateQuickSpell(int id, Spell? newItem)
         {
             quickSpells[id] = newItem;
@@ -194,7 +250,6 @@ namespace BV
                 UpdateCurrentSpell(currentSpelId);
             }
         }
-#nullable disable
 
         public void UpdateCurrentSpell(int spellId)
         {

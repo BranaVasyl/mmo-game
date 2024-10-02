@@ -16,7 +16,6 @@ namespace BV
         public void Init(StateManager st)
         {
             states = st;
-            UpdateActionsOneHanded();
         }
 
         public void UpdateActionsOneHanded()

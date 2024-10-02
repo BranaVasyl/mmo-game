@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1892.9075, g: 1637.1028, b: 1970.9631, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5974,9 +5974,7 @@ MonoBehaviour:
   notificationManager: {fileID: 0}
   tooltipManager: {fileID: 0}
   pickUpManager: {fileID: 0}
-  socket: {fileID: 0}
   currentPlayerGameObject: {fileID: 0}
-  stateManager: {fileID: 0}
   playerInventoryData:
   - gridId: otherGrid
     gridSize: {x: 5, y: 7}
@@ -6020,44 +6018,44 @@ MonoBehaviour:
     items: []
   playerEquipData:
   - gridId: rightHandGrid
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
     items: []
   - gridId: leftHandGrid
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
     items: []
   - gridId: quickSpellGrid1
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
     items: []
   - gridId: quickSpellGrid2
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
     items: []
   - gridId: quickSpellGrid3
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 0}
+    supportedItemType: 01000000
     items: []
   - gridId: quickSpellGrid4
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
     items: []
   - gridId: pocketsGrid1
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
     items: []
   - gridId: pocketsGrid2
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
     items: []
   - gridId: pocketsGrid3
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
     items: []
   - gridId: pocketsGrid4
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
     items: []
 --- !u!1 &311974856
 GameObject:

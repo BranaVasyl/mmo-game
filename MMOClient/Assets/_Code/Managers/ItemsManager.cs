@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    public class ItemsManager : MonoBehaviour
+    public class ItemsManager : Singleton<ItemsManager>
     {
         public List<ItemData> allItems;
 
@@ -38,6 +38,5 @@ namespace BV
         {
             singleton = this;
         }
-
     }
 }

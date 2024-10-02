@@ -28,7 +28,7 @@ namespace Project.Networking
         private bool isConnected = false;
 
         [HideInInspector]
-        public UnityEvent<GameObject, PlayerData> onPlayerSpawned; 
+        public UnityEvent<GameObject, PlayerData> onPlayerSpawned;
 
         private static NetworkClient instance;
         public static NetworkClient Instance
@@ -131,21 +131,19 @@ namespace Project.Networking
                     return;
                 }
 
+                go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
+
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
                 ni.SetControllerID(playerData.id);
 
                 if (E.data["myself"].ToString() == "true")
                 {
                     ni.setIsControling(true);
-                }
-
-                serverObjects.Add(playerData.id, ni);
-
-                if (ni.IsControlling())
-                {
                     CameraManager.Instance.gameObject.transform.position = playerData.position;
                     onPlayerSpawned.Invoke(go, playerData);
                 }
+
+                serverObjects.Add(playerData.id, ni);
             });
 
             On("disconnected", (E) =>

@@ -161,11 +161,11 @@ namespace BV
 
             base.Init(gameObject.GetComponent<NetworkIdentity>());
 
-            inventoryManager = GetComponent<InventoryManager>();
-            inventoryManager.Init(this);
-
             actionManager = GetComponent<ActionManager>();
             actionManager.Init(this);
+
+            inventoryManager = GetComponent<InventoryManager>();
+            inventoryManager.Init(this);
 
             animatorManager = activeModel.GetComponent<PlayerAnimatorManager>();
             animatorManager.Init(this);
@@ -177,11 +177,7 @@ namespace BV
 
             InitRagdoll();
 
-            if (base.networkIdentity.IsControlling())
-            {
-                InventoryController.singleton.RegisterCharacterListener(this);
-            }
-            else
+            if (!base.networkIdentity.IsControlling())
             {
                 if (inventoryManager.inventoryCameraHodler != null)
                 {
