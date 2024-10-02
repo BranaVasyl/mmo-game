@@ -6,6 +6,7 @@ using UnityEngine;
 using SocketIO;
 using System;
 using Project.Networking;
+using System.Linq;
 
 namespace BV
 {
@@ -28,6 +29,11 @@ namespace BV
 
             itemsManager = ItemsManager.singleton;
             gridManager = GridManager.singleton;
+        }
+
+        public void RegisterCharacterListener(InventoryManager iM)
+        {
+            inventoryManager = iM;
         }
 
         public override void Open()
@@ -62,6 +68,12 @@ namespace BV
             }
 
             managersController.playerEquipData[index] = itemGridData;
+            List<CharacterInventoryData> characterInventoryDataList = managersController.playerEquipData
+                .Select(gridData => new CharacterInventoryData(gridData.gridId, gridData.items))
+                .ToList();
+
+            inventoryManager.SetPlayerEquip(characterInventoryDataList);
+
             NetworkClient.Instance.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
         }
 

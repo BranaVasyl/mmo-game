@@ -54,6 +54,11 @@ namespace BV
                 leftHandPivot = characterModelProvider.GetLeftHandPivot();
             }
 
+            if (st.networkIdentity.IsControlling())
+            {
+                InventoryController.singleton.RegisterCharacterListener(this);
+            }
+
             UpdatePlayerEquip();
         }
 

@@ -266,10 +266,10 @@ namespace BV
     [Serializable]
     public class SendInventoryData
     {
-        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
+        public List<InventoryGridData> items = new List<InventoryGridData>();
         public SendInventoryData(List<InventoryGridData> data)
         {
-            inventoryData = data;
+            items = data;
         }
     }
 }

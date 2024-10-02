@@ -31,9 +31,10 @@ namespace BV
         public string gridId;
         public List<InventoryItemData> items = new List<InventoryItemData>();
 
-        public CharacterInventoryData(string id)
+        public CharacterInventoryData(string id, List<InventoryItemData> it)
         {
             gridId = id;
+            items = it;
         }
     }
 

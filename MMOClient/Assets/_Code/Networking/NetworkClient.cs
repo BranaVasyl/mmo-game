@@ -273,6 +273,14 @@ namespace Project.Networking
 
                 ShopController.singleton.SetShopData(gridData, money);
             });
+
+            On("setPlayerEquip", (E) =>
+            {
+                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
+                NetworkIdentity ni = serverObjects[playerData.id];
+
+                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
+            });
         }
     }
 }
