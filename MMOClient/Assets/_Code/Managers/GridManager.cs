@@ -124,7 +124,7 @@ namespace BV
             {
                 InventoryItemData item = items[i];
 
-                string itemId = item.id;
+                string itemId = item.item.code;
                 ItemData itemData = itemsManager.GetItemById(itemId);
 
                 if (itemData == null)
@@ -612,7 +612,7 @@ namespace BV
 
             for (int i = 0; i < gridData.items.Count; i++)
             {
-                ItemData? selectItem = itemsManager.GetItemById(gridData.items[i].id);
+                ItemData? selectItem = itemsManager.GetItemById(gridData.items[i].item.code);
                 if (selectItem == null)
                 {
                     continue;

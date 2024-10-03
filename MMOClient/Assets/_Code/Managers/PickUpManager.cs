@@ -48,7 +48,7 @@ namespace BV
 
             for (int i = 0; i < items.Count; i++)
             {
-                ItemData itemData = managersController.itemsManager.GetItemById(items[i].id);
+                ItemData itemData = managersController.itemsManager.GetItemById(items[i].item.code);
                 if (itemData == null)
                 {
                     continue;

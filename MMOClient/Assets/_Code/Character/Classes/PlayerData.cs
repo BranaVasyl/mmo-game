@@ -45,15 +45,26 @@ namespace BV
     [Serializable]
     public class InventoryItemData
     {
-        public string id;
         public Vector2Int position;
         public bool rotated = false;
+        public ItemDetails item;
 
-        public InventoryItemData(string i, int x, int y, bool r)
+        public InventoryItemData(string i, int x, int y, bool r, string itemCode = "")
         {
-            id = i;
             position = new Vector2Int(x, y);
             rotated = r;
+            item = new ItemDetails(i);
+        }
+    }
+
+    [Serializable]
+    public class ItemDetails
+    {
+        public string code = "";
+
+        public ItemDetails(string code = "")
+        {
+            this.code = code;
         }
     }
 }

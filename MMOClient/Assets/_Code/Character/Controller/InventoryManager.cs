@@ -87,7 +87,7 @@ namespace BV
                 ItemWeaponData item = null;
                 if (items.Count > 0)
                 {
-                    string itemId = items[0].id;
+                    string itemId = items[0].item.code;
                     item = itemsManager.GetItemById(itemId) as ItemWeaponData;
                 }
 
@@ -101,7 +101,7 @@ namespace BV
                 ItemWeaponData item = null;
                 if (items.Count > 0)
                 {
-                    string itemId = items[0].id;
+                    string itemId = items[0].item.code;
                     item = itemsManager.GetItemById(itemId) as ItemWeaponData;
                 }
 
@@ -117,7 +117,7 @@ namespace BV
                     Spell item = null;
                     if (items.Count > 0)
                     {
-                        string itemId = items[0].id;
+                        string itemId = items[0].item.code;
                         item = itemsManager.GetItemById(itemId) as Spell;
                     }
 
