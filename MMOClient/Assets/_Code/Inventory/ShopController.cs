@@ -63,10 +63,10 @@ namespace BV
                     gridManager.onUpdateData.AddListener(UpdateData);
                     gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
-                    InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(response[0].ToString());
+                    InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
                     float money = response[0]["money"].JSONObjectToFloat();
 
-                    ShopController.singleton.SetShopData(gridData, money);
+                    SetShopData(gridDataWrapper.data, money);
                 },
                 (msg) =>
                     {
@@ -152,13 +152,9 @@ namespace BV
             return result;
         }
 
-        public void SetShopData(InventoryGridData data, float money)
+        public void SetShopData(List<InventoryGridData> data, float money)
         {
-            if (data.items.Count != 0)
-            {
-                List<InventoryGridData> gridData = new List<InventoryGridData>() { data };
-                gridManager.SetData(gridData);
-            }
+            gridManager.SetData(data);
 
             shopMoney = money;
             RenderMoney(money);

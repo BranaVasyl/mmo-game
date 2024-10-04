@@ -262,16 +262,16 @@ namespace Project.Networking
 
             On("setChestData", (E) =>
             {
-                InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
-                ChestController.singleton.SetChestData(gridData);
+                InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
+                ChestController.singleton.SetChestData(gridDataWrapper.data);
             });
 
             On("setShopData", (E) =>
             {
-                InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
+                InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
                 float money = E.data["money"].JSONObjectToFloat();
 
-                ShopController.singleton.SetShopData(gridData, money);
+                ShopController.singleton.SetShopData(gridDataWrapper.data, money);
             });
 
             On("setPlayerEquip", (E) =>

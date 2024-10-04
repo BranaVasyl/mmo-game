@@ -67,4 +67,10 @@ namespace BV
             this.code = code;
         }
     }
+
+    [Serializable]
+    public class InventoryGridDataListWrapper
+    {
+        public List<InventoryGridData> data;
+    }
 }

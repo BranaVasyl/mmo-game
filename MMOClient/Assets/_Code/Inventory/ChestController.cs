@@ -40,8 +40,8 @@ namespace BV
                         gridManager.onUpdateData.AddListener(UpdateData);
                         gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
 
-                        InventoryGridData gridData = JsonUtility.FromJson<InventoryGridData>(response[0].ToString());
-                        ChestController.singleton.SetChestData(gridData);
+                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                        SetChestData(gridDataWrapper.data);
                     },
                 (msg) =>
                     {
@@ -110,10 +110,9 @@ namespace BV
             return result;
         }
 
-        public void SetChestData(InventoryGridData data)
+        public void SetChestData(List<InventoryGridData> data)
         {
-            List<InventoryGridData> gridData = new List<InventoryGridData>() { data };
-            gridManager.SetData(gridData);
+            gridManager.SetData(data);
         }
 
         void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
