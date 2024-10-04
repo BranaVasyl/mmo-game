@@ -7,6 +7,7 @@ namespace BV
 {
     public class InventoryItem : MonoBehaviour
     {
+        public string id;
         public ItemData itemData;
 
         public int HEIGHT

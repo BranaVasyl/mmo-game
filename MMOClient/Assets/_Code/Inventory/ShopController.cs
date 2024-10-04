@@ -190,7 +190,7 @@ namespace BV
         void UpdateShopData(InventoryGridData itemGridData)
         {
             ChestData shopData = new ChestData(NPCId);
-            shopData.items = itemGridData.items;
+            shopData.items.Add(itemGridData);
 
             NetworkClient.Instance.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
         }

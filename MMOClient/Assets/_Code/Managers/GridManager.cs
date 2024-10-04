@@ -134,6 +134,7 @@ namespace BV
 
                 InventoryItem inventoryItem = CreateInventoryItem();
                 inventoryItem.Set(itemData);
+                inventoryItem.id = item.id;
                 if (item.rotated)
                 {
                     inventoryItem.Rotate();
@@ -190,7 +191,7 @@ namespace BV
                             continue;
                         }
 
-                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.itemData.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated));
+                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated, curInventoryItem.itemData.id));
                         alreadyCheckedItems.Add(curInventoryItem);
                     }
                 }
@@ -600,7 +601,7 @@ namespace BV
 
             NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
 
-            InventoryItemData newItemData = new InventoryItemData(item.id, itemPosition.Value.x, itemPosition.Value.y, rotated);
+            InventoryItemData newItemData = new InventoryItemData("fix me", itemPosition.Value.x, itemPosition.Value.y, rotated, item.id);
             inventoryData[gridIndex].items.Add(newItemData);
 
             return true;

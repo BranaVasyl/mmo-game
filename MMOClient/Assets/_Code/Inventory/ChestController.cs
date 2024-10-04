@@ -145,7 +145,7 @@ namespace BV
         void UpdateChestData(InventoryGridData itemGridData)
         {
             ChestData chestData = new ChestData(menuManager.currentChestId);
-            chestData.items = itemGridData.items;
+            chestData.items.Add(itemGridData);
 
             NetworkClient.Instance.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
         }
@@ -175,7 +175,7 @@ namespace BV
     public class ChestData
     {
         public string id = "";
-        public List<InventoryItemData> items = new List<InventoryItemData>();
+        public List<InventoryGridData> items = new List<InventoryGridData>();
 
         public ChestData(string data)
         {
