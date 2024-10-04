@@ -73,7 +73,7 @@ namespace BV
 
             bool result = false;
             int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
-            result = await PickUpItem(menuManager.currentChestId, selectedItem.GetItemId(), operationType);
+            result = await PickUpItem(menuManager.currentChestId, selectedItem.id, operationType);
 
             return result;
         }
