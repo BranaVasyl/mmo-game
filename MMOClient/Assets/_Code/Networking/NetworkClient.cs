@@ -37,7 +37,7 @@ namespace Project.Networking
             {
                 if (instance == null)
                 {
-                    Debug.LogError("SessionManager not found. Make sure it exists in the scene.");
+                    Debug.LogError("NetworkClient not found. Make sure it exists in the scene.");
                 }
                 return instance;
             }

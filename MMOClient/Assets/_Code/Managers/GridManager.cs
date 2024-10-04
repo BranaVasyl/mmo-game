@@ -133,8 +133,8 @@ namespace BV
                 }
 
                 InventoryItem inventoryItem = CreateInventoryItem();
-                inventoryItem.Set(itemData);
                 inventoryItem.id = item.id;
+                inventoryItem.Set(itemData);
                 if (item.rotated)
                 {
                     inventoryItem.Rotate();
