@@ -12,11 +12,14 @@ namespace BV
     {
         private SampleSceneManager managersController;
         private MenuManager menuManager;
-
         private GridManager gridManager;
+
+        public string currentChestId = "";
 
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
+            singleton = this;
+
             managersController = mC;
             menuManager = mM;
 
@@ -25,8 +28,13 @@ namespace BV
 
         public override void Open()
         {
+            if (string.IsNullOrEmpty(currentChestId))
+            {
+                return;
+            }
+            
             JSONObject chestData = new();
-            chestData.AddField("id", menuManager.currentChestId);
+            chestData.AddField("id", currentChestId);
 
             ApplicationManager.Instance.ShowSpinerLoader();
             NetworkRequestManager.Instance.EmitWithTimeout(
@@ -73,7 +81,7 @@ namespace BV
 
             bool result = false;
             int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
-            result = await PickUpItem(menuManager.currentChestId, selectedItem.id, operationType);
+            result = await PickUpItem(currentChestId, selectedItem.id, operationType);
 
             return result;
         }
@@ -144,7 +152,7 @@ namespace BV
 
         void UpdateChestData(InventoryGridData itemGridData)
         {
-            ChestData chestData = new ChestData(menuManager.currentChestId);
+            ChestData chestData = new ChestData(currentChestId);
             chestData.items.Add(itemGridData);
 
             NetworkClient.Instance.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
@@ -152,14 +160,15 @@ namespace BV
 
         public override void Deinit()
         {
+            currentChestId = "";
             if (gridManager != null)
             {
                 gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
-                if (!String.IsNullOrEmpty(menuManager.currentChestId))
+                if (!String.IsNullOrEmpty(currentChestId))
                 {
-                    NetworkClient.Instance.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(menuManager.currentChestId))));
+                    NetworkClient.Instance.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(currentChestId))));
                 }
             }
         }

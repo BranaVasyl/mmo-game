@@ -22,12 +22,15 @@ namespace BV
         private InventoryController inventoryController;
 
         [Header("Shop data")]
-        private string NPCId;
+        public string characterId;
+        public string characterName;
         private float shopMoney = 0;
         private float playerMoney = 0;
 
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
+            singleton = this;
+
             managersController = mC;
             menuManager = mM;
 
@@ -37,19 +40,17 @@ namespace BV
 
         public override void Open()
         {
-            if (menuManager.currentNPCStates == null)
+            if (string.IsNullOrEmpty(characterId))
             {
                 return;
             }
 
             //@todo get money in server
             playerMoney = managersController.currentPlayerGameObject.GetComponent<StateManager>().money;
-
-            NPCId = menuManager.currentNPCStates.networkIdentity.GetID();
-            shopNameObject.GetComponent<TMP_Text>().text = menuManager.currentNPCStates.displayedName;
+            shopNameObject.GetComponent<TMP_Text>().text = characterName;
 
             JSONObject shopData = new();
-            shopData.AddField("id", NPCId);
+            shopData.AddField("id", characterId);
 
             ApplicationManager.Instance.ShowSpinerLoader();
             NetworkRequestManager.Instance.EmitWithTimeout(
@@ -105,7 +106,7 @@ namespace BV
 
             if (placeItemMode && result)
             {
-                result = await BuyItem(NPCId, selectedItem.GetItemId(), operationType);
+                result = await BuyItem(characterId, selectedItem.GetItemId(), operationType);
             }
 
             return result;
@@ -189,7 +190,7 @@ namespace BV
 
         void UpdateShopData(InventoryGridData itemGridData)
         {
-            ChestData shopData = new ChestData(NPCId);
+            ChestData shopData = new ChestData(characterId);
             shopData.items.Add(itemGridData);
 
             NetworkClient.Instance.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
@@ -202,13 +203,14 @@ namespace BV
                 gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
-                if (!String.IsNullOrEmpty(NPCId))
+                if (!String.IsNullOrEmpty(characterId))
                 {
-                    NetworkClient.Instance.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(NPCId))));
+                    NetworkClient.Instance.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(characterId))));
                 }
             }
 
-            NPCId = "";
+            characterId = "";
+            characterName = "";
             shopMoney = 0;
             playerMoney = 0;
 

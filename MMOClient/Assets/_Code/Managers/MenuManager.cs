@@ -29,12 +29,6 @@ namespace BV
         public GameObject nextArrowNavigation;
         public GameObject panelMoney;
 
-        [Header("Chest Data")]
-        public string currentChestId = "";
-
-        [Header("Chest Data")]
-        public CharacterManager currentNPCStates;
-
         void Start()
         {
             CloseMenu();
@@ -87,7 +81,7 @@ namespace BV
 
         public void OpenChest(string chestId)
         {
-            currentChestId = chestId;
+            ChestController.singleton.currentChestId = chestId;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("chest");
@@ -98,7 +92,8 @@ namespace BV
 
         public void OpenShop(CharacterManager states)
         {
-            currentNPCStates = states;
+            ShopController.singleton.characterId = states.networkIdentity.GetID();
+            ShopController.singleton.characterName = states.displayedName;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("shop");
@@ -118,9 +113,6 @@ namespace BV
 
             gameMenu.SetActive(false);
             isOpen = false;
-
-            currentChestId = "";
-            currentNPCStates = null;
         }
 
         private void OpenPanel()
