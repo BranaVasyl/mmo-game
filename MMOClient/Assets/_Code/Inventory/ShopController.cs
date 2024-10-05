@@ -104,20 +104,21 @@ namespace BV
                     break;
             }
 
-            if (placeItemMode && result)
+            if (!placeItemMode)
             {
-                result = await BuyItem(characterId, selectedItem.GetItemId(), operationType);
+                return result;
             }
 
+            result = await BuyItem(characterId, selectedItem.id, operationType);
             return result;
         }
 
-        private async Task<bool> BuyItem(string NPCID, string itemId, int operationType)
+        private async Task<bool> BuyItem(string characterId, string itemId, int operationType)
         {
             bool requestStatus = false;
             bool result = false;
 
-            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, NPCID, itemId, operationType);
+            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, characterId, itemId, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "shopTrade",
                 new JSONObject(JsonUtility.ToJson(sendData)),

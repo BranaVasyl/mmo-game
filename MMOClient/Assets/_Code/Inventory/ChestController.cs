@@ -32,7 +32,7 @@ namespace BV
             {
                 return;
             }
-            
+
             JSONObject chestData = new();
             chestData.AddField("id", currentChestId);
 
@@ -97,9 +97,7 @@ namespace BV
                 new JSONObject(JsonUtility.ToJson(sendData)),
                 (response) =>
                     {
-                        var data = response[0];
-                        result = data["result"].ToString() == "true";
-
+                        result = response[0]["result"].ToString() == "true";
                         requestStatus = true;
                     },
                 (msg) =>

@@ -242,14 +242,14 @@ namespace BV
     public class SendTradeData
     {
         public string playerId = "";
-        public string NPCId = "";
+        public string characterId = "";
         public string itemId = "";
         public int operationType = 1;
 
         public SendTradeData(string pI, string nI, string iI, int oT)
         {
             playerId = pI;
-            NPCId = nI;
+            characterId = nI;
             itemId = iI;
             operationType = oT;
         }
