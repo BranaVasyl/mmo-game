@@ -122,8 +122,7 @@ namespace Project.Networking
                 go.transform.position = playerData.position;
                 go.transform.rotation = Quaternion.Euler(playerData.rotation.x, playerData.rotation.y, playerData.rotation.z);
 
-                CharacterData characterData = playerData.characterData;
-                GameObject character = CharactersController.Instance.CreateCharacter(characterData, go.transform);
+                GameObject character = CharactersController.Instance.CreateCharacter(playerData, go.transform);
 
                 if (!character)
                 {
@@ -131,7 +130,7 @@ namespace Project.Networking
                     return;
                 }
 
-                go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.characterData.playerEquipData);
+                go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
                 ni.SetControllerID(playerData.id);
@@ -279,7 +278,7 @@ namespace Project.Networking
                 PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
                 NetworkIdentity ni = serverObjects[playerData.id];
 
-                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.characterData.playerEquipData);
+                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
             });
         }
     }

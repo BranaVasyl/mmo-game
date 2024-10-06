@@ -3250,14 +3250,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatorPanel: {fileID: 83292391}
   transformSpawnPoint: {fileID: 223707298}
-  characterDatas:
+  playerDatas:
   - id: warrior
     name: 
     gender: 
     race: 
     characterClass: 
     alliance: 
-    isTwoHadned: 0
     customization:
       hairId: 
       hairColor: 
@@ -3280,13 +3279,23 @@ MonoBehaviour:
         rotated: 0
         item:
           code: shield
+    inventoryData: []
+    isTwoHanded: 0
+    money: 0
+    health: 0
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    isDead: 0
+    vertical: 0
+    horizontal: 0
+    run: 0
+    walk: 0
   - id: bandit
     name: 
     gender: 
     race: 
     characterClass: 
     alliance: 
-    isTwoHadned: 1
     customization:
       hairId: 
       hairColor: 
@@ -3300,13 +3309,23 @@ MonoBehaviour:
         rotated: 0
         item:
           code: longSword
+    inventoryData: []
+    isTwoHanded: 1
+    money: 0
+    health: 0
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    isDead: 0
+    vertical: 0
+    horizontal: 0
+    run: 0
+    walk: 0
   - id: magic
     name: 
     gender: 
     race: 
     characterClass: 
     alliance: 
-    isTwoHadned: 0
     customization:
       hairId: 
       hairColor: 
@@ -3329,6 +3348,17 @@ MonoBehaviour:
         rotated: 0
         item:
           code: sword1
+    inventoryData: []
+    isTwoHanded: 0
+    money: 0
+    health: 0
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    isDead: 0
+    vertical: 0
+    horizontal: 0
+    run: 0
+    walk: 0
   characterNameInputField: {fileID: 935469731}
   hairStyleSlider: {fileID: 6384976623920867743}
   hairColorPallete: {fileID: 8273386967960890798}

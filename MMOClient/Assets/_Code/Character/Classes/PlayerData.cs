@@ -9,19 +9,28 @@ namespace BV
     public class PlayerData
     {
         public string id;
-        public CharacterData characterData;
+        public string name = "";
+        public string gender = "man";
+        public string race = "human";
+        public string characterClass = "warrior";
+        public string alliance = "alliance1";
+        public CharacterCustomizationData customization = new CharacterCustomizationData();
+        public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
+
         public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
-        public float health;
+        //todo need add to base
+        public bool isTwoHanded;
         public float money;
+
+        public float health;
         public Vector3 position;
         public Quaternion rotation;
+        public bool isDead;
         public float vertical;
         public float horizontal;
-        public bool isDead;
         public bool run;
         public bool walk;
-        public bool isTwoHanded;
     }
 
     [Serializable]

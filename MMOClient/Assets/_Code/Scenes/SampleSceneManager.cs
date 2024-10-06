@@ -43,7 +43,7 @@ namespace BV
                     }
                 }
 
-                for (var i = 0; i < pD.characterData.playerEquipData.Count; i++)
+                for (var i = 0; i < pD.playerEquipData.Count; i++)
                 {
                     InventoryGridData inventoryData = playerInventoryData.Find(el => el.gridId == pD.inventoryData[i].gridId);
                     if (inventoryData != null)
@@ -51,10 +51,10 @@ namespace BV
                         inventoryData.items = pD.inventoryData[i].items;
                     }
 
-                    InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.characterData.playerEquipData[i].gridId);
+                    InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.playerEquipData[i].gridId);
                     if (equipData != null)
                     {
-                        equipData.items = pD.characterData.playerEquipData[i].items;
+                        equipData.items = pD.playerEquipData[i].items;
                     }
                 }
 

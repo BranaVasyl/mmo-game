@@ -15,7 +15,7 @@ namespace BV
         GameObject leftHandObject;
         ItemWeaponData leftHandItem;
 
-        public void SetPlayerEquip(CharacterData characterData, GameObject character)
+        public void SetPlayerEquip(PlayerData playerData, GameObject character)
         {
             anim = character.GetComponent<Animator>();
             characterModelController = character.GetComponent<CharacterModelController>();
@@ -25,9 +25,9 @@ namespace BV
                 return;
             }
 
-            ChangeRightHandItem(GetEquipWeapon("rightHandGrid", characterData.playerEquipData));
-            ChangeLeftHandItem(GetEquipWeapon("leftHandGrid", characterData.playerEquipData));
-            HandleTwoHanded(characterData.isTwoHadned);
+            ChangeRightHandItem(GetEquipWeapon("rightHandGrid", playerData.playerEquipData));
+            ChangeLeftHandItem(GetEquipWeapon("leftHandGrid", playerData.playerEquipData));
+            HandleTwoHanded(playerData.isTwoHanded);
 
             Clean();
         }

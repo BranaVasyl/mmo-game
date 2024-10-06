@@ -9,11 +9,11 @@ namespace BV
     {
         public CharacterModelData[] characters;
 
-        public GameObject CreateCharacter(CharacterData characterData, Transform transform, bool isStatic = true)
+        public GameObject CreateCharacter(PlayerData playerData, Transform transform, bool isStatic = true)
         {
             GameObject newCharacter = null;
 
-            string id = characterData.gender.ToLower() + char.ToUpper(characterData.race[0]) + characterData.race.Substring(1).ToLower();
+            string id = playerData.gender.ToLower() + char.ToUpper(playerData.race[0]) + playerData.race.Substring(1).ToLower();
             foreach (CharacterModelData modelData in characters)
             {
                 if (modelData.id == id)
@@ -29,38 +29,11 @@ namespace BV
                 CharacterModelController сharacterModelController = newCharacter.GetComponent<CharacterModelController>();
                 if (сharacterModelController != null)
                 {
-                    сharacterModelController.SetCharacterCustomization(characterData.customization);
+                    сharacterModelController.SetCharacterCustomization(playerData.customization);
                 }
             }
 
             return newCharacter;
-        }
-    }
-
-    [Serializable]
-    public class CharacterData
-    {
-        public string id;
-        public string name;
-        public string gender;
-        public string race;
-        public string characterClass;
-        public string alliance;
-        public bool isTwoHadned;
-        public CharacterCustomizationData customization;
-        public List<InventoryGridData> playerEquipData;
-
-        public CharacterData()
-        {
-            id = null;
-            name = "";
-            gender = "man";
-            race = "human";
-            characterClass = "warrior";
-            alliance = "alliance1";
-            isTwoHadned = true;
-            customization = new CharacterCustomizationData();
-            playerEquipData = new List<InventoryGridData>();
         }
     }
 

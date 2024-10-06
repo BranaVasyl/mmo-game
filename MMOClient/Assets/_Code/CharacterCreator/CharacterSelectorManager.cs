@@ -20,8 +20,8 @@ namespace BV
         public GameObject charactersListContainer;
         private List<GameObject> listObject = new List<GameObject>();
 
-        private CharacterData[] charactersData;
-        private CharacterData currentCharacterData;
+        private PlayerData[] playersData;
+        private PlayerData currentPlayerData;
         private GameObject currentCharacter;
 
         void Awake()
@@ -42,9 +42,9 @@ namespace BV
 
         public void Deinit()
         {
-            if (currentCharacterData != null)
+            if (currentPlayerData != null)
             {
-                currentCharacterData = null;
+                currentPlayerData = null;
             }
 
             if (currentCharacter)
@@ -73,10 +73,10 @@ namespace BV
                     {
                         applicationManager.CloseModal();
 
-                        CharacterListResponse characterListResponse = JsonUtility.FromJson<CharacterListResponse>(response[0].ToString());
-                        charactersData = characterListResponse.data;
+                        PlayerListResponse playerListResponse = JsonUtility.FromJson<PlayerListResponse>(response[0].ToString());
+                        playersData = playerListResponse.data;
 
-                        if (charactersData.Length > 0)
+                        if (playersData.Length > 0)
                         {
                             ShowAwaibleCharactersList();
                             ItemClicked(0);
@@ -91,11 +91,11 @@ namespace BV
             GameObject itemTemplate = charactersListContainer.transform.GetChild(0).gameObject;
             GameObject g;
 
-            for (int i = 0; i < charactersData.Length; i++)
+            for (int i = 0; i < playersData.Length; i++)
             {
                 g = Instantiate(itemTemplate, charactersListContainer.transform);
-                g.transform.GetChild(0).GetComponent<TMP_Text>().text = charactersData[i].name;
-                g.transform.GetChild(1).GetComponent<TMP_Text>().text = charactersData[i].race; ;
+                g.transform.GetChild(0).GetComponent<TMP_Text>().text = playersData[i].name;
+                g.transform.GetChild(1).GetComponent<TMP_Text>().text = playersData[i].race; ;
 
                 listObject.Add(g);
                 g.SetActive(true);
@@ -109,7 +109,7 @@ namespace BV
 
         void ItemClicked(int characterIndex)
         {
-            if (currentCharacterData != null && charactersData[characterIndex].id == currentCharacterData.id)
+            if (currentPlayerData != null && playersData[characterIndex].id == currentPlayerData.id)
             {
                 return;
             }
@@ -119,28 +119,28 @@ namespace BV
                 Destroy(currentCharacter);
             }
 
-            currentCharacterData = charactersData[characterIndex];
-            currentCharacter = CharactersController.Instance.CreateCharacter(currentCharacterData, transformSpawnPoint);
+            currentPlayerData = playersData[characterIndex];
+            currentCharacter = CharactersController.Instance.CreateCharacter(currentPlayerData, transformSpawnPoint);
 
-            PreviewInventoryManager.Instance.SetPlayerEquip(currentCharacterData, currentCharacter);
+            PreviewInventoryManager.Instance.SetPlayerEquip(currentPlayerData, currentCharacter);
         }
 
         public void OnPlayClick()
         {
-            if (currentCharacterData == null)
+            if (currentPlayerData == null)
             {
                 return;
             }
 
             applicationManager.ShowInformationModal("Триває підключення до сервера");
 
-            JSONObject selectCharacterData = new();
-            selectCharacterData.AddField("id", currentCharacterData.id);
+            JSONObject selectPlayerData = new();
+            selectPlayerData.AddField("id", currentPlayerData.id);
 
             //@todo pass character id
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "selectCharacter",
-                selectCharacterData,
+                selectPlayerData,
                 (response) =>
                     {
                         applicationManager.CloseModal();
@@ -177,9 +177,9 @@ namespace BV
     }
 
     [System.Serializable]
-    public class CharacterListResponse
+    public class PlayerListResponse
     {
-        public CharacterData[] data;
+        public PlayerData[] data;
         public int length;
     }
 }

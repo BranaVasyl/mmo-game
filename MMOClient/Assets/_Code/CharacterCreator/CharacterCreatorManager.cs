@@ -19,10 +19,10 @@ namespace BV
 
         private Animator anim;
 
-        private CharacterData characterData = new();
+        private PlayerData playerData = new();
         private GameObject currentCharacter;
 
-        public CharacterData[] characterDatas;
+        public PlayerData[] playerDatas;
         private CharacterModelController characterModelProvider;
         private GameObject rightHandObject;
         private GameObject leftHandObject;
@@ -44,7 +44,7 @@ namespace BV
         {
             characterNameInputField.onValueChanged.AddListener((v) =>
             {
-                characterData.name = v;
+                playerData.name = v;
             });
         }
 
@@ -61,7 +61,7 @@ namespace BV
                 Destroy(currentCharacter);
             }
             characterNameInputField.text = "";
-            characterData = new();
+            playerData = new();
 
             creatorPanel.SetActive(false);
         }
@@ -72,7 +72,7 @@ namespace BV
 
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "createCharacter",
-                new JSONObject(JsonUtility.ToJson(characterData)),
+                new JSONObject(JsonUtility.ToJson(playerData)),
                 (response) =>
                     {
                         applicationManager.CloseModal();
@@ -110,45 +110,45 @@ namespace BV
 
         public void OnSetGender(string gender)
         {
-            if (characterData.gender == gender)
+            if (playerData.gender == gender)
             {
                 return;
             }
 
-            characterData.gender = gender;
+            playerData.gender = gender;
             CreateCharacter();
         }
 
         public void OnSetRace(string race)
         {
-            if (characterData.race == race)
+            if (playerData.race == race)
             {
                 return;
             }
 
-            characterData.race = race;
+            playerData.race = race;
             CreateCharacter();
         }
 
         public void OnSetClass(string characterClass)
         {
-            if (characterData.characterClass == characterClass)
+            if (playerData.characterClass == characterClass)
             {
                 return;
             }
 
-            characterData.characterClass = characterClass;
+            playerData.characterClass = characterClass;
             ChangeItems();
         }
 
         public void OnSetAlliance(string alliance)
         {
-            if (characterData.alliance == alliance)
+            if (playerData.alliance == alliance)
             {
                 return;
             }
 
-            characterData.alliance = alliance;
+            playerData.alliance = alliance;
             ChangeItems();
         }
 
@@ -159,7 +159,7 @@ namespace BV
                 Destroy(currentCharacter);
             }
 
-            currentCharacter = CharactersController.Instance.CreateCharacter(characterData, transformSpawnPoint, false);
+            currentCharacter = CharactersController.Instance.CreateCharacter(playerData, transformSpawnPoint, false);
 
             if (!currentCharacter)
             {
@@ -170,7 +170,7 @@ namespace BV
             characterModelProvider = currentCharacter.GetComponent<CharacterModelController>();
 
             ChangeAvaibleCustomizeData();
-            characterModelProvider.UpdateCharacterCustomization(characterData.customization);
+            characterModelProvider.UpdateCharacterCustomization(playerData.customization);
 
             ChangeItems();
         }
@@ -185,7 +185,7 @@ namespace BV
             hairStyleSlider.onUpdateData.RemoveListener(OnUpdateHairStyle);
             if (avaibleCharacterCustomization.hairList.Length == 0)
             {
-                characterData.customization.hairId = null;
+                playerData.customization.hairId = null;
             }
             else
             {
@@ -195,7 +195,7 @@ namespace BV
                 hairStyleSlider.SetValue(0);
                 hairStyleSlider.SetMaxValue(avaibleCharacterCustomization.hairList.Length - 1);
 
-                int hairIndex = System.Array.FindIndex(avaibleCharacterCustomization.hairList, hair => hair.id == characterData.customization.hairId);
+                int hairIndex = System.Array.FindIndex(avaibleCharacterCustomization.hairList, hair => hair.id == playerData.customization.hairId);
                 if (hairIndex >= 0)
                 {
                     hairStyleSlider.SetValue(hairIndex);
@@ -203,7 +203,7 @@ namespace BV
                 else
                 {
                     hairStyleSlider.SetValue(0);
-                    characterData.customization.hairId = avaibleCharacterCustomization.hairList[0].id;
+                    playerData.customization.hairId = avaibleCharacterCustomization.hairList[0].id;
                 }
             }
             //#endregion
@@ -213,7 +213,7 @@ namespace BV
             hairColorPallete.onUpdateData.RemoveListener(OnUpdateHairColor);
             if (avaibleCharacterCustomization.hairCollorPallete.Length == 0)
             {
-                characterData.customization.hairColor = null;
+                playerData.customization.hairColor = null;
             }
             else
             {
@@ -222,13 +222,13 @@ namespace BV
                 hairColorPallete.SetPalette(avaibleCharacterCustomization.hairCollorPallete);
 
                 int colorIndex = System.Array.FindIndex(avaibleCharacterCustomization.hairCollorPallete,
-                    color => color.Equals(characterData.customization.hairColor)
+                    color => color.Equals(playerData.customization.hairColor)
                 );
 
                 if (colorIndex < 0)
                 {
                     string hexColor = ColorUtility.ToHtmlStringRGB(avaibleCharacterCustomization.hairCollorPallete[0]);
-                    characterData.customization.hairColor = "#" + hexColor;
+                    playerData.customization.hairColor = "#" + hexColor;
                 }
             }
             //#endregion
@@ -239,38 +239,38 @@ namespace BV
             int index = Mathf.RoundToInt(value);
             if (index > avaibleCharacterCustomization.hairList.Length || avaibleCharacterCustomization.hairList.Length == 0)
             {
-                characterData.customization.hairId = null;
+                playerData.customization.hairId = null;
             }
             else
             {
-                characterData.customization.hairId = avaibleCharacterCustomization.hairList[index].id;
+                playerData.customization.hairId = avaibleCharacterCustomization.hairList[index].id;
             }
 
-            characterModelProvider.UpdateCharacterCustomization(characterData.customization);
+            characterModelProvider.UpdateCharacterCustomization(playerData.customization);
         }
 
         private void OnUpdateHairColor(Color color, int index)
         {
             if (index > avaibleCharacterCustomization.hairCollorPallete.Length || avaibleCharacterCustomization.hairCollorPallete.Length == 0)
             {
-                characterData.customization.hairColor = null;
+                playerData.customization.hairColor = null;
             }
             else
             {
                 string hexColor = ColorUtility.ToHtmlStringRGB(color);
-                characterData.customization.hairColor = "#" + hexColor;
+                playerData.customization.hairColor = "#" + hexColor;
             }
 
-            characterModelProvider.UpdateCharacterCustomization(characterData.customization);
+            characterModelProvider.UpdateCharacterCustomization(playerData.customization);
         }
 
         private void ChangeItems()
         {
-            CharacterData? currentInventoryData = null;
+            PlayerData? currentInventoryData = null;
 
-            foreach (CharacterData inventoryData in characterDatas)
+            foreach (PlayerData inventoryData in playerDatas)
             {
-                if (inventoryData.id.ToString() == characterData.characterClass)
+                if (inventoryData.id.ToString() == playerData.characterClass)
                 {
                     currentInventoryData = inventoryData;
                     break;
@@ -286,6 +286,6 @@ namespace BV
     {
         public int code;
         public string msg;
-        public CharacterData data;
+        public PlayerData data;
     }
 }
