@@ -109,13 +109,20 @@ namespace BV
 
         void ItemClicked(int characterIndex)
         {
+            if (currentCharacterData != null && charactersData[characterIndex].id == currentCharacterData.id)
+            {
+                return;
+            }
+
             if (currentCharacter)
             {
                 Destroy(currentCharacter);
             }
 
             currentCharacterData = charactersData[characterIndex];
-            currentCharacter = CharactersController.Instance.CreateCharacter(currentCharacterData, transformSpawnPoint, true);
+            currentCharacter = CharactersController.Instance.CreateCharacter(currentCharacterData, transformSpawnPoint);
+
+            PreviewInventoryManager.Instance.SetPlayerEquip(currentCharacterData, currentCharacter);
         }
 
         public void OnPlayClick()

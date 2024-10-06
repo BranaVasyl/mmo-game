@@ -46,7 +46,9 @@ namespace BV
         public string race;
         public string characterClass;
         public string alliance;
+        public bool isTwoHadned;
         public CharacterCustomizationData customization;
+        public List<InventoryGridData> playerEquipData;
 
         public CharacterData()
         {
@@ -56,7 +58,9 @@ namespace BV
             race = "human";
             characterClass = "warrior";
             alliance = "alliance1";
+            isTwoHadned = true;
             customization = new CharacterCustomizationData();
+            playerEquipData = new List<InventoryGridData>();
         }
     }
 

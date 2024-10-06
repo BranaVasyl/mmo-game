@@ -131,7 +131,7 @@ namespace Project.Networking
                     return;
                 }
 
-                go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
+                go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.characterData.playerEquipData);
 
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
                 ni.SetControllerID(playerData.id);
@@ -279,7 +279,7 @@ namespace Project.Networking
                 PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
                 NetworkIdentity ni = serverObjects[playerData.id];
 
-                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
+                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.characterData.playerEquipData);
             });
         }
     }

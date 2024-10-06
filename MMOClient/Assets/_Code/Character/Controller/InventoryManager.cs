@@ -80,50 +80,37 @@ namespace BV
                 return;
             }
 
-            InventoryGridData leftHandGrid = playerEquipData.Find(x => x.gridId == "leftHandGrid");
-            if (leftHandGrid != null)
-            {
-                List<InventoryItemData> items = leftHandGrid.items;
-                ItemWeaponData item = null;
-                if (items.Count > 0)
-                {
-                    string itemId = items[0].item.code;
-                    item = itemsManager.GetItemById(itemId) as ItemWeaponData;
-                }
-
-                UpdateLeftHand(item);
-            }
-
-            InventoryGridData rightHandGrid = playerEquipData.Find(x => x.gridId == "rightHandGrid");
-            if (rightHandGrid != null)
-            {
-                List<InventoryItemData> items = rightHandGrid.items;
-                ItemWeaponData item = null;
-                if (items.Count > 0)
-                {
-                    string itemId = items[0].item.code;
-                    item = itemsManager.GetItemById(itemId) as ItemWeaponData;
-                }
-
-                UpdateRightHand(item);
-            }
+            UpdateLeftHand(GetEquipWeapon("leftHandGrid", playerEquipData));
+            UpdateRightHand(GetEquipWeapon("rightHandGrid", playerEquipData));
 
             for (int i = 0; i < 4; i++)
             {
-                InventoryGridData quickSpellGrid = playerEquipData.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
-                if (quickSpellGrid != null)
-                {
-                    List<InventoryItemData> items = quickSpellGrid.items;
-                    Spell item = null;
-                    if (items.Count > 0)
-                    {
-                        string itemId = items[0].item.code;
-                        item = itemsManager.GetItemById(itemId) as Spell;
-                    }
-
-                    UpdateQuickSpell(i, item);
-                }
+                UpdateQuickSpell(i, GetEquipSpell("quickSpellGrid" + (i + 1), playerEquipData));
             }
+        }
+
+        private ItemWeaponData? GetEquipWeapon(string gridId, List<InventoryGridData> playerEquipData)
+        {
+            InventoryGridData grid = playerEquipData.Find(x => x.gridId == gridId);
+            if (grid != null && grid.items.Count > 0)
+            {
+                string itemId = grid.items[0].item.code;
+                return ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
+            }
+
+            return null;
+        }
+
+        private Spell? GetEquipSpell(string gridId, List<InventoryGridData> playerEquipData)
+        {
+            InventoryGridData grid = playerEquipData.Find(x => x.gridId == gridId);
+            if (grid != null && grid.items.Count > 0)
+            {
+                string itemId = grid.items[0].item.code;
+                return ItemsManager.Instance.GetItemById(itemId) as Spell;
+            }
+
+            return null;
         }
 
         public void OpenAllDamageColliders()

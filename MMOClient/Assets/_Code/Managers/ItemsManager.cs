@@ -10,7 +10,7 @@ namespace BV
 
         private Dictionary<string, ItemData> itemsDict = new Dictionary<string, ItemData>();
 
-        public void Init()
+        void Start()
         {
             foreach (ItemData item in allItems)
             {

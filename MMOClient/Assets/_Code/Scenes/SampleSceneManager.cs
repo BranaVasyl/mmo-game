@@ -17,7 +17,6 @@ namespace BV
         public GameUIManager gameUIManager;
         public DialogManager dialogManager;
         public WeatherManager weatherManager;
-        public ItemsManager itemsManager;
         public GridManager gridManager;
         public NotificationManager notificationManager;
         public TooltipManager tooltipManager;
@@ -42,11 +41,20 @@ namespace BV
                     {
                         inventoryData.items = pD.inventoryData[i].items;
                     }
+                }
 
-                    InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.playerEquipData[i].gridId);
+                for (var i = 0; i < pD.characterData.playerEquipData.Count; i++)
+                {
+                    InventoryGridData inventoryData = playerInventoryData.Find(el => el.gridId == pD.inventoryData[i].gridId);
+                    if (inventoryData != null)
+                    {
+                        inventoryData.items = pD.inventoryData[i].items;
+                    }
+
+                    InventoryGridData equipData = playerEquipData.Find(el => el.gridId == pD.characterData.playerEquipData[i].gridId);
                     if (equipData != null)
                     {
-                        equipData.items = pD.playerEquipData[i].items;
+                        equipData.items = pD.characterData.playerEquipData[i].items;
                     }
                 }
 
@@ -61,7 +69,6 @@ namespace BV
             gameUIManager = GameUIManager.singleton;
             dialogManager = DialogManager.singleton;
             weatherManager = WeatherManager.singleton;
-            itemsManager = ItemsManager.singleton;
             gridManager = GridManager.singleton;
             notificationManager = NotificationManager.singleton;
             tooltipManager = TooltipManager.singleton;
@@ -78,7 +85,6 @@ namespace BV
             damageManager.Init(this);
             questManager.Init();
             weatherManager.Init();
-            itemsManager.Init();
             gridManager.Init();
             notificationManager.Init();
             tooltipManager.Init();

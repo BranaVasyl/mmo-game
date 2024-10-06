@@ -11,7 +11,6 @@ namespace BV
         public string id;
         public CharacterData characterData;
         public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
-        public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
 
         public float health;
         public float money;

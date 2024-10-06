@@ -17,9 +17,25 @@ namespace BV
             return rightHandPivot;
         }
 
+        public void ClearRightHand()
+        {
+            foreach (Transform child in rightHandPivot.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
         public GameObject GetLeftHandPivot()
         {
             return leftHandPivot;
+        }
+
+        public void ClearLeftHand()
+        {
+            foreach (Transform child in leftHandPivot.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
         }
 
         public AvaibleCharacterCustomization GetAvaibleCharacterCustomization()

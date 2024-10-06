@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1900.405, g: 1659.4573, b: 2035.1545, a: 1}
+  m_IndirectSpecularColor: {r: 1894.51, g: 1638.0266, b: 1971.2776, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5684,6 +5684,8 @@ MonoBehaviour:
   panelName: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
   shopNameObject: {fileID: 2135298693}
   shopMoneyObject: {fileID: 922424732}
+  characterId: 
+  characterName: 
 --- !u!1 &299173135
 GameObject:
   m_ObjectHideFlags: 0
@@ -5901,147 +5903,6 @@ MonoBehaviour:
   correctInventoryHiglight: {fileID: 304330305}
   incorrectInventoryHiglight: {fileID: 304330304}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
-  inventoryData:
-  - gridId: otherGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 08000000
-    items:
-    - id: other
-      position: {x: 2, y: 3}
-      rotated: 0
-  - gridId: craftGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 05000000
-    items:
-    - id: craft
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: questGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 09000000
-    items:
-    - id: quest
-      position: {x: 1, y: 0}
-      rotated: 0
-    - id: oldRustyKey
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: alchemyGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 06000000
-    items:
-    - id: alchemy
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: spellGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 01000000
-    items:
-    - id: fireball
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: foodGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 03000000
-    items:
-    - id: apple
-      position: {x: 0, y: 0}
-      rotated: 0
-    - id: apple
-      position: {x: 3, y: 0}
-      rotated: 0
-  - gridId: elixirGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 04000000
-    items:
-    - id: elixir
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: butterGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 07000000
-    items:
-    - id: butter
-      position: {x: 0, y: 0}
-      rotated: 0
-  - gridId: armorGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 02000000
-    items:
-    - id: armor
-      position: {x: 0, y: 0}
-      rotated: 0
-    - id: armor2
-      position: {x: 2, y: 0}
-      rotated: 0
-  - gridId: wepaonGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 00000000
-    items:
-    - id: sword
-      position: {x: 0, y: 0}
-      rotated: 0
-    - id: sword1
-      position: {x: 1, y: 0}
-      rotated: 0
-    - id: longSword
-      position: {x: 2, y: 0}
-      rotated: 0
-    - id: pyromancyFlame
-      position: {x: 3, y: 0}
-      rotated: 0
-    - id: shield
-      position: {x: 0, y: 2}
-      rotated: 1
-  - gridId: chestGrid
-    gridSize: {x: 0, y: 0}
-    supportedItemType: 
-    items:
-    - id: sword
-      position: {x: 0, y: 0}
-      rotated: 0
-    - id: quest
-      position: {x: 0, y: 2}
-      rotated: 0
-    - id: sword1
-      position: {x: 1, y: 0}
-      rotated: 0
-    - id: craft
-      position: {x: 1, y: 2}
-      rotated: 0
-    - id: longSword
-      position: {x: 2, y: 0}
-      rotated: 0
-    - id: alchemy
-      position: {x: 2, y: 2}
-      rotated: 0
-    - id: other
-      position: {x: 3, y: 2}
-      rotated: 0
-    - id: shield
-      position: {x: 3, y: 3}
-      rotated: 0
-    - id: pyromancyFlame
-      position: {x: 4, y: 0}
-      rotated: 0
-    - id: apple
-      position: {x: 4, y: 2}
-      rotated: 0
-    - id: armor
-      position: {x: 5, y: 0}
-      rotated: 0
-    - id: fireball
-      position: {x: 5, y: 2}
-      rotated: 0
-    - id: elixir
-      position: {x: 6, y: 2}
-      rotated: 0
-    - id: armor2
-      position: {x: 7, y: 0}
-      rotated: 0
-    - id: butter
-      position: {x: 7, y: 2}
-      rotated: 0
   onUpdateData:
     m_PersistentCalls:
       m_Calls: []
@@ -6075,7 +5936,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 709760817}
   - {fileID: 959177958}
   - {fileID: 712818033}
   - {fileID: 961882317}
@@ -6110,7 +5970,6 @@ MonoBehaviour:
   gameUIManager: {fileID: 0}
   dialogManager: {fileID: 0}
   weatherManager: {fileID: 0}
-  itemsManager: {fileID: 0}
   gridManager: {fileID: 0}
   notificationManager: {fileID: 0}
   tooltipManager: {fileID: 0}
@@ -13518,70 +13377,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &709760816
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 709760817}
-  - component: {fileID: 709760818}
-  m_Layer: 0
-  m_Name: '[ItemsManager]'
-  m_TagString: Chat_Manager
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &709760817
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709760816}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 309419831}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &709760818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709760816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e7c61f29086c3343bd9e7fcf247dabb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allItems:
-  - {fileID: 11400000, guid: 82e5d375d40f60c4eb7f9039b1f96372, type: 2}
-  - {fileID: 11400000, guid: 96ce6e46751ceb4468a35d5cfd0b65f3, type: 2}
-  - {fileID: 11400000, guid: 1734795b55f898b4eb8393acab4891c9, type: 2}
-  - {fileID: 11400000, guid: 99065f0e9e9992f4c8dff454b412e38b, type: 2}
-  - {fileID: 11400000, guid: 424bc45cf01de67429c6e59b7aaebcb7, type: 2}
-  - {fileID: 11400000, guid: 54b6975595a88aa409321e7a74853b60, type: 2}
-  - {fileID: 11400000, guid: 7c92e1a24dfd78f4fa88d8eed0f71077, type: 2}
-  - {fileID: 11400000, guid: 85597783db66cb647a427c18ec6714c1, type: 2}
-  - {fileID: 11400000, guid: a5a56c7cb189ca24284b6252cca4579f, type: 2}
-  - {fileID: 11400000, guid: c6b3b22d8f5d3aa4ebc52fc0556ae234, type: 2}
-  - {fileID: 11400000, guid: 645cee2831746c34d861ba283e34ba01, type: 2}
-  - {fileID: 11400000, guid: fcba2c045d55ae04e8be3d5be4ee2335, type: 2}
-  - {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
-  - {fileID: 11400000, guid: 14a37a5d5d7847d4db6d4ce785820935, type: 2}
-  - {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
-  - {fileID: 11400000, guid: fb5d2a62d224b6847b01cbdb9c43a1d3, type: 2}
-  - {fileID: 11400000, guid: d7c7ab0e92455c4498e9cb9b8d5b74e1, type: 2}
-  - {fileID: 11400000, guid: 4e83c3b6473d4cb4590e803aec972fa3, type: 2}
-  - {fileID: 11400000, guid: 3fcb694a02f1b724bb7004c696c2823b, type: 2}
 --- !u!1 &709912687
 GameObject:
   m_ObjectHideFlags: 0
@@ -18847,8 +18642,6 @@ MonoBehaviour:
   prevArrowNavigation: {fileID: 1966555818}
   nextArrowNavigation: {fileID: 333979109}
   panelMoney: {fileID: 1849283276}
-  currentChestId: 
-  currentNPCStates: {fileID: 0}
 --- !u!4 &961882317
 Transform:
   m_ObjectHideFlags: 0
@@ -23663,6 +23456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelId: chest
   panelName: "C\u0443\u043D\u0434\u0443\u043A"
+  currentChestId: 
 --- !u!1 &1222342664
 GameObject:
   m_ObjectHideFlags: 0

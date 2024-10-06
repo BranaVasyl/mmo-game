@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3593.3022, g: 2840.1194, b: 3235.5083, a: 1}
+  m_IndirectSpecularColor: {r: 3592.519, g: 2838.9573, b: 3233.8599, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2225,6 +2225,7 @@ Transform:
   - {fileID: 103787189}
   - {fileID: 1825629237}
   - {fileID: 666630757}
+  - {fileID: 1177986784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &470977958
@@ -3249,19 +3250,85 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatorPanel: {fileID: 83292391}
   transformSpawnPoint: {fileID: 223707298}
-  characterCreatorInventoryDatas:
-  - id: 0
-    rightHandItem: {fileID: 11400000, guid: 54b6975595a88aa409321e7a74853b60, type: 2}
-    leftHandItem: {fileID: 11400000, guid: 14a37a5d5d7847d4db6d4ce785820935, type: 2}
+  characterDatas:
+  - id: warrior
+    name: 
+    gender: 
+    race: 
+    characterClass: 
+    alliance: 
     isTwoHadned: 0
-  - id: 1
-    rightHandItem: {fileID: 11400000, guid: dd23493a2a226ae429bef868dc255b3e, type: 2}
-    leftHandItem: {fileID: 0}
+    customization:
+      hairId: 
+      hairColor: 
+    playerEquipData:
+    - gridId: rightHandGrid
+      gridSize: {x: 0, y: 0}
+      supportedItemType: 
+      items:
+      - id: rightHand
+        position: {x: 0, y: 0}
+        rotated: 0
+        item:
+          code: sword
+    - gridId: leftHandGrid
+      gridSize: {x: 0, y: 0}
+      supportedItemType: 
+      items:
+      - id: leftHand
+        position: {x: 0, y: 0}
+        rotated: 0
+        item:
+          code: shield
+  - id: bandit
+    name: 
+    gender: 
+    race: 
+    characterClass: 
+    alliance: 
     isTwoHadned: 1
-  - id: 2
-    rightHandItem: {fileID: 11400000, guid: fb5d2a62d224b6847b01cbdb9c43a1d3, type: 2}
-    leftHandItem: {fileID: 11400000, guid: e4ac3e64610acad4b8a37d2428416cce, type: 2}
+    customization:
+      hairId: 
+      hairColor: 
+    playerEquipData:
+    - gridId: rightHandGrid
+      gridSize: {x: 0, y: 0}
+      supportedItemType: 
+      items:
+      - id: rightHand
+        position: {x: 0, y: 0}
+        rotated: 0
+        item:
+          code: longSword
+  - id: magic
+    name: 
+    gender: 
+    race: 
+    characterClass: 
+    alliance: 
     isTwoHadned: 0
+    customization:
+      hairId: 
+      hairColor: 
+    playerEquipData:
+    - gridId: rightHandGrid
+      gridSize: {x: 0, y: 0}
+      supportedItemType: 
+      items:
+      - id: rightHand
+        position: {x: 0, y: 0}
+        rotated: 0
+        item:
+          code: pyromancyFlame
+    - gridId: leftHandGrid
+      gridSize: {x: 0, y: 0}
+      supportedItemType: 
+      items:
+      - id: leftHand
+        position: {x: 0, y: 0}
+        rotated: 0
+        item:
+          code: sword1
   characterNameInputField: {fileID: 935469731}
   hairStyleSlider: {fileID: 6384976623920867743}
   hairColorPallete: {fileID: 8273386967960890798}
@@ -5516,6 +5583,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170621578}
   m_CullTransparentMesh: 1
+--- !u!1 &1177986783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177986784}
+  - component: {fileID: 1177986785}
+  m_Layer: 0
+  m_Name: '[ PreviewInventoryManager ]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1177986784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177986783}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 470977957}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177986785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177986783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93816cc631a402140b9561ec09f1df01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1269436333
 GameObject:
   m_ObjectHideFlags: 0
