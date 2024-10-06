@@ -59,17 +59,12 @@ namespace BV
                 InventoryController.singleton.RegisterCharacterListener(this);
             }
 
-            UpdatePlayerEquip();
+            UpdatePlayerEquip(playerEquipData);
         }
 
-        public void SetPlayerEquip(List<InventoryGridData> pED)
+        public void SetPlayerEquip(List<InventoryGridData> newEqupList)
         {
-            if (pED == null)
-            {
-                return;
-            }
-
-            foreach (InventoryGridData newItem in pED)
+            foreach (InventoryGridData newItem in newEqupList)
             {
                 InventoryGridData existingItem = playerEquipData.Find(x => x.gridId == newItem.gridId);
                 if (existingItem != null)
@@ -85,49 +80,53 @@ namespace BV
 
             if (characterModelProvider != null)
             {
-                UpdatePlayerEquip();
+                UpdatePlayerEquip(newEqupList);
             }
         }
 
-        public void UpdatePlayerEquip()
+        public void UpdatePlayerEquip(List<InventoryGridData> equipList)
         {
-            if (playerEquipData == null)
+            InventoryGridData leftHandGrid = equipList.Find(x => x.gridId == "leftHandGrid");
+            if (leftHandGrid != null)
             {
-                Debug.LogWarning("Not found player equip data");
-                return;
+                ItemWeaponData leftHandItem = null;
+                if (leftHandGrid.items.Count > 0)
+                {
+                    string itemId = leftHandGrid.items[0].item.code;
+                    leftHandItem = ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
+                }
+
+                UpdateLeftHand(leftHandItem);
             }
 
-            UpdateLeftHand(GetEquipWeapon("leftHandGrid", playerEquipData));
-            UpdateRightHand(GetEquipWeapon("rightHandGrid", playerEquipData));
+            InventoryGridData rightHandGrid = equipList.Find(x => x.gridId == "rightHandGrid");
+            if (rightHandGrid != null)
+            {
+                ItemWeaponData rightHandItem = null;
+                if (rightHandGrid.items.Count > 0)
+                {
+                    string itemId = rightHandGrid.items[0].item.code;
+                    rightHandItem = ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
+                }
+
+                UpdateRightHand(rightHandItem);
+            }
 
             for (int i = 0; i < 4; i++)
             {
-                UpdateQuickSpell(i, GetEquipSpell("quickSpellGrid" + (i + 1), playerEquipData));
+                InventoryGridData quickSpellGrid = equipList.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
+                if (quickSpellGrid != null)
+                {
+                    Spell quickSpellItem = null;
+                    if (quickSpellGrid.items.Count > 0)
+                    {
+                        string itemId = quickSpellGrid.items[0].item.code;
+                        quickSpellItem = ItemsManager.Instance.GetItemById(itemId) as Spell;
+                    }
+
+                    UpdateQuickSpell(i, quickSpellItem);
+                }
             }
-        }
-
-        private ItemWeaponData? GetEquipWeapon(string gridId, List<InventoryGridData> playerEquipData)
-        {
-            InventoryGridData grid = playerEquipData.Find(x => x.gridId == gridId);
-            if (grid != null && grid.items.Count > 0)
-            {
-                string itemId = grid.items[0].item.code;
-                return ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
-            }
-
-            return null;
-        }
-
-        private Spell? GetEquipSpell(string gridId, List<InventoryGridData> playerEquipData)
-        {
-            InventoryGridData grid = playerEquipData.Find(x => x.gridId == gridId);
-            if (grid != null && grid.items.Count > 0)
-            {
-                string itemId = grid.items[0].item.code;
-                return ItemsManager.Instance.GetItemById(itemId) as Spell;
-            }
-
-            return null;
         }
 
         public void OpenAllDamageColliders()
