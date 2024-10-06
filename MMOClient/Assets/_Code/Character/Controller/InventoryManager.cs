@@ -7,7 +7,7 @@ namespace BV
     public class InventoryManager : MonoBehaviour
     {
         public ItemsManager itemsManager;
-        private List<InventoryGridData> playerEquipData;
+        private List<InventoryGridData> playerEquipData = new();
 
         [Header("Right Hand Weapon")]
         [HideInInspector]
@@ -64,7 +64,24 @@ namespace BV
 
         public void SetPlayerEquip(List<InventoryGridData> pED)
         {
-            playerEquipData = pED;
+            if (pED == null)
+            {
+                return;
+            }
+
+            foreach (InventoryGridData newItem in pED)
+            {
+                InventoryGridData existingItem = playerEquipData.Find(x => x.gridId == newItem.gridId);
+                if (existingItem != null)
+                {
+                    int index = playerEquipData.IndexOf(existingItem);
+                    playerEquipData[index] = newItem;
+                }
+                else
+                {
+                    playerEquipData.Add(newItem);
+                }
+            }
 
             if (characterModelProvider != null)
             {
@@ -143,7 +160,6 @@ namespace BV
         {
             if (states.isTwoHanded)
             {
-                states.isTwoHanded = false;
                 states.HandleTwoHanded();
             }
             else
@@ -178,6 +194,11 @@ namespace BV
 
         public void UpdateLeftHand(ItemWeaponData? newItem)
         {
+            if (newItem == leftHandData)
+            {
+                return;
+            }
+
             if (leftHandObject != null)
             {
                 leftHandObject.SetActive(false);
@@ -207,6 +228,11 @@ namespace BV
 
         public void UpdateRightHand(ItemWeaponData? newItem)
         {
+            if (newItem == rightHandData)
+            {
+                return;
+            }
+
             if (rightHandObject != null)
             {
                 rightHandObject.SetActive(false);

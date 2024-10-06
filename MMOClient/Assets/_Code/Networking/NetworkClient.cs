@@ -132,6 +132,9 @@ namespace Project.Networking
 
                 go.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
 
+                StateManager states = go.GetComponent<StateManager>();
+                states.isTwoHanded = playerData.isTwoHanded;
+
                 NetworkIdentity ni = go.GetComponent<NetworkIdentity>();
                 ni.SetControllerID(playerData.id);
 
