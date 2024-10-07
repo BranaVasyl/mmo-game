@@ -867,6 +867,31 @@ namespace BV
             anim.CrossFade("Rolls", 0.2f);
         }
 
+        public void UpdateEquip(ItemWeaponData? w, bool isLeft = false)
+        {
+            string targetIdle = w != null ? w.oh_idle_name : "";
+
+            if (targetIdle.Length > 0)
+            {
+                targetIdle += isLeft ? "_l" : "_r";
+            }
+            else
+            {
+                if (isLeft)
+                {
+                    targetIdle = "Empty Left";
+                }
+                else
+                {
+                    targetIdle = "Empty Right";
+                }
+            }
+
+            anim.SetBool("mirror", isLeft);
+            anim.Play("changeWeapon");
+            anim.Play(targetIdle);
+        }
+
         public void HandleTwoHanded()
         {
             anim.SetBool("twoHanded", isTwoHanded);

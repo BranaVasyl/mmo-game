@@ -6,7 +6,6 @@ namespace BV
 {
     public class InventoryManager : MonoBehaviour
     {
-        public ItemsManager itemsManager;
         private List<InventoryGridData> playerEquipData = new();
 
         [Header("Right Hand Weapon")]
@@ -45,7 +44,6 @@ namespace BV
         public void Init(StateManager st)
         {
             states = st;
-            itemsManager = ItemsManager.Instance;
 
             characterModelProvider = st.activeModel.GetComponent<CharacterModelController>();
             if (characterModelProvider)
@@ -108,7 +106,6 @@ namespace BV
                     case "quickSpellGrid4":
                         UpdateQuickSpell(3, GetEquipSpell(equipList[i]));
                         break;
-
                 }
             }
         }
@@ -165,6 +162,11 @@ namespace BV
 
         private void UpdateActions()
         {
+            if (states == null)
+            {
+                return;
+            }
+
             if (states.isTwoHanded)
             {
                 states.HandleTwoHanded();
@@ -175,28 +177,15 @@ namespace BV
             }
         }
 
+
         private void EquipWeapon(ItemWeaponData w, bool isLeft = false)
         {
-            string targetIdle = w.oh_idle_name;
-            if (targetIdle.Length > 0)
+            if (states == null)
             {
-                targetIdle += isLeft ? "_l" : "_r";
-            }
-            else
-            {
-                if (isLeft)
-                {
-                    targetIdle = "Empty Left";
-                }
-                else
-                {
-                    targetIdle = "Empty Right";
-                }
+                return;
             }
 
-            states.anim.SetBool("mirror", isLeft);
-            states.anim.Play("changeWeapon");
-            states.anim.Play(targetIdle);
+            states.UpdateEquip(w, isLeft);
         }
 
         public void UpdateLeftHand(ItemWeaponData? newItem)
@@ -208,25 +197,20 @@ namespace BV
 
             if (leftHandObject != null)
             {
-                leftHandObject.SetActive(false);
                 Destroy(leftHandObject);
                 leftHandObject = null;
                 leftHandData = null;
-                UpdateActions();
             }
 
-            if (newItem == null || newItem.weaponModel == null)
+            if (newItem != null && newItem.weaponModel != null)
             {
-                states.anim.Play("Empty Left");
-                return;
+                leftHandData = newItem;
+                leftHandObject = Instantiate(leftHandData.weaponModel, leftHandPivot.transform);
+                leftHandObject.transform.localPosition = Vector3.zero;
+                leftHandObject.transform.localRotation = Quaternion.identity;
+
+                leftHandWeaponHook = leftHandObject.GetComponent<WeaponHook>();
             }
-
-            leftHandData = newItem;
-            leftHandObject = Instantiate(leftHandData.weaponModel, leftHandPivot.transform);
-            leftHandObject.transform.localPosition = Vector3.zero;
-            leftHandObject.transform.localRotation = Quaternion.identity;
-
-            leftHandWeaponHook = leftHandObject.GetComponent<WeaponHook>();
 
             UpdateActions();
             EquipWeapon(leftHandData, true);
@@ -242,24 +226,19 @@ namespace BV
 
             if (rightHandObject != null)
             {
-                rightHandObject.SetActive(false);
                 Destroy(rightHandObject);
                 rightHandObject = null;
                 rightHandData = null;
-                UpdateActions();
             }
 
-            if (newItem == null || newItem.weaponModel == null)
+            if (newItem != null && newItem.weaponModel != null)
             {
-                states.anim.Play("Empty Right");
-                return;
+                rightHandData = newItem;
+                rightHandObject = Instantiate(rightHandData.weaponModel, rightHandPivot.transform);
+                rightHandObject.transform.localPosition = Vector3.zero;
+                rightHandObject.transform.localRotation = Quaternion.identity;
+                rightHandWeaponHook = rightHandObject.GetComponent<WeaponHook>();
             }
-
-            rightHandData = newItem;
-            rightHandObject = Instantiate(rightHandData.weaponModel, rightHandPivot.transform);
-            rightHandObject.transform.localPosition = Vector3.zero;
-            rightHandObject.transform.localRotation = Quaternion.identity;
-            rightHandWeaponHook = rightHandObject.GetComponent<WeaponHook>();
 
             UpdateActions();
             EquipWeapon(rightHandData, false);
