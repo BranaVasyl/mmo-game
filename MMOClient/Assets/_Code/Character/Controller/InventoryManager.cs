@@ -56,7 +56,7 @@ namespace BV
 
             if (st.networkIdentity.IsControlling())
             {
-                InventoryController.singleton.RegisterCharacterListener(this);
+                InventoryController.singleton.SetUpdateEquipListener(SetPlayerEquip);
             }
 
             UpdatePlayerEquip(playerEquipData);

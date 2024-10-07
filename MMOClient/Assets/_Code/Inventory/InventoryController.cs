@@ -18,7 +18,8 @@ namespace BV
         private ItemsManager itemsManager;
         private GridManager gridManager;
 
-        private InventoryManager inventoryManager;
+        private UnityEvent<List<InventoryGridData>> onUpdateEquip = new UnityEvent<List<InventoryGridData>>();
+
 
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
@@ -31,9 +32,10 @@ namespace BV
             gridManager = GridManager.singleton;
         }
 
-        public void RegisterCharacterListener(InventoryManager iM)
+        public void SetUpdateEquipListener(UnityAction<List<InventoryGridData>> newListener)
         {
-            inventoryManager = iM;
+            onUpdateEquip.RemoveAllListeners();
+            onUpdateEquip.AddListener(newListener);
         }
 
         public override void Open()
@@ -72,7 +74,7 @@ namespace BV
             List<InventoryGridData> itemList = new List<InventoryGridData>();
             itemList.Add(itemGridData);
 
-            inventoryManager.SetPlayerEquip(itemList);
+            onUpdateEquip.Invoke(itemList);
 
             NetworkClient.Instance.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
         }
