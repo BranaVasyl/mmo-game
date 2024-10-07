@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace BV
 {
@@ -27,7 +28,10 @@ namespace BV
 
         public void OpenMenu()
         {
-            pieMenu.SetSpellData(inventoryManager.quickSpells);
+            Spell[] reversedSpells = (Spell[])inventoryManager.quickSpells.Clone();
+            Array.Reverse(reversedSpells);
+
+            pieMenu.SetSpellData(reversedSpells);
             pieMenu.gameObject.SetActive(true);
             isOpen = true;
         }
@@ -38,11 +42,14 @@ namespace BV
             {
                 if (pieMenu.selection < 4)
                 {
-                    inventoryManager.UpdateCurrentSpell(pieMenu.selection);
+                    int spellIndex = 3 - pieMenu.selection;
+                    inventoryManager.UpdateCurrentSpell(spellIndex);
                 }
                 else
                 {
-                    Debug.Log("Update Item");
+                    int spellIndex = pieMenu.selection - 4;
+
+                    Debug.Log("Update Item: " + spellIndex);
                 }
             }
 

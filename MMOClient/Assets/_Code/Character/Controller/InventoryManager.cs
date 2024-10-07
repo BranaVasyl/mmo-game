@@ -86,47 +86,55 @@ namespace BV
 
         public void UpdatePlayerEquip(List<InventoryGridData> equipList)
         {
-            InventoryGridData leftHandGrid = equipList.Find(x => x.gridId == "leftHandGrid");
-            if (leftHandGrid != null)
+            for (int i = 0; i < equipList.Count; i++)
             {
-                ItemWeaponData leftHandItem = null;
-                if (leftHandGrid.items.Count > 0)
+                switch (equipList[i].gridId)
                 {
-                    string itemId = leftHandGrid.items[0].item.code;
-                    leftHandItem = ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
-                }
+                    case "leftHandGrid":
+                        UpdateLeftHand(GetEquipWeapon(equipList[i]));
+                        break;
+                    case "rightHandGrid":
+                        UpdateRightHand(GetEquipWeapon(equipList[i]));
+                        break;
+                    case "quickSpellGrid1":
+                        UpdateQuickSpell(0, GetEquipSpell(equipList[i]));
+                        break;
+                    case "quickSpellGrid2":
+                        UpdateQuickSpell(1, GetEquipSpell(equipList[i]));
+                        break;
+                    case "quickSpellGrid3":
+                        UpdateQuickSpell(2, GetEquipSpell(equipList[i]));
+                        break;
+                    case "quickSpellGrid4":
+                        UpdateQuickSpell(3, GetEquipSpell(equipList[i]));
+                        break;
 
-                UpdateLeftHand(leftHandItem);
-            }
-
-            InventoryGridData rightHandGrid = equipList.Find(x => x.gridId == "rightHandGrid");
-            if (rightHandGrid != null)
-            {
-                ItemWeaponData rightHandItem = null;
-                if (rightHandGrid.items.Count > 0)
-                {
-                    string itemId = rightHandGrid.items[0].item.code;
-                    rightHandItem = ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
-                }
-
-                UpdateRightHand(rightHandItem);
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                InventoryGridData quickSpellGrid = equipList.Find(x => x.gridId == "quickSpellGrid" + (i + 1));
-                if (quickSpellGrid != null)
-                {
-                    Spell quickSpellItem = null;
-                    if (quickSpellGrid.items.Count > 0)
-                    {
-                        string itemId = quickSpellGrid.items[0].item.code;
-                        quickSpellItem = ItemsManager.Instance.GetItemById(itemId) as Spell;
-                    }
-
-                    UpdateQuickSpell(i, quickSpellItem);
                 }
             }
+        }
+
+        private ItemWeaponData? GetEquipWeapon(InventoryGridData grid)
+        {
+            ItemWeaponData item = null;
+            if (grid.items.Count > 0)
+            {
+                string itemId = grid.items[0].item.code;
+                item = ItemsManager.Instance.GetItemById(itemId) as ItemWeaponData;
+            }
+
+            return item;
+        }
+
+        private Spell? GetEquipSpell(InventoryGridData grid)
+        {
+            Spell item = null;
+            if (grid.items.Count > 0)
+            {
+                string itemId = grid.items[0].item.code;
+                item = ItemsManager.Instance.GetItemById(itemId) as Spell;
+            }
+
+            return item;
         }
 
         public void OpenAllDamageColliders()

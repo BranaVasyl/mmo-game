@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1894.51, g: 1638.0266, b: 1971.2776, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8622,7 +8622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid4
+  gridId: quickSpellGrid1
   placeholder: {fileID: 352456615}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -20120,7 +20120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid2
+  gridId: quickSpellGrid3
   placeholder: {fileID: 276168834}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -23656,7 +23656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid1
+  gridId: quickSpellGrid4
   placeholder: {fileID: 830031206}
   gridSizeWidth: 1
   gridSizeHeight: 1
@@ -33214,7 +33214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: quickSpellGrid3
+  gridId: quickSpellGrid2
   placeholder: {fileID: 1851140638}
   gridSizeWidth: 1
   gridSizeHeight: 1
