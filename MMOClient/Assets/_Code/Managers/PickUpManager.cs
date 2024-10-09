@@ -38,7 +38,10 @@ namespace BV
 
             gameUIManager.ShowBagUI();
 
-            NetworkClient.Instance.Emit("openBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
+            JSONObject bagData = new();
+            bagData.AddField("id", currentbagId);
+
+            NetworkClient.Instance.Emit("openBag", bagData);
         }
 
         public void SetBagData(List<InventoryItemData> items)
@@ -180,7 +183,10 @@ namespace BV
         {
             if (!String.IsNullOrEmpty(currentbagId))
             {
-                NetworkClient.Instance.Emit("closeBag", new JSONObject(JsonUtility.ToJson(new ChestData(currentbagId))));
+                JSONObject bagData = new();
+                bagData.AddField("id", currentbagId);
+
+                NetworkClient.Instance.Emit("closeBag", bagData);
             }
 
             Clean();

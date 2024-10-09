@@ -194,26 +194,6 @@ namespace BV
             panelMoney.GetComponent<TMP_Text>().text = moneyCount.ToString();
         }
 
-        #region Global Functions
-        public void UpdateInventoryData(InventoryGridData itemGridData)
-        {
-            if (itemGridData == null)
-            {
-                return;
-            }
-
-            int index = managersController.playerInventoryData.FindIndex(s => s.gridId == itemGridData.gridId);
-            if (index == -1)
-            {
-                return;
-            }
-
-            managersController.playerInventoryData[index] = itemGridData;
-            NetworkClient.Instance.Emit("syncInventoryData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerInventoryData))));
-        }
-        #endregion
-
-
         public static MenuManager singleton;
         void Awake()
         {

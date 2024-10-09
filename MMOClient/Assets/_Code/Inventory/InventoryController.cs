@@ -7,6 +7,7 @@ using SocketIO;
 using System;
 using Project.Networking;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BV
 {
@@ -40,50 +41,79 @@ namespace BV
 
         public override void Open()
         {
-            gridManager.SetData(managersController.playerInventoryData);
-            gridManager.SetData(managersController.playerEquipData);
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "openInventory",
+                null,
+                (response) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
 
-            gridManager.onUpdateData.AddListener(UpdateData);
+                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                        gridManager.SetData(gridDataWrapper.data);
+
+                        gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
+                    },
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити інвентар", () =>
+                            {
+                                menuManager.CloseMenu();
+                            });
+                    }
+            );
         }
 
-        public void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
+        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
         {
-            if (startGridData != null)
+            bool requestStatus = false;
+            bool result = false;
+
+            UpdateItemPositionData sendData = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                "inventoryChange",
+                new JSONObject(JsonUtility.ToJson(sendData)),
+                (response) =>
+                    {
+                        result = response[0]["result"].ToString() == "true";
+                        requestStatus = true;
+
+                        //@todo update player equip runtime
+                        // if (result)
+                        // {
+                        //     int index = managersController.playerEquipData.FindIndex(s => s.gridId == itemGridData.gridId);
+                        //     if (index == -1)
+                        //     {
+                        //         return;
+                        //     }
+
+                        //     List<InventoryGridData> itemList = new List<InventoryGridData>();
+                        //     itemList.Add(itemGridData);
+
+                        //     onUpdateEquip.Invoke(itemList);
+                        // }
+                    },
+                (msg) =>
+                    {
+                        requestStatus = true;
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
+                    }
+            );
+
+            while (!requestStatus)
             {
-                menuManager.UpdateInventoryData(startGridData);
-                UpdatePlayerEquipData(startGridData);
+                await Task.Yield();
             }
 
-            if (targetGridData != null)
-            {
-                menuManager.UpdateInventoryData(targetGridData);
-                UpdatePlayerEquipData(targetGridData);
-            }
-        }
-
-        private void UpdatePlayerEquipData(InventoryGridData itemGridData)
-        {
-            int index = managersController.playerEquipData.FindIndex(s => s.gridId == itemGridData.gridId);
-            if (index == -1)
-            {
-                return;
-            }
-
-            managersController.playerEquipData[index] = itemGridData;
-
-            List<InventoryGridData> itemList = new List<InventoryGridData>();
-            itemList.Add(itemGridData);
-
-            onUpdateEquip.Invoke(itemList);
-
-            NetworkClient.Instance.Emit("syncPlayerEquipData", new JSONObject(JsonUtility.ToJson(new SendInventoryData(managersController.playerEquipData))));
+            return result;
         }
 
         public override void Deinit()
         {
             if (gridManager != null)
             {
-                gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
             }
         }

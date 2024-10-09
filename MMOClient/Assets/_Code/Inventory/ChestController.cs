@@ -44,12 +44,12 @@ namespace BV
                     {
                         ApplicationManager.Instance.CloseSpinerLoader();
 
-                        gridManager.SetData(managersController.playerInventoryData);
-                        gridManager.onUpdateData.AddListener(UpdateData);
-                        gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+                        // gridManager.SetData(managersController.playerInventoryData);
 
                         InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
                         SetChestData(gridDataWrapper.data);
+
+                        gridManager.updateItemPositionCallback.Add(PickUpItem);
                     },
                 (msg) =>
                     {
@@ -62,36 +62,14 @@ namespace BV
             );
         }
 
-        private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
+        private async Task<bool> PickUpItem(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
         {
-            if (startGrid == null || targetGrid == null || startGrid.gridId == targetGrid.gridId)
-            {
-                return true;
-            }
-
-            if (startGrid.gridId != "chestGrid" && targetGrid.gridId != "chestGrid")
-            {
-                return true;
-            }
-
-            if (!placeItemMode)
-            {
-                return true;
-            }
-
-            bool result = false;
             int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
-            result = await PickUpItem(currentChestId, selectedItem.id, operationType);
 
-            return result;
-        }
-
-        private async Task<bool> PickUpItem(string chestID, string itemId, int operationType)
-        {
             bool requestStatus = false;
             bool result = false;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, chestID, itemId, operationType);
+            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentChestId, selectedItem.id, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "chestPickUp",
                 new JSONObject(JsonUtility.ToJson(sendData)),
@@ -121,52 +99,19 @@ namespace BV
             gridManager.SetData(data);
         }
 
-        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
-        {
-            if (startGridData != null)
-            {
-                if (startGridData.gridId == "chestGrid")
-                {
-                    UpdateChestData(startGridData);
-                }
-                else
-                {
-                    menuManager.UpdateInventoryData(startGridData);
-                }
-            }
-
-            if (targetGridData != null)
-            {
-                if (targetGridData.gridId == "chestGrid")
-                {
-                    UpdateChestData(targetGridData);
-                }
-                else
-                {
-                    menuManager.UpdateInventoryData(targetGridData);
-                }
-            }
-        }
-
-        void UpdateChestData(InventoryGridData itemGridData)
-        {
-            ChestData chestData = new ChestData(currentChestId);
-            chestData.items.Add(itemGridData);
-
-            NetworkClient.Instance.Emit("updateChestData", new JSONObject(JsonUtility.ToJson(chestData)));
-        }
-
         public override void Deinit()
         {
             currentChestId = "";
             if (gridManager != null)
             {
-                gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
                 if (!String.IsNullOrEmpty(currentChestId))
                 {
-                    NetworkClient.Instance.Emit("closeChest", new JSONObject(JsonUtility.ToJson(new ChestData(currentChestId))));
+                    JSONObject chestData = new();
+                    chestData.AddField("id", currentChestId);
+
+                    NetworkClient.Instance.Emit("closeChest", chestData);
                 }
             }
         }
@@ -179,14 +124,21 @@ namespace BV
     }
 
     [Serializable]
-    public class ChestData
+    public class UpdateItemPositionData
     {
-        public string id = "";
-        public List<InventoryGridData> items = new List<InventoryGridData>();
+        public string startGrid;
+        public string targetGrid;
+        public string itemId;
+        public Vector2Int position;
+        public bool rotated;
 
-        public ChestData(string data)
+        public UpdateItemPositionData(string sG, string tG, string iI, Vector2Int p, bool r)
         {
-            id = data;
+            startGrid = sG;
+            targetGrid = tG;
+            itemId = iI;
+            position = p;
+            rotated = r;
         }
     }
 }

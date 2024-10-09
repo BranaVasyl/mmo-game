@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq;
 
 namespace BV
 {
@@ -25,6 +26,8 @@ namespace BV
         private List<ItemGrid> allActiveGrids = new List<ItemGrid>();
 
         InventoryItem selectedItem;
+        private bool savedItemRotated;
+
         InventoryItem overlapItem;
         RectTransform rectTransform;
         private ItemsManager itemsManager;
@@ -35,16 +38,21 @@ namespace BV
         public InventoryHiglight incorrectInventoryHiglight;
         public GameObject itemPrefab;
 
+        public List<InventoryGridData> gridSettings;
         private List<InventoryGridData> inventoryData = new List<InventoryGridData>();
 
         [Header("Grid Events and Callback")]
         private NewPlayerControls inputActions;
-        [HideInInspector]
-        public UnityEvent<InventoryGridData, InventoryGridData, InventoryItem> onUpdateData = new UnityEvent<InventoryGridData, InventoryGridData, InventoryItem>();
 
-        public delegate Task<bool> CanUpdateGridDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode);
         [HideInInspector]
-        public List<CanUpdateGridDelegate> canUpdateGridCallback = new List<CanUpdateGridDelegate>();
+        public delegate bool CanPlaceItemDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem);
+        [HideInInspector]
+        public List<CanPlaceItemDelegate> canPlaceItemCallback = new List<CanPlaceItemDelegate>();
+
+        [HideInInspector]
+        public delegate Task<bool> UpdateItemPositionDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position);
+        [HideInInspector]
+        public List<UpdateItemPositionDelegate> updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
 
         [Header("Loader")]
         private bool loadInProcsess = false;
@@ -91,11 +99,21 @@ namespace BV
                 if (index == -1)
                 {
                     inventoryData.Add(iData[i]);
+                    index = inventoryData.Count - 1;
                 }
                 else
                 {
                     inventoryData[index] = iData[i];
                 }
+
+                InventoryGridData setting = gridSettings.Find(el => el.gridId == iData[i].gridId);
+                if (setting == null)
+                {
+                    continue;
+                }
+
+                inventoryData[index].gridSize = setting.gridSize;
+                inventoryData[index].supportedItemType = setting.supportedItemType;
 
                 ItemGrid currentGrid = allActiveGrids.Find(x => x.gridId == iData[i].gridId);
                 if (currentGrid != null)
@@ -144,61 +162,39 @@ namespace BV
             }
         }
 
-        private void OnUpdateGridData(ItemGrid startGrid, ItemGrid selectedGrid)
+        private void OnUpdateInventoryData(ItemGrid startGrid, ItemGrid selectedGrid, InventoryItem item)
         {
-            InventoryGridData startGridData = null;
-            InventoryGridData targetGridData = null;
+            if (item == null)
+            {
+                Debug.LogError("Item is null");
+                return;
+            }
 
             if (startGrid != null)
             {
-                startGridData = UpdateGridData(startGrid);
-            }
-
-            if (startGrid != null && selectedGrid != null && startGrid.gridId != selectedGrid.gridId)
-            {
-                targetGridData = UpdateGridData(selectedGrid);
-            }
-
-            onUpdateData.Invoke(startGridData, targetGridData, selectedItem);
-        }
-
-        private InventoryGridData UpdateGridData(ItemGrid itemGrid)
-        {
-            if (itemGrid == null)
-            {
-                return null;
-            }
-
-            int index = inventoryData.FindIndex(s => s.gridId == itemGrid.gridId);
-            if (index == -1)
-            {
-                return null;
-            }
-
-            InventoryGridData inventoryGridData = new InventoryGridData(itemGrid.gridId, new Vector2Int(itemGrid.gridSizeWidth, itemGrid.gridSizeHeight), itemGrid.supportedItemType);
-
-            List<InventoryItem> alreadyCheckedItems = new List<InventoryItem>();
-            InventoryItem[,] inventoryItem = itemGrid.inventoryItemSlot;
-            for (int i = 0; i < inventoryItem.GetLength(0); i++)
-            {
-                for (int j = 0; j < inventoryItem.GetLength(1); j++)
+                int startGridIndex = inventoryData.FindIndex(s => s.gridId == startGrid.gridId);
+                if (startGridIndex != -1)
                 {
-                    if (inventoryItem[i, j] != null)
-                    {
-                        InventoryItem curInventoryItem = inventoryItem[i, j];
-                        if (alreadyCheckedItems.Find(x => x == curInventoryItem) != null)
-                        {
-                            continue;
-                        }
-
-                        inventoryGridData.items.Add(new InventoryItemData(curInventoryItem.id, curInventoryItem.onGridPositionX, curInventoryItem.onGridPositionY, curInventoryItem.rotated, curInventoryItem.itemData.id));
-                        alreadyCheckedItems.Add(curInventoryItem);
-                    }
+                    inventoryData[startGridIndex].items.RemoveAll(i => i.id == item.id);
                 }
             }
 
-            inventoryData[index] = inventoryGridData;
-            return inventoryGridData;
+            if (selectedGrid != null)
+            {
+                int selectedGridIndex = inventoryData.FindIndex(s => s.gridId == selectedGrid.gridId);
+                if (selectedGridIndex != -1)
+                {
+                    InventoryItemData newItemData = new InventoryItemData(
+                        item.id,
+                        item.onGridPositionX,
+                        item.onGridPositionY,
+                        item.rotated,
+                        item.itemData.id
+                    );
+
+                    inventoryData[selectedGridIndex].items.Add(newItemData);
+                }
+            }
         }
 
         new private void Update()
@@ -357,8 +353,8 @@ namespace BV
             }
             else
             {
-                bool canPlace = await CanSetInPlace(false);
-                if (canPlace)
+                bool success = CanPlaceItem();
+                if (success)
                 {
                     correctInventoryHiglight.Show(selectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, selectedItem.WIDTH, selectedItem.HEIGHT));
                     correctInventoryHiglight.SetSize(selectedItem);
@@ -395,39 +391,51 @@ namespace BV
             TooltipManager.singleton.HideTooltip();
         }
 
-        private async Task<bool> CanSetInPlace(bool placeItemMode = false)
+        private bool CanPlaceItem()
         {
-            bool result = false;
             if (selectedItem == null || selectedItemGrid == null)
             {
-                return result;
+                return false;
             }
 
-            selectedItemGrid.supportedItemType.ForEach(i =>
-                {
-                    if (selectedItem.GetItemType() == i)
-                    {
-                        result = true;
-                    }
-                }
-            );
+            if (!selectedItemGrid.supportedItemType.Any(i => selectedItem.GetItemType() == i))
+            {
+                return false;
+            }
 
+            Vector2Int tileGridPosition = GetTileGridPosition();
+            if (!selectedItemGrid.CanPlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < canPlaceItemCallback.Count; i++)
+            {
+                bool result = canPlaceItemCallback[i](startItemGrid, selectedItemGrid, selectedItem);
+                if (!result)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<bool> UpdateItemPosition(Vector2Int tileGridPosition)
+        {
+            bool result = CanPlaceItem();
             if (!result)
             {
                 return result;
             }
 
-            Vector2Int tileGridPosition = GetTileGridPosition();
-            result = selectedItemGrid.CanPlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
-
-            for (int i = 0; i < canUpdateGridCallback.Count; i++)
+            for (int i = 0; i < updateItemPositionCallback.Count; i++)
             {
-                if (result == false)
+                result = await updateItemPositionCallback[i](startItemGrid, selectedItemGrid, selectedItem, tileGridPosition);
+                if (!result)
                 {
-                    break;
+                    return result;
                 }
-
-                result = await canUpdateGridCallback[i](startItemGrid, selectedItemGrid, selectedItem, placeItemMode);
             }
 
             return result;
@@ -508,7 +516,12 @@ namespace BV
                 return;
             }
 
+            if (selectedItem.rotated != savedItemRotated)
+            {
+                selectedItem.Rotate();
+            }
             startGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
+
             rectTransform = null;
             selectedItem = null;
             startItemGrid = null;
@@ -520,23 +533,28 @@ namespace BV
             ItemGrid saveSelectGrid = selectedItemGrid;
 
             loadInProcsess = true;
-            ApplicationManager.Instance.ShowSpinerLoader();
-
-            bool canPlace = await CanSetInPlace(true);
-            if (canPlace)
+            bool success = await UpdateItemPosition(tileGridPosition);
+            if (success)
             {
                 bool complete = saveSelectGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
                 if (complete)
                 {
+                    OnUpdateInventoryData(saveStartGrid, saveSelectGrid, selectedItem);
+
                     if (overlapItem != null)
                     {
                         selectedItem = overlapItem;
+                        if (selectedItem.rotated != savedItemRotated)
+                        {
+                            selectedItem.Rotate();
+                        }
+
                         overlapItem = null;
                         saveStartGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
+                        OnUpdateInventoryData(saveSelectGrid, saveStartGrid, selectedItem);
                     }
 
                     rectTransform = null;
-                    OnUpdateGridData(saveStartGrid, saveSelectGrid);
                     startItemGrid = null;
                     selectedItem = null;
                 }
@@ -547,62 +565,61 @@ namespace BV
             }
 
             loadInProcsess = false;
-            ApplicationManager.Instance.CloseSpinerLoader();
         }
 
         public bool PickUpItem(ItemData item)
         {
-            ref List<InventoryGridData> inventoryData = ref SampleSceneManager.singleton.playerInventoryData;
-            int gridIndex = inventoryData.FindIndex(el =>
-            {
-                for (int i = 0; i < el.supportedItemType.Count; i++)
-                {
-                    if (el.supportedItemType[i] == item.type)
-                    {
-                        return true;
-                    }
-                }
+            // ref List<InventoryGridData> inventoryData = ref SampleSceneManager.singleton.playerInventoryData;
+            // int gridIndex = inventoryData.FindIndex(el =>
+            // {
+            //     for (int i = 0; i < el.supportedItemType.Count; i++)
+            //     {
+            //         if (el.supportedItemType[i] == item.type)
+            //         {
+            //             return true;
+            //         }
+            //     }
 
-                return false;
-            });
+            //     return false;
+            // });
 
-            if (gridIndex == -1)
-            {
-                return false;
-            }
-            InventoryGridData gridData = inventoryData[gridIndex];
+            // if (gridIndex == -1)
+            // {
+            //     return false;
+            // }
+            // InventoryGridData gridData = inventoryData[gridIndex];
 
-            bool rotated = false;
-            bool[,] inventoryDataMatrix = GenerateInventoryDataMatrix(gridData);
+            // bool rotated = false;
+            // bool[,] inventoryDataMatrix = GenerateInventoryDataMatrix(gridData);
 
-            Vector2Int? itemPosition = FindSpaceForObject(item.width, item.height, gridData, inventoryDataMatrix);
-            if (itemPosition == null)
-            {
-                rotated = true;
-                itemPosition = FindSpaceForObject(item.height, item.width, gridData, inventoryDataMatrix);
-            }
+            // Vector2Int? itemPosition = FindSpaceForObject(item.width, item.height, gridData, inventoryDataMatrix);
+            // if (itemPosition == null)
+            // {
+            //     rotated = true;
+            //     itemPosition = FindSpaceForObject(item.height, item.width, gridData, inventoryDataMatrix);
+            // }
 
-            if (itemPosition == null)
-            {
-                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.name);
-                return false;
-            }
+            // if (itemPosition == null)
+            // {
+            //     NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.name);
+            //     return false;
+            // }
 
-            //@todo add QuestEvent to item ... if questEvents.count do trigger events
-            if (item.type == ItemType.quest)
-            {
-                string notificationTitle = "Отримано: Hовий квестовий предмет";
-                string notificationSubtitle = item.name;
-                Sprite notificationIcon = item.smallIcon != null ? item.smallIcon : item.icon;
-                NotificationActionType action = NotificationActionType.log;
+            // //@todo add QuestEvent to item ... if questEvents.count do trigger events
+            // if (item.type == ItemType.quest)
+            // {
+            //     string notificationTitle = "Отримано: Hовий квестовий предмет";
+            //     string notificationSubtitle = item.name;
+            //     Sprite notificationIcon = item.smallIcon != null ? item.smallIcon : item.icon;
+            //     NotificationActionType action = NotificationActionType.log;
 
-                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
-            }
+            //     NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
+            // }
 
-            NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
+            // NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
 
-            InventoryItemData newItemData = new InventoryItemData("fix me", itemPosition.Value.x, itemPosition.Value.y, rotated, item.id);
-            inventoryData[gridIndex].items.Add(newItemData);
+            // InventoryItemData newItemData = new InventoryItemData("fix me", itemPosition.Value.x, itemPosition.Value.y, rotated, item.id);
+            // inventoryData[gridIndex].items.Add(newItemData);
 
             return true;
         }
@@ -677,6 +694,8 @@ namespace BV
                 return;
             }
 
+            savedItemRotated = selectedItem.rotated;
+
             startItemGrid = selectedItemGrid;
             startGridPosition = new Vector2Int(selectedItem.onGridPositionX, selectedItem.onGridPositionY);
 
@@ -713,7 +732,9 @@ namespace BV
             correctInventoryHiglight.SetParent(null);
             incorrectInventoryHiglight.SetParent(null);
             inventoryData = new List<InventoryGridData>();
-            canUpdateGridCallback = new List<CanUpdateGridDelegate>();
+            canPlaceItemCallback = new List<CanPlaceItemDelegate>();
+            updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
+
             OnMouseExitItem();
         }
 

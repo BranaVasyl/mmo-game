@@ -3568,7 +3568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32, y: -27.070007}
+  m_AnchoredPosition: {x: -32, y: -27.069946}
   m_SizeDelta: {x: 120, y: 40.557}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &176002532
@@ -5903,6 +5903,95 @@ MonoBehaviour:
   correctInventoryHiglight: {fileID: 304330305}
   incorrectInventoryHiglight: {fileID: 304330304}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
+  gridSettings:
+  - gridId: otherGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 08000000
+    items: []
+  - gridId: craftGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 05000000
+    items: []
+  - gridId: questGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 09000000
+    items: []
+  - gridId: alchemyGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 06000000
+    items: []
+  - gridId: spellGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 01000000
+    items: []
+  - gridId: foodGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 03000000
+    items: []
+  - gridId: elixirGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 04000000
+    items: []
+  - gridId: butterGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 07000000
+    items: []
+  - gridId: armorGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 02000000
+    items: []
+  - gridId: wepaonGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 00000000
+    items: []
+  - gridId: rightHandGrid
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
+    items: []
+  - gridId: leftHandGrid
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
+    items: []
+  - gridId: quickSpellGrid1
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid2
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid3
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid4
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: pocketsGrid1
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid2
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid3
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid4
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: chestGrid
+    gridSize: {x: 9, y: 7}
+    supportedItemType: 
+    items: []
+  - gridId: shopGrid
+    gridSize: {x: 9, y: 7}
+    supportedItemType: 
+    items: []
   onUpdateData:
     m_PersistentCalls:
       m_Calls: []
@@ -5975,88 +6064,6 @@ MonoBehaviour:
   tooltipManager: {fileID: 0}
   pickUpManager: {fileID: 0}
   currentPlayerGameObject: {fileID: 0}
-  playerInventoryData:
-  - gridId: otherGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 08000000
-    items: []
-  - gridId: craftGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 05000000
-    items: []
-  - gridId: questGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 09000000
-    items: []
-  - gridId: alchemyGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 06000000
-    items: []
-  - gridId: spellGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 01000000
-    items: []
-  - gridId: foodGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 03000000
-    items: []
-  - gridId: elixirGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 04000000
-    items: []
-  - gridId: butterGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 07000000
-    items: []
-  - gridId: armorGrid
-    gridSize: {x: 5, y: 7}
-    supportedItemType: 02000000
-    items: []
-  - gridId: wepaonGrid
-    gridSize: {x: 4, y: 7}
-    supportedItemType: 00000000
-    items: []
-  playerEquipData:
-  - gridId: rightHandGrid
-    gridSize: {x: 1, y: 2}
-    supportedItemType: 00000000
-    items: []
-  - gridId: leftHandGrid
-    gridSize: {x: 1, y: 2}
-    supportedItemType: 00000000
-    items: []
-  - gridId: quickSpellGrid1
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 01000000
-    items: []
-  - gridId: quickSpellGrid2
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 01000000
-    items: []
-  - gridId: quickSpellGrid3
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 01000000
-    items: []
-  - gridId: quickSpellGrid4
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 01000000
-    items: []
-  - gridId: pocketsGrid1
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 0300000004000000
-    items: []
-  - gridId: pocketsGrid2
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 0300000004000000
-    items: []
-  - gridId: pocketsGrid3
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 0300000004000000
-    items: []
-  - gridId: pocketsGrid4
-    gridSize: {x: 1, y: 1}
-    supportedItemType: 0300000004000000
-    items: []
 --- !u!1 &311974856
 GameObject:
   m_ObjectHideFlags: 0

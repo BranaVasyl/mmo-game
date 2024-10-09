@@ -60,14 +60,14 @@ namespace BV
                 {
                     ApplicationManager.Instance.CloseSpinerLoader();
 
-                    gridManager.SetData(managersController.playerInventoryData);
-                    gridManager.onUpdateData.AddListener(UpdateData);
-                    gridManager.canUpdateGridCallback.Add(CanUpdateGridCallback);
+                    // gridManager.SetData(managersController.playerInventoryData);
 
                     InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
                     float money = response[0]["money"].JSONObjectToFloat();
-
                     SetShopData(gridDataWrapper.data, money);
+
+                    gridManager.canPlaceItemCallback.Add(CanPlaceItemCallback);
+                    gridManager.updateItemPositionCallback.Add(BuyItem);
                 },
                 (msg) =>
                     {
@@ -80,7 +80,7 @@ namespace BV
             );
         }
 
-        private async Task<bool> CanUpdateGridCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, bool placeItemMode)
+        private bool CanPlaceItemCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem)
         {
             if (startGrid == null || targetGrid == null || startGrid.gridId == targetGrid.gridId)
             {
@@ -104,21 +104,17 @@ namespace BV
                     break;
             }
 
-            if (!placeItemMode)
-            {
-                return result;
-            }
-
-            result = await BuyItem(characterId, selectedItem.id, operationType);
             return result;
         }
 
-        private async Task<bool> BuyItem(string characterId, string itemId, int operationType)
+        private async Task<bool> BuyItem(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
         {
+            int operationType = startGrid.gridId == "shopGrid" ? 1 : 2;
+
             bool requestStatus = false;
             bool result = false;
 
-            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, characterId, itemId, operationType);
+            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, characterId, selectedItem.id, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 "shopTrade",
                 new JSONObject(JsonUtility.ToJson(sendData)),
@@ -162,51 +158,18 @@ namespace BV
             RenderMoney(money);
         }
 
-        void UpdateData(InventoryGridData startGridData, InventoryGridData targetGridData, InventoryItem selectedItem)
-        {
-            if (startGridData != null)
-            {
-                if (startGridData.gridId == "shopGrid")
-                {
-                    UpdateShopData(startGridData);
-                }
-                else
-                {
-                    menuManager.UpdateInventoryData(startGridData);
-                }
-            }
-
-            if (targetGridData != null)
-            {
-                if (targetGridData.gridId == "shopGrid")
-                {
-                    UpdateShopData(targetGridData);
-                }
-                else
-                {
-                    menuManager.UpdateInventoryData(targetGridData);
-                }
-            }
-        }
-
-        void UpdateShopData(InventoryGridData itemGridData)
-        {
-            ChestData shopData = new ChestData(characterId);
-            shopData.items.Add(itemGridData);
-
-            NetworkClient.Instance.Emit("updateShopData", new JSONObject(JsonUtility.ToJson(shopData)));
-        }
-
         public override void Deinit()
         {
             if (gridManager != null)
             {
-                gridManager.onUpdateData.RemoveListener(UpdateData);
                 gridManager.Deinit();
 
                 if (!String.IsNullOrEmpty(characterId))
                 {
-                    NetworkClient.Instance.Emit("closeShop", new JSONObject(JsonUtility.ToJson(new ChestData(characterId))));
+                    JSONObject shopData = new();
+                    shopData.AddField("id", characterId);
+
+                    NetworkClient.Instance.Emit("closeShop", shopData);
                 }
             }
 

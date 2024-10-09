@@ -17,8 +17,6 @@ namespace BV
         public CharacterCustomizationData customization = new CharacterCustomizationData();
         public List<InventoryGridData> playerEquipData = new List<InventoryGridData>();
 
-        public List<InventoryGridData> inventoryData = new List<InventoryGridData>();
-
         //todo need add to base
         public bool isTwoHanded;
         public float money;
