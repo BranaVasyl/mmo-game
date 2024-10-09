@@ -278,10 +278,10 @@ namespace Project.Networking
 
             On("setPlayerEquip", (E) =>
             {
-                PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
-                NetworkIdentity ni = serverObjects[playerData.id];
+                InventoryGridDataListWrapper inventoryGridData = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
+                NetworkIdentity ni = serverObjects[E.data["playerId"].ToString().RemoveQuotes()];
 
-                ni.GetComponent<InventoryManager>().SetPlayerEquip(playerData.playerEquipData);
+                ni.GetComponent<InventoryManager>().SetPlayerEquip(inventoryGridData.data);
             });
         }
     }
