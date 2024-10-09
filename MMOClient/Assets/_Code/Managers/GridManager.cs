@@ -9,8 +9,49 @@ namespace BV
 {
     public class GridManager : MonoBehaviour
     {
+        public static readonly string[] INVENTORY_GRID_LIST =
+{
+            "otherGrid",
+            "craftGrid",
+            "questGrid",
+            "alchemyGrid",
+            "spellGrid",
+            "foodGrid",
+            "elixirGrid",
+            "butterGrid",
+            "armorGrid",
+            "wepaonGrid"
+        };
+
+        public static readonly string[] EQUIP_GRID_LIST =
+        {
+            "rightHandGrid",
+            "leftHandGrid",
+            "quickSpellGrid1",
+            "quickSpellGrid2",
+            "quickSpellGrid3",
+            "quickSpellGrid4",
+            "pocketsGrid1",
+            "pocketsGrid2",
+            "pocketsGrid3",
+            "pocketsGrid4"
+        };
+
+        public static readonly string[] CHEST_GRID_LIST =
+        {
+            "chestGrid"
+        };
+
+        public static readonly string[] SHOP_GRID_LIST =
+        {
+            "shopGrid"
+        };
+
+
         private ItemGrid startItemGrid;
         private Vector2Int startGridPosition;
+        private bool startGridRotated;
+
         [HideInInspector]
         public ItemGrid selectedItemGrid;
         public ItemGrid SelectedItemGrid
@@ -26,8 +67,6 @@ namespace BV
         private List<ItemGrid> allActiveGrids = new List<ItemGrid>();
 
         InventoryItem selectedItem;
-        private bool savedItemRotated;
-
         InventoryItem overlapItem;
         RectTransform rectTransform;
         private ItemsManager itemsManager;
@@ -53,6 +92,8 @@ namespace BV
         public delegate Task<bool> UpdateItemPositionDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position);
         [HideInInspector]
         public List<UpdateItemPositionDelegate> updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
+
+        public UnityEvent<List<InventoryGridData>> onUpdateGrid = new UnityEvent<List<InventoryGridData>>();
 
         [Header("Loader")]
         private bool loadInProcsess = false;
@@ -516,7 +557,7 @@ namespace BV
                 return;
             }
 
-            if (selectedItem.rotated != savedItemRotated)
+            if (selectedItem.rotated != startGridRotated)
             {
                 selectedItem.Rotate();
             }
@@ -544,12 +585,12 @@ namespace BV
                     if (overlapItem != null)
                     {
                         selectedItem = overlapItem;
-                        if (selectedItem.rotated != savedItemRotated)
+                        overlapItem = null;
+
+                        if (selectedItem.rotated != startGridRotated)
                         {
                             selectedItem.Rotate();
                         }
-
-                        overlapItem = null;
                         saveStartGrid.PlaceItem(selectedItem, startGridPosition.x, startGridPosition.y, ref overlapItem);
                         OnUpdateInventoryData(saveSelectGrid, saveStartGrid, selectedItem);
                     }
@@ -557,6 +598,8 @@ namespace BV
                     rectTransform = null;
                     startItemGrid = null;
                     selectedItem = null;
+
+                    TriggerUpdateGrid(saveStartGrid, saveSelectGrid);
                 }
             }
             else
@@ -567,8 +610,33 @@ namespace BV
             loadInProcsess = false;
         }
 
+        private void TriggerUpdateGrid(ItemGrid saveSelectGrid, ItemGrid saveStartGrid)
+        {
+            List<InventoryGridData> updatedGrids = new List<InventoryGridData>();
+            if (saveSelectGrid != null)
+            {
+                int selectGridIndex = inventoryData.FindIndex(s => s.gridId == saveSelectGrid.gridId);
+                if (selectGridIndex != -1)
+                {
+                    updatedGrids.Add(inventoryData[selectGridIndex]);
+                }
+            }
+
+            if (saveStartGrid != null)
+            {
+                int startGridIndex = inventoryData.FindIndex(s => s.gridId == saveStartGrid.gridId);
+                if (startGridIndex != -1)
+                {
+                    updatedGrids.Add(inventoryData[startGridIndex]);
+                }
+            }
+
+            onUpdateGrid.Invoke(updatedGrids);
+        }
+
         public bool PickUpItem(ItemData item)
         {
+            //@todo
             // ref List<InventoryGridData> inventoryData = ref SampleSceneManager.singleton.playerInventoryData;
             // int gridIndex = inventoryData.FindIndex(el =>
             // {
@@ -694,10 +762,9 @@ namespace BV
                 return;
             }
 
-            savedItemRotated = selectedItem.rotated;
-
             startItemGrid = selectedItemGrid;
             startGridPosition = new Vector2Int(selectedItem.onGridPositionX, selectedItem.onGridPositionY);
+            startGridRotated = selectedItem.rotated;
 
             if (selectedItem != null)
             {
@@ -736,6 +803,31 @@ namespace BV
             updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
 
             OnMouseExitItem();
+        }
+
+        public string[] GetEquipGridList()
+        {
+            return EQUIP_GRID_LIST;
+        }
+
+        public string[] GetInventoryGridList()
+        {
+            return INVENTORY_GRID_LIST;
+        }
+
+        public string[] GetCharacterGridList()
+        {
+            return INVENTORY_GRID_LIST.Concat(EQUIP_GRID_LIST).ToArray();
+        }
+
+        public string[] GetChestGridList()
+        {
+            return CHEST_GRID_LIST;
+        }
+
+        public string[] GetShopGridList()
+        {
+            return SHOP_GRID_LIST;
         }
 
         public static GridManager singleton;

@@ -53,6 +53,7 @@ namespace BV
                         gridManager.SetData(gridDataWrapper.data);
 
                         gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
+                        gridManager.onUpdateGrid.AddListener(OnUpdateGrid);
                     },
                 (msg) =>
                     {
@@ -78,21 +79,6 @@ namespace BV
                     {
                         result = response[0]["result"].ToString() == "true";
                         requestStatus = true;
-
-                        //@todo update player equip runtime
-                        // if (result)
-                        // {
-                        //     int index = managersController.playerEquipData.FindIndex(s => s.gridId == itemGridData.gridId);
-                        //     if (index == -1)
-                        //     {
-                        //         return;
-                        //     }
-
-                        //     List<InventoryGridData> itemList = new List<InventoryGridData>();
-                        //     itemList.Add(itemGridData);
-
-                        //     onUpdateEquip.Invoke(itemList);
-                        // }
                     },
                 (msg) =>
                     {
@@ -108,6 +94,25 @@ namespace BV
             }
 
             return result;
+        }
+
+        private void OnUpdateGrid(List<InventoryGridData> updatedGrids)
+        {
+            string[] equipGridList = gridManager.GetEquipGridList();
+            List<InventoryGridData> equipGrids = new List<InventoryGridData>();
+
+            foreach (var grid in updatedGrids)
+            {
+                if (equipGridList.Contains(grid.gridId))
+                {
+                    equipGrids.Add(grid);
+                }
+            }
+
+            if (equipGrids.Count > 0)
+            {
+                onUpdateEquip.Invoke(equipGrids);
+            }
         }
 
         public override void Deinit()
