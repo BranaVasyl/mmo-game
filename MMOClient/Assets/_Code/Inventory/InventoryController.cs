@@ -53,7 +53,6 @@ namespace BV
                         gridManager.SetData(gridDataWrapper.data);
 
                         gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
-                        gridManager.onUpdateGrid.AddListener(OnUpdateGrid);
                     },
                 (msg) =>
                     {
@@ -79,6 +78,9 @@ namespace BV
                     {
                         result = response[0]["result"].ToString() == "true";
                         requestStatus = true;
+
+                        InventoryGridDataListWrapper inventoryGridData = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                        OnUpdateGrid(inventoryGridData.data);
                     },
                 (msg) =>
                     {

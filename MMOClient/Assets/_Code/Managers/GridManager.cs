@@ -93,8 +93,6 @@ namespace BV
         [HideInInspector]
         public List<UpdateItemPositionDelegate> updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
 
-        public UnityEvent<List<InventoryGridData>> onUpdateGrid = new UnityEvent<List<InventoryGridData>>();
-
         [Header("Loader")]
         private bool loadInProcsess = false;
 
@@ -598,8 +596,6 @@ namespace BV
                     rectTransform = null;
                     startItemGrid = null;
                     selectedItem = null;
-
-                    TriggerUpdateGrid(saveStartGrid, saveSelectGrid);
                 }
             }
             else
@@ -608,30 +604,6 @@ namespace BV
             }
 
             loadInProcsess = false;
-        }
-
-        private void TriggerUpdateGrid(ItemGrid saveSelectGrid, ItemGrid saveStartGrid)
-        {
-            List<InventoryGridData> updatedGrids = new List<InventoryGridData>();
-            if (saveSelectGrid != null)
-            {
-                int selectGridIndex = inventoryData.FindIndex(s => s.gridId == saveSelectGrid.gridId);
-                if (selectGridIndex != -1)
-                {
-                    updatedGrids.Add(inventoryData[selectGridIndex]);
-                }
-            }
-
-            if (saveStartGrid != null)
-            {
-                int startGridIndex = inventoryData.FindIndex(s => s.gridId == saveStartGrid.gridId);
-                if (startGridIndex != -1)
-                {
-                    updatedGrids.Add(inventoryData[startGridIndex]);
-                }
-            }
-
-            onUpdateGrid.Invoke(updatedGrids);
         }
 
         public bool PickUpItem(ItemData item)
