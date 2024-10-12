@@ -43,7 +43,7 @@ namespace BV
         {
             ApplicationManager.Instance.ShowSpinerLoader();
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "openInventory",
+                "inventoryOpen",
                 null,
                 (response) =>
                     {
@@ -122,6 +122,7 @@ namespace BV
             if (gridManager != null)
             {
                 gridManager.Deinit();
+                NetworkClient.Instance.Emit("inventoryClose");
             }
         }
 
