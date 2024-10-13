@@ -75,24 +75,26 @@ namespace BV
 
         private async Task<bool> PickUpItem(string itemId)
         {
-            bool requestStatus = false;
-            bool result = false;
+            return true;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentbagId, itemId, 1);
-            NetworkClient.Instance.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
-            {
-                var data = response[0];
-                result = data["result"].ToString() == "true";
+            // bool requestStatus = false;
+            // bool result = false;
 
-                requestStatus = true;
-            });
+            // SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentbagId, itemId, 1);
+            // NetworkClient.Instance.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
+            // {
+            //     var data = response[0];
+            //     result = data["result"].ToString() == "true";
 
-            while (!requestStatus)
-            {
-                await Task.Yield();
-            }
+            //     requestStatus = true;
+            // });
 
-            return result;
+            // while (!requestStatus)
+            // {
+            //     await Task.Yield();
+            // }
+
+            // return result;
         }
 
         async void ItemClicked(ItemData item)

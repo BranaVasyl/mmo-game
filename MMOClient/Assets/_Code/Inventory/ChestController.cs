@@ -34,11 +34,11 @@ namespace BV
             List<NetworkEvent> events = new List<NetworkEvent>();
 
             JSONObject chestData = new();
-            chestData.AddField("id", currentChestId);
+            chestData.AddField("chestId", currentChestId);
 
             events.Add(
                 new NetworkEvent(
-                    "openChest",
+                    "chestOpen",
                     chestData,
                     (response) =>
                         {
@@ -66,7 +66,7 @@ namespace BV
                 () =>
                     {
                         ApplicationManager.Instance.CloseSpinerLoader();
-                        gridManager.updateItemPositionCallback.Add(PickUpItem);
+                        gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
                     },
                 (msg) =>
                     {
@@ -79,18 +79,20 @@ namespace BV
             );
         }
 
-        private async Task<bool> PickUpItem(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
+        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
         {
-            int operationType = startGrid.gridId == "chestGrid" ? 1 : 2;
-
             bool requestStatus = false;
             bool result = false;
 
-            SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentChestId, selectedItem.id, operationType);
+            UpdateItemPositionData itemPosition = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
+            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemPosition));
+
+            sendData.AddField("chestId", currentChestId);
+
             NetworkRequestManager.Instance.EmitWithTimeout(
                 new NetworkEvent(
-                    "chestPickUp",
-                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    "chestChange",
+                    sendData,
                     (response) =>
                         {
                             result = response[0]["result"].ToString() == "true";
@@ -120,19 +122,18 @@ namespace BV
 
         public override void Deinit()
         {
-            currentChestId = "";
             if (gridManager != null)
             {
                 gridManager.Deinit();
 
-                if (!String.IsNullOrEmpty(currentChestId))
-                {
-                    JSONObject chestData = new();
-                    chestData.AddField("id", currentChestId);
+                JSONObject chestData = new();
+                chestData.AddField("chestId", currentChestId);
+                NetworkClient.Instance.Emit("chestClose", chestData);
 
-                    NetworkClient.Instance.Emit("closeChest", chestData);
-                }
+                NetworkClient.Instance.Emit("inventoryClose");
             }
+
+            currentChestId = "";
         }
 
         public static ChestController singleton;

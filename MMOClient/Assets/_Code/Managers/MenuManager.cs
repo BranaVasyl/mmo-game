@@ -202,23 +202,6 @@ namespace BV
     }
 
     [Serializable]
-    public class SendChestPickUpData
-    {
-        public string playerId = "";
-        public string chestId = "";
-        public string itemId = "";
-        public int operationType = 1;
-
-        public SendChestPickUpData(string pI, string cI, string iI, int oT)
-        {
-            playerId = pI;
-            chestId = cI;
-            itemId = iI;
-            operationType = oT;
-        }
-    }
-
-    [Serializable]
     public class SendTradeData
     {
         public string playerId = "";
