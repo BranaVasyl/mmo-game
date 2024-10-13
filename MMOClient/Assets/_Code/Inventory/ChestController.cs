@@ -88,19 +88,21 @@ namespace BV
 
             SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentChestId, selectedItem.id, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "chestPickUp",
-                new JSONObject(JsonUtility.ToJson(sendData)),
-                (response) =>
-                    {
-                        result = response[0]["result"].ToString() == "true";
-                        requestStatus = true;
-                    },
-                (msg) =>
-                    {
-                        requestStatus = true;
-                        ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося підібрати передмет");
-                    }
+                new NetworkEvent(
+                    "chestPickUp",
+                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    (response) =>
+                        {
+                            result = response[0]["result"].ToString() == "true";
+                            requestStatus = true;
+                        },
+                    (msg) =>
+                        {
+                            requestStatus = true;
+                            ApplicationManager.Instance.CloseSpinerLoader();
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося підібрати передмет");
+                        }
+                )
             );
 
             while (!requestStatus)

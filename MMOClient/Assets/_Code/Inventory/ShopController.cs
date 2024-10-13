@@ -54,29 +54,31 @@ namespace BV
 
             ApplicationManager.Instance.ShowSpinerLoader();
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "openShop",
-                shopData,
-                (response) =>
-                {
-                    ApplicationManager.Instance.CloseSpinerLoader();
-
-                    // gridManager.SetData(managersController.playerInventoryData);
-
-                    InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                    float money = response[0]["money"].JSONObjectToFloat();
-                    SetShopData(gridDataWrapper.data, money);
-
-                    gridManager.canPlaceItemCallback.Add(CanPlaceItemCallback);
-                    gridManager.updateItemPositionCallback.Add(BuyItem);
-                },
-                (msg) =>
+                new NetworkEvent(
+                    "openShop",
+                    shopData,
+                    (response) =>
                     {
                         ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити магазин", () =>
-                            {
-                                menuManager.CloseMenu();
-                            });
-                    }
+
+                        // gridManager.SetData(managersController.playerInventoryData);
+
+                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                        float money = response[0]["money"].JSONObjectToFloat();
+                        SetShopData(gridDataWrapper.data, money);
+
+                        gridManager.canPlaceItemCallback.Add(CanPlaceItemCallback);
+                        gridManager.updateItemPositionCallback.Add(BuyItem);
+                    },
+                    (msg) =>
+                        {
+                            ApplicationManager.Instance.CloseSpinerLoader();
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити магазин", () =>
+                                {
+                                    menuManager.CloseMenu();
+                                });
+                        }
+                )
             );
         }
 
@@ -116,30 +118,32 @@ namespace BV
 
             SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, characterId, selectedItem.id, operationType);
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "shopTrade",
-                new JSONObject(JsonUtility.ToJson(sendData)),
-                (response) =>
-                    {
-                        var data = response[0];
-                        result = data["result"].ToString() == "true";
-
-                        if (result)
+                new NetworkEvent(
+                    "shopTrade",
+                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    (response) =>
                         {
-                            playerMoney = data["playerMoney"].JSONObjectToFloat();
-                            shopMoney = data["shopMoney"].JSONObjectToFloat();
+                            var data = response[0];
+                            result = data["result"].ToString() == "true";
 
-                            menuManager.RenderMoney(playerMoney);
-                            RenderMoney(shopMoney);
+                            if (result)
+                            {
+                                playerMoney = data["playerMoney"].JSONObjectToFloat();
+                                shopMoney = data["shopMoney"].JSONObjectToFloat();
+
+                                menuManager.RenderMoney(playerMoney);
+                                RenderMoney(shopMoney);
+                            }
+
+                            requestStatus = true;
+                        },
+                    (msg) =>
+                        {
+                            requestStatus = true;
+                            ApplicationManager.Instance.CloseSpinerLoader();
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
                         }
-
-                        requestStatus = true;
-                    },
-                (msg) =>
-                    {
-                        requestStatus = true;
-                        ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
-                    }
+                )
             );
 
             while (!requestStatus)

@@ -67,22 +67,24 @@ namespace BV
             applicationManager.ShowInformationModal("Триває загрузка персонажів");
 
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "getCharacterList",
-                null,
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        PlayerListResponse playerListResponse = JsonUtility.FromJson<PlayerListResponse>(response[0].ToString());
-                        playersData = playerListResponse.data;
-
-                        if (playersData.Length > 0)
+                new NetworkEvent(
+                    "getCharacterList",
+                    null,
+                    (response) =>
                         {
-                            ShowAwaibleCharactersList();
-                            ItemClicked(0);
-                        }
-                    },
-                (msg) => applicationManager.ShowConfirmationModal(msg)
+                            applicationManager.CloseModal();
+
+                            PlayerListResponse playerListResponse = JsonUtility.FromJson<PlayerListResponse>(response[0].ToString());
+                            playersData = playerListResponse.data;
+
+                            if (playersData.Length > 0)
+                            {
+                                ShowAwaibleCharactersList();
+                                ItemClicked(0);
+                            }
+                        },
+                    (msg) => applicationManager.ShowConfirmationModal(msg)
+                )
             );
         }
 
@@ -139,32 +141,34 @@ namespace BV
 
             //@todo pass character id
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "selectCharacter",
-                selectPlayerData,
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        SelectCharacterResponse responseData = JsonUtility.FromJson<SelectCharacterResponse>(response[0].ToString());
-
-                        if (responseData.code != 0)
+                new NetworkEvent(
+                    "selectCharacter",
+                    selectPlayerData,
+                    (response) =>
                         {
-                            string text = "";
-                            switch (responseData.code)
-                            {
-                                case 1:
-                                    text = "Не вдалося вибрати даного персонажа, спробуй іншого";
-                                    break;
-                                default:
-                                    text = "Щось пішло не так :(";
-                                    break;
-                            }
+                            applicationManager.CloseModal();
 
-                            applicationManager.ShowConfirmationModal(text);
-                            return;
-                        };
-                    },
-                (msg) => applicationManager.ShowConfirmationModal(msg)
+                            SelectCharacterResponse responseData = JsonUtility.FromJson<SelectCharacterResponse>(response[0].ToString());
+
+                            if (responseData.code != 0)
+                            {
+                                string text = "";
+                                switch (responseData.code)
+                                {
+                                    case 1:
+                                        text = "Не вдалося вибрати даного персонажа, спробуй іншого";
+                                        break;
+                                    default:
+                                        text = "Щось пішло не так :(";
+                                        break;
+                                }
+
+                                applicationManager.ShowConfirmationModal(text);
+                                return;
+                            };
+                        },
+                    (msg) => applicationManager.ShowConfirmationModal(msg)
+                )
             );
         }
     }

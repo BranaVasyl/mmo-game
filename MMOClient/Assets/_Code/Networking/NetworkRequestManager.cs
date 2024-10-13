@@ -8,16 +8,16 @@ namespace BV
 {
     public class NetworkRequestManager : Singleton<NetworkRequestManager>
     {
-        public void EmitWithTimeout(string eventName, JSONObject data, Action<JSONObject> onSuccess, Action<string> onError = null, float timeout = 10.0f)
+        public void EmitWithTimeout(NetworkEvent networkEvent, float timeout = 10.0f)
         {
-            StartCoroutine(EmitWithTimeoutCoroutine(eventName, data, onSuccess, onError, timeout));
+            StartCoroutine(EmitWithTimeoutCoroutine(networkEvent, timeout));
         }
 
-        private IEnumerator EmitWithTimeoutCoroutine(string eventName, JSONObject data, Action<JSONObject> onSuccess, Action<string> onError, float timeout)
+        private IEnumerator EmitWithTimeoutCoroutine(NetworkEvent networkEvent, float timeout)
         {
             bool isResponseReceived = false;
 
-            NetworkClient.Instance.Emit(eventName, data, (response) =>
+            NetworkClient.Instance.Emit(networkEvent.eventName, networkEvent.data, (response) =>
             {
                 if (isResponseReceived)
                 {
@@ -25,7 +25,7 @@ namespace BV
                 };
 
                 isResponseReceived = true;
-                onSuccess?.Invoke(response);
+                networkEvent.onSuccess?.Invoke(response);
             });
 
             float elapsedTime = 0f;
@@ -35,7 +35,7 @@ namespace BV
 
                 if (elapsedTime > timeout)
                 {
-                    onError?.Invoke("Не вдалося підключитися до сервера");
+                    networkEvent.onError?.Invoke("Не вдалося підключитися до сервера");
                     yield break;
                 }
 
@@ -57,12 +57,12 @@ namespace BV
                 int index = i;
                 NetworkEvent networkEvent = events[i];
 
-                NetworkClient.Instance.Emit(networkEvent.EventName, networkEvent.Data, (response) =>
+                NetworkClient.Instance.Emit(networkEvent.eventName, networkEvent.data, (response) =>
                 {
                     if (!responsesReceived[index])
                     {
                         responsesReceived[index] = true;
-                        networkEvent.OnSuccess?.Invoke(response);
+                        networkEvent.onSuccess?.Invoke(response);
                     }
                 });
             }
@@ -92,17 +92,17 @@ namespace BV
     [Serializable]
     public class NetworkEvent
     {
-        public string EventName { get; set; }
-        public JSONObject Data { get; set; }
-        public Action<JSONObject> OnSuccess { get; set; }
-        public Action<JSONObject> OnError { get; set; }
+        public string eventName { get; set; }
+        public JSONObject data { get; set; }
+        public Action<JSONObject> onSuccess { get; set; }
+        public Action<string> onError { get; set; }
 
-        public NetworkEvent(string eventName, JSONObject data, Action<JSONObject> onSuccess, Action<JSONObject> onError = null)
+        public NetworkEvent(string eN, JSONObject d, Action<JSONObject> oS = null, Action<string> oE = null)
         {
-            EventName = eventName;
-            Data = data;
-            OnSuccess = onSuccess;
-            OnError = onError;
+            eventName = eN;
+            data = d;
+            onSuccess = oS;
+            onError = oE;
         }
     }
 }

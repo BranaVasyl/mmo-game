@@ -37,25 +37,27 @@ namespace BV
         {
             ApplicationManager.Instance.ShowSpinerLoader();
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "inventoryOpen",
-                null,
-                (response) =>
-                    {
-                        ApplicationManager.Instance.CloseSpinerLoader();
+                new NetworkEvent(
+                    "inventoryOpen",
+                    null,
+                    (response) =>
+                        {
+                            ApplicationManager.Instance.CloseSpinerLoader();
 
-                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                        gridManager.SetData(gridDataWrapper.data);
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            gridManager.SetData(gridDataWrapper.data);
 
-                        gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
-                    },
-                (msg) =>
-                    {
-                        ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити інвентар", () =>
-                            {
-                                menuManager.CloseMenu();
-                            });
-                    }
+                            gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
+                        },
+                    (msg) =>
+                        {
+                            ApplicationManager.Instance.CloseSpinerLoader();
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити інвентар", () =>
+                                {
+                                    menuManager.CloseMenu();
+                                });
+                        }
+                )
             );
         }
 
@@ -66,22 +68,24 @@ namespace BV
 
             UpdateItemPositionData sendData = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "inventoryChange",
-                new JSONObject(JsonUtility.ToJson(sendData)),
-                (response) =>
-                    {
-                        result = response[0]["result"].ToString() == "true";
-                        requestStatus = true;
+                new NetworkEvent(
+                    "inventoryChange",
+                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    (response) =>
+                        {
+                            result = response[0]["result"].ToString() == "true";
+                            requestStatus = true;
 
-                        InventoryGridDataListWrapper inventoryGridData = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                        OnUpdateGrid(inventoryGridData.data);
-                    },
-                (msg) =>
-                    {
-                        requestStatus = true;
-                        ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося перенести предмет");
-                    }
+                            InventoryGridDataListWrapper inventoryGridData = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            OnUpdateGrid(inventoryGridData.data);
+                        },
+                    (msg) =>
+                        {
+                            requestStatus = true;
+                            ApplicationManager.Instance.CloseSpinerLoader();
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося перенести предмет");
+                        }
+                )
             );
 
             while (!requestStatus)

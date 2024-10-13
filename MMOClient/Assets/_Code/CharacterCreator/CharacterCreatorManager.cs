@@ -71,41 +71,43 @@ namespace BV
             applicationManager.ShowInformationModal("Триває створення персонажа");
 
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "createCharacter",
-                new JSONObject(JsonUtility.ToJson(playerData)),
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        CreateCharacterResponse responseData = JsonUtility.FromJson<CreateCharacterResponse>(response[0].ToString());
-
-                        if (responseData.code != 0)
+                new NetworkEvent(
+                    "createCharacter",
+                    new JSONObject(JsonUtility.ToJson(playerData)),
+                    (response) =>
                         {
-                            string text = "";
-                            switch (responseData.code)
+                            applicationManager.CloseModal();
+
+                            CreateCharacterResponse responseData = JsonUtility.FromJson<CreateCharacterResponse>(response[0].ToString());
+
+                            if (responseData.code != 0)
                             {
-                                case 1:
-                                    text = "Не вдалося додати персонажа до цього аккаунта, вийди з гри і повтори ще раз";
-                                    break;
-                                case 2:
-                                    text = "Не вдалося створити персонажа";
-                                    break;
-                                case 3:
-                                    text = responseData.msg;
-                                    break;
-                                default:
-                                    text = "Щось пішло не так :(";
-                                    break;
-                            }
+                                string text = "";
+                                switch (responseData.code)
+                                {
+                                    case 1:
+                                        text = "Не вдалося додати персонажа до цього аккаунта, вийди з гри і повтори ще раз";
+                                        break;
+                                    case 2:
+                                        text = "Не вдалося створити персонажа";
+                                        break;
+                                    case 3:
+                                        text = responseData.msg;
+                                        break;
+                                    default:
+                                        text = "Щось пішло не так :(";
+                                        break;
+                                }
 
-                            applicationManager.ShowConfirmationModal(text);
-                            return;
-                        };
+                                applicationManager.ShowConfirmationModal(text);
+                                return;
+                            };
 
-                        characterCreatorSceneManager.OnGoSelectCharacterMode();
-                    },
+                            characterCreatorSceneManager.OnGoSelectCharacterMode();
+                        },
                     (msg) => applicationManager.ShowConfirmationModal(msg)
-                );
+                )
+            );
         }
 
         public void OnSetGender(string gender)

@@ -51,34 +51,36 @@ namespace BV
             ShowProgress("Триває підключення до сервера");
 
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "joinServer",
-                null,
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
-
-                        if (responseData.code != 0)
+                new NetworkEvent(
+                    "joinServer",
+                    null,
+                    (response) =>
                         {
-                            string text = "";
-                            switch (responseData.code)
-                            {
-                                case 1:
-                                    text = "Не має вільного міся на сервері, спробуй пізніше";
-                                    break;
-                                case 2:
-                                    text = "Такий користувач уже є в ігровій сесії";
-                                    break;
-                                default:
-                                    text = "Щось пішло не так :(";
-                                    break;
-                            }
+                            applicationManager.CloseModal();
 
-                            ShowFeedback(text);
-                        };
-                    },
-                (msg) => ShowFeedback(msg)
+                            JoinServerResponse responseData = JsonUtility.FromJson<JoinServerResponse>(response[0].ToString());
+
+                            if (responseData.code != 0)
+                            {
+                                string text = "";
+                                switch (responseData.code)
+                                {
+                                    case 1:
+                                        text = "Не має вільного міся на сервері, спробуй пізніше";
+                                        break;
+                                    case 2:
+                                        text = "Такий користувач уже є в ігровій сесії";
+                                        break;
+                                    default:
+                                        text = "Щось пішло не так :(";
+                                        break;
+                                }
+
+                                ShowFeedback(text);
+                            };
+                        },
+                    (msg) => ShowFeedback(msg)
+                )
             );
         }
 
@@ -106,35 +108,37 @@ namespace BV
             loginData.AddField("rPassword", password);
 
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "accountLogin",
-                loginData,
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        LoginResponse responseData = JsonUtility.FromJson<LoginResponse>(response[0].ToString());
-
-                        if (responseData.code == 0)
+                new NetworkEvent(
+                    "accountLogin",
+                    loginData,
+                    (response) =>
                         {
-                            OnTryJoinTheServer();
-                        }
-                        else
-                        {
-                            string text = "";
-                            switch (responseData.code)
+                            applicationManager.CloseModal();
+
+                            LoginResponse responseData = JsonUtility.FromJson<LoginResponse>(response[0].ToString());
+
+                            if (responseData.code == 0)
                             {
-                                case 1:
-                                    text = "Не правильні дані";
-                                    break;
-                                default:
-                                    text = "Щось пішло не так :(";
-                                    break;
+                                OnTryJoinTheServer();
                             }
+                            else
+                            {
+                                string text = "";
+                                switch (responseData.code)
+                                {
+                                    case 1:
+                                        text = "Не правильні дані";
+                                        break;
+                                    default:
+                                        text = "Щось пішло не так :(";
+                                        break;
+                                }
 
-                            ShowFeedback(text);
-                        }
-                    },
-                (msg) => ShowFeedback(msg)
+                                ShowFeedback(text);
+                            }
+                        },
+                    (msg) => ShowFeedback(msg)
+                )
             );
         }
 
@@ -162,42 +166,44 @@ namespace BV
             loginData.AddField("rPassword", password);
 
             NetworkRequestManager.Instance.EmitWithTimeout(
-                "accountCreate",
-                loginData,
-                (response) =>
-                    {
-                        applicationManager.CloseModal();
-
-                        CreateResponse responseData = JsonUtility.FromJson<CreateResponse>(response[0].ToString());
-
-                        string text = "";
-                        if (responseData.code == 0)
+                new NetworkEvent(
+                    "accountCreate",
+                    loginData,
+                    (response) =>
                         {
-                            text = "Аккаунт (" + responseData.data.username + ") успішно створено";
-                        }
-                        else
-                        {
-                            switch (responseData.code)
+                            applicationManager.CloseModal();
+
+                            CreateResponse responseData = JsonUtility.FromJson<CreateResponse>(response[0].ToString());
+
+                            string text = "";
+                            if (responseData.code == 0)
                             {
-                                case 0:
-                                    text = "Не правильні дані";
-                                    break;
-                                case 2:
-                                    text = "Ім'я корисувача зайняте";
-                                    break;
-                                case 3:
-                                    text = "Пароль не надійний";
-                                    break;
-                                default:
-                                    text = "Щось пішло не так :(";
-                                    break;
-
+                                text = "Аккаунт (" + responseData.data.username + ") успішно створено";
                             }
-                        }
+                            else
+                            {
+                                switch (responseData.code)
+                                {
+                                    case 0:
+                                        text = "Не правильні дані";
+                                        break;
+                                    case 2:
+                                        text = "Ім'я корисувача зайняте";
+                                        break;
+                                    case 3:
+                                        text = "Пароль не надійний";
+                                        break;
+                                    default:
+                                        text = "Щось пішло не так :(";
+                                        break;
 
-                        ShowFeedback(text);
-                    },
-                (msg) => ShowFeedback(msg)
+                                }
+                            }
+
+                            ShowFeedback(text);
+                        },
+                    (msg) => ShowFeedback(msg)
+                )
             );
         }
 
