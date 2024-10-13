@@ -13,10 +13,7 @@ namespace BV
 {
     public class InventoryController : MenuPanel
     {
-        private SampleSceneManager managersController;
         private MenuManager menuManager;
-
-        private ItemsManager itemsManager;
         private GridManager gridManager;
 
         private UnityEvent<List<InventoryGridData>> onUpdateEquip = new UnityEvent<List<InventoryGridData>>();
@@ -25,11 +22,8 @@ namespace BV
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             singleton = this;
-
-            managersController = mC;
             menuManager = mM;
 
-            itemsManager = ItemsManager.singleton;
             gridManager = GridManager.singleton;
         }
 
@@ -86,7 +80,7 @@ namespace BV
                     {
                         requestStatus = true;
                         ApplicationManager.Instance.CloseSpinerLoader();
-                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося перенести предмет");
                     }
             );
 

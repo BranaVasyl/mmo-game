@@ -5,12 +5,12 @@ using UnityEngine;
 using SocketIO;
 using System;
 using Project.Networking;
+using System.Linq;
 
 namespace BV
 {
     public class ChestController : MenuPanel
     {
-        private SampleSceneManager managersController;
         private MenuManager menuManager;
         private GridManager gridManager;
 
@@ -19,8 +19,6 @@ namespace BV
         public override void Init(SampleSceneManager mC, MenuManager mM)
         {
             singleton = this;
-
-            managersController = mC;
             menuManager = mM;
 
             gridManager = GridManager.singleton;
@@ -33,22 +31,41 @@ namespace BV
                 return;
             }
 
+            List<NetworkEvent> events = new List<NetworkEvent>();
+
             JSONObject chestData = new();
             chestData.AddField("id", currentChestId);
 
+            events.Add(
+                new NetworkEvent(
+                    "openChest",
+                    chestData,
+                    (response) =>
+                        {
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            SetChestData(gridDataWrapper.data);
+                        }
+                )
+            );
+
+            events.Add(
+                new NetworkEvent(
+                    "inventoryOpen",
+                    null,
+                    (response) =>
+                        {
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            gridManager.SetData(gridDataWrapper.data);
+                        }
+                )
+            );
+
             ApplicationManager.Instance.ShowSpinerLoader();
-            NetworkRequestManager.Instance.EmitWithTimeout(
-                "openChest",
-                chestData,
-                (response) =>
+            NetworkRequestManager.Instance.EmitWithTimeoutAll(
+                events,
+                () =>
                     {
                         ApplicationManager.Instance.CloseSpinerLoader();
-
-                        // gridManager.SetData(managersController.playerInventoryData);
-
-                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                        SetChestData(gridDataWrapper.data);
-
                         gridManager.updateItemPositionCallback.Add(PickUpItem);
                     },
                 (msg) =>
