@@ -200,31 +200,4 @@ namespace BV
             singleton = this;
         }
     }
-
-    [Serializable]
-    public class SendTradeData
-    {
-        public string playerId = "";
-        public string characterId = "";
-        public string itemId = "";
-        public int operationType = 1;
-
-        public SendTradeData(string pI, string nI, string iI, int oT)
-        {
-            playerId = pI;
-            characterId = nI;
-            itemId = iI;
-            operationType = oT;
-        }
-    }
-
-    [Serializable]
-    public class SendInventoryData
-    {
-        public List<InventoryGridData> items = new List<InventoryGridData>();
-        public SendInventoryData(List<InventoryGridData> data)
-        {
-            items = data;
-        }
-    }
 }

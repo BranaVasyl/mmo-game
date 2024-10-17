@@ -45,40 +45,59 @@ namespace BV
                 return;
             }
 
-            //@todo get money in server
-            playerMoney = managersController.currentPlayerGameObject.GetComponent<StateManager>().money;
             shopNameObject.GetComponent<TMP_Text>().text = characterName;
 
             JSONObject shopData = new();
             shopData.AddField("id", characterId);
 
-            ApplicationManager.Instance.ShowSpinerLoader();
-            NetworkRequestManager.Instance.EmitWithTimeout(
+            List<NetworkEvent> events = new List<NetworkEvent>();
+
+            events.Add(
                 new NetworkEvent(
-                    "openShop",
+                    "shopOpen",
                     shopData,
                     (response) =>
+                        {
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            float money = response[0]["money"].JSONObjectToFloat();
+                            SetShopData(gridDataWrapper.data, money);
+                        }
+                )
+            );
+
+            events.Add(
+                new NetworkEvent(
+                    "inventoryOpen",
+                    null,
+                    (response) =>
+                        {
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            playerMoney = response[0]["money"].JSONObjectToFloat();
+                            menuManager.RenderMoney(playerMoney);
+
+                            gridManager.SetData(gridDataWrapper.data);
+                        }
+                )
+            );
+
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeoutAll(
+                events,
+                () =>
                     {
                         ApplicationManager.Instance.CloseSpinerLoader();
 
-                        // gridManager.SetData(managersController.playerInventoryData);
-
-                        InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                        float money = response[0]["money"].JSONObjectToFloat();
-                        SetShopData(gridDataWrapper.data, money);
-
                         gridManager.canPlaceItemCallback.Add(CanPlaceItemCallback);
-                        gridManager.updateItemPositionCallback.Add(BuyItem);
+                        gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
                     },
-                    (msg) =>
-                        {
-                            ApplicationManager.Instance.CloseSpinerLoader();
-                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити магазин", () =>
-                                {
-                                    menuManager.CloseMenu();
-                                });
-                        }
-                )
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити магазин", () =>
+                            {
+                                menuManager.CloseMenu();
+                            });
+                    }
             );
         }
 
@@ -109,33 +128,33 @@ namespace BV
             return result;
         }
 
-        private async Task<bool> BuyItem(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
+        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
         {
-            int operationType = startGrid.gridId == "shopGrid" ? 1 : 2;
-
             bool requestStatus = false;
             bool result = false;
 
-            SendTradeData sendData = new SendTradeData(NetworkClient.SessionID, characterId, selectedItem.id, operationType);
+            UpdateItemPositionData itemPosition = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
+            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemPosition));
+
+            sendData.AddField("characterId", characterId);
+
             NetworkRequestManager.Instance.EmitWithTimeout(
                 new NetworkEvent(
-                    "shopTrade",
-                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    "shopChange",
+                    sendData,
                     (response) =>
                         {
-                            var data = response[0];
-                            result = data["result"].ToString() == "true";
+                            result = response[0]["result"].ToString() == "true";
+                            requestStatus = true;
 
                             if (result)
                             {
-                                playerMoney = data["playerMoney"].JSONObjectToFloat();
-                                shopMoney = data["shopMoney"].JSONObjectToFloat();
-
+                                playerMoney = response[0]["playerMoney"].JSONObjectToFloat();
                                 menuManager.RenderMoney(playerMoney);
+
+                                shopMoney = response[0]["shopMoney"].JSONObjectToFloat();
                                 RenderMoney(shopMoney);
                             }
-
-                            requestStatus = true;
                         },
                     (msg) =>
                         {
@@ -168,13 +187,11 @@ namespace BV
             {
                 gridManager.Deinit();
 
-                if (!String.IsNullOrEmpty(characterId))
-                {
-                    JSONObject shopData = new();
-                    shopData.AddField("id", characterId);
+                JSONObject shopData = new();
+                shopData.AddField("characterId", characterId);
+                NetworkClient.Instance.Emit("shopClose", shopData);
 
-                    NetworkClient.Instance.Emit("closeShop", shopData);
-                }
+                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             characterId = "";
