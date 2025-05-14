@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 1894.7688, g: 1638.2258, b: 1971.1155, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5992,9 +5992,6 @@ MonoBehaviour:
     gridSize: {x: 9, y: 7}
     supportedItemType: 
     items: []
-  onUpdateData:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &309419830
 GameObject:
   m_ObjectHideFlags: 0
@@ -18131,7 +18128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ce9d6d5e7c0694f95221e0b44e2abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bagId: 3
+  bagId: CU5cPFEV3
 --- !u!135 &936104233
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -28732,7 +28729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: 1
+  chestId: CU5cPFEV1
 --- !u!135 &1436625940
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -30153,7 +30150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: 2
+  chestId: CU5cPFEV2
 --- !u!1 &1493942608
 GameObject:
   m_ObjectHideFlags: 0
