@@ -20,7 +20,7 @@ namespace BV
             "elixirGrid",
             "butterGrid",
             "armorGrid",
-            "wepaonGrid"
+            "weaponGrid"
         };
 
         public static readonly string[] EQUIP_GRID_LIST =
