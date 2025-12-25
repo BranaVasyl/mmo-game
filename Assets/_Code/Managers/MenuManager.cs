@@ -97,6 +97,7 @@ namespace BV
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("shop");
+            activatePanel.Add("inventory");
 
             OpenMenu(activatePanel);
         }

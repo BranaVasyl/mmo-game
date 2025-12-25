@@ -190,8 +190,6 @@ namespace BV
                 JSONObject shopData = new();
                 shopData.AddField("characterId", characterId);
                 NetworkClient.Instance.Emit("shopClose", shopData);
-
-                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             characterId = "";

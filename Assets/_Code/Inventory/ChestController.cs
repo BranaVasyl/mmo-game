@@ -129,8 +129,6 @@ namespace BV
                 JSONObject chestData = new();
                 chestData.AddField("chestId", currentChestId);
                 NetworkClient.Instance.Emit("chestClose", chestData);
-
-                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             currentChestId = "";
