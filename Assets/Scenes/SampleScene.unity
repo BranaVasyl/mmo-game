@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1895.1936, g: 1638.5833, b: 1971.4065, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -30150,7 +30150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: CU5cPFEV2
+  chestId: DEV_ALLITEMS
 --- !u!1 &1493942608
 GameObject:
   m_ObjectHideFlags: 0
