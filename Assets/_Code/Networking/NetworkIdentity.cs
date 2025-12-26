@@ -13,6 +13,9 @@ namespace Project.Networking {
         [SerializeField]
         [GreyOut]
         private bool isControlling;
+        [SerializeField]
+        [GreyOut]
+        private JSONObject meta;
 
         public void Awake()
         {
@@ -36,6 +39,16 @@ namespace Project.Networking {
         public bool IsControlling()
         {
             return isControlling;
+        }
+
+        public void SetMeta(JSONObject metaData)
+        {
+            meta = metaData;
+        }
+
+        public JSONObject GetMeta()
+        {
+            return meta;
         }
     }
 }

@@ -227,8 +227,10 @@ namespace Project.Networking
 
                     spawnedObject.transform.position = new Vector3(x, y, z);
                     spawnedObject.transform.rotation = Quaternion.Euler(xr, yr, zr);
+                    
                     var ni = spawnedObject.GetComponent<NetworkIdentity>();
                     ni.SetControllerID(id);
+                    ni.SetMeta(E.data["meta"]);
 
                     serverObjects.Add(id, ni);
                 }

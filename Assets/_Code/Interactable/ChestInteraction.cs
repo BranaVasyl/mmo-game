@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Project.Networking;
 
 namespace BV
 {
     public class ChestInteraction : MonoBehaviour, IInteractable
     {
-        public string chestId = "1";
-
         public string GetDescription()
         {
             return "Відкрити судук";
@@ -15,7 +14,21 @@ namespace BV
 
         public void Interact(GameObject player)
         {
-            MenuManager.singleton.OpenChest(chestId);
+            var ni = GetComponent<NetworkIdentity>();
+            if (ni == null) {
+                return;
+            }
+
+            var meta = ni.GetMeta();
+            if (meta == null) {
+                return;
+            }
+
+            if (meta.HasField("storageId"))
+            {
+                string storageId = meta["storageId"].str;
+                MenuManager.singleton.OpenChest(storageId);
+            }
         }
     }
 }

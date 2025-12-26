@@ -17,7 +17,5 @@ MonoBehaviour:
     Prefab: {fileID: 3474922075524253662, guid: 6e45889a8e70a784290fe21f72609b00, type: 3}
   - Name: NPC_First
     Prefab: {fileID: 1845021260846373711, guid: d429d5f35c991e14fb8ac0fe872c5c40, type: 3}
-  - Name: Agent
-    Prefab: {fileID: 4714603377104606014, guid: 3d84e8916fe28d945ba576f3d7788c75, type: 3}
-  - Name: Target
-    Prefab: {fileID: 4239463683058222917, guid: bf3ecb087101c3744a286c8a5f57bade, type: 3}
+  - Name: Chest
+    Prefab: {fileID: 5925330053979801887, guid: 7b22dbc959e5b2a419ca18a829814c2b, type: 3}
