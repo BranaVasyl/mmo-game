@@ -157,7 +157,7 @@ namespace Project.Networking
                 serverObjects.Remove(id); //Remove from memory
             });
 
-            On("updatePlayers", (E) =>
+            On("updatePlayer", (E) =>
             {
                 PlayerData playerData = JsonUtility.FromJson<PlayerData>(E.data.ToString());
                 NetworkIdentity ni = serverObjects[playerData.id];
