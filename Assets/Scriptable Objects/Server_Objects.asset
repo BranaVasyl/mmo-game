@@ -18,4 +18,4 @@ MonoBehaviour:
   - Name: NPC_First
     Prefab: {fileID: 1845021260846373711, guid: d429d5f35c991e14fb8ac0fe872c5c40, type: 3}
   - Name: Chest
-    Prefab: {fileID: 5925330053979801887, guid: 7b22dbc959e5b2a419ca18a829814c2b, type: 3}
+    Prefab: {fileID: 4968428784540676739, guid: 16f848cddf26197419a30849f225ca37, type: 3}
