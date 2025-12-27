@@ -79,7 +79,7 @@ namespace Project.Networking
             {
                 if (!isConnected)
                 {
-                    Debug.Log("Connection made to the server");
+                    Debug.Log("[Network] Connection made to the server");
                     isConnected = true;
                 }
             });
@@ -87,7 +87,7 @@ namespace Project.Networking
             On("register", (E) =>
             {
                 SessionID = E.data["id"].ToString().RemoveQuotes();
-                Debug.LogFormat("Our Client's ID ({0})", SessionID);
+                Debug.Log($"[Network] Registered client. SessionID: {SessionID}");
             });
 
             On("loadScene", (E) =>

@@ -33,7 +33,11 @@ namespace BV
             }
 
             instance = this as T;
-            DontDestroyOnLoad(this);
+
+            if (transform.parent == null)
+            {
+                DontDestroyOnLoad(this);
+            }
         }
     }
 }

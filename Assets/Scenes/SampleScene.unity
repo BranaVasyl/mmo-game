@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1894.4983, g: 1638.0305, b: 1970.9221, a: 1}
+  m_IndirectSpecularColor: {r: 1892.7698, g: 1636.468, b: 1969.842, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26991,7 +26991,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.744689, y: 2.3172717, z: -4.3681884}
-  m_LocalScale: {x: 2.7613904, y: 1.9488454, z: -0.15000989}
+  m_LocalScale: {x: 2.7613904, y: 1.9488454, z: 0.1500099}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 159325776}
@@ -28311,7 +28311,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.1933107, y: 2.3172717, z: -4.3681884}
-  m_LocalScale: {x: 1.0279914, y: 1.9488454, z: -0.047148556}
+  m_LocalScale: {x: 1.0279914, y: 1.9488454, z: 0.04714856}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 159325776}
@@ -30421,7 +30421,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.141304, y: 2.3172717, z: -4.368189}
-  m_LocalScale: {x: 1.0279914, y: 1.9488454, z: -0.047148556}
+  m_LocalScale: {x: 1.0279914, y: 1.9488454, z: 0.04714856}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 159325776}
@@ -32213,7 +32213,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.17012514, y: -0, z: -0, w: 0.9854225}
   m_LocalPosition: {x: 13.71, y: 12.75, z: -28.9}
-  m_LocalScale: {x: 3.3946, y: 0.16749296, z: -61.560005}
+  m_LocalScale: {x: 3.3946, y: 0.16749296, z: 61.56001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1018749247}
@@ -39291,7 +39291,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.095311, y: 2.3172717, z: -4.3681884}
-  m_LocalScale: {x: 2.7613904, y: 1.9488454, z: -0.3254806}
+  m_LocalScale: {x: 2.7613904, y: 1.9488454, z: 0.3254806}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 159325776}
@@ -42269,7 +42269,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.3146857, y: -0, z: -0, w: 0.9491959}
   m_LocalPosition: {x: 13.9, y: -0.13000011, z: 14.22}
-  m_LocalScale: {x: 3.3946, y: 0.16749296, z: -8.537774}
+  m_LocalScale: {x: 3.3946, y: 0.16749296, z: 8.537774}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1018749247}
