@@ -59,7 +59,7 @@ namespace BV
                     (response) =>
                         {
                             InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
-                            float money = response[0]["money"].JSONObjectToFloat();
+                            float money = response?[0]?.HasField("money") == true ? response[0]["money"].JSONObjectToFloat() : 0f;
                             SetShopData(gridDataWrapper.data, money);
                         }
                 )

@@ -273,7 +273,7 @@ namespace Project.Networking
             On("setShopData", (E) =>
             {
                 InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
-                float money = E.data["shopMoney"].JSONObjectToFloat();
+                float money = E.data?.HasField("shopMoney") == true ? E.data["shopMoney"].JSONObjectToFloat() : 0f;
 
                 ShopController.singleton.SetShopData(gridDataWrapper.data, money);
             });
