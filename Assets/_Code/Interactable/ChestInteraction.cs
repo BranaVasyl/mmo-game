@@ -7,9 +7,11 @@ namespace BV
 {
     public class ChestInteraction : MonoBehaviour, IInteractable
     {
+        public string interactLabel = "Відкрити судук";
+
         public string GetDescription()
         {
-            return "Відкрити судук";
+            return interactLabel;
         }
 
         public void Interact(GameObject player)

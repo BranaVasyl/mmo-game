@@ -19,3 +19,5 @@ MonoBehaviour:
     Prefab: {fileID: 1845021260846373711, guid: d429d5f35c991e14fb8ac0fe872c5c40, type: 3}
   - Name: Chest
     Prefab: {fileID: 4968428784540676739, guid: 16f848cddf26197419a30849f225ca37, type: 3}
+  - Name: Bag
+    Prefab: {fileID: 7643720972520374075, guid: 6c8a05c77b98af54881863c8e3ff22d0, type: 3}
