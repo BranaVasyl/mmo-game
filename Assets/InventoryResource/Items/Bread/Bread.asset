@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69bc1bba57412ad42a8508edc3a75702, type: 3}
-  m_Name: Other
+  m_Name: Bread
   m_EditorClassIdentifier: 
-  id: other
-  name: "\u041F\u043B\u0430\u0442\u0438\u043D\u0430"
+  id: bread
+  name: "\u0425\u043B\u0456\u0431"
   description: 
   mass: -1
   price: -1
   width: 1
   height: 1
-  type: 8
-  icon: {fileID: 21300000, guid: 0815501dbb7e402498f6f41dff463380, type: 3}
+  type: 3
+  icon: {fileID: 21300000, guid: 8222f327a668815428198172b7b9c80f, type: 3}
   smallIcon: {fileID: 0}

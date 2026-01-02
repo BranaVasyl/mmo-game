@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69bc1bba57412ad42a8508edc3a75702, type: 3}
-  m_Name: Elixir
+  m_Name: Other
   m_EditorClassIdentifier: 
-  id: elixir
-  name: "\u041A\u0456\u0448\u043A\u0430"
+  id: platinum
+  name: "\u041F\u043B\u0430\u0442\u0438\u043D\u0430"
   description: 
   mass: -1
   price: -1
   width: 1
   height: 1
-  type: 4
-  icon: {fileID: 21300000, guid: 0ea7966ad5bcb294a96a575c50599afd, type: 3}
+  type: 5
+  icon: {fileID: 21300000, guid: 0815501dbb7e402498f6f41dff463380, type: 3}
   smallIcon: {fileID: 0}

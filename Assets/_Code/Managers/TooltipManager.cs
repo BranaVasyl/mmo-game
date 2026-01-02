@@ -46,6 +46,9 @@ namespace BV
                 case ItemType.elixir:
                     subtitle = "Еліксир";
                     break;
+                case ItemType.food:
+                    subtitle = "Їда";
+                    break;
                 default:
                     subtitle = "Сміття";
                     break;
