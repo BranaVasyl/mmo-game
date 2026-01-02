@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1889.6311, g: 1634.3596, b: 1969.5432, a: 1}
+  m_IndirectSpecularColor: {r: 1894.3743, g: 1638.0208, b: 1971.221, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5903,7 +5903,95 @@ MonoBehaviour:
   correctInventoryHiglight: {fileID: 304330305}
   incorrectInventoryHiglight: {fileID: 304330304}
   itemPrefab: {fileID: 2662955839771219752, guid: f79864b6059dcef46a2bc9ed54837d0d, type: 3}
-  gridSettings: []
+  gridSettings:
+  - gridId: otherGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 08000000
+    items: []
+  - gridId: craftGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 05000000
+    items: []
+  - gridId: questGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 09000000
+    items: []
+  - gridId: alchemyGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 06000000
+    items: []
+  - gridId: spellGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 01000000
+    items: []
+  - gridId: foodGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 03000000
+    items: []
+  - gridId: elixirGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 04000000
+    items: []
+  - gridId: butterGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 07000000
+    items: []
+  - gridId: armorGrid
+    gridSize: {x: 5, y: 7}
+    supportedItemType: 02000000
+    items: []
+  - gridId: weaponGrid
+    gridSize: {x: 4, y: 7}
+    supportedItemType: 00000000
+    items: []
+  - gridId: rightHandGrid
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
+    items: []
+  - gridId: leftHandGrid
+    gridSize: {x: 1, y: 2}
+    supportedItemType: 00000000
+    items: []
+  - gridId: quickSpellGrid1
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid2
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid3
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: quickSpellGrid4
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 01000000
+    items: []
+  - gridId: pocketsGrid1
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid2
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid3
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: pocketsGrid4
+    gridSize: {x: 1, y: 1}
+    supportedItemType: 0300000004000000
+    items: []
+  - gridId: chestGrid
+    gridSize: {x: 9, y: 7}
+    supportedItemType: 
+    items: []
+  - gridId: shopGrid
+    gridSize: {x: 9, y: 7}
+    supportedItemType: 
+    items: []
 --- !u!1 &309419830
 GameObject:
   m_ObjectHideFlags: 0
@@ -28859,7 +28947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: 1
+  interactLabel: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u0441\u0443\u0434\u0443\u043A"
 --- !u!135 &1436625940
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -30355,7 +30443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197fd6f339e16854b999afdebe5cc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestId: 2
+  interactLabel: "\u0412\u0456\u0434\u043A\u0440\u0438\u0442\u0438 \u0441\u0443\u0434\u0443\u043A"
 --- !u!1 &1493942608
 GameObject:
   m_ObjectHideFlags: 0
