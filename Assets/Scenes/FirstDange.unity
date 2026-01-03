@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1894.6301, g: 1638.1594, b: 1971.2659, a: 1}
+  m_IndirectSpecularColor: {r: 1892.8538, g: 1636.928, b: 1971.4534, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -36905,7 +36905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05219cd71d2971243b5ffa626d468a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridId: wepaonGrid
+  gridId: weaponGrid
   placeholder: {fileID: 0}
   gridSizeWidth: 4
   gridSizeHeight: 7
