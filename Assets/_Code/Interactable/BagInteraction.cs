@@ -43,6 +43,7 @@ namespace BV
                 if (Vector3.Distance(transform.position, player.transform.position) > 2)
                 {
                     PickUpManager.singleton.CloseBag();
+                    player = null;
                 }
             }
         }

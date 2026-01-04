@@ -173,17 +173,7 @@ namespace BV
                 return;
             }
 
-            // //@todo add QuestEvent to item ... if questEvents.count do trigger events
-            if (itemData.type == ItemType.quest)
-            {
-                string notificationTitle = "Отримано: Hовий квестовий предмет";
-                string notificationSubtitle = itemData.name;
-                Sprite notificationIcon = itemData.smallIcon != null ? itemData.smallIcon : itemData.icon;
-                NotificationActionType action = NotificationActionType.log;
-
-                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
-            }
-            NotificationManager.singleton.AddNewMessage("Отримано: " + itemData.name);
+            ItemPicked(itemData);
    
             int index = itemsData.FindIndex(i => i == inventoryItem);
 
@@ -201,41 +191,59 @@ namespace BV
 
         public async void TakeAllItems()
         {
-            // List<ItemData> completed = new List<ItemData>();
-            // foreach (ItemData item in itemsData)
-            // {
-            //     //request
-            //     bool result = false;
-            //     result = await PickUpItem(item.id);
-            //     if (!result)
-            //     {
-            //         continue;
-            //     }
+            if (itemsData.Count == 0)
+            {
+                return;
+            }
 
-            //     // result = GridManager.singleton.PickUpItem(item);
-            //     if (!result)
-            //     {
-            //         continue;
-            //     }
+            List<InventoryItemData> itemsToPick = new List<InventoryItemData>(itemsData);
+            for (int i = 0; i < itemsToPick.Count; i++)
+            {
+                InventoryItemData inventoryItem = itemsToPick[i];
+                ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItem.item.code);
 
-            //     completed.Add(item);
-            // }
+                bool success = await GridManager.singleton.PickUpItem(inventoryItem);
+                if (!success)
+                {
+                    NotificationManager.singleton.AddNewMessage("Немає місця для: " + itemData.name);
+                    continue;
+                }
 
-            // foreach (ItemData item in completed)
-            // {
-            //     int index = itemsData.FindIndex(i => i == item);
+                ItemPicked(itemData);
 
-            //     GameObject itemUI = itemsObject[index];
-            //     itemsObject.Remove(itemUI);
-            //     Destroy(itemUI);
+                int index = itemsData.FindIndex(i => i.id == inventoryItem.id);
+                if (index >= 0)
+                {
+                    GameObject itemUI = itemsObject[index];
+                    itemsObject.RemoveAt(index);
+                    Destroy(itemUI);
 
-            //     itemsData.Remove(item);
-            // }
+                    itemsData.RemoveAt(index);
+                }
+            }
 
-            // if (itemsData.Count == 0)
-            // {
-            //     CloseBag();
-            // }
+            if (itemsData.Count == 0)
+            {
+                CloseBag();
+            }
+        }
+
+        private void ItemPicked(ItemData itemData)
+        {
+            //@todo move to event listener
+            if (itemData.type == ItemType.quest)
+                {
+                    NotificationManager.singleton.AddNewNotification(
+                        new NotificationData(
+                            "Отримано: Новий квестовий предмет",
+                            itemData.name,
+                            itemData.smallIcon != null ? itemData.smallIcon : itemData.icon,
+                            NotificationActionType.log
+                        )
+                    );
+                }
+
+            NotificationManager.singleton.AddNewMessage("Отримано: " + itemData.name);
         }
 
         private void CleanItemsList()
