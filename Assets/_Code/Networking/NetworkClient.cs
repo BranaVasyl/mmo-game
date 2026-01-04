@@ -260,8 +260,8 @@ namespace Project.Networking
 
             On("setBagData", (E) =>
             {
-                InventoryGridData bagData = JsonUtility.FromJson<InventoryGridData>(E.data.ToString());
-                PickUpManager.singleton.SetBagData(bagData.items);
+                InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
+                PickUpManager.singleton.SetBagData(gridDataWrapper.data);
             });
 
             On("setChestData", (E) =>

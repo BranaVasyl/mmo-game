@@ -89,7 +89,7 @@ namespace BV
         public List<CanPlaceItemDelegate> canPlaceItemCallback = new List<CanPlaceItemDelegate>();
 
         [HideInInspector]
-        public delegate Task<bool> UpdateItemPositionDelegate(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position);
+        public delegate Task<bool> UpdateItemPositionDelegate(UpdateItemPositionData itemUpdateData);
         [HideInInspector]
         public List<UpdateItemPositionDelegate> updateItemPositionCallback = new List<UpdateItemPositionDelegate>();
 
@@ -468,16 +468,23 @@ namespace BV
                 return result;
             }
 
+            UpdateItemPositionData updateItemData = new UpdateItemPositionData(startItemGrid.gridId, selectedItemGrid.gridId, selectedItem.id, tileGridPosition, selectedItem.rotated);
+            return await ExecuteUpdateItemPositionCallbacks(updateItemData);
+        }
+
+        private async Task<bool> ExecuteUpdateItemPositionCallbacks(UpdateItemPositionData updateItemData)
+        {
             for (int i = 0; i < updateItemPositionCallback.Count; i++)
             {
-                result = await updateItemPositionCallback[i](startItemGrid, selectedItemGrid, selectedItem, tileGridPosition);
+                bool result = await updateItemPositionCallback[i](updateItemData);
+
                 if (!result)
                 {
-                    return result;
+                    return false;
                 }
             }
 
-            return result;
+            return true;
         }
 
         private void InsertRandomItem()
@@ -606,62 +613,58 @@ namespace BV
             loadInProcsess = false;
         }
 
-        public bool PickUpItem(ItemData item)
+        public async Task<bool> PickUpItem(InventoryItemData inventoryItem)
         {
-            //@todo
-            // ref List<InventoryGridData> inventoryData = ref SampleSceneManager.singleton.playerInventoryData;
-            // int gridIndex = inventoryData.FindIndex(el =>
-            // {
-            //     for (int i = 0; i < el.supportedItemType.Count; i++)
-            //     {
-            //         if (el.supportedItemType[i] == item.type)
-            //         {
-            //             return true;
-            //         }
-            //     }
+            int startGridIndex = inventoryData.FindIndex(el =>
+                el.items.Any(i => i.id == inventoryItem.id)
+            );
 
-            //     return false;
-            // });
+            if (startGridIndex == -1)
+            {
+                return false;
+            }
 
-            // if (gridIndex == -1)
-            // {
-            //     return false;
-            // }
-            // InventoryGridData gridData = inventoryData[gridIndex];
+            ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItem.item.code);
+            int targetGridIndex = inventoryData.FindIndex(el =>
+                el.supportedItemType.Contains(itemData.type)
+            );
 
-            // bool rotated = false;
-            // bool[,] inventoryDataMatrix = GenerateInventoryDataMatrix(gridData);
+            if (targetGridIndex == -1)
+            {
+                return false;
+            }
+            InventoryGridData startGridData = inventoryData[startGridIndex];
+            InventoryGridData targetGridData = inventoryData[targetGridIndex];
 
-            // Vector2Int? itemPosition = FindSpaceForObject(item.width, item.height, gridData, inventoryDataMatrix);
-            // if (itemPosition == null)
-            // {
-            //     rotated = true;
-            //     itemPosition = FindSpaceForObject(item.height, item.width, gridData, inventoryDataMatrix);
-            // }
+            bool rotated = false;
+            bool[,] inventoryDataMatrix = GenerateInventoryDataMatrix(targetGridData);
 
-            // if (itemPosition == null)
-            // {
-            //     NotificationManager.singleton.AddNewMessage("Hемає місця для: " + item.name);
-            //     return false;
-            // }
+            Vector2Int? itemPosition = FindSpaceForObject(itemData.width, itemData.height, targetGridData, inventoryDataMatrix);
+            if (itemPosition == null)
+            {
+                rotated = true;
+                itemPosition = FindSpaceForObject(itemData.height, itemData.width, targetGridData, inventoryDataMatrix);
+            }
 
-            // //@todo add QuestEvent to item ... if questEvents.count do trigger events
-            // if (item.type == ItemType.quest)
-            // {
-            //     string notificationTitle = "Отримано: Hовий квестовий предмет";
-            //     string notificationSubtitle = item.name;
-            //     Sprite notificationIcon = item.smallIcon != null ? item.smallIcon : item.icon;
-            //     NotificationActionType action = NotificationActionType.log;
+            if (itemPosition == null)
+            {   
+                return false;
+            }
 
-            //     NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
-            // }
+            UpdateItemPositionData updateItemData = new UpdateItemPositionData(startGridData.gridId, targetGridData.gridId, inventoryItem.id, itemPosition.Value, inventoryItem.rotated);
+            bool result = await ExecuteUpdateItemPositionCallbacks(updateItemData);
+            
+            if (result)
+            {
+                startGridData.items.RemoveAll(i => i.id == inventoryItem.id);
 
-            // NotificationManager.singleton.AddNewMessage("Отримано: " + item.name);
+                inventoryItem.rotated = rotated;
+                inventoryItem.position = itemPosition.Value;
 
-            // InventoryItemData newItemData = new InventoryItemData("fix me", itemPosition.Value.x, itemPosition.Value.y, rotated, item.id);
-            // inventoryData[gridIndex].items.Add(newItemData);
-
-            return true;
+                targetGridData.items.Add(inventoryItem);
+            }
+            
+            return result;
         }
 
         private bool[,] GenerateInventoryDataMatrix(InventoryGridData gridData)

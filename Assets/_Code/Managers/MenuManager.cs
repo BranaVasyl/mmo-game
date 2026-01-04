@@ -16,7 +16,7 @@ namespace BV
 
         public GameObject gameMenu;
         public List<MenuPanel> menuPanels;
-        private List<MenuPanel> activePanels;
+        private List<MenuPanel> activePanels = new List<MenuPanel>();
 
         private bool isOpen;
         private MenuPanel currentPanel;
@@ -85,7 +85,6 @@ namespace BV
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("chest");
-            activatePanel.Add("inventory");
 
             OpenMenu(activatePanel);
         }
@@ -97,14 +96,13 @@ namespace BV
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("shop");
-            activatePanel.Add("inventory");
 
             OpenMenu(activatePanel);
         }
 
         public void CloseMenu()
         {
-            ClosePanels();
+            CloseActivePanels();
             panelMoney.GetComponent<TMP_Text>().text = "";
 
             activePanels = new List<MenuPanel>();
@@ -138,13 +136,23 @@ namespace BV
             currentPanel.gameObject.SetActive(false);
         }
 
-        private void ClosePanels()
+        private void CloseAllPanels()
         {
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < menuPanels.Count; i++)
             {
                 menuPanels[i].Deinit();
                 menuPanels[i].gameObject.SetActive(false);
+            }
+        }
+
+        private void CloseActivePanels()
+        {
+            panelName.GetComponent<TMP_Text>().text = "";
+            for (int i = 0; i < activePanels.Count; i++)
+            {
+                activePanels[i].Deinit();
+                activePanels[i].gameObject.SetActive(false);
             }
         }
 

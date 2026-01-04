@@ -128,14 +128,12 @@ namespace BV
             return result;
         }
 
-        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
+        private async Task<bool> UpdateItemPositionCallback(UpdateItemPositionData itemUpdateData)
         {
             bool requestStatus = false;
             bool result = false;
 
-            UpdateItemPositionData itemPosition = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
-            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemPosition));
-
+            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemUpdateData));
             sendData.AddField("characterId", characterId);
 
             NetworkRequestManager.Instance.EmitWithTimeout(
@@ -159,7 +157,6 @@ namespace BV
                     (msg) =>
                         {
                             requestStatus = true;
-                            ApplicationManager.Instance.CloseSpinerLoader();
                             ApplicationManager.Instance.ShowConfirmationModal("Не вдалося купити предмет");
                         }
                 )
@@ -190,6 +187,8 @@ namespace BV
                 JSONObject shopData = new();
                 shopData.AddField("characterId", characterId);
                 NetworkClient.Instance.Emit("shopClose", shopData);
+
+                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             characterId = "";

@@ -79,14 +79,12 @@ namespace BV
             );
         }
 
-        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
+        private async Task<bool> UpdateItemPositionCallback(UpdateItemPositionData itemUpdateData)
         {
             bool requestStatus = false;
             bool result = false;
 
-            UpdateItemPositionData itemPosition = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
-            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemPosition));
-
+            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemUpdateData));
             sendData.AddField("chestId", currentChestId);
 
             NetworkRequestManager.Instance.EmitWithTimeout(
@@ -101,7 +99,6 @@ namespace BV
                     (msg) =>
                         {
                             requestStatus = true;
-                            ApplicationManager.Instance.CloseSpinerLoader();
                             ApplicationManager.Instance.ShowConfirmationModal("Не вдалося підібрати передмет");
                         }
                 )
@@ -129,6 +126,8 @@ namespace BV
                 JSONObject chestData = new();
                 chestData.AddField("chestId", currentChestId);
                 NetworkClient.Instance.Emit("chestClose", chestData);
+
+                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             currentChestId = "";

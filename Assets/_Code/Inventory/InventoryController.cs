@@ -61,16 +61,15 @@ namespace BV
             );
         }
 
-        private async Task<bool> UpdateItemPositionCallback(ItemGrid startGrid, ItemGrid targetGrid, InventoryItem selectedItem, Vector2Int position)
+        private async Task<bool> UpdateItemPositionCallback(UpdateItemPositionData itemUpdateData)
         {
             bool requestStatus = false;
             bool result = false;
 
-            UpdateItemPositionData sendData = new UpdateItemPositionData(startGrid.gridId, targetGrid.gridId, selectedItem.id, position, selectedItem.rotated);
             NetworkRequestManager.Instance.EmitWithTimeout(
                 new NetworkEvent(
                     "inventoryChange",
-                    new JSONObject(JsonUtility.ToJson(sendData)),
+                    new JSONObject(JsonUtility.ToJson(itemUpdateData)),
                     (response) =>
                         {
                             result = response[0]["result"].ToString() == "true";
@@ -82,7 +81,6 @@ namespace BV
                     (msg) =>
                         {
                             requestStatus = true;
-                            ApplicationManager.Instance.CloseSpinerLoader();
                             ApplicationManager.Instance.ShowConfirmationModal("Не вдалося перенести предмет");
                         }
                 )

@@ -20,7 +20,7 @@ namespace BV
                 int selectedItemID = UnityEngine.Random.Range(0, ItemsManager.singleton.GetItemsCount());
                 ItemData randomItem = ItemsManager.singleton.GetItemByIndex(selectedItemID);
 
-                GridManager.singleton.PickUpItem(randomItem);
+                // GridManager.singleton.PickUpItem(randomItem);
                 return;
             }
 
@@ -30,7 +30,7 @@ namespace BV
                 return;
             }
 
-            GridManager.singleton.PickUpItem(item);
+            // GridManager.singleton.PickUpItem(item);
         }
     }
 }

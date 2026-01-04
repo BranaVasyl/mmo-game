@@ -16,158 +16,226 @@ namespace BV
         private GameUIManager gameUIManager;
 
         public GameObject itemsContainer;
+        private GridManager gridManager;
 
         [Header("Bag data")]
-        private GameObject currentBagObject;
         private string currentbagId = "";
 
         [Header("Player data")]
         private List<GameObject> itemsObject = new List<GameObject>();
-        private List<ItemData> itemsData = new List<ItemData>();
+        private List<InventoryItemData> itemsData = new List<InventoryItemData>();
 
         public void Init(SampleSceneManager mC)
         {
             managersController = mC;
             gameUIManager = GameUIManager.singleton;
+
+            gridManager = GridManager.singleton;
         }
 
-        public void OpenBag(string bagId, GameObject bagObject)
+        public void OpenBag(string bagId)
         {
             currentbagId = bagId;
-            currentBagObject = bagObject;
 
-            gameUIManager.ShowBagUI();
+            List<NetworkEvent> events = new List<NetworkEvent>();
 
             JSONObject bagData = new();
-            bagData.AddField("id", currentbagId);
+            bagData.AddField("bagId", currentbagId);
 
-            NetworkClient.Instance.Emit("openBag", bagData);
+            events.Add(
+                new NetworkEvent(
+                    "bagOpen",
+                    bagData,
+                    (response) =>
+                        {
+                            gameUIManager.ShowBagUI();
+
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            SetBagData(gridDataWrapper.data);
+                        }
+                )
+            );
+
+            events.Add(
+                new NetworkEvent(
+                    "inventoryOpen",
+                    null,
+                    (response) =>
+                        {
+                            InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
+                            gridManager.SetData(gridDataWrapper.data);
+                        }
+                )
+            );
+
+            ApplicationManager.Instance.ShowSpinerLoader();
+            NetworkRequestManager.Instance.EmitWithTimeoutAll(
+                events,
+                () =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        gridManager.updateItemPositionCallback.Add(UpdateItemPositionCallback);
+                    },
+                (msg) =>
+                    {
+                        ApplicationManager.Instance.CloseSpinerLoader();
+                        ApplicationManager.Instance.ShowConfirmationModal("Не вдалося відкрити сумку", () =>
+                            {
+                                gameUIManager.HideBagUI();
+                            });
+                    }
+            );
         }
 
-        public void SetBagData(List<InventoryItemData> items)
+        private async Task<bool> UpdateItemPositionCallback(UpdateItemPositionData itemUpdateData)
         {
-            GameObject itemTemplate = itemsContainer.transform.GetChild(0).gameObject;
-            GameObject g;
+            bool requestStatus = false;
+            bool result = false;
 
-            for (int i = 0; i < items.Count; i++)
+            JSONObject sendData = new JSONObject(JsonUtility.ToJson(itemUpdateData));
+            sendData.AddField("bagId", currentbagId);
+
+            NetworkRequestManager.Instance.EmitWithTimeout(
+                new NetworkEvent(
+                    "bagChange",
+                    sendData,
+                    (response) =>
+                        {
+                            result = response[0]["result"].ToString() == "true";
+                            requestStatus = true;
+                        },
+                    (msg) =>
+                        {
+                            requestStatus = true;
+                            ApplicationManager.Instance.ShowConfirmationModal("Не вдалося підібрати передмет");
+                        }
+                )
+            );
+
+            while (!requestStatus)
             {
-                ItemData itemData = ItemsManager.Instance.GetItemById(items[i].item.code);
-                if (itemData == null)
+                await Task.Yield();
+            }
+
+            return result;
+        }
+
+        public void SetBagData(List<InventoryGridData> data)
+        {
+            CleanItemsList();
+            
+            gridManager.SetData(data);
+
+            for (int j = 0; j < data.Count; j++)
+            {
+                GameObject itemTemplate = itemsContainer.transform.GetChild(0).gameObject;
+                GameObject g;
+
+                for (int i = 0; i < data[j].items.Count; i++)
                 {
-                    continue;
+                    InventoryItemData inventoryItemData = data[j].items[i];
+                    ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItemData.item.code);
+                    if (itemData == null)
+                    {
+                        continue;
+                    }
+
+                    g = Instantiate(itemTemplate, itemsContainer.transform);
+                    g.transform.GetChild(0).GetComponent<Image>().sprite = itemData.smallIcon == null ? itemData.icon : itemData.smallIcon;
+                    g.transform.GetChild(1).GetComponent<TMP_Text>().text = itemData.name;
+                    g.transform.GetChild(2).GetComponent<TMP_Text>().text = itemData.type.ToString();
+
+                    itemsData.Add(inventoryItemData);
+                    itemsObject.Add(g);
+                    g.SetActive(true);
                 }
 
-                g = Instantiate(itemTemplate, itemsContainer.transform);
-                g.transform.GetChild(0).GetComponent<Image>().sprite = itemData.smallIcon == null ? itemData.icon : itemData.smallIcon;
-                g.transform.GetChild(1).GetComponent<TMP_Text>().text = itemData.name;
-                g.transform.GetChild(2).GetComponent<TMP_Text>().text = itemData.type.ToString();
-
-                itemsData.Add(itemData);
-                itemsObject.Add(g);
-                g.SetActive(true);
+                for (int i = 0; i < itemsObject.Count; i++)
+                {
+                    itemsObject[i].GetComponent<Button>().AddEventListener(itemsData[i], ItemClicked);
+                }
             }
 
-            for (int i = 0; i < itemsObject.Count; i++)
+            if (itemsData.Count == 0)
             {
-                itemsObject[i].GetComponent<Button>().AddEventListener(itemsData[i], ItemClicked);
+                CloseBag();
             }
         }
 
-        private async Task<bool> PickUpItem(string itemId)
+        async void ItemClicked(InventoryItemData inventoryItem)
         {
-            return true;
+            ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItem.item.code);
 
-            // bool requestStatus = false;
-            // bool result = false;
-
-            // SendChestPickUpData sendData = new SendChestPickUpData(NetworkClient.SessionID, currentbagId, itemId, 1);
-            // NetworkClient.Instance.Emit("chestPickUp", new JSONObject(JsonUtility.ToJson(sendData)), (response) =>
-            // {
-            //     var data = response[0];
-            //     result = data["result"].ToString() == "true";
-
-            //     requestStatus = true;
-            // });
-
-            // while (!requestStatus)
-            // {
-            //     await Task.Yield();
-            // }
-
-            // return result;
-        }
-
-        async void ItemClicked(ItemData item)
-        {
-            //request
-            bool result = false;
-            result = await PickUpItem(item.id);
-            if (!result)
+            bool success = await GridManager.singleton.PickUpItem(inventoryItem);
+            if (!success)
             {
+                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + itemData.name);
                 return;
             }
 
-            result = GridManager.singleton.PickUpItem(item);
-            if (!result)
+            // //@todo add QuestEvent to item ... if questEvents.count do trigger events
+            if (itemData.type == ItemType.quest)
             {
-                return;
-            }
+                string notificationTitle = "Отримано: Hовий квестовий предмет";
+                string notificationSubtitle = itemData.name;
+                Sprite notificationIcon = itemData.smallIcon != null ? itemData.smallIcon : itemData.icon;
+                NotificationActionType action = NotificationActionType.log;
 
-            int index = itemsData.FindIndex(i => i == item);
+                NotificationManager.singleton.AddNewNotification(new NotificationData(notificationTitle, notificationSubtitle, notificationIcon, action));
+            }
+            NotificationManager.singleton.AddNewMessage("Отримано: " + itemData.name);
+   
+            int index = itemsData.FindIndex(i => i == inventoryItem);
 
             GameObject itemUI = itemsObject[index];
             itemsObject.Remove(itemUI);
             Destroy(itemUI);
 
-            itemsData.Remove(item);
+            itemsData.Remove(inventoryItem);
 
             if (itemsData.Count == 0)
             {
-                Debug.Log("Debu Remove Object");
-                //Destroy(currentBagObject);
                 CloseBag();
             }
         }
 
         public async void TakeAllItems()
         {
-            List<ItemData> completed = new List<ItemData>();
-            foreach (ItemData item in itemsData)
-            {
-                //request
-                bool result = false;
-                result = await PickUpItem(item.id);
-                if (!result)
-                {
-                    continue;
-                }
+            // List<ItemData> completed = new List<ItemData>();
+            // foreach (ItemData item in itemsData)
+            // {
+            //     //request
+            //     bool result = false;
+            //     result = await PickUpItem(item.id);
+            //     if (!result)
+            //     {
+            //         continue;
+            //     }
 
-                result = GridManager.singleton.PickUpItem(item);
-                if (!result)
-                {
-                    continue;
-                }
+            //     // result = GridManager.singleton.PickUpItem(item);
+            //     if (!result)
+            //     {
+            //         continue;
+            //     }
 
-                completed.Add(item);
-            }
+            //     completed.Add(item);
+            // }
 
-            foreach (ItemData item in completed)
-            {
-                int index = itemsData.FindIndex(i => i == item);
+            // foreach (ItemData item in completed)
+            // {
+            //     int index = itemsData.FindIndex(i => i == item);
 
-                GameObject itemUI = itemsObject[index];
-                itemsObject.Remove(itemUI);
-                Destroy(itemUI);
+            //     GameObject itemUI = itemsObject[index];
+            //     itemsObject.Remove(itemUI);
+            //     Destroy(itemUI);
 
-                itemsData.Remove(item);
-            }
+            //     itemsData.Remove(item);
+            // }
 
-            if (itemsData.Count == 0)
-            {
-                Debug.Log("Debu Remove Object");
-                //Destroy(currentBagObject);
-                CloseBag();
-            }
+            // if (itemsData.Count == 0)
+            // {
+            //     CloseBag();
+            // }
         }
 
         private void CleanItemsList()
@@ -178,21 +246,24 @@ namespace BV
             }
 
             itemsObject = new List<GameObject>();
-            itemsData = new List<ItemData>();
+            itemsData = new List<InventoryItemData>();
         }
 
         public void CloseBag()
         {
-            if (!String.IsNullOrEmpty(currentbagId))
-            {
-                JSONObject bagData = new();
-                bagData.AddField("id", currentbagId);
 
-                NetworkClient.Instance.Emit("closeBag", bagData);
+            if (gridManager != null)
+            {
+                gridManager.Deinit();
+
+                JSONObject bagData = new();
+                bagData.AddField("bagId", currentbagId);
+                NetworkClient.Instance.Emit("bagClose", bagData);
+
+                NetworkClient.Instance.Emit("inventoryClose");
             }
 
             Clean();
-            currentBagObject = null;
             gameUIManager.HideBagUI();
         }
 
