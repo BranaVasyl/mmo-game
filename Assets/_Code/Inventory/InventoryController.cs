@@ -19,7 +19,7 @@ namespace BV
         private UnityEvent<List<InventoryGridData>> onUpdateEquip = new UnityEvent<List<InventoryGridData>>();
 
 
-        public override void Init(SampleSceneManager mC, MenuManager mM)
+        public override void Init(MenuManager mM)
         {
             singleton = this;
             menuManager = mM;

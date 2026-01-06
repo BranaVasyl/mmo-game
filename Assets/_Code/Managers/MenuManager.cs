@@ -9,11 +9,8 @@ using Project.Networking;
 
 namespace BV
 {
-    public class MenuManager : MonoBehaviour
+    public class MenuManager : Singleton<MenuManager>
     {
-        [HideInInspector]
-        public SampleSceneManager managersController;
-
         public GameObject gameMenu;
         public List<MenuPanel> menuPanels;
         private List<MenuPanel> activePanels = new List<MenuPanel>();
@@ -32,12 +29,7 @@ namespace BV
         void Start()
         {
             CloseMenu();
-        }
-
-        public void Init(SampleSceneManager mC)
-        {
-            managersController = mC;
-            menuPanels.ForEach(panel => panel.Init(managersController, this));
+            menuPanels.ForEach(panel => panel.Init( this));
         }
 
         public bool IsOpen()
@@ -121,7 +113,7 @@ namespace BV
             panelName.GetComponent<TMP_Text>().text = currentPanel.panelName;
 
             //@todo get money in server
-            RenderMoney(managersController.currentPlayerGameObject.GetComponent<StateManager>().money);
+            // RenderMoney(managersController.currentPlayerGameObject.GetComponent<StateManager>().money);
 
             currentPanel.gameObject.SetActive(true);
 

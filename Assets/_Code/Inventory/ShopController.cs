@@ -12,7 +12,6 @@ namespace BV
 {
     public class ShopController : MenuPanel
     {
-        private SampleSceneManager managersController;
         private MenuManager menuManager;
 
         public GameObject shopNameObject;
@@ -27,11 +26,10 @@ namespace BV
         private float shopMoney = 0;
         private float playerMoney = 0;
 
-        public override void Init(SampleSceneManager mC, MenuManager mM)
+        public override void Init(MenuManager mM)
         {
             singleton = this;
 
-            managersController = mC;
             menuManager = mM;
 
             gridManager = GridManager.singleton;

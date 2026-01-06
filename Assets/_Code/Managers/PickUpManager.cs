@@ -155,11 +155,6 @@ namespace BV
                     itemsObject[i].GetComponent<Button>().AddEventListener(itemsData[i], ItemClicked);
                 }
             }
-
-            if (itemsData.Count == 0)
-            {
-                CloseBag();
-            }
         }
 
         async void ItemClicked(InventoryItemData inventoryItem)
@@ -259,7 +254,6 @@ namespace BV
 
         public void CloseBag()
         {
-
             if (gridManager != null)
             {
                 gridManager.Deinit();

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BV
 {
-    public class GridManager : MonoBehaviour
+    public class GridManager : Singleton<GridManager>
     {
         public static readonly string[] INVENTORY_GRID_LIST =
 {
@@ -96,7 +96,7 @@ namespace BV
         [Header("Loader")]
         private bool loadInProcsess = false;
 
-        public void Init()
+        public void Start()
         {
             itemsManager = ItemsManager.singleton;
 
