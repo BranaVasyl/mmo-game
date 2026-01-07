@@ -26,6 +26,14 @@ namespace BV
         public GameObject nextArrowNavigation;
         public GameObject panelMoney;
 
+        [Header("Menu custom data")]
+        [Header("Chest")]
+        public string activeChestId = "";
+
+        [Header("Shop")]
+        public string activeShopId = "";
+        public string activeShopName = "";
+
         void Start()
         {
             CloseMenu();
@@ -73,21 +81,23 @@ namespace BV
 
         public void OpenChest(string chestId)
         {
-            ChestController.singleton.currentChestId = chestId;
+            activeChestId = chestId;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("chest");
+            activatePanel.Add("inventory");
 
             OpenMenu(activatePanel);
         }
 
         public void OpenShop(CharacterManager states)
         {
-            ShopController.singleton.characterId = states.networkIdentity.GetID();
-            ShopController.singleton.characterName = states.displayedName;
+            activeShopId = states.networkIdentity.GetID();
+            activeShopName = states.displayedName;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("shop");
+            activatePanel.Add("inventory");
 
             OpenMenu(activatePanel);
         }
@@ -101,6 +111,11 @@ namespace BV
 
             prevArrowNavigation.SetActive(false);
             nextArrowNavigation.SetActive(false);
+            
+            activeChestId = "";
+
+            activeShopId = "";
+            activeShopName = "";
 
             gameMenu.SetActive(false);
             isOpen = false;

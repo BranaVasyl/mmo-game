@@ -26,6 +26,8 @@ namespace BV
 
         public override void Open()
         {
+            currentChestId = menuManager.activeChestId;
+
             if (string.IsNullOrEmpty(currentChestId))
             {
                 return;

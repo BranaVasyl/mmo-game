@@ -38,6 +38,9 @@ namespace BV
 
         public override void Open()
         {
+            characterId = menuManager.activeShopId;
+            characterName = menuManager.activeShopName;
+
             if (string.IsNullOrEmpty(characterId))
             {
                 return;
