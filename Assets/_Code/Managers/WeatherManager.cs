@@ -32,7 +32,7 @@ namespace BV
         private bool isNight;
         private PhysicallyBasedSky sky;
 
-        public void Init()
+        void Start()
         {
             skyVolume.profile.TryGet(out sky);
         }

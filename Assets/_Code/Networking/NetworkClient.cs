@@ -27,8 +27,8 @@ namespace Project.Networking
         [HideInInspector]
         private bool isConnected = false;
 
-        [HideInInspector]
-        public UnityEvent<GameObject, PlayerData> onPlayerSpawned;
+        [Header("Player Data")]
+        public GameObject currentPlayerGameObject;
 
         private static NetworkClient instance;
         public static NetworkClient Instance
@@ -142,7 +142,7 @@ namespace Project.Networking
                 {
                     ni.setIsControling(true);
                     CameraManager.Instance.gameObject.transform.position = playerData.position;
-                    onPlayerSpawned.Invoke(go, playerData);
+                    currentPlayerGameObject = go;
                 }
 
                 serverObjects.Add(playerData.id, ni);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Project.Networking;
 
 namespace BV
 {
@@ -23,7 +24,7 @@ namespace BV
 
         public void OpenMenu()
         {
-            inventoryManager = SampleSceneManager.singleton.currentPlayerGameObject.GetComponent<InventoryManager>();
+            inventoryManager = NetworkClient.Instance.currentPlayerGameObject.GetComponent<InventoryManager>();
             
             if (inventoryManager == null)
             {
