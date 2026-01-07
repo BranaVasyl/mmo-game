@@ -9,13 +9,7 @@ namespace BV
 {
     public class DamageManager : MonoBehaviour
     {
-        private SampleSceneManager managersController;
         public List<KillListener> killListeners;
-
-        public void Init(SampleSceneManager mC)
-        {
-            managersController = mC;
-        }
 
         public void CreatateDamageEvent(CharacterManager agent, CharacterManager target, float damage)
         {

@@ -38,7 +38,7 @@ namespace BV
         public AudioClip logAudio;
         private AudioSource audioSource;
 
-        public void Init()
+        void Start()
         {
             //notification
             notificationTemplate.SetActive(false);

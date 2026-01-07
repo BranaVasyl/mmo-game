@@ -12,7 +12,6 @@ namespace BV
 {
     public class PickUpManager : MonoBehaviour
     {
-        private SampleSceneManager managersController;
         private GameUIManager gameUIManager;
 
         public GameObject itemsContainer;
@@ -28,11 +27,9 @@ namespace BV
         private GameObject interactedBag;
         private GameObject interactedPlayer;
 
-        public void Init(SampleSceneManager mC)
+        void Start()
         {
-            managersController = mC;
             gameUIManager = GameUIManager.singleton;
-
             gridManager = GridManager.singleton;
         }
 
@@ -204,11 +201,6 @@ namespace BV
 
         public async void TakeAllItems()
         {
-            if (itemsData.Count == 0)
-            {
-                return;
-            }
-
             List<InventoryItemData> itemsToPick = new List<InventoryItemData>(itemsData);
             for (int i = 0; i < itemsToPick.Count; i++)
             {

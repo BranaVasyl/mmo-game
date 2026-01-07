@@ -39,8 +39,11 @@ namespace BV
         private NewPlayerControls inputActions;
         private bool rb_input = false;
 
-        public void Init()
+        void Start()
         {
+            questManager = QuestManager.singleton;
+            gameUIManager = GameUIManager.singleton;
+
             if (inputActions == null)
             {
                 inputActions = new NewPlayerControls();
@@ -48,12 +51,6 @@ namespace BV
             }
 
             inputActions.Enable();
-        }
-
-        private void Start()
-        {
-            questManager = QuestManager.singleton;
-            gameUIManager = GameUIManager.singleton;
         }
 
         public void UpdateDialogList(string NPC_Id, string dialogId)

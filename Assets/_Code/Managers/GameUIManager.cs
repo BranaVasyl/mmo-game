@@ -5,8 +5,6 @@ using TMPro;
 
 public class GameUIManager : MonoBehaviour
 {
-    public GameObject loginPanel;
-
     public GameObject gameUI;
 
     [Header("Dialog")]
@@ -36,18 +34,13 @@ public class GameUIManager : MonoBehaviour
 
     public void Start()
     {
+        Show();
+
         HideInteractionUI();
         HideBagUI();
-
-        //loginPanel.SetActive(true);
-    }
-
-    public void Init()
-    {
-        Show();
-        ShowWeatherUI();
-        ShowChatUI();
         ShowNotificationUI();
+        ShowChatUI();
+        ShowWeatherUI();
     }
 
     public void Show()
