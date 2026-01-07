@@ -8,7 +8,6 @@ namespace BV
     public class BagInteraction : MonoBehaviour, IInteractable
     {
         public string interactLabel = "Відкрити сумку";
-        private GameObject player;
 
         public string GetDescription()
         {
@@ -29,22 +28,8 @@ namespace BV
 
             if (meta.HasField("storageId"))
             {
-                player = character;
-
                 string storageId = meta["storageId"].str;
-                PickUpManager.singleton.OpenBag(storageId);
-            }
-        }
-
-        private void Update()
-        {
-            if (player != null)
-            {
-                if (Vector3.Distance(transform.position, player.transform.position) > 2)
-                {
-                    PickUpManager.singleton.CloseBag();
-                    player = null;
-                }
+                PickUpManager.singleton.OpenBag(storageId, gameObject, character);
             }
         }
     }

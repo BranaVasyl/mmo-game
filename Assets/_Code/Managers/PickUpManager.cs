@@ -25,6 +25,9 @@ namespace BV
         private List<GameObject> itemsObject = new List<GameObject>();
         private List<InventoryItemData> itemsData = new List<InventoryItemData>();
 
+        private GameObject interactedBag;
+        private GameObject interactedPlayer;
+
         public void Init(SampleSceneManager mC)
         {
             managersController = mC;
@@ -33,9 +36,24 @@ namespace BV
             gridManager = GridManager.singleton;
         }
 
-        public void OpenBag(string bagId)
+        private void Update()
+        {
+            if (interactedBag == null || interactedPlayer == null)
+            {
+                return;
+            }
+
+            if (Vector3.Distance(interactedBag.transform.position, interactedPlayer.transform.position) > 2)
+            {
+                CloseBag();
+            }
+        }
+
+        public void OpenBag(string bagId, GameObject bagObject, GameObject character)
         {
             currentbagId = bagId;
+            interactedBag = bagObject;
+            interactedPlayer = character;
 
             List<NetworkEvent> events = new List<NetworkEvent>();
 
@@ -266,6 +284,9 @@ namespace BV
             }
 
             Clean();
+            interactedBag = null;
+            interactedPlayer = null;
+
             gameUIManager.HideBagUI();
         }
 
