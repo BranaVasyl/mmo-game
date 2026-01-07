@@ -9,9 +9,7 @@ namespace BV
 {
     public class SampleSceneManager : MonoBehaviour
     {
-        public PieMenuManager pieMenuManager;
         public WeatherManager weatherManager;
-        public TooltipManager tooltipManager;
 
         [Header("Player Data")]
         public GameObject currentPlayerGameObject;
@@ -24,16 +22,12 @@ namespace BV
                 InitManagers();
             });
 
-            pieMenuManager = PieMenuManager.singleton;
             weatherManager = WeatherManager.singleton;
-            tooltipManager = TooltipManager.singleton;
         }
 
         private void InitManagers()
         {
-            pieMenuManager.Init(this);
             weatherManager.Init();
-            tooltipManager.Init();
         }
 
         public static SampleSceneManager singleton;

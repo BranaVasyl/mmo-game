@@ -16,11 +16,6 @@ namespace BV
             CloseMenu();
         }
 
-        public void Init(SampleSceneManager mC)
-        {
-            inventoryManager = mC.currentPlayerGameObject.GetComponent<InventoryManager>();
-        }
-
         public bool IsOpen()
         {
             return isOpen;
@@ -28,6 +23,13 @@ namespace BV
 
         public void OpenMenu()
         {
+            inventoryManager = SampleSceneManager.singleton.currentPlayerGameObject.GetComponent<InventoryManager>();
+            
+            if (inventoryManager == null)
+            {
+                return;
+            }
+
             Spell[] reversedSpells = (Spell[])inventoryManager.quickSpells.Clone();
             Array.Reverse(reversedSpells);
 

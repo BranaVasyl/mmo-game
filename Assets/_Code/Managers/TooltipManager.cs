@@ -11,7 +11,7 @@ namespace BV
         public GameObject tooltipContainer;
         public Tooltip tooltip;
 
-        public void Init()
+        void Start()
         {
             tooltip.Init();
             tooltipContainer.SetActive(true);
