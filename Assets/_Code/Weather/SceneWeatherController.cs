@@ -19,10 +19,14 @@ namespace BV
         private PhysicallyBasedSky sky;
         private bool isNight;
 
+        private WeatherManager weatherManager;
+
         void Start()
         {
             skyVolume.profile.TryGet(out sky);
-            WeatherManager.Instance.RegisterScene(this);
+
+            weatherManager = WeatherManager.Instance;
+            weatherManager.RegisterScene(this);
         }
 
         public void ApplyTime(float timeOfDay)
@@ -68,9 +72,9 @@ namespace BV
 
         void OnDisable()
         {
-            if (WeatherManager.Instance != null)
+            if (weatherManager != null)
             {
-                WeatherManager.Instance.RegisterScene(null);
+                weatherManager.RegisterScene(null);
             }
         }
     }

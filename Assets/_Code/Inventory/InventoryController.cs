@@ -113,13 +113,18 @@ namespace BV
             }
         }
 
-        public override void Deinit()
+        public override void Close()
         {
             if (gridManager != null)
             {
                 gridManager.Deinit();
                 NetworkClient.Instance.Emit("inventoryClose");
             }
+        }
+
+        public override void Deinit()
+        {
+           Close();
         }
 
         public static InventoryController singleton;

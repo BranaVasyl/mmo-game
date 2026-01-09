@@ -48,6 +48,8 @@ namespace BV
 
         public void OpenBag(string bagId, GameObject bagObject, GameObject character)
         {
+            gameUIManager.ShowBagUI();
+
             currentbagId = bagId;
             interactedBag = bagObject;
             interactedPlayer = character;
@@ -63,8 +65,6 @@ namespace BV
                     bagData,
                     (response) =>
                         {
-                            gameUIManager.ShowBagUI();
-
                             InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(response[0].ToString());
                             SetBagData(gridDataWrapper.data);
                         }

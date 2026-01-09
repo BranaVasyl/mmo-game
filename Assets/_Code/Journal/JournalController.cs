@@ -148,10 +148,15 @@ namespace BV
             questStages = new List<QuestStageBase>();
         }
 
-        public override void Deinit()
+        public override void Close()
         {
             CleanQuestList();
             CleanStageList();
+        }
+
+        public override void Deinit()
+        {
+            Close();
         }
     }
 }

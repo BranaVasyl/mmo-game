@@ -679,14 +679,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 103787188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3869be30f61f4b4797f3e0cfb6eaf0f, type: 3}
+  m_Script: {fileID: 11500000, guid: dcd0e73968dfd534d8aa8b8d6da6ff82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfDay: 15
-  orbitSpeed: 0
-  timeMultiplier: 1
-  hour: 0
-  minute: 0
   sun: {fileID: 1026284880}
   moon: {fileID: 1526770791}
   skyVolume: {fileID: 1747207219}
@@ -3279,7 +3274,6 @@ MonoBehaviour:
         rotated: 0
         item:
           code: shield
-    inventoryData: []
     isTwoHanded: 0
     money: 0
     health: 0
@@ -3309,7 +3303,6 @@ MonoBehaviour:
         rotated: 0
         item:
           code: longSword
-    inventoryData: []
     isTwoHanded: 1
     money: 0
     health: 0
@@ -3348,7 +3341,6 @@ MonoBehaviour:
         rotated: 0
         item:
           code: sword1
-    inventoryData: []
     isTwoHanded: 0
     money: 0
     health: 0

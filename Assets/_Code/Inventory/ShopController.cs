@@ -38,9 +38,6 @@ namespace BV
 
         public override void Open()
         {
-            characterId = menuManager.activeShopId;
-            characterName = menuManager.activeShopName;
-
             if (string.IsNullOrEmpty(characterId))
             {
                 return;
@@ -179,7 +176,7 @@ namespace BV
             RenderMoney(money);
         }
 
-        public override void Deinit()
+        public override void Close()
         {
             if (gridManager != null)
             {
@@ -190,15 +187,21 @@ namespace BV
                 NetworkClient.Instance.Emit("shopClose", shopData);
 
                 NetworkClient.Instance.Emit("inventoryClose");
-            }
+            }  
 
-            characterId = "";
-            characterName = "";
             shopMoney = 0;
             playerMoney = 0;
 
             shopNameObject.GetComponent<TMP_Text>().text = "";
             shopMoneyObject.GetComponent<TMP_Text>().text = "";
+        }
+
+        public override void Deinit()
+        {
+            Close();
+
+            characterId = "";
+            characterName = "";
         }
 
         public void RenderMoney(float moneyCount)

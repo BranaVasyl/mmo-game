@@ -20,6 +20,10 @@ namespace BV
         {
         }
 
+        public virtual void Close()
+        {
+        }
+
         public virtual void Deinit()
         {
         }

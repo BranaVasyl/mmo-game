@@ -26,8 +26,6 @@ namespace BV
 
         public override void Open()
         {
-            currentChestId = menuManager.activeChestId;
-
             if (string.IsNullOrEmpty(currentChestId))
             {
                 return;
@@ -119,8 +117,8 @@ namespace BV
             gridManager.SetData(data);
         }
 
-        public override void Deinit()
-        {
+        public override void Close()
+    {
             if (gridManager != null)
             {
                 gridManager.Deinit();
@@ -131,7 +129,11 @@ namespace BV
 
                 NetworkClient.Instance.Emit("inventoryClose");
             }
+        }
 
+        public override void Deinit()
+        {
+            Close();
             currentChestId = "";
         }
 

@@ -81,7 +81,8 @@ namespace BV
 
         public void OpenChest(string chestId)
         {
-            activeChestId = chestId;
+            //@todo fix me
+            ChestController.singleton.currentChestId = chestId;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("chest");
@@ -92,8 +93,9 @@ namespace BV
 
         public void OpenShop(CharacterManager states)
         {
-            activeShopId = states.networkIdentity.GetID();
-            activeShopName = states.displayedName;
+            //@todo fix me
+            ShopController.singleton.characterId = states.networkIdentity.GetID();
+            ShopController.singleton.characterName = states.displayedName;
 
             List<string> activatePanel = new List<string>();
             activatePanel.Add("shop");
@@ -104,7 +106,7 @@ namespace BV
 
         public void CloseMenu()
         {
-            CloseActivePanels();
+            DeinitActivePanels();
             panelMoney.GetComponent<TMP_Text>().text = "";
 
             activePanels = new List<MenuPanel>();
@@ -139,11 +141,11 @@ namespace BV
         {
             currentPanel = activePanels[curPanelIndex];
             panelName.GetComponent<TMP_Text>().text = "";
-            currentPanel.Deinit();
+            currentPanel.Close();
             currentPanel.gameObject.SetActive(false);
         }
 
-        private void CloseAllPanels()
+        private void DeinitAllPanels()
         {
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < menuPanels.Count; i++)
@@ -153,7 +155,7 @@ namespace BV
             }
         }
 
-        private void CloseActivePanels()
+        private void DeinitActivePanels()
         {
             panelName.GetComponent<TMP_Text>().text = "";
             for (int i = 0; i < activePanels.Count; i++)
