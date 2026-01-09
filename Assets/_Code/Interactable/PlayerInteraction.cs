@@ -17,7 +17,7 @@ namespace BV
 
         void Start()
         {
-            gameUIManager = GameUIManager.singleton;
+            gameUIManager = GameUIManager.Instance;
             states = GetComponent<StateManager>();
             canInteract = gameObject.GetComponent<NetworkIdentity>().IsControlling();
         }

@@ -10,7 +10,7 @@ using Project.Networking;
 
 namespace BV
 {
-    public class PickUpManager : MonoBehaviour
+    public class PickUpManager : Singleton<PickUpManager>
     {
         private GameUIManager gameUIManager;
 
@@ -29,8 +29,8 @@ namespace BV
 
         void Start()
         {
-            gameUIManager = GameUIManager.singleton;
-            gridManager = GridManager.singleton;
+            gameUIManager = GameUIManager.Instance;
+            gridManager = GridManager.Instance;
         }
 
         private void Update()
@@ -176,10 +176,10 @@ namespace BV
         {
             ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItem.item.code);
 
-            bool success = await GridManager.singleton.PickUpItem(inventoryItem);
+            bool success = await GridManager.Instance.PickUpItem(inventoryItem);
             if (!success)
             {
-                NotificationManager.singleton.AddNewMessage("Hемає місця для: " + itemData.name);
+                NotificationManager.Instance.AddNewMessage("Hемає місця для: " + itemData.name);
                 return;
             }
 
@@ -207,10 +207,10 @@ namespace BV
                 InventoryItemData inventoryItem = itemsToPick[i];
                 ItemData itemData = ItemsManager.Instance.GetItemById(inventoryItem.item.code);
 
-                bool success = await GridManager.singleton.PickUpItem(inventoryItem);
+                bool success = await GridManager.Instance.PickUpItem(inventoryItem);
                 if (!success)
                 {
-                    NotificationManager.singleton.AddNewMessage("Немає місця для: " + itemData.name);
+                    NotificationManager.Instance.AddNewMessage("Немає місця для: " + itemData.name);
                     continue;
                 }
 
@@ -238,7 +238,7 @@ namespace BV
             //@todo move to event listener
             if (itemData.type == ItemType.quest)
                 {
-                    NotificationManager.singleton.AddNewNotification(
+                    NotificationManager.Instance.AddNewNotification(
                         new NotificationData(
                             "Отримано: Новий квестовий предмет",
                             itemData.name,
@@ -248,7 +248,7 @@ namespace BV
                     );
                 }
 
-            NotificationManager.singleton.AddNewMessage("Отримано: " + itemData.name);
+            NotificationManager.Instance.AddNewMessage("Отримано: " + itemData.name);
         }
 
         private void CleanItemsList()
@@ -286,12 +286,6 @@ namespace BV
         {
             currentbagId = "";
             CleanItemsList();
-        }
-
-        public static PickUpManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 }

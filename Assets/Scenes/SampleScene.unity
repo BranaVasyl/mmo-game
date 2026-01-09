@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1910.1858, g: 1690.9993, b: 2129.9377, a: 1}
+  m_IndirectSpecularColor: {r: 1910.345, g: 1670.6848, b: 2052.3499, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5905,7 +5905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1278170367}
-  - component: {fileID: 1278170368}
+  - component: {fileID: 1278170369}
   m_Layer: 0
   m_Name: '[WeatherManager]'
   m_TagString: Chat_Manager
@@ -5928,7 +5928,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1278170368
+--- !u!114 &1278170369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5937,14 +5937,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1278170366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3869be30f61f4b4797f3e0cfb6eaf0f, type: 3}
+  m_Script: {fileID: 11500000, guid: dcd0e73968dfd534d8aa8b8d6da6ff82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfDay: 7.2
-  orbitSpeed: 1
-  timeMultiplier: 1
-  hour: 0
-  minute: 0
   sun: {fileID: 1471150327}
   moon: {fileID: 1063646158}
   skyVolume: {fileID: 1321489591}

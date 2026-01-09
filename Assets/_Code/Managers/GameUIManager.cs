@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using BV;
 
-public class GameUIManager : MonoBehaviour
+public class GameUIManager : Singleton<GameUIManager>
 {
     public GameObject gameUI;
 
@@ -132,11 +133,5 @@ public class GameUIManager : MonoBehaviour
     public void HideNotificationUI()
     {
         notificationUI.SetActive(false);
-    }
-
-    public static GameUIManager singleton;
-    void Awake()
-    {
-        singleton = this;
     }
 }

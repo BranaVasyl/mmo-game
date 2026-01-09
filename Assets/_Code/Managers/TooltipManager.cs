@@ -6,7 +6,7 @@ using System;
 
 namespace BV
 {
-    public class TooltipManager : MonoBehaviour
+    public class TooltipManager : Singleton<TooltipManager>
     {
         public GameObject tooltipContainer;
         public Tooltip tooltip;
@@ -186,12 +186,6 @@ namespace BV
         {
             tooltip.Clean();
             tooltip.Close();
-        }
-
-        public static TooltipManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 

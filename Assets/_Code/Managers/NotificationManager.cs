@@ -8,7 +8,7 @@ using TMPro;
 
 namespace BV
 {
-    public class NotificationManager : MonoBehaviour
+    public class NotificationManager : Singleton<NotificationManager>
     {
         [Header("Notification Data")]
         public GameObject notificationTemplate;
@@ -169,12 +169,6 @@ namespace BV
             messagesQueueChecker = null;
         }
         #endregion
-
-        public static NotificationManager singleton;
-        void Awake()
-        {
-            singleton = this;
-        }
     }
 
     public enum NotificationActionType

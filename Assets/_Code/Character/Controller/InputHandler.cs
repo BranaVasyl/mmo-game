@@ -55,12 +55,12 @@ namespace BV
 
             if (networkIdentity.IsControlling())
             {
-                camManager = CameraManager.singleton;
+                camManager = CameraManager.Instance;
                 camManager.Init(states);
 
-                menuManager = MenuManager.singleton;
-                pieMenuManager = PieMenuManager.singleton;
-                gameUIManager = GameUIManager.singleton;
+                menuManager = MenuManager.Instance;
+                pieMenuManager = PieMenuManager.Instance;
+                gameUIManager = GameUIManager.Instance;
 
                 if (inputActions == null)
                 {

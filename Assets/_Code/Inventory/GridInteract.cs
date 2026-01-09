@@ -13,7 +13,7 @@ namespace BV
 
         private void Start()
         {
-            gridManager = GridManager.singleton;
+            gridManager = GridManager.Instance;
             itemGrid = GetComponent<ItemGrid>();
         }
 

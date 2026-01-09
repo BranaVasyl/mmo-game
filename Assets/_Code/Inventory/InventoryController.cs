@@ -24,7 +24,7 @@ namespace BV
             singleton = this;
             menuManager = mM;
 
-            gridManager = GridManager.singleton;
+            gridManager = GridManager.Instance;
         }
 
         public void SetUpdateEquipListener(UnityAction<List<InventoryGridData>> newListener)

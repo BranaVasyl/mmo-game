@@ -7,7 +7,7 @@ using Project.Networking;
 
 namespace BV
 {
-    public class DamageManager : MonoBehaviour
+    public class DamageManager : Singleton<DamageManager>
     {
         public List<KillListener> killListeners;
 
@@ -30,12 +30,6 @@ namespace BV
             }
 
             killListener.OnComlete();
-        }
-
-        public static DamageManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 

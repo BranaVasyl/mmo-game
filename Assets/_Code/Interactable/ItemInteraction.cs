@@ -17,14 +17,14 @@ namespace BV
         {
             if (itemId == "random")
             {
-                int selectedItemID = UnityEngine.Random.Range(0, ItemsManager.singleton.GetItemsCount());
-                ItemData randomItem = ItemsManager.singleton.GetItemByIndex(selectedItemID);
+                int selectedItemID = UnityEngine.Random.Range(0, ItemsManager.Instance.GetItemsCount());
+                ItemData randomItem = ItemsManager.Instance.GetItemByIndex(selectedItemID);
 
                 // GridManager.singleton.PickUpItem(randomItem);
                 return;
             }
 
-            ItemData? item = ItemsManager.singleton.GetItemById(itemId);
+            ItemData? item = ItemsManager.Instance.GetItemById(itemId);
             if (item == null)
             {
                 return;

@@ -473,10 +473,10 @@ namespace BV
         {
             lockOn = true;
             lockOnTarget = target;
-            CameraManager.singleton.lockonTarget = target;
+            CameraManager.Instance.lockonTarget = target;
 
-            lockOnTransform = CameraManager.singleton.lockonTransform;
-            CameraManager.singleton.lockon = lockOn;
+            lockOnTransform = CameraManager.Instance.lockonTransform;
+            CameraManager.Instance.lockon = lockOn;
         }
 
         public void DisableLockOn()
@@ -485,8 +485,8 @@ namespace BV
             lockOnTarget = null;
             lockOnTransform = null;
 
-            CameraManager.singleton.lockon = false;
-            CameraManager.singleton.lockonTarget = null;
+            CameraManager.Instance.lockon = false;
+            CameraManager.Instance.lockonTarget = null;
         }
 
         void HandleRotation()

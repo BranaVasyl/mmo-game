@@ -4,15 +4,9 @@ using UnityEngine;
 
 namespace BV
 {
-    public class QuestManager : MonoBehaviour
+    public class QuestManager : Singleton<QuestManager>
     {
         public List<Quest> quests;
-
-        public static QuestManager singleton;
-        void Awake()
-        {
-            singleton = this;
-        }
 
         void Start()
         {
@@ -180,7 +174,7 @@ namespace BV
 
         private void ShowNotification(string title = "", string subtitle = "", Sprite icon = null, NotificationActionType type = NotificationActionType.log)
         {
-            NotificationManager.singleton.AddNewNotification(new NotificationData(title, subtitle, icon, type));
+            NotificationManager.Instance.AddNewNotification(new NotificationData(title, subtitle, icon, type));
         }
 
         private void ResetQustsStates()

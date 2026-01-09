@@ -74,7 +74,7 @@ namespace BV
         {
             if (eventType == QuestEventType.updateDialog)
             {
-                DialogManager dialogManager = DialogManager.singleton;
+                DialogManager dialogManager = DialogManager.Instance;
                 dialogManager.UpdateDialogList(NPC_Id, dialogId);
                 return;
             }
@@ -87,14 +87,14 @@ namespace BV
 
             if (eventType == QuestEventType.updateQuest)
             {
-                QuestManager questManager = QuestManager.singleton;
+                QuestManager questManager = QuestManager.Instance;
                 questManager.SetActiveState(questId, stageId);
                 return;
             }
 
             if (eventType == QuestEventType.completedQuest)
             {
-                QuestManager questManager = QuestManager.singleton;
+                QuestManager questManager = QuestManager.Instance;
                 questManager.SetCompleteState(questId, stageId);
                 return;
             }

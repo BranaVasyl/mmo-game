@@ -21,7 +21,7 @@ namespace BV
 
         void Start()
         {
-            damageManager = DamageManager.singleton;
+            damageManager = DamageManager.Instance;
         }
 
         void Update()

@@ -28,7 +28,7 @@ namespace BV
 
         void Awake()
         {
-            gridManager = GridManager.singleton;
+            gridManager = GridManager.Instance;
             canvas = gridManager.canvasTransform.GetComponent<Canvas>();
 
             rectTransform = GetComponent<RectTransform>();

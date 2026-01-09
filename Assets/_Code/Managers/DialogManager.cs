@@ -10,7 +10,7 @@ using TMPro;
 
 namespace BV
 {
-    public class DialogManager : MonoBehaviour
+    public class DialogManager : Singleton<DialogManager>
     {
         public GameObject dialogUI;
 
@@ -41,8 +41,8 @@ namespace BV
 
         void Start()
         {
-            questManager = QuestManager.singleton;
-            gameUIManager = GameUIManager.singleton;
+            questManager = QuestManager.Instance;
+            gameUIManager = GameUIManager.Instance;
 
             if (inputActions == null)
             {
@@ -275,7 +275,7 @@ namespace BV
 
         private void ShowTrade(DialogTrade dialogTrade)
         {
-            MenuManager.singleton.OpenShop(NPCState);
+            MenuManager.Instance.OpenShop(NPCState);
             ShearchNextElement(dialogTrade.nextItem);
         }
 
@@ -374,12 +374,6 @@ namespace BV
             {
                 answerContainer.transform.GetChild(i).gameObject.SetActive(false);
             }
-        }
-
-        public static DialogManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 

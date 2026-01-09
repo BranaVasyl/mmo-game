@@ -14,7 +14,7 @@ namespace BV
 
         private void Start()
         {
-            dialogManager = DialogManager.singleton;
+            dialogManager = DialogManager.Instance;
             NPCCharacter = GetComponent<CharacterManager>();
         }
 

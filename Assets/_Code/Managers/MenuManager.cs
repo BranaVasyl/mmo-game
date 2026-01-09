@@ -209,11 +209,5 @@ namespace BV
         {
             panelMoney.GetComponent<TMP_Text>().text = moneyCount.ToString();
         }
-
-        public static MenuManager singleton;
-        void Awake()
-        {
-            singleton = this;
-        }
     }
 }

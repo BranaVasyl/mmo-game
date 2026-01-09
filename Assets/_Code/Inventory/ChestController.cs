@@ -21,7 +21,7 @@ namespace BV
             singleton = this;
             menuManager = mM;
 
-            gridManager = GridManager.singleton;
+            gridManager = GridManager.Instance;
         }
 
         public override void Open()

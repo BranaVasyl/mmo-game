@@ -130,11 +130,5 @@ namespace BV
             lookAngle += smoothX * targetSpeed;
             transform.rotation = Quaternion.Euler(0, lookAngle, 0);
         }
-
-        public static CameraManager singleton;
-        public override void Awake()
-        {
-            singleton = this;
-        }
     }
 }

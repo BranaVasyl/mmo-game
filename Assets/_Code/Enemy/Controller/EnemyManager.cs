@@ -75,7 +75,7 @@ namespace BV
 
             if (enemyUI == null)
             {
-                GameObject go = Instantiate(GameUIManager.singleton.enemyUIPrefab);
+                GameObject go = Instantiate(GameUIManager.Instance.enemyUIPrefab);
 
                 enemyUI = go.GetComponent<EnemyUI>();
                 enemyUI.enemyTransform = this.transform;

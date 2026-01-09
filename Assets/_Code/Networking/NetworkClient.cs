@@ -196,14 +196,16 @@ namespace Project.Networking
 
             On("updateWeather", (E) =>
             {
-                if (WeatherManager.singleton != null)
+                if (WeatherManager.Instance == null)
                 {
-                    float timeOfDay = E.data.HasField("timeOfDay") ? E.data["timeOfDay"].JSONObjectToFloat() : 0f;
-                    float orbitSpeed = E.data.HasField("orbitSpeed") ? E.data["orbitSpeed"].JSONObjectToFloat() : 0f;
-                    float timeMultiplier = E.data.HasField("timeMultiplier") ? E.data["timeMultiplier"].JSONObjectToFloat() : 0f;
-
-                    WeatherManager.singleton.UpdateWeatherData(timeOfDay, orbitSpeed, timeMultiplier);
+                    return;
                 }
+
+                float timeOfDay = E.data.HasField("timeOfDay") ? E.data["timeOfDay"].JSONObjectToFloat() : 0f;
+                float orbitSpeed = E.data.HasField("orbitSpeed") ? E.data["orbitSpeed"].JSONObjectToFloat() : 0f;
+                float timeMultiplier = E.data.HasField("timeMultiplier") ? E.data["timeMultiplier"].JSONObjectToFloat() : 0f;
+
+                WeatherManager.Instance.SetWeatherState(timeOfDay, orbitSpeed, timeMultiplier);
             });
 
             On("serverSpawn", (E) =>
@@ -248,20 +250,20 @@ namespace Project.Networking
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
                 string message = E.data["message"].ToString().RemoveQuotes();
-                ChatBehaviour.singleton.SendMessage(id, message);
+                ChatBehaviour.Instance.SendMessage(id, message);
             });
 
             On("triggerKillEvent", (E) =>
             {
                 string id = E.data["id"].ToString().RemoveQuotes();
-                DamageManager.singleton.OnKillEvent(id);
-                NotificationManager.singleton.AddNewMessage("Ви вбили: " + id);
+                DamageManager.Instance.OnKillEvent(id);
+                NotificationManager.Instance.AddNewMessage("Ви вбили: " + id);
             });
 
             On("setBagData", (E) =>
             {
                 InventoryGridDataListWrapper gridDataWrapper = JsonUtility.FromJson<InventoryGridDataListWrapper>(E.data.ToString());
-                PickUpManager.singleton.SetBagData(gridDataWrapper.data);
+                PickUpManager.Instance.SetBagData(gridDataWrapper.data);
             });
 
             On("setChestData", (E) =>

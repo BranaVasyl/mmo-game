@@ -6,7 +6,7 @@ using Project.Networking;
 
 namespace BV
 {
-    public class PieMenuManager : MonoBehaviour
+    public class PieMenuManager : Singleton<PieMenuManager>
     {
         public PieMenu pieMenu;
         private bool isOpen;
@@ -59,12 +59,6 @@ namespace BV
             pieMenu.Clean();
             pieMenu.gameObject.SetActive(false);
             isOpen = false;
-        }
-
-        public static PieMenuManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 }

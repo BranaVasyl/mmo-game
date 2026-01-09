@@ -32,7 +32,7 @@ namespace BV
 
             menuManager = mM;
 
-            gridManager = GridManager.singleton;
+            gridManager = GridManager.Instance;
             inventoryController = InventoryController.singleton;
         }
 

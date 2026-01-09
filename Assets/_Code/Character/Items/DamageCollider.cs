@@ -11,7 +11,7 @@ namespace BV
 
         void Start()
         {
-            damageManager = DamageManager.singleton;
+            damageManager = DamageManager.Instance;
         }
 
         private void OnTriggerEnter(Collider other)

@@ -29,7 +29,7 @@ namespace BV
             if (meta.HasField("storageId"))
             {
                 string storageId = meta["storageId"].str;
-                PickUpManager.singleton.OpenBag(storageId, gameObject, character);
+                PickUpManager.Instance.OpenBag(storageId, gameObject, character);
             }
         }
     }

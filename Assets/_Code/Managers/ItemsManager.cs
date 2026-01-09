@@ -32,11 +32,5 @@ namespace BV
         {
             return itemsDict[itemId];
         }
-
-        public static ItemsManager singleton;
-        void Awake()
-        {
-            singleton = this;
-        }
     }
 }

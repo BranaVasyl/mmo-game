@@ -37,7 +37,7 @@ namespace BV
 
         void Awake() 
         {
-            questManager = QuestManager.singleton;
+            questManager = QuestManager.Instance;
         }
 
         public override void Open()

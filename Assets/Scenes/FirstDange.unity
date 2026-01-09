@@ -5940,14 +5940,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1278170366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3869be30f61f4b4797f3e0cfb6eaf0f, type: 3}
+  m_Script: {fileID: 11500000, guid: dcd0e73968dfd534d8aa8b8d6da6ff82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfDay: 7.2
-  orbitSpeed: 1
-  timeMultiplier: 1
-  hour: 0
-  minute: 0
   sun: {fileID: 1471150327}
   moon: {fileID: 1063646158}
   skyVolume: {fileID: 1321489591}

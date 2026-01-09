@@ -98,7 +98,7 @@ namespace BV
 
         public void Start()
         {
-            itemsManager = ItemsManager.singleton;
+            itemsManager = ItemsManager.Instance;
 
             if (inputActions == null)
             {
@@ -377,7 +377,7 @@ namespace BV
                 {
                     correctInventoryHiglight.Show(false);
                     incorrectInventoryHiglight.Show(false);
-                    TooltipManager.singleton.ShowEmptyEquipTolltip(selectedItemGrid, canvasTransform.GetComponent<Canvas>().scaleFactor);
+                    TooltipManager.Instance.ShowEmptyEquipTolltip(selectedItemGrid, canvasTransform.GetComponent<Canvas>().scaleFactor);
                 }
 
                 if ((itemToHighlight != lastItemHihlight) || forceHighlight)
@@ -422,12 +422,12 @@ namespace BV
 
         private void OnMouseHoverItem(InventoryItem item)
         {
-            TooltipManager.singleton.ShowInventoryItemTooltip(item, canvasTransform.GetComponent<Canvas>().scaleFactor);
+            TooltipManager.Instance.ShowInventoryItemTooltip(item, canvasTransform.GetComponent<Canvas>().scaleFactor);
         }
 
         public void OnMouseExitItem()
         {
-            TooltipManager.singleton.HideTooltip();
+            TooltipManager.Instance.HideTooltip();
         }
 
         private bool CanPlaceItem()
@@ -803,12 +803,6 @@ namespace BV
         public string[] GetShopGridList()
         {
             return SHOP_GRID_LIST;
-        }
-
-        public static GridManager singleton;
-        void Awake()
-        {
-            singleton = this;
         }
     }
 }

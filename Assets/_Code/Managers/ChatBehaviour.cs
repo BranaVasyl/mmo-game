@@ -9,7 +9,7 @@ using BV;
 
 namespace Project.Networking
 {
-    public class ChatBehaviour : MonoBehaviour
+    public class ChatBehaviour : Singleton<ChatBehaviour>
     {
         [SerializeField]
         private TMP_Text chatText = null;
@@ -36,12 +36,6 @@ namespace Project.Networking
             inputField.text = "";
             SendMessageData sendData = new SendMessageData(message);
             NetworkClient.Instance.Emit("sendMessage", new JSONObject(JsonUtility.ToJson(sendData)));
-        }
-
-        public static ChatBehaviour singleton;
-        private void Awake()
-        {
-            singleton = this;
         }
     }
 
