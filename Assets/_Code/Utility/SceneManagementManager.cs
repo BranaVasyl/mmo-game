@@ -12,6 +12,13 @@ namespace BV
         private List<LevelLoadingData> levelsLoading;
         private List<string> currentlyLoadedScenes;
 
+        private GameUIManager gameUIManager;
+
+        void Start()
+        {
+            gameUIManager = GameUIManager.Instance;
+        }
+
         public override void Awake()
         {
             base.Awake();
@@ -32,8 +39,9 @@ namespace BV
                 if (levelsLoading[i].ao.isDone)
                 {
                     levelsLoading[i].ao.allowSceneActivation = true;
-                    levelsLoading[i].onLevelLoaded.Invoke(levelsLoading[i].sceneName);
                     currentlyLoadedScenes.Add(levelsLoading[i].sceneName);
+
+                    levelsLoading[i].onLevelLoaded.Invoke(levelsLoading[i].sceneName);
                     levelsLoading.RemoveAt(i);
                 }
             }
@@ -68,6 +76,8 @@ namespace BV
             lld.sceneName = levelName;
             lld.onLevelLoaded = (levelName) => {
                 ApplicationManager.Instance.HideLoadingScreen();
+                ApplySceneSettings();
+
                 onLevelLoaded(levelName);
             };
             levelsLoading.Add(lld);
@@ -91,6 +101,29 @@ namespace BV
             }
 
             Debug.LogErrorFormat("Failed to unload level ({0}), most likely was never loaded to begin with or was already unloaded", levelName);
+        }
+
+        private void ApplySceneSettings()
+        {
+            if (gameUIManager == null)
+            {
+                return;
+            }
+
+            Debug.Log(currentlyLoadedScenes);
+
+            //@todo move to scripatbleObject config
+            if (currentlyLoadedScenes.Any(x => x == SceneList.SAMPLE_SCENE || x == SceneList.FIRST_DANGE))
+            {
+                gameUIManager.ShowNotificationUI();
+                gameUIManager.ShowWeatherUI();
+                gameUIManager.ShowChatUI();
+            } else {
+
+                gameUIManager.HideNotificationUI();
+                gameUIManager.HideWeatherUI();
+                gameUIManager.HideChatUI();
+            }
         }
     }
 

@@ -37,11 +37,11 @@ public class GameUIManager : Singleton<GameUIManager>
     {
         Show();
 
+        HideNotificationUI();
         HideInteractionUI();
+        HideWeatherUI();
+        HideChatUI();
         HideBagUI();
-        ShowNotificationUI();
-        ShowChatUI();
-        ShowWeatherUI();
     }
 
     public void Show()
