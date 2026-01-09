@@ -65,5 +65,13 @@ namespace BV
             sun.shadows = LightShadows.None;
             moon.shadows = LightShadows.Soft;
         }
+
+        void OnDisable()
+        {
+            if (WeatherManager.Instance != null)
+            {
+                WeatherManager.Instance.RegisterScene(null);
+            }
+        }
     }
 }
