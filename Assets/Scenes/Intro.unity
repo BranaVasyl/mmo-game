@@ -1565,9 +1565,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1810908955}
         m_TargetAssemblyTypeName: BV.ApplicationManager, Assembly-CSharp
-        m_MethodName: OnDeclineModal
+        m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17342,7 +17342,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1810908955}
         m_TargetAssemblyTypeName: BV.ApplicationManager, Assembly-CSharp
         m_MethodName: OnConfirmModal
         m_Mode: 1
@@ -35161,8 +35161,8 @@ SceneRoots:
   - {fileID: 452793073}
   - {fileID: 691230572}
   - {fileID: 1667264251}
-  - {fileID: 2039355121}
   - {fileID: 1810908954}
+  - {fileID: 2039355121}
   - {fileID: 1216831511}
   - {fileID: 1310439824}
   - {fileID: 1109551704}

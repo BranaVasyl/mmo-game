@@ -110,8 +110,6 @@ namespace BV
                 return;
             }
 
-            Debug.Log(currentlyLoadedScenes);
-
             //@todo move to scripatbleObject config
             if (currentlyLoadedScenes.Any(x => x == SceneList.SAMPLE_SCENE || x == SceneList.FIRST_DANGE))
             {
