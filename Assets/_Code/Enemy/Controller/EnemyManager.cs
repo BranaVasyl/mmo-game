@@ -274,7 +274,6 @@ namespace BV
 
         public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting)
         {
-            
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isRotatingWithRootMotion", true);
             anim.SetBool("isInteracting", isInteracting);

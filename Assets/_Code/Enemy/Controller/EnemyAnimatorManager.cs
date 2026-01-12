@@ -29,7 +29,6 @@ namespace BV
 
             if (enemyManager.isRotatingWithRootMotion)
             {
-                
                 enemyManager.transform.rotation *= anim.deltaRotation;
             }
         }
