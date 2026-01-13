@@ -287,6 +287,16 @@ namespace Project.Networking
 
                 ni.GetComponent<InventoryManager>().SetPlayerEquip(inventoryGridData.data);
             });
+
+            On("drawPath", (E) =>
+            {
+                PathfindingManager.Instance.DrawPath(E.data);
+            });
+
+            On("drawNavmesh", (E) =>
+            {
+                NavmeshManager.Instance.DrawNavmesh(E.data);
+            });
         }
     }
 }
