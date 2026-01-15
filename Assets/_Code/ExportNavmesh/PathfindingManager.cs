@@ -11,7 +11,7 @@ namespace BV {
         {
             currentPath.Clear();
 
-            var message = JsonUtility.FromJson<PathMessage>(data.ToString());
+            var message = JsonUtility.FromJson<ServerPointsList>(data.ToString());
             if (message?.points == null) {
                 return;
             }
@@ -23,21 +23,18 @@ namespace BV {
         }
 
 
-        // Unity викликає автоматично
         private void OnDrawGizmos()
         {
             if (currentPath.Count == 0) {
                 return;
             }
 
-            // точки
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.red;
             foreach (var point in currentPath)
             {
-                Gizmos.DrawSphere(point, 0.1f);
+                Gizmos.DrawCube(point, Vector3.one * 0.05f);
             }
 
-            // лінії
             Gizmos.color = Color.blue;
             for (int i = 0; i < currentPath.Count - 1; i++)
             {
@@ -47,13 +44,13 @@ namespace BV {
     }
 
     [System.Serializable]
-    public class PathMessage
+    public class ServerPointsList
     {
-        public List<PathPoint> points;
+        public List<ServerPoint> points;
     }
 
     [System.Serializable]
-    public class PathPoint
+    public class ServerPoint
     {
         public float x;
         public float y;

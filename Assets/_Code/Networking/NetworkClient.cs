@@ -288,6 +288,7 @@ namespace Project.Networking
                 ni.GetComponent<InventoryManager>().SetPlayerEquip(inventoryGridData.data);
             });
 
+            //#region Debug
             On("drawPath", (E) =>
             {
                 PathfindingManager.Instance.DrawPath(E.data);
@@ -297,6 +298,22 @@ namespace Project.Networking
             {
                 NavmeshManager.Instance.DrawNavmesh(E.data);
             });
+
+            On("drawPoints", (E) =>
+            {
+                GizmosManager.Instance.DrawPoints(E.data);
+            });
+
+            On("drawLines", (E) =>
+            {
+                GizmosManager.Instance.DrawLines(E.data);
+            });
+
+            On("drawTriangles", (E) =>
+            {
+                GizmosManager.Instance.DrawTriangles(E.data);
+            });
+            //#endregion
         }
     }
 }

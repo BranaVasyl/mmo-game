@@ -9,9 +9,9 @@ namespace BV {
 
         public void DrawNavmesh(JSONObject data)
         {
-             navmeshLines.Clear();
+            navmeshLines.Clear();
 
-            var message = JsonUtility.FromJson<NavmeshLineMessage>(data.ToString());
+            var message = JsonUtility.FromJson<ServerLinesList>(data.ToString());
             if (message?.lines == null) {
                 return;
             }
@@ -24,8 +24,9 @@ namespace BV {
 
         private void OnDrawGizmos()
         {
-            if (navmeshLines.Count == 0)
+            if (navmeshLines.Count == 0) {
                 return;
+            }
 
             Gizmos.color = Color.cyan;
 
@@ -37,35 +38,18 @@ namespace BV {
     }
 
     [System.Serializable]
-    public class NavmeshLineMessage
+    public class ServerLinesList
     {
-        public List<NavmeshLine> lines;
+        public List<ServerLine> lines;
     }
 
     [System.Serializable]
-    public class NavmeshLine
+    public class ServerLine
     {
-        public NavmeshPoint A;
-        public NavmeshPoint B;
+        public ServerPoint A;
+        public ServerPoint B;
 
         public Vector3 APos => A.ToVector3();
         public Vector3 BPos => B.ToVector3();
-    }
-
-    [System.Serializable]
-    public class NavmeshPoint
-    {
-        public string x;
-        public string y;
-        public string z;
-
-        public Vector3 ToVector3()
-        {
-            return new Vector3(
-                float.Parse(x, System.Globalization.CultureInfo.InvariantCulture),
-                float.Parse(y, System.Globalization.CultureInfo.InvariantCulture),
-                float.Parse(z, System.Globalization.CultureInfo.InvariantCulture)
-            );
-        }
     }
 }
