@@ -291,12 +291,12 @@ namespace Project.Networking
             //#region Debug
             On("drawPath", (E) =>
             {
-                PathfindingManager.Instance.DrawPath(E.data);
+                GizmosManager.Instance.DrawPath(E.data);
             });
 
             On("drawNavmesh", (E) =>
             {
-                NavmeshManager.Instance.DrawNavmesh(E.data);
+                GizmosManager.Instance.DrawNavmesh(E.data);
             });
 
             On("drawPoints", (E) =>
