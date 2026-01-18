@@ -140,6 +140,7 @@ namespace BV
         public const string CHARACTER_CREATOR_SCENE = "CharacterCreatorScene";
         public const string SAMPLE_SCENE = "SampleScene";
         public const string FIRST_DANGE = "FirstDange";
+        public const string TERRAIN_DEMO_SCENE = "TerrainDemoScene";
         public const string ONLINE = "Online";
 
         public static readonly string[] staticScenes = { INTRO, ONLINE };
@@ -154,6 +155,7 @@ namespace BV
         {
             { "CHARACTER_CREATOR_SCENE", CHARACTER_CREATOR_SCENE },
             { "FIRST_DANGE", FIRST_DANGE },
+            { "TERRAIN_DEMO_SCENE", TERRAIN_DEMO_SCENE },
             { "INTRO", INTRO },
             { "LOGIN_SCENE", LOGIN_SCENE },
             { "SAMPLE_SCENE", SAMPLE_SCENE },
