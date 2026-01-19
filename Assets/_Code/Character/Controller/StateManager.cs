@@ -88,7 +88,7 @@ namespace BV
         private Quaternion syncStartRotation = Quaternion.identity;
         private Quaternion syncEndRotation = Quaternion.identity;
 
-        float lastPelvisPositionY;
+        float? lastPelvisPositionY = null;
         FootIK footIk;
 
         public void Update()
@@ -563,14 +563,19 @@ namespace BV
                 r = true;
                 Vector3 targetPosition = hit.point;
 
+                if (lastPelvisPositionY == null)
+                {
+                    lastPelvisPositionY = targetPosition.y;
+                }
+
                 if (moveAmount == 0 && footIk.enableFeetIk)
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, footIk.MovePelvisHeight(), 0.05f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, footIk.MovePelvisHeight(), 0.05f);
                 else if (moveAmount <= 0.5f)
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, targetPosition.y, 0.15f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, targetPosition.y, 0.15f);
                 else if (moveAmount <= 1 && !run)
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, targetPosition.y, 0.2f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, targetPosition.y, 0.2f);
                 else if (run)
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, targetPosition.y, 0.3f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, targetPosition.y, 0.3f);
 
                 // if(lastPelvisPositionY < targetPosition.y)
                 //     Debug.Log("up");

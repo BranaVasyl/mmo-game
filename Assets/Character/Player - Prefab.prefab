@@ -692,7 +692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81ef6702824435745b12645020139bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsManager: {fileID: 0}
   rightHandPivot: {fileID: 0}
   rightHandData: {fileID: 0}
   rightHandObject: {fileID: 0}

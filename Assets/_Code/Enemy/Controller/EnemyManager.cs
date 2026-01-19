@@ -43,7 +43,7 @@ namespace BV
         float horizontal;
         float moveAmount;
 
-        float lastPelvisPositionY;
+        float? lastPelvisPositionY = null;
         FootIK footIk;
 
         public EnemyInventoryManager inventoryManager;
@@ -222,15 +222,15 @@ namespace BV
                 result = true;
                 Vector3 targetPosition = hit.point;
 
-                if (lastPelvisPositionY == 0)
+                if (lastPelvisPositionY == null)
                 {
                     lastPelvisPositionY = targetPosition.y;
                 }
 
                 if (moveAmount == 0 && footIk.enableFeetIk)
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, footIk.MovePelvisHeight(), 0.05f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, footIk.MovePelvisHeight(), 0.05f);
                 else
-                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY, targetPosition.y, 0.2f);
+                    targetPosition.y = Mathf.Lerp(lastPelvisPositionY.Value, targetPosition.y, 0.2f);
 
                 transform.position = targetPosition;
                 lastPelvisPositionY = transform.position.y;
