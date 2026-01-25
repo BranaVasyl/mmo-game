@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dissolve
+  m_Name: DissolveJoints
   m_Shader: {fileID: -6465566751694194690, guid: 4b88619e47cc27a47a356f5b6d9a8311, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -174,6 +174,7 @@ Material:
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
     - _Disolve: 14
+    - _Disolve_Ammount: -1
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
@@ -272,8 +273,9 @@ Material:
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
+    - _disolveAmmount: -1.64
     m_Colors:
-    - _Albedo: {r: 0.3207547, g: 0.037824843, b: 0.048175924, a: 1}
+    - _Albedo: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

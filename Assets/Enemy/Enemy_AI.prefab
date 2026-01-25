@@ -1541,7 +1541,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7785062bf5bf77f4a82f60487a9af11c, type: 2}
+  - {fileID: 2100000, guid: b2e62f74478c3194999fcd5d8cbb2c1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2443,6 +2443,7 @@ GameObject:
   - component: {fileID: 3474922074930490481}
   - component: {fileID: 9160500025008189297}
   - component: {fileID: 7760594794203635910}
+  - component: {fileID: 2875070071857556846}
   m_Layer: 12
   m_Name: devCharacter
   m_TagString: Untagged
@@ -2626,6 +2627,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2875070071857556846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4834766075183519021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0113e2ca8fee64cb9c96ef1356ccff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets:
+  - {fileID: 7500497956098484133}
+  - {fileID: 2429463726338522010}
+  - {fileID: 2431015240677038722}
+  dissolveProperty: _Disolve_Ammount
+  testDissolveValue: -1
+  dissolveSpeed: 1
 --- !u!1 &4834766076001556166
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,7 +3428,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 97d92008fd8b7e9429e9476949bad38d, type: 2}
+  - {fileID: 2100000, guid: 7c15d7b76b9fd4a45a69bf00910d5a01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4001,6 +4021,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5871301812572870106, guid: 66e17b700d707d546962bf5a15b7d335, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b2e62f74478c3194999fcd5d8cbb2c1a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

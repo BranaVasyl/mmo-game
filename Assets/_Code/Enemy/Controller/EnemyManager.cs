@@ -45,6 +45,7 @@ namespace BV
 
         float? lastPelvisPositionY = null;
         FootIK footIk;
+        DisolveManager disolveManager;
 
         public EnemyInventoryManager inventoryManager;
 
@@ -55,6 +56,7 @@ namespace BV
             SetupAnimator();
             enemyRigidbody = GetComponent<Rigidbody>();
             footIk = anim.gameObject.GetComponent<FootIK>();
+            disolveManager = anim.gameObject.GetComponent<DisolveManager>();
             enemyNetworkTransform = gameObject.GetComponent<EnemyNetworkTransform>();
 
             base.Init(gameObject.GetComponent<NetworkIdentity>());
@@ -170,6 +172,11 @@ namespace BV
                 Destroy(enemyUI.gameObject);
                 isDead = enemyData.isDead;
                 EnableRagdoll();
+
+                if (disolveManager)
+                {
+                    StartCoroutine(DelayedDissolve(2f));
+                }
             }
 
             money = enemyData.money;
@@ -295,6 +302,16 @@ namespace BV
             if (anim != null)
             {
                 anim.Play("damage_1");
+            }
+        }
+
+        IEnumerator DelayedDissolve(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            if (disolveManager)
+            {
+                disolveManager.Dissolve();
             }
         }
     }
