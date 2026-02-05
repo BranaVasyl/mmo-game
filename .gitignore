@@ -59,3 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 /[Aa]ssets/DownloadedAssets/TerrainDemoScene_HDRP*
+/[Aa]ssets/DownloadedAssets/Double*
+/[Aa]ssets/Plugins*
+/[Aa]ssets/Resources/Mont_Crane_Cas*
