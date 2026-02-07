@@ -2535,7 +2535,7 @@ MonoBehaviour:
   headWeight: 0.625
   eyesWeight: 0
   clampWeight: 0.5
-  maxLookAngle: 150
+  maxLookAngle: 140
   headPosHeight: 2
   lookLerpSpeed: 10
 --- !u!82 &7760594794203635910

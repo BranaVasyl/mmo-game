@@ -92,14 +92,16 @@ Vector3 currentLookDir;
 
             if (enemyManager.lookAtPosition != Vector3.zero)
             {
-                Vector3 toTarget = enemyManager.lookAtPosition - headPos;
-                toTarget.y = 0f;
+                Vector3 toTargetFull = enemyManager.lookAtPosition - headPos;
 
-                float angle = Vector3.Angle(t.forward, toTarget);
+                Vector3 toTargetFlat = toTargetFull;
+                toTargetFlat.y = 0f;
+
+                float angle = Vector3.Angle(t.forward, toTargetFlat);
 
                 if (angle <= maxLookAngle)
                 {
-                    desiredDir = toTarget.normalized;
+                    desiredDir = toTargetFull.normalized;
                 }
             }
 
