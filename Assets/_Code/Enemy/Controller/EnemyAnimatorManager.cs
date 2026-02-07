@@ -8,20 +8,23 @@ namespace BV
     {
         EnemyManager enemyManager;
 
-        [Header("IK Loaok Setting")]
+        [Header("IK Look Setting")]
         [Range(0f, 1f)] public float bodyWeight = 0.3f;
         [Range(0f, 1f)] public float headWeight = 1f;
         [Range(0f, 1f)] public float eyesWeight = 0f;
         [Range(0f, 1f)] public float clampWeight = 0.5f;
         [Range(0f, 180f)] public float maxLookAngle = 90f;
         
+        [Header("Vertical Limits")]
+        public float maxUpAngle = 40f;
+        public float maxDownAngle = 30f;
+
         public float headPosHeight = 1.6f;
         public float lookLerpSpeed = 6f;
         
 
-Vector3 currentLookDir;
+        Vector3 currentLookDir;
         Vector3 currentLookAt;
-        Vector3 lookAtVelocity;
 
         private void Awake()
         {
@@ -92,16 +95,30 @@ Vector3 currentLookDir;
 
             if (enemyManager.lookAtPosition != Vector3.zero)
             {
-                Vector3 toTargetFull = enemyManager.lookAtPosition - headPos;
+                Vector3 toTarget = enemyManager.lookAtPosition - headPos;
 
-                Vector3 toTargetFlat = toTargetFull;
-                toTargetFlat.y = 0f;
+                Vector3 flatForward = t.forward;
+                flatForward.y = 0f;
 
-                float angle = Vector3.Angle(t.forward, toTargetFlat);
+                Vector3 flatTarget = toTarget;
+                flatTarget.y = 0f;
 
-                if (angle <= maxLookAngle)
+                float horizontalAngle = Vector3.Angle(flatForward, flatTarget);
+
+                if (horizontalAngle <= maxLookAngle)
                 {
-                    desiredDir = toTargetFull.normalized;
+                    float verticalAngle = Vector3.SignedAngle(
+                        flatTarget.normalized,
+                        toTarget.normalized,
+                        t.right
+                    );
+
+                    verticalAngle = Mathf.Clamp(verticalAngle, -maxDownAngle, maxUpAngle);
+
+                    Quaternion verticalRotation =
+                        Quaternion.AngleAxis(verticalAngle, t.right);
+
+                    desiredDir = verticalRotation * flatTarget.normalized;
                 }
             }
 
