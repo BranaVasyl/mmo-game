@@ -14,8 +14,12 @@ namespace BV
         [Range(0f, 1f)] public float eyesWeight = 0f;
         [Range(0f, 1f)] public float clampWeight = 0.5f;
         [Range(0f, 180f)] public float maxLookAngle = 90f;
-        public float lookLerpSpeed = 6f; 
+        
+        public float headPosHeight = 1.6f;
+        public float lookLerpSpeed = 6f;
+        
 
+Vector3 currentLookDir;
         Vector3 currentLookAt;
         Vector3 lookAtVelocity;
 
@@ -82,31 +86,31 @@ namespace BV
         {
             Transform t = anim.transform;
 
-            Vector3 forwardLookAt =
-                t.position +
-                t.forward * 5f +
-                Vector3.up * 1.6f;
+            Vector3 headPos = t.position + Vector3.up * headPosHeight;
 
-            Vector3 desiredLookAt = forwardLookAt;
+            Vector3 desiredDir = t.forward;
 
             if (enemyManager.lookAtPosition != Vector3.zero)
             {
-                Vector3 toTarget = enemyManager.lookAtPosition - t.position;
+                Vector3 toTarget = enemyManager.lookAtPosition - headPos;
                 toTarget.y = 0f;
 
                 float angle = Vector3.Angle(t.forward, toTarget);
 
                 if (angle <= maxLookAngle)
                 {
-                    desiredLookAt = enemyManager.lookAtPosition;
+                    desiredDir = toTarget.normalized;
                 }
             }
 
-            currentLookAt = Vector3.Lerp(
-                currentLookAt,
-                desiredLookAt,
+            currentLookDir = Vector3.Lerp(
+                currentLookDir,
+                desiredDir,
                 Time.deltaTime * lookLerpSpeed
             );
+
+            currentLookDir.Normalize();
+            currentLookAt = headPos + currentLookDir * 5f;
 
             anim.SetLookAtWeight(1f, bodyWeight, headWeight, eyesWeight, clampWeight);
             anim.SetLookAtPosition(currentLookAt);

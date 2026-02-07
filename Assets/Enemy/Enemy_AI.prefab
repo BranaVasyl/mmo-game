@@ -2536,7 +2536,8 @@ MonoBehaviour:
   eyesWeight: 0
   clampWeight: 0.5
   maxLookAngle: 150
-  lookLerpSpeed: 6
+  headPosHeight: 2
+  lookLerpSpeed: 10
 --- !u!82 &7760594794203635910
 AudioSource:
   m_ObjectHideFlags: 0
