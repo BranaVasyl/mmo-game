@@ -33331,11 +33331,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6137732c6c21804c816790785a3dbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPoints: 1
-  showLines: 1
-  showTriangles: 1
-  showPath: 1
+  showPoints: 0
+  showLines: 0
+  showTriangles: 0
+  showPath: 0
   showNavmesh: 0
+  showAiLookAtTarget: 1
 --- !u!4 &1694280394
 Transform:
   m_ObjectHideFlags: 0

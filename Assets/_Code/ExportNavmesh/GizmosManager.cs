@@ -11,6 +11,9 @@ namespace BV {
         public bool showPath = true;
         public bool showNavmesh = true;
 
+        [Header("Global var")]
+        public bool showAiLookAtTarget = true;
+
         private List<Vector3> points = new();
         private List<(Vector3 A, Vector3 B)> lines = new();
         private List<(Vector3 A, Vector3 B, Vector3 C)> triangles = new();

@@ -11,6 +11,8 @@ namespace BV
 {
     public class CharacterSelectorManager : MonoBehaviour
     {
+        public PreviewInventoryManager previewInventoryManager;
+
         private ApplicationManager applicationManager;
         private CharacterCreatorSceneManager characterCreatorSceneManager;
 
@@ -124,7 +126,7 @@ namespace BV
             currentPlayerData = playersData[characterIndex];
             currentCharacter = CharactersController.Instance.CreateCharacter(currentPlayerData, transformSpawnPoint);
 
-            PreviewInventoryManager.Instance.SetPlayerEquip(currentPlayerData, currentCharacter);
+            previewInventoryManager.SetPlayerEquip(currentPlayerData, currentCharacter);
         }
 
         public void OnPlayClick()

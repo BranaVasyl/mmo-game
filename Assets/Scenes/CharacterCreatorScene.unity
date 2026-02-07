@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3576.5825, g: 2831.9163, b: 3240.5708, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3600,6 +3600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7683fd1939deb3419363e89c76d9e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewInventoryManager: {fileID: 1177986785}
   creatorPanel: {fileID: 83292391}
   transformSpawnPoint: {fileID: 223707298}
   playerDatas:
@@ -7886,6 +7887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae32acb40fc33c143a4461c8aacf8462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewInventoryManager: {fileID: 1177986785}
   selectorPanel: {fileID: 2063859634}
   transformSpawnPoint: {fileID: 223707298}
   charactersListContainer: {fileID: 382268222}

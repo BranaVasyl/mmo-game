@@ -11,6 +11,8 @@ namespace BV
 {
     public class CharacterCreatorManager : MonoBehaviour
     {
+        public PreviewInventoryManager previewInventoryManager;
+
         private ApplicationManager applicationManager;
         private CharacterCreatorSceneManager characterCreatorSceneManager;
 
@@ -279,7 +281,7 @@ namespace BV
                 }
             }
 
-            PreviewInventoryManager.Instance.SetPlayerEquip(currentInventoryData, currentCharacter);
+            previewInventoryManager.SetPlayerEquip(currentInventoryData, currentCharacter);
         }
     }
 

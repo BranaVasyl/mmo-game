@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BV
 {
-    public class PreviewInventoryManager : Singleton<PreviewInventoryManager>
+    public class PreviewInventoryManager : MonoBehaviour
     {
         private Animator anim;
         private CharacterModelController characterModelController;

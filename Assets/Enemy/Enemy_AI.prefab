@@ -2125,6 +2125,7 @@ MonoBehaviour:
   currentAnimation: 
   isRotatingWithRootMotion: 0
   isInvicible: 0
+  lookAtPosition: {x: 0, y: 0, z: 0}
   inventoryManager: {fileID: 0}
   enemyUI: {fileID: 0}
 --- !u!114 &5895987166054608085
@@ -2530,6 +2531,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   canRotate: 0
+  bodyWeight: 0.125
+  headWeight: 0.625
+  eyesWeight: 0
+  clampWeight: 0.5
+  maxLookAngle: 150
+  lookLerpSpeed: 6
 --- !u!82 &7760594794203635910
 AudioSource:
   m_ObjectHideFlags: 0

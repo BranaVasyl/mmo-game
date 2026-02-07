@@ -5,7 +5,6 @@ using UnityEngine;
 using SocketIO;
 using System;
 using TMPro;
-using Project.Networking;
 
 namespace BV
 {

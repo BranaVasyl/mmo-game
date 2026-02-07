@@ -39,6 +39,8 @@ namespace BV
         bool onGround;
         float delta;
 
+        public Vector3 lookAtPosition;
+
         float vertical;
         float horizontal;
         float moveAmount;
@@ -195,6 +197,8 @@ namespace BV
 
             syncEndRotation = Quaternion.Euler(enemyData.rotation.x, enemyData.rotation.y, enemyData.rotation.z);
             syncStartRotation = gameObject.transform.rotation;
+
+            lookAtPosition = enemyData.lookAtPosition;
 
             isInvicible = enemyData.isInvicible;
             isMove = enemyData.move;

@@ -8,6 +8,17 @@ namespace BV
     {
         EnemyManager enemyManager;
 
+        [Header("IK Loaok Setting")]
+        [Range(0f, 1f)] public float bodyWeight = 0.3f;
+        [Range(0f, 1f)] public float headWeight = 1f;
+        [Range(0f, 1f)] public float eyesWeight = 0f;
+        [Range(0f, 1f)] public float clampWeight = 0.5f;
+        [Range(0f, 180f)] public float maxLookAngle = 90f;
+        public float lookLerpSpeed = 6f; 
+
+        Vector3 currentLookAt;
+        Vector3 lookAtVelocity;
+
         private void Awake()
         {
             anim = GetComponent<Animator>();
@@ -65,6 +76,51 @@ namespace BV
 
         public void Step(string animationType)
         {
+        }
+
+        private void OnAnimatorIK(int layerIndex)
+        {
+            Transform t = anim.transform;
+
+            Vector3 forwardLookAt =
+                t.position +
+                t.forward * 5f +
+                Vector3.up * 1.6f;
+
+            Vector3 desiredLookAt = forwardLookAt;
+
+            if (enemyManager.lookAtPosition != Vector3.zero)
+            {
+                Vector3 toTarget = enemyManager.lookAtPosition - t.position;
+                toTarget.y = 0f;
+
+                float angle = Vector3.Angle(t.forward, toTarget);
+
+                if (angle <= maxLookAngle)
+                {
+                    desiredLookAt = enemyManager.lookAtPosition;
+                }
+            }
+
+            currentLookAt = Vector3.Lerp(
+                currentLookAt,
+                desiredLookAt,
+                Time.deltaTime * lookLerpSpeed
+            );
+
+            anim.SetLookAtWeight(1f, bodyWeight, headWeight, eyesWeight, clampWeight);
+            anim.SetLookAtPosition(currentLookAt);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!GizmosManager.Instance.showAiLookAtTarget)
+            {
+                return;
+            }
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(currentLookAt, 0.05f);
         }
     }
 }
