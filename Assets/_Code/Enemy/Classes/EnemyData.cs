@@ -18,7 +18,6 @@ namespace BV
         public float vertical;
         public float horizontal;
         public bool isDead;
-        public bool move;
         public bool isInteracting;
         public bool run;
         public bool walk;

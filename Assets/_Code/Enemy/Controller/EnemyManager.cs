@@ -35,7 +35,6 @@ namespace BV
         public bool isRotatingWithRootMotion;
 
         public bool isInvicible;
-        bool isMove = false;
         bool onGround;
         float delta;
 
@@ -153,8 +152,6 @@ namespace BV
                 gameObject.transform.rotation = Quaternion.Lerp(syncStartRotation, syncEndRotation, syncTime / syncDelay);
             }
 
-            vertical = isMove ? 0.5f : 0;
-            horizontal = 0;
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             moveAmount = Mathf.Clamp01(m);
 
@@ -201,7 +198,10 @@ namespace BV
             lookAtPosition = enemyData.lookAtPosition;
 
             isInvicible = enemyData.isInvicible;
-            isMove = enemyData.move;
+
+            vertical = enemyData.vertical;
+            horizontal = enemyData.horizontal;
+
             isInteracting = enemyData.isInteracting;
             if (tempAnimationId != enemyData.tempAnimationId)
             {
@@ -252,7 +252,8 @@ namespace BV
 
         void UpdateStatesNetworkCleint()
         {
-            anim.SetFloat("vertical", moveAmount, 0.2f, delta);
+            anim.SetFloat("vertical", vertical, 0.2f, delta);
+            anim.SetFloat("horizontal", horizontal, 0.2f, delta);
         }
 
         void SetupAnimator()
