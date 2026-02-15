@@ -191,11 +191,11 @@ namespace BV
 
             if (enemyData.isInteracting && base.networkIdentity.IsControlling())
             {
-                RotatateTowardsTargetWhilstAttacking(enemyData.targetPosition);
                 enemyNetworkTransform.SendData();
 
-                if (enemyData.currentAnimation != "Turn Behind Right" && enemyData.currentAnimation != "Turn Behind Left" && enemyData.currentAnimation != "Turn Left" && enemyData.currentAnimation != "Turn Right")
+                if (!isRotatingWithRootMotion && canRotate)
                 {
+                    RotatateTowardsTargetWhilstAttacking(enemyData.targetPosition);
                     enemyNetworkRotation.SendData();
                 }
             }
@@ -262,11 +262,6 @@ namespace BV
 
         void RotatateTowardsTargetWhilstAttacking(Vector3 targetPosition)
         {
-            if(!canRotate)
-            {
-                return;
-            }
-            
             Vector3 targetDirection = targetPosition - transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();
