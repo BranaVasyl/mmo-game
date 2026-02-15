@@ -1981,6 +1981,7 @@ GameObject:
   - component: {fileID: 3474922075524253661}
   - component: {fileID: 7820693347228858912}
   - component: {fileID: 7139199957012847201}
+  - component: {fileID: 6537109067124624736}
   - component: {fileID: 862571110227376421}
   - component: {fileID: 1556673258138002538}
   - component: {fileID: 5895987166054608085}
@@ -2083,6 +2084,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02fd1121257e1a9449ecdca4b0a1baea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6537109067124624736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474922075524253662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6fa61837eed61647815c64fb3b2dfce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &862571110227376421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2120,6 +2133,7 @@ MonoBehaviour:
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 128
+  canRotate: 0
   tempAnimationId: 
   isInteracting: 0
   currentAnimation: 
@@ -2536,6 +2550,8 @@ MonoBehaviour:
   eyesWeight: 0
   clampWeight: 0.5
   maxLookAngle: 140
+  maxUpAngle: 40
+  maxDownAngle: 30
   headPosHeight: 2
   lookLerpSpeed: 10
 --- !u!82 &7760594794203635910

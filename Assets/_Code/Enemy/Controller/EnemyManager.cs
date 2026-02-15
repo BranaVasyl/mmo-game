@@ -13,6 +13,8 @@ namespace BV
         private Animator anim;
         private EnemyTarget enemyTarget;
         private EnemyNetworkTransform enemyNetworkTransform;
+        private EnemyNetworkRotation enemyNetworkRotation;
+
         public Rigidbody enemyRigidbody;
         public LayerMask ignoreLayers;
 
@@ -26,6 +28,7 @@ namespace BV
         private Vector3 syncEndPosition = Vector3.zero;
         private Quaternion syncStartRotation = Quaternion.identity;
         private Quaternion syncEndRotation = Quaternion.identity;
+        public bool canRotate = false;
 
         [Header("Animation State")]
         public string tempAnimationId = "";
@@ -59,6 +62,7 @@ namespace BV
             footIk = anim.gameObject.GetComponent<FootIK>();
             disolveManager = anim.gameObject.GetComponent<DisolveManager>();
             enemyNetworkTransform = gameObject.GetComponent<EnemyNetworkTransform>();
+            enemyNetworkRotation = gameObject.GetComponent<EnemyNetworkRotation>();
 
             base.Init(gameObject.GetComponent<NetworkIdentity>());
 
@@ -187,7 +191,13 @@ namespace BV
 
             if (enemyData.isInteracting && base.networkIdentity.IsControlling())
             {
+                RotatateTowardsTargetWhilstAttacking(enemyData.targetPosition);
                 enemyNetworkTransform.SendData();
+
+                if (enemyData.currentAnimation != "Turn Behind Right" && enemyData.currentAnimation != "Turn Behind Left" && enemyData.currentAnimation != "Turn Left" && enemyData.currentAnimation != "Turn Right")
+                {
+                    enemyNetworkRotation.SendData();
+                }
             }
             syncEndPosition = enemyData.position + syncVelocity * syncDelay;
             syncStartPosition = gameObject.transform.position;
@@ -248,6 +258,26 @@ namespace BV
             }
 
             return result;
+        }
+
+        void RotatateTowardsTargetWhilstAttacking(Vector3 targetPosition)
+        {
+            if(!canRotate)
+            {
+                return;
+            }
+            
+            Vector3 targetDirection = targetPosition - transform.position;
+            targetDirection.y = 0;
+            targetDirection.Normalize();
+
+            if (targetDirection == Vector3.zero)
+            {
+                targetDirection = transform.forward;
+            }
+
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 25 * Time.deltaTime);
         }
 
         void UpdateStatesNetworkCleint()

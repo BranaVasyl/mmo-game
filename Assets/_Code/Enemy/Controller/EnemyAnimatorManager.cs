@@ -81,6 +81,16 @@ namespace BV
             enemyManager.inventoryManager.w_hook.CloseDamageColliders();
         }
 
+        public void EnableCanRotate()
+        {
+            enemyManager.canRotate = true;
+        }
+
+        public void DisableCanRotate()
+        {
+            enemyManager.canRotate = false;
+        }
+
         public void Step(string animationType)
         {
         }
